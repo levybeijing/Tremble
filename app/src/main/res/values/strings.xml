@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">抖腿</string>
+
+    <array name="list_mine_mainAty">
+        <item>商城</item>
+        <item>粉丝排名</item>
+        <item>我的好友</item>
+        <item>我的礼物</item>
+        <item>我的礼物墙</item>
+        <item>VIP礼物墙</item>
+        <item>我的订单</item>
+        <item>我的地址</item>
+        <item>设置</item>
+    </array>
 </resources>

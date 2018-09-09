@@ -41,11 +41,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         order = new Order();
         shoppingCat = new ShoppingCat();
 
-        radioGroup = (RadioGroup) this.findViewById(R.id.radio_group);
-        home = (RadioButton) this.findViewById(R.id.home_radio);
-        classify = (RadioButton) this.findViewById(R.id.classify_radio);
+        radioGroup = findViewById(R.id.radio_group);
+        home = findViewById(R.id.home_radio);
+        classify = findViewById(R.id.classify_radio);
         classify.setChecked(true);
-        service = (RadioButton) this.findViewById(R.id.service_radio);
+        service = findViewById(R.id.service_radio);
     }
 
     @Override

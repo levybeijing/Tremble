@@ -19,25 +19,28 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.lzy.net:okgo:2.0.0'  //可以单独使用，不需要依赖下方的扩展包
-    compile 'com.lzy.net:okrx:0.1.0' //RxJava扩展支持，根据需要添加
-    compile 'com.lzy.net:okserver:1.1.0' //下载管理和上传管理扩展，根据需要添加
-    compile 'com.google.code.gson:gson:2.5'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.clj.fastble:FastBleLib:2.3.2'
-    compile 'com.contrarywind:Android-PickerView:3.2.7'
-
+    implementation 'com.android.support:appcompat-v7:26.+'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.lzy.net:okgo:2.0.0'
+    //可以单独使用，不需要依赖下方的扩展包
+    implementation 'com.lzy.net:okrx:0.1.0'
+    //RxJava扩展支持，根据需要添加
+    implementation 'com.lzy.net:okserver:1.1.0'
+    //下载管理和上传管理扩展，根据需要添加
+    implementation 'com.google.code.gson:gson:2.5'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'io.reactivex:rxandroid:1.1.0'
+    implementation 'io.reactivex:rxjava:1.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.clj.fastble:FastBleLib:2.3.2'
+    implementation 'com.contrarywind:Android-PickerView:3.2.7'
     //图片加载框架fresco
-    compile 'com.facebook.fresco:fresco:0.12.0'
+    implementation 'com.facebook.fresco:fresco:0.12.0'
     // 支持 GIF 动图，需要添加
-    compile 'com.facebook.fresco:animated-gif:0.12.0'
+    implementation 'com.facebook.fresco:animated-gif:0.12.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
 }
