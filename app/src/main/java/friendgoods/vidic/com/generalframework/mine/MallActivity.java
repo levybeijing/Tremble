@@ -48,31 +48,47 @@ public class MallActivity extends AppCompatActivity{
         list.add(new FragGifts());
 
         TabLayout tab = findViewById(R.id.tab_mall);
-        ViewPager vp = findViewById(R.id.vp_mall);
+        final ViewPager vp = findViewById(R.id.vp_mall);
         //进行关联
         vp.setAdapter(new AdapterMall(getSupportFragmentManager(),list));
         tab.setTabMode(TabLayout.MODE_FIXED);
 
         tab.setupWithViewPager(vp);
+
+
         //设置tab1
         TabLayout.Tab tab1 = tab.getTabAt(0);
         tab1.setCustomView(R.layout.item_tab_mall);//给每一个tab设置view
         tab1.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(true);//第一个tab被选中
         ImageView iv1 = tab1.getCustomView().findViewById(R.id.iv_item_tab_mall);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            iv1.setBackground(getResources().getDrawable(R.mipmap.recommend_selected_3x));//设置tab上的文字
+            iv1.setBackground(getResources().getDrawable(R.mipmap.recommend_noselect_3x));//设置tab上的文字
         }
-
         //设置tab2
         TabLayout.Tab tab2 = tab.getTabAt(1);
         tab2.setCustomView(R.layout.item_tab_mall);//给每一个tab设置view
-        tab2.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(true);//第一个tab被选中
         ImageView iv2 = tab2.getCustomView().findViewById(R.id.iv_item_tab_mall);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             iv2.setBackground(getResources().getDrawable(R.mipmap.gift_noselete_3x));//设置tab上的文字
         }
-
-
+        //TODO:设置动画
+//        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                tab.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(true);
+//                vp.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                tab.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(false);
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
 
     }
 }
