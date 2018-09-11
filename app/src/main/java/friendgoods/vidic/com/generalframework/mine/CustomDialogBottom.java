@@ -19,7 +19,7 @@ public class CustomDialogBottom extends PopupWindow{
     private Button cancelBtn, confirmBtn;
     private ImageView goodsicon,add,reduce,close,next;
     private TextView name,price;
-    
+
     public CustomDialogBottom(Activity context, final BottomDialogOnclickListener bottomDialogOnclickListener) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

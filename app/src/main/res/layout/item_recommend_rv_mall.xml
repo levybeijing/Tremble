@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    android:gravity="center"
+    >
+    <ImageView
+        android:id="@+id/iv_goodsicon_recommend"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@mipmap/temp_icon"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+        <TextView
+            android:id="@+id/tv_goodsname_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="物品名称"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_goodssub_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="物品简介简介简介"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="111111"
-        />
-</android.support.constraint.ConstraintLayout>
+        >
+        <!--设置为不可见 有可用抖腿币时显示-->
+        <!--<ImageView-->
+            <!--android:layout_width="12dp"-->
+            <!--android:layout_height="12dp"-->
+            <!--android:background="@mipmap/doutuibi_3x" />-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_doutuinumber_recommend"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="12dp"-->
+            <!--android:text="1314"-->
+            <!--android:textColor="#FFC849"-->
+            <!--android:textSize="12dp" />-->
+        <TextView
+            android:id="@+id/tv_price_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="99元"
+            android:textColor="#f00"
+            android:textSize="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            />
+        <ImageView
+            android:id="@+id/iv_goodsbuy_recommend"
+            android:layout_width="41dp"
+            android:layout_height="20dp"
+            android:background="@mipmap/buy_recommend_3x"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

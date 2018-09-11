@@ -1,12 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="22222"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/iv_goods_gifts"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:background="@mipmap/temp_icon"
         />
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_name_gifts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="爱你一万年"
+            android:layout_margin="10dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/tv_name_gifts"
+            android:layout_marginLeft="10dp"
+            >
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/energy_mygifts_3x" />
+
+            <TextView
+                android:id="@+id/tv_energy_gifts"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="10000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_toLeftOf="@+id/et_number_gifts"
+            android:layout_alignBottom="@+id/et_number_gifts"
+            android:layout_marginRight="10dp"
+            >
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/doutuibi_3x" />
+
+            <TextView
+                android:id="@+id/tv_doutuinumber_gifts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="1133"
+                android:textColor="#FFC849" />
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/et_number_gifts"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="14dp"
+            android:background="@drawable/back_buy_mall"
+            android:gravity="center"
+            android:text="5"
+            android:textSize="12dp"
+            />
+
+        <Button
+            android:id="@+id/btn_buy_gifts"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_number_gifts"
+            android:layout_marginRight="14dp"
+            android:background="@mipmap/buy_recommend_3x" />
+    </RelativeLayout>
+
+</LinearLayout>

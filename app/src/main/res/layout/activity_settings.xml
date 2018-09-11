@@ -14,9 +14,9 @@
         >
         <ImageView
             android:id="@+id/iv_top_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/left_back_3x"
+            android:layout_width="14dp"
+            android:layout_height="24dp"
+            android:background="@mipmap/back_top_3x"
             android:layout_margin="10dp"
             />
         <TextView
