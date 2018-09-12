@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/root_detailgoods"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -103,7 +104,7 @@
         </LinearLayout>
     </ScrollView>
     <ImageView
-        android:id="@+id/iv_but_detailgoods"
+        android:id="@+id/iv_buy_detailgoods"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@mipmap/buy_detailgoods_3x"

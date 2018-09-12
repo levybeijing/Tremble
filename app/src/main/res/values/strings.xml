@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">抖腿</string>
 
-    <array name="list_mine_mainAty">
+    <array name="list_mine">
         <item>商城</item>
         <item>粉丝排名</item>
         <item>我的好友</item>
@@ -12,4 +12,16 @@
         <item>我的地址</item>
         <item>设置</item>
     </array>
+
+    <string-array name="icon_mine">
+        <item>@drawable/mail_my_3x</item>
+        <item>@drawable/fans_my_3x</item>
+        <item>@drawable/friends_my_3x</item>
+        <item>@drawable/gifts_my_3x</item>
+        <item>@drawable/giftwall_my_3x</item>
+        <item>@drawable/vip_my_yes_3x</item>
+        <item>@drawable/orders_my_3x</item>
+        <item>@drawable/address_my_3x</item>
+        <item>@drawable/settings_my_3x</item>
+    </string-array>
 </resources>

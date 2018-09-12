@@ -21,13 +21,13 @@ public class CustomDialogBottom extends PopupWindow{
 
     private View dialogView;
     private EditText et_number;
-    private ImageView goodsicon,add,reduce,close,next;
+    private ImageView goodsicon,add,reduce,close;
     private TextView name,price;
-
-    public CustomDialogBottom(final Activity context, final BottomDialogOnclickListener bottomDialogOnclickListener) {
+    private Button next;
+    public CustomDialogBottom(final Activity context) {
         super(context);
+        //LayoutInflater inflater = LayoutInflater.from(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //
         dialogView = inflater.inflate(R.layout.customdialog, null);
         //商品图片
         goodsicon = dialogView.findViewById(R.id.iv_goods_dialog);
@@ -94,9 +94,11 @@ public class CustomDialogBottom extends PopupWindow{
                 String reg="^[0-9]*$";
                 Pattern pattern = Pattern.compile(reg);
                 Matcher matcher = pattern.matcher(number);
-                if (matcher.matches()){
+                if (matcher.matches()&&Integer.parseInt(number)>=0){
                     Toast.makeText(context, "NEXT", Toast.LENGTH_SHORT).show();
 //                    bottomDialogOnclickListener.onPositiveClick("", CustomDialogBottom.this);
+                }else{
+                    Toast.makeText(context, "输入不合法", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -110,17 +112,17 @@ public class CustomDialogBottom extends PopupWindow{
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         this.setBackgroundDrawable(dw);
 
-//        dialogView.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                int height = dialogView.findViewById(R.id.pop_layout).getTop();
-//                int y = (int) event.getY();
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    if (y < height) { //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-////                        dismiss();
-//                    }
-//                }
-//                return true;
-//            }
-//        });
+        dialogView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                int height = dialogView.findViewById(R.id.iv_next_detailgoods).getTop();
+                int y = (int) event.getY();
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (y < height) { //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
+//                        dismiss();
+                    }
+                }
+                return true;
+            }
+        });
     }
 }

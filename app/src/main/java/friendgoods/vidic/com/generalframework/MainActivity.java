@@ -1,6 +1,5 @@
 package friendgoods.vidic.com.generalframework;
 
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +11,7 @@ import android.widget.RadioGroup;
 import java.util.Timer;
 import java.util.TimerTask;
 import friendgoods.vidic.com.generalframework.activity.fragment.ClassificationHome;
-import friendgoods.vidic.com.generalframework.activity.fragment.FragmentMy;
-import friendgoods.vidic.com.generalframework.activity.fragment.Order;
+import friendgoods.vidic.com.generalframework.activity.fragment.OrderFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.ShoppingCat;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 
@@ -21,7 +19,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private ClassificationHome classificationHome;
     private ShoppingCat shoppingCat;
-    private Order order;
+    private OrderFragment orderFragment;
     private RadioGroup radioGroup;
     private RadioButton home, classify, service, mine;
     private static boolean mBackKeyPressed = false;//记录是否有首次按键
@@ -38,7 +36,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         switchContent(new ShoppingCat());
 
         classificationHome = new ClassificationHome();
-        order = new Order();
+        orderFragment = new OrderFragment();
         shoppingCat = new ShoppingCat();
 
         radioGroup = findViewById(R.id.radio_group);
@@ -59,7 +57,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 switchContent(shoppingCat);
                 break;
             case R.id.service_radio:
-                switchContent(order);
+                switchContent(orderFragment);
                 break;
         }
     }
