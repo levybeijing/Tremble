@@ -20,11 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".activity.SpleashActivity">
-            <intent-filter>p=
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:screenOrientation="sensorPortrait"/>
         <activity android:name=".activity.LoginActivity" android:screenOrientation="sensorPortrait"/>
@@ -39,7 +35,13 @@
         <activity android:name=".mine.AddAddressActivity"></activity>
         <activity android:name=".mine.EditAddressActivity"></activity>
         <activity android:name=".mine.MyAddressesActivity"></activity>
-        <activity android:name=".mine.MyFansActivity"></activity>
+        <activity android:name=".mine.MyFansActivity">
+            <intent-filter>p=
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".mine.MyFriendsActivity"></activity>
         <activity android:name=".mine.MyGiftsActivity"></activity>
         <activity android:name=".mine.MyOrdersActivity"></activity>
