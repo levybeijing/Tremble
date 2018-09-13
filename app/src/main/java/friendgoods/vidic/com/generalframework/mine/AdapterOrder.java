@@ -6,17 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 import friendgoods.vidic.com.generalframework.R;
 
-public class AdapterOrder extends RecyclerView.Adapter {
+public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder> {
     private Context context;
     private String[] array;
     private Drawable[] paths;
@@ -34,43 +31,36 @@ public class AdapterOrder extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(context);
-        MyViewHolder viewHolder = new MyViewHolder(
-                inflater.inflate(R.layout.item_my_main, parent, false));
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(v);
-            }
-        });
-        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                itemClickListener.onItemLongClick(v);
-                return true;
-            }
-        });
-
-//        View view = LayoutInflater.from(context).inflate(R.layout.item_my_main, parent, false);
-//        MyViewHolder vh = new MyViewHolder(view);
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_my_main, parent, false);
+        MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position==paths.length-1){
-            ((MyViewHolder)holder).iv_bottom.setVisibility(View.INVISIBLE);
-        }
-        ((MyViewHolder)holder).iv_icon.setImageDrawable(paths[position]);
-        ((MyViewHolder)holder).tv_name.setText(array[position]);
-        ((MyViewHolder)holder).rl.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+
+        holder.iv_icon.setImageDrawable(paths[position]);
+        holder.tv_name.setText(array[position]);
+        holder.rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //跳转
-
+                Toast.makeText(context,"first",Toast.LENGTH_SHORT).show();
             }
         });
+
+        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
+
+        if (itemClickListener != null) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getLayoutPosition();
+                    itemClickListener.onItemClick(position);
+                }
+            });
+        }
     }
 
     @Override
@@ -91,7 +81,6 @@ public class AdapterOrder extends RecyclerView.Adapter {
             iv_right = view.findViewById(R.id.iv_jiantou_mine);
             iv_bottom = view.findViewById(R.id.iv_line_mine);
             rl = view.findViewById(R.id.rl_root_mine);
-
         }
     }
 }
