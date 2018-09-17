@@ -1,18 +1,15 @@
 package friendgoods.vidic.com.generalframework.mine;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -42,13 +39,27 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (position<3){
+        switch (position){
+            case 0:
+                Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
 
-        }else {
+                break;
+            case 1:
+                Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
 
+                break;
+            case 2:
+                Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
+
+                break;
+            default:
+                holder.tv_rank.setText(position+1);
+                break;
         }
-
-
+        holder.tv_name.setText(list.get(position).getName());
+        holder.tv_value.setText(list.get(position).getScore());
+        Picasso.with(context).load(list.get(position).getGiftId()).into(holder.iv_wall);
+        Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
     }
 
     @Override

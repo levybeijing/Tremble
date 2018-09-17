@@ -57,8 +57,8 @@ public class MyFansActivity extends Activity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("OrderFragment", "onSuccess: "+s);
                         MyFansBean myFansBean = new Gson().fromJson(s, MyFansBean.class);
+                        Log.e("========MyFansActivity", "onSuccess: "+(myFansBean.getData().getPageInfo()==null));
                         List<MyFansBean.DataBean.PageInfoBean.ListBean> list = myFansBean.getData().getPageInfo().getList();
 
                         AdapterMyFans adapter=new AdapterMyFans(MyFansActivity.this,list);
