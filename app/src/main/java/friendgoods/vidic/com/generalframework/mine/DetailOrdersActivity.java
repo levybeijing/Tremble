@@ -19,6 +19,9 @@ import android.widget.Toast;
 import friendgoods.vidic.com.generalframework.R;
 
 public class DetailOrdersActivity  extends Activity{
+
+    private TextView tv_weixin;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +60,15 @@ public class DetailOrdersActivity  extends Activity{
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-//        Display dm = getWindowManager().getDefaultDisplay();
-//        int height = dm.getDisplayId();
-//        int width = dm.getWidth();
-//        int width = getWindow().getWindowManager().getDefaultDisplay().getWidth();
-//        int height = getWindow().getWindowManager().getDefaultDisplay().getHeight();
-//        int left=width*11/15;
-//        int top=height*6/13;
-//        Log.e("TAG", "showDialog: "+width+"*"+height);
-//        builder.setView(layout,left,top,0,0);
         builder.setView(R.layout.dialog_shouhou);
 
         final View layout = inflater.inflate(R.layout.dialog_shouhou, null);//获取自定义布局
         Button button = layout.findViewById(R.id.btn_copy_dialog);
+        tv_weixin = layout.findViewById(R.id.tv_weixin_dailog);
+        ImageView iv_erweima= layout.findViewById(R.id.iv_erweima_dialog);
+
+        //网络访问 设置
+//        tv_weixin.setText();
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -77,7 +76,7 @@ public class DetailOrdersActivity  extends Activity{
                 // TODO Auto-generated method stub
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 将文本内容放到系统剪贴板里。
-//                cm.setText();
+                cm.setText(tv_weixin.getText().toString());
                 Toast.makeText(getApplication(), "复制成功", Toast.LENGTH_SHORT).show();
             }
         });
@@ -91,9 +90,5 @@ public class DetailOrdersActivity  extends Activity{
         lp.height = display.getHeight()*7/13;
         dlg.getWindow().setAttributes(lp);
 //
-//        android.view.WindowManager.LayoutParams p = dlg.getWindow().getAttributes();  //获取对话框当前的参数值
-//        p.height =left;   //高度设置为屏幕的0.3
-//        p.width = top;    //宽度设置为屏幕的0.5
-//        dlg.getWindow().setAttributes(p);
     }
 }

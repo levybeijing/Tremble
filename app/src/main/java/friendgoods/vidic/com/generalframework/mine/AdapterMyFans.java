@@ -12,19 +12,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.callback.StringCallback;
+
+import java.util.List;
+
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
 
-public class AdapterMyFans extends RecyclerView.Adapter<ViewHolder> {
+public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHolder> {
     private Context context;
-    private String[] array;
-    private Drawable[] paths;
     private OnItemClickListener itemClickListener;
-    private static final int TYPE_0=0;
-    private static final int TYPE_1=1;
+    private List<MyFansBean.DataBean.PageInfoBean.ListBean> list;
 
-
-    public AdapterMyFans(Context context_){
+    public AdapterMyFans(Context context_, List<MyFansBean.DataBean.PageInfoBean.ListBean> list_) {
         context=context_;
+        list=list_;
     }
 
 //    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
@@ -32,41 +34,29 @@ public class AdapterMyFans extends RecyclerView.Adapter<ViewHolder> {
 //    }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType==TYPE_0){
-            View view = LayoutInflater.from(context).inflate(R.layout.item0_rv_myfans, parent, false);
-            return new  ViewHolder(view){};
-        }
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item1_rv_myfans, parent, false);
-        MyViewHolder1 viewHolder = new MyViewHolder1(view);
+        MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (position){
-            case 0:
-                break;
-            case 1:
-            case 2:
-            case 3:
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        if (position<3){
 
-                break;
-            default:
+        }else {
 
-                break;
         }
+
+
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position==0){
-            return TYPE_0;
-        }else {
-            return TYPE_1;
-        }
+        return super.getItemViewType(position);
     }
-//        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
+
+    //        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
 //
 //        if (itemClickListener != null) {
 //            itemView.setOnClickListener(new View.OnClickListener() {
@@ -80,14 +70,14 @@ public class AdapterMyFans extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 20;
+        return list.size();
     }
 
-    class MyViewHolder1 extends ViewHolder
+    class MyViewHolder extends ViewHolder
     {
         ImageView iv_rank,iv_icon,iv_wall;
         TextView tv_rank,tv_name,tv_value;
-        public MyViewHolder1(View view)
+        public MyViewHolder(View view)
         {
             super(view);
             iv_rank = view.findViewById(R.id.iv_item1_myfans);

@@ -28,11 +28,21 @@
             android:layout_weight="1"
             />
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_fans"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        />
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        >
+        <include
+            android:id="@+id/top_fans"
+            layout="@layout/item0_rv_myfans"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_fans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            />
+    </LinearLayout>
+
 </LinearLayout>
