@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="230dp"
+    android:layout_height="265dp"
+    android:background="@mipmap/temp_big"
+    android:id="@+id/rl_item_vipwall"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:background="#000"
+        >
+        <ImageView
+            android:id="@+id/iv_icon_item_vipwall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/temp_icon"
+            />
+        <TextView
+            android:id="@+id/tv_name_item_vipwall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="董桑"
+            android:textColor="#fff"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/energy_mygifts_3x"
+            />
+        <TextView
+            android:id="@+id/tv_number_item_vipwall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="333"
+            android:textColor="#FDD850"
+            />
+    </LinearLayout>
+</RelativeLayout>

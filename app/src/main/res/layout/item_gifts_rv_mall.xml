@@ -73,7 +73,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_margin="14dp"
-            android:background="@drawable/back_buy_mall"
+            android:background="@drawable/bg_buy_mall"
             android:gravity="center"
             android:text="5"
             android:textSize="12dp"

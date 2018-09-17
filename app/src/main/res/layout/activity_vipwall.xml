@@ -13,7 +13,7 @@
         android:gravity="center"
         >
         <ImageView
-            android:id="@+id/iv_back_myfans"
+            android:id="@+id/iv_back_vipwall"
             android:layout_width="14dp"
             android:layout_height="24dp"
             android:background="@mipmap/back_top_3x"
@@ -22,27 +22,26 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="粉丝排名"
+            android:text="VIP礼物墙"
             android:textColor="@color/white"
             android:textSize="26dp"
             android:layout_weight="1"
             />
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="10dp"
-        >
-        <include
-            android:id="@+id/top_fans"
-            layout="@layout/item0_rv_myfans"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_fans"
+        android:layout_height="match_parent">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_vipwall"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            />
-    </LinearLayout>
+            android:layout_height="wrap_content"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_vipwall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
 
 </LinearLayout>

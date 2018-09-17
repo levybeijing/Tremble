@@ -17,16 +17,16 @@ public class AdapterOrders extends RecyclerView.Adapter<AdapterOrders.MyViewHold
     private Context context;
     private String[] array;
     private Drawable[] paths;
-    private OnItemClickListener itemClickListener;
+//    private OnItemClickListener itemClickListener;
 
 
     public AdapterOrders(Context context_){
         context=context_;
     }
 
-    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
-        itemClickListener=itemClickListene_;
-    }
+//    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
+//        itemClickListener=itemClickListene_;
+//    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,27 +38,27 @@ public class AdapterOrders extends RecyclerView.Adapter<AdapterOrders.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
-        holder.iv_icon.setImageDrawable(paths[position]);
-        holder.tv_name.setText(array[position]);
-        holder.rl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转
-                Toast.makeText(context,"first",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.iv_icon.setImageDrawable(paths[position]);
+//        holder.tv_name.setText(array[position]);
+//        holder.rl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //跳转
+//                Toast.makeText(context,"first",Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
+//        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
 
-        if (itemClickListener != null) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    itemClickListener.onItemClick(position);
-                }
-            });
-        }
+//        if (itemClickListener != null) {
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = holder.getLayoutPosition();
+//                    itemClickListener.onItemClick(position);
+//                }
+//            });
+//        }
     }
 
     @Override
@@ -68,17 +68,16 @@ public class AdapterOrders extends RecyclerView.Adapter<AdapterOrders.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView iv_icon,iv_right,iv_bottom;
-        TextView tv_name;
-        RelativeLayout rl;
+//        ImageView iv_icon,iv_right,iv_bottom;
+//        TextView tv_name;
         public MyViewHolder(View view)
         {
             super(view);
-            tv_name= view.findViewById(R.id.tv_name_mine);
-            iv_icon= view.findViewById(R.id.iv_icon_mine);
-            iv_right = view.findViewById(R.id.iv_jiantou_mine);
-            iv_bottom = view.findViewById(R.id.iv_line_mine);
-            rl = view.findViewById(R.id.rl_root_mine);
+//            tv_name= view.findViewById(R.id.tv_name_mine);
+//            iv_icon= view.findViewById(R.id.iv_icon_mine);
+//            iv_right = view.findViewById(R.id.iv_jiantou_mine);
+//            iv_bottom = view.findViewById(R.id.iv_line_mine);
+//            rl = view.findViewById(R.id.rl_root_mine);
         }
     }
 }
