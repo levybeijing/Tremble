@@ -64,7 +64,7 @@ public class FragVipWall extends Fragment {
         down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
         //删除操作本地刷新  刷新adapter

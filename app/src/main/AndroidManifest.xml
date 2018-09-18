@@ -54,5 +54,12 @@
         <activity android:name=".mine.activity.DetailOrdersActivity">
 
         </activity>
+        <activity android:name=".mine.activity.PublicWallActivity">
+
+        </activity>
+
+        <activity android:name=".mine.activity.VIPGiftsWallActivity">
+
+        </activity>
     </application>
 </manifest>
