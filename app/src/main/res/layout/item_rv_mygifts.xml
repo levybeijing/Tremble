@@ -6,12 +6,14 @@
     android:gravity="center"
     >
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@mipmap/ic_launcher"
-        android:layout_margin="20dp"
+        android:id="@+id/iv_icon_mygifts"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/temp_icon"
+        android:layout_margin="10dp"
         />
     <TextView
+        android:id="@+id/tv_name_mygifts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="爱你一万年"
@@ -27,6 +29,7 @@
             android:background="@mipmap/energy_mygifts_3x"
             />
         <TextView
+            android:id="@+id/tv_energy_mygifts"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="10000"
@@ -34,6 +37,7 @@
             android:layout_marginLeft="5dp"
             />
         <TextView
+            android:id="@+id/tv_price_mygifts"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="#FFC849"

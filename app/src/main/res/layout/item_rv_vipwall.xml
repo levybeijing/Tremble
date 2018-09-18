@@ -3,9 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="230dp"
     android:layout_height="265dp"
-    android:background="@mipmap/temp_big"
-    android:id="@+id/rl_item_vipwall"
     >
+    <CheckBox
+        android:id="@+id/box_vipwall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/selector_vipwall"
+        android:visibility="invisible"
+        />
+    <ImageView
+        android:id="@+id/iv_wall_vipwall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/temp_big"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +41,7 @@
             android:textColor="#fff"
             />
         <ImageView
+            android:id="@+id/iv_energy_item_vipwall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/energy_mygifts_3x"
