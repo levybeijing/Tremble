@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.frag;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

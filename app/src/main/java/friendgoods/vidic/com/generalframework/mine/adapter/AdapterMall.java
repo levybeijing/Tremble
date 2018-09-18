@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

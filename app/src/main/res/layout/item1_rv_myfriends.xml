@@ -5,22 +5,22 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@drawable/list_fans"
+    android:layout_marginBottom="10dp"
     >
     <FrameLayout
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_weight="2"
         >
-
         <ImageView
-            android:id="@+id/iv_item1_myfans"
+            android:id="@+id/iv_item1_myfriends"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:layout_marginRight="10dp"
             />
         <TextView
-            android:id="@+id/tv_item1_myfans"
+            android:id="@+id/tv_item1_myfriends"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -29,46 +29,34 @@
     </FrameLayout>
 
     <ImageView
-        android:id="@+id/iv_icon_myfans"
+        android:id="@+id/iv_icon_myfriends"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@mipmap/temp_icon"
         android:layout_weight="2"
         />
     <TextView
-        android:id="@+id/tv_name_myfans"
+        android:id="@+id/tv_name_myfriends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="董桑"
         android:layout_weight="10"
         android:gravity="center"
         />
-    <ImageView
-        android:id="@+id/iv_wall_myfans"
+    <TextView
+        android:id="@+id/tv_time_myfriends"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@mipmap/temp_icon"
         android:layout_weight="6"
+        android:text="25:87"
+        android:gravity="center"
         />
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_count_myfriends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:text="1231223"
         android:gravity="center"
         android:layout_weight="20"
-        >
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:background="@mipmap/value_myfans_3x"
-            />
-        <TextView
-            android:id="@+id/tv_value_myfans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="12312414123"
-            android:gravity="center"
-            />
-    </LinearLayout>
+        />
 </LinearLayout>

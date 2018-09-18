@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMall;
+import friendgoods.vidic.com.generalframework.mine.frag.FragGifts;
+import friendgoods.vidic.com.generalframework.mine.frag.FragRecommend;
 
 public class MallActivity extends AppCompatActivity{
     @Override

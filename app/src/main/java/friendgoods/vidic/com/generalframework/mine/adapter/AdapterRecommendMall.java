@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 import friendgoods.vidic.com.generalframework.mine.bean.GoodsRecommendBean;
 
 public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

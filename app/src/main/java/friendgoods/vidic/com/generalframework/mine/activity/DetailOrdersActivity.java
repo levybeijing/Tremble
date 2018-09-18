@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

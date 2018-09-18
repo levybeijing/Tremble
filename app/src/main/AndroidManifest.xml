@@ -32,26 +32,26 @@
         <activity android:name=".activity.PKHoseActivity" android:screenOrientation="sensorPortrait"/>
 
         <!--mine-->
-        <activity android:name=".mine.SettingsActivity">
+        <activity android:name=".mine.activity.SettingsActivity">
         </activity>
-        <activity android:name=".mine.MallActivity">
+        <activity android:name=".mine.activity.MallActivity">
         </activity>
-        <activity android:name=".mine.AddAddressActivity"></activity>
-        <activity android:name=".mine.EditAddressActivity"></activity>
-        <activity android:name=".mine.MyAddressesActivity"></activity>
-        <activity android:name=".mine.MyFansActivity">
+        <activity android:name=".mine.activity.AddAddressActivity"></activity>
+        <activity android:name=".mine.activity.EditAddressActivity"></activity>
+        <activity android:name=".mine.activity.MyAddressesActivity"></activity>
+        <activity android:name=".mine.activity.MyFansActivity">
 
         </activity>
-        <activity android:name=".mine.MyFriendsActivity"></activity>
-        <activity android:name=".mine.MyGiftsActivity"></activity>
-        <activity android:name=".mine.MyOrdersActivity"></activity>
-        <activity android:name=".mine.MyRecordActivity"></activity>
-        <activity android:name=".mine.MyGiftsWallActivity"></activity>
+        <activity android:name=".mine.activity.MyFriendsActivity"></activity>
+        <activity android:name=".mine.activity.MyGiftsActivity"></activity>
+        <activity android:name=".mine.activity.MyOrdersActivity"></activity>
+        <activity android:name=".mine.activity.MyRecordActivity"></activity>
+        <activity android:name=".mine.activity.MyGiftsWallActivity"></activity>
         <!--次页面-->
-        <activity android:name=".mine.DetailGoodsActivity">
+        <activity android:name=".mine.activity.DetailGoodsActivity">
 
         </activity>
-        <activity android:name=".mine.DetailOrdersActivity">
+        <activity android:name=".mine.activity.DetailOrdersActivity">
 
         </activity>
     </application>

@@ -1,11 +1,9 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,8 +16,8 @@ import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.CustomDialogBottom;
 import friendgoods.vidic.com.generalframework.mine.bean.DetailGoodsBean;
-import friendgoods.vidic.com.generalframework.mine.bean.UserInfoBean;
 import okhttp3.Call;
 import okhttp3.Response;
 

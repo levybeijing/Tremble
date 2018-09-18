@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
 import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
 
 public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHolder> {
@@ -57,7 +58,7 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
                 break;
         }
         holder.tv_name.setText(list.get(position).getName());
-        holder.tv_value.setText(list.get(position).getScore());
+        holder.tv_value.setText(list.get(position).getScore()+"");
         Picasso.with(context).load(list.get(position).getGiftId()).into(holder.iv_wall);
         Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
     }

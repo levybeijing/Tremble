@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,14 +11,13 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFans;
 import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
-import friendgoods.vidic.com.generalframework.mine.bean.UserInfoBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -51,13 +50,16 @@ public class MyFansActivity extends Activity {
 
     private void request() {
 
-        OkGo.post(UrlCollect.persenalDetail)//
+        OkGo.post(UrlCollect.fansList)//
                 .tag(this)//
                 .params("userId", "27")
+                .params("page", "0")
+                .params("pageSize", "7")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         MyFansBean myFansBean = new Gson().fromJson(s, MyFansBean.class);
+                        Log.e("========MyFansActivity", "onSuccess: "+s);
                         Log.e("========MyFansActivity", "onSuccess: "+(myFansBean.getData().getPageInfo()==null));
                         List<MyFansBean.DataBean.PageInfoBean.ListBean> list = myFansBean.getData().getPageInfo().getList();
 

@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.frag;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,14 +13,11 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.adapter.AdapterRecommendMall;
 import friendgoods.vidic.com.generalframework.mine.bean.GoodsRecommendBean;
-import friendgoods.vidic.com.generalframework.mine.bean.UserInfoBean;
 import okhttp3.Call;
 import okhttp3.Response;
 

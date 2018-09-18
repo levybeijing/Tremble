@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine;
+package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
