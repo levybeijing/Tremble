@@ -46,7 +46,7 @@
         <activity android:name=".mine.activity.MyGiftsActivity"></activity>
         <activity android:name=".mine.activity.MyOrdersActivity"></activity>
         <activity android:name=".mine.activity.MyRecordActivity"></activity>
-        <activity android:name=".mine.activity.MyGiftsWallActivity"></activity>
+        <activity android:name=".mine.activity.MyVIPWallActivity"></activity>
         <!--次页面-->
         <activity android:name=".mine.activity.DetailGoodsActivity">
 

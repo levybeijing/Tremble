@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import friendgoods.vidic.com.generalframework.R;
 
-public class MyGiftsWallActivity  extends Activity{
+public class MyVIPWallActivity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +16,6 @@ public class MyGiftsWallActivity  extends Activity{
     }
 
     private void initView() {
-
+        
     }
 }

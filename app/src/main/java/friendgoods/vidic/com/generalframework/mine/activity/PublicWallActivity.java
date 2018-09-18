@@ -12,5 +12,12 @@ public class PublicWallActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publicwall);
+
+        initView();
+    }
+
+    private void initView() {
+
+
     }
 }
