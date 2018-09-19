@@ -61,7 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
+        >
+        <ImageView
+            android:id="@+id/aim_pubwall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/ll_bottom_pubwall"
         android:layout_width="match_parent"

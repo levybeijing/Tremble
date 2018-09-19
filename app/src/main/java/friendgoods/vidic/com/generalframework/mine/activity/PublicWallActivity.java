@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -37,10 +38,10 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
     private RelativeLayout view;
     private String presentsWallId;
     private PileLayout set;
-    private int top;
-    private int left;
-    private int right;
-    private int bottom;
+//    private int top;
+//    private int left;
+//    private int right;
+//    private int bottom;
     private int top1;
 
     @Override
@@ -73,11 +74,14 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
 //        left = view.getLeft();
 //        right = view.getRight();
 //        bottom = view.getBottom();
-        LinearLayout ll = findViewById(R.id.ll_bottom_pubwall);
-        int[] list=new int[2];
-        ll.getLocationOnScreen(list);
-        Log.e("***********", "initView: "+list[0]+"****"+list[1]);
+//        LinearLayout ll = findViewById(R.id.ll_bottom_pubwall);
+//        int[] list=new int[2];
+//        ll.getLocationOnScreen(list);
+//        Log.e("***********", "initView: "+list[0]+"****"+list[1]);
 
+//        ImageView iv_aim = findViewById(R.id.aim_pubwall);
+//        top1 = iv_aim.getTop();
+//        Log.e("***********", "initView: "+top1);
 
         rv = findViewById(R.id.rv_pubwall);
         LinearLayoutManager manager=new LinearLayoutManager(this);
