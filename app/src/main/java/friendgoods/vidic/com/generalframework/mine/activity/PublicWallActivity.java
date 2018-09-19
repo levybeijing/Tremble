@@ -6,14 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -24,15 +19,10 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
 import friendgoods.vidic.com.generalframework.mine.OnItemClickListenerPubWall;
-import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyRecord;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
-import friendgoods.vidic.com.generalframework.mine.bean.IconSetBean;
 import friendgoods.vidic.com.generalframework.mine.bean.MyGiftsListBean;
-import friendgoods.vidic.com.generalframework.mine.bean.MyRecordBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
-import friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.PileLayout;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -48,6 +38,7 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
     private int left;
     private int right;
     private int bottom;
+    private int top1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,10 +66,15 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
         set = findViewById(R.id.customiconset_pubwall);
         //获取定位
         view = findViewById(R.id.container_pubwall);
-        top = view.getTop();
-        left = view.getLeft();
-        right = view.getRight();
-        bottom = view.getBottom();
+//        top = view.getTop();
+//        left = view.getLeft();
+//        right = view.getRight();
+//        bottom = view.getBottom();
+//        LinearLayout ll = findViewById(R.id.ll_bottom_pubwall);
+//        top1 = ll.getHeight();
+//        Log.e("@@@@@@@@@@@", "initView: "+top1);
+
+
         rv = findViewById(R.id.rv_pubwall);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -92,7 +88,6 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("********************", "onSuccess: "+s);
                         MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
                         List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
                         adapter.setData(data);
@@ -126,7 +121,7 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
 
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
             @Override
-            public void onItemClick(String sx,String sy,String surl) {
+            public void onItemClick(String sx, String sy, String surl) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
                 Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
@@ -136,7 +131,7 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                 int realwidth= (int) (x*scale);
                 int realheight= (int) (y*scale);
                 //增加子控件  随机位置  可拖动  可以传输限定位置
-                MoveImageView iv=new MoveImageView(PublicWallActivity.this,width,height);
+                MoveImageView iv=new MoveImageView(PublicWallActivity.this,width, (int) (height*0.7));
                 Picasso.with(PublicWallActivity.this).load("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3311496021,2379882468&fm=27&gp=0.jpg").into(iv);
                 view.addView(iv);
                 //加载图片

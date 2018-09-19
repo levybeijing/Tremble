@@ -3,8 +3,11 @@ package friendgoods.vidic.com.generalframework.mine.customview;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ViewParent;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class MoveImageView extends android.support.v7.widget.AppCompatImageView {
     public MoveImageView(Context context) {
@@ -29,7 +32,6 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
