@@ -1,13 +1,16 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -70,9 +73,10 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
 //        left = view.getLeft();
 //        right = view.getRight();
 //        bottom = view.getBottom();
-//        LinearLayout ll = findViewById(R.id.ll_bottom_pubwall);
-//        top1 = ll.getHeight();
-//        Log.e("@@@@@@@@@@@", "initView: "+top1);
+        LinearLayout ll = findViewById(R.id.ll_bottom_pubwall);
+        int[] list=new int[2];
+        ll.getLocationOnScreen(list);
+        Log.e("***********", "initView: "+list[0]+"****"+list[1]);
 
 
         rv = findViewById(R.id.rv_pubwall);
