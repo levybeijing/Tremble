@@ -1,18 +1,14 @@
-package friendgoods.vidic.com.generalframework.mine.customview;
+package friendgoods.vidic.com.generalframework.mine.customview.customrecyclerview;
 
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
-
-import friendgoods.vidic.com.generalframework.R;
 
 public class MessageRelativeLayout extends RelativeLayout {
 

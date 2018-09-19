@@ -13,7 +13,7 @@
         android:gravity="center"
         >
         <ImageView
-            android:id="@+id/iv_back_mygiftswall"
+            android:id="@+id/iv_back_mygiftwall"
             android:layout_width="14dp"
             android:layout_height="24dp"
             android:background="@mipmap/back_top_3x"
@@ -22,13 +22,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="订单详情"
+            android:text="我的礼物墙"
             android:textColor="@color/white"
             android:textSize="26dp"
             android:layout_weight="1"
             />
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/container_mygiftwall"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="15dp"
@@ -36,6 +37,7 @@
         android:layout_weight="1"
         >
         <TextView
+            android:id="@+id/tv_date_mygiftwall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -44,20 +46,26 @@
             android:textColor="#EC2C98"
             />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_alignParentRight="true"
             >
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:background="@mipmap/energy_mygifts_3x"
+                />
             <TextView
+                android:id="@+id/tv_energy_mygiftwall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:text="10000"
+                />
         </LinearLayout>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_mygiftswall"
+        android:id="@+id/rv_mygiftwall"
         android:layout_width="match_parent"
         android:layout_height="60dp"/>
 </LinearLayout>

@@ -18,6 +18,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
     private Context context;
     private String[] array;
     private Drawable[] paths;
+    //1
     private OnItemClickListener itemClickListener;
 
 
@@ -26,7 +27,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
         array=array_;
         paths=paths_;
     }
-
+//2
     public void setOnItemClickListener(OnItemClickListener itemClickListene_){
         itemClickListener=itemClickListene_;
     }
@@ -50,7 +51,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
                 Toast.makeText(context,"first",Toast.LENGTH_SHORT).show();
             }
         });
-
+//3
         View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
 
         if (itemClickListener != null) {

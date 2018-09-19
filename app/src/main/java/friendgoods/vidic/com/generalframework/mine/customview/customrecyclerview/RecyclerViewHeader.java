@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine.customview;
+package friendgoods.vidic.com.generalframework.mine.customview.customrecyclerview;
 
 import android.content.Context;
 import android.graphics.Bitmap;

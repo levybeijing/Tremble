@@ -20,11 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".activity.SpleashActivity">
-            <intent-filter>p=
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:screenOrientation="sensorPortrait"/>
         <activity android:name=".activity.LoginActivity" android:screenOrientation="sensorPortrait"/>
@@ -55,7 +51,11 @@
 
         </activity>
         <activity android:name=".mine.activity.PublicWallActivity">
+            <intent-filter>p=
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".mine.activity.VIPGiftsWallActivity">
