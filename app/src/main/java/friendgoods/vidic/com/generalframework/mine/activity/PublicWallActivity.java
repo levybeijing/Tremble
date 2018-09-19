@@ -133,14 +133,14 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                 int width = defaultDisplay.getWidth();
                 int height = defaultDisplay.getHeight();
                 double scale=width/325;
-                int realx= (int) (x*scale);
-                int realy= (int) (y*scale);
-
+                int realwidth= (int) (x*scale);
+                int realheight= (int) (y*scale);
                 //增加子控件  随机位置  可拖动  可以传输限定位置
                 MoveImageView iv=new MoveImageView(PublicWallActivity.this,width,height);
                 Picasso.with(PublicWallActivity.this).load("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3311496021,2379882468&fm=27&gp=0.jpg").into(iv);
                 view.addView(iv);
                 //加载图片
+
             }
         });
 
