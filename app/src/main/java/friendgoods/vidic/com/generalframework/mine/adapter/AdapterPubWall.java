@@ -54,7 +54,7 @@ public class AdapterPubWall extends RecyclerView.Adapter {
         Picasso.with(context).load(list.get(position).getPhoto()).into(((MyViewHolder)holder).iv_goods);
 
         View itemView = ((LinearLayout) holder.itemView).getChildAt(0);
-
+        final int top = itemView.getTop();
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

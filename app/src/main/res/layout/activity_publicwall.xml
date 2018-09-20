@@ -61,8 +61,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        />
+        >
+        <ImageView
+            android:id="@+id/aim_pubwall"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
     <LinearLayout
+        android:id="@+id/ll_bottom_pubwall"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:orientation="horizontal"
@@ -77,11 +83,6 @@
             android:background="@mipmap/mygift_pubwall_2x"
             android:layout_margin="10dp"
             />
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--&gt;-->
-            <!--&lt;!&ndash;横向滚动!!!!!!!!&ndash;&gt;-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_pubwall"
                 android:layout_width="0dp"
