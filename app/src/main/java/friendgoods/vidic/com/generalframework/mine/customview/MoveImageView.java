@@ -3,6 +3,7 @@ package friendgoods.vidic.com.generalframework.mine.customview;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
@@ -22,8 +23,8 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     private int lastX = 0;
     private int lastY = 0;
 
-    private static int screenWidth; //屏幕宽度
-    private static int screenHeight; //屏幕高度
+    private static int screenWidth; //容器高度
+    private static int screenHeight; //容器高度
 
 
     @Override
@@ -33,17 +34,20 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
+                //手指原始坐标
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                //偏移量
                 int dx =(int)event.getRawX() - lastX;
                 int dy =(int)event.getRawY() - lastY;
-
+                //控件位置
                 int left = getLeft() + dx;
                 int top = getTop() + dy;
                 int right = getRight() + dx;
                 int bottom = getBottom() + dy;
+
                 if(left < 0){
                     left = 0;
                     right = left + getWidth();
@@ -61,6 +65,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                     top = bottom - getHeight();
                 }
                 layout(left, top, right, bottom);
+
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
                 break;

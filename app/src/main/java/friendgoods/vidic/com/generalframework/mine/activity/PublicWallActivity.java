@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -129,14 +130,28 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
             public void onItemClick(String sx,String sy,String surl) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
-                Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
-                int width = defaultDisplay.getWidth();
-                int height = defaultDisplay.getHeight();
-                double scale=width/325;
+//                Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
+
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                //获取活动区外的空间高度
+                int dpi = dm.densityDpi;
+                int gap = dpi / 160*150;
+                Log.e("ddddddpppppppp", "onItemClick: "+dpi);
+
+                int heightPixels = dm.heightPixels;
+                int widthPixels = dm.widthPixels;
+
+//                int width = defaultDisplay.getWidth();
+//                int height = defaultDisplay.getHeight();
+                //图片尺寸放大缩小比率
+                double scale=widthPixels/325;
+                //实际图片尺寸
                 int realwidth= (int) (x*scale);
                 int realheight= (int) (y*scale);
+
                 //增加子控件  随机位置  可拖动  可以传输限定位置
-                MoveImageView iv=new MoveImageView(PublicWallActivity.this,width,height);
+                MoveImageView iv=new MoveImageView(PublicWallActivity.this,widthPixels,heightPixels-gap);
                 Picasso.with(PublicWallActivity.this).load("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3311496021,2379882468&fm=27&gp=0.jpg").into(iv);
                 view.addView(iv);
                 //加载图片
