@@ -73,7 +73,7 @@ public class LoginPWDActivity extends Activity implements View.OnClickListener {
                 login(number,pwd);
                 break;
             case R.id.iv_weixin_loginpwd:
-                startActivity(new Intent(LoginPWDActivity.this,WXLoginActivity.class));
+                startActivity(new Intent(LoginPWDActivity.this,WXBindActivity.class));
                 break;
         }
     }

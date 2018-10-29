@@ -130,7 +130,6 @@
                     android:id="@+id/iv_person_one_pkmodel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/woman_one"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
@@ -138,7 +137,8 @@
             </RelativeLayout>
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
                 <TextView
                     android:id="@+id/tv_name_one_pkmodel"
                     android:layout_width="88dp"
@@ -146,6 +146,7 @@
                     android:background="@mipmap/name_story_3x"
                     android:layout_marginTop="13dp"
                     android:gravity="center"
+                    android:text="邀请好友"
                     />
                 <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                     android:id="@+id/iv_icon_one_pkmodel"
@@ -171,7 +172,6 @@
                     android:layout_width="116dp"
                     android:layout_height="140dp"
                     android:background="@mipmap/light_stage_3x"
-                    android:visibility="invisible"
                     />
                 <ImageView
                     android:layout_width="wrap_content"
@@ -184,7 +184,6 @@
                     android:id="@+id/iv_person_two_pkmodel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/woman_one"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
@@ -237,7 +236,6 @@
                     android:id="@+id/iv_person_three_pkmodel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/woman_one"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
@@ -253,6 +251,7 @@
                     android:background="@mipmap/name_story_3x"
                     android:layout_marginTop="13dp"
                     android:gravity="center"
+                    android:text="邀请好友"
                     />
                 <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                     android:id="@+id/iv_icon_three_pkmodel"

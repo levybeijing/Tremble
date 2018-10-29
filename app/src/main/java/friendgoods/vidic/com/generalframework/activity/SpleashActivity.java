@@ -5,9 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -90,7 +88,7 @@ public class SpleashActivity extends Activity {
                 if(userId.equals("")){
                     startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
                 } else if(!bindwx){
-                    startActivity(new Intent(SpleashActivity.this,WXLoginActivity.class));
+                    startActivity(new Intent(SpleashActivity.this,WXBindActivity.class));
                 }else if (sex==0){
                     startActivity(new Intent(SpleashActivity.this,IntroduceActivity.class));
                 }else{

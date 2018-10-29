@@ -70,11 +70,14 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initView() {
-
+//
         name = findViewById(R.id.tv_name_pubwall);
         energy = findViewById(R.id.tv_energy_pubwall);
         icon = findViewById(R.id.iv_icon_pubwall);
-
+        name.setText(MyApplication.NAME);
+        Picasso.with(PublicWallActivity.this).load(MyApplication.USERICON).into(icon);
+        energy.setText(MyApplication.USERINTEGRAL+"");
+//
         findViewById(R.id.iv_makesure_pubwall).setOnClickListener(this);
         findViewById(R.id.iv_mall_pubwall).setOnClickListener(this);
         //头像集
@@ -88,19 +91,6 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
         rv.setLayoutManager(manager);
         adapter = new AdapterPubWall(PublicWallActivity.this);
         rv.setAdapter(adapter);
-        //用户信息
-        OkGo.post(UrlCollect.persenalDetail)//
-                .tag(this)//
-                .params("userId", receiveId)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        UserInfoBean infoBean = new Gson().fromJson(s, UserInfoBean.class);
-                        name.setText(infoBean.getData().getName());
-                        energy.setText(infoBean.getData().getIntegral()+"");
-                        Picasso.with(PublicWallActivity.this).load(infoBean.getData().getPhoto()).into(icon);
-                    }
-                });
         //底部礼物集合
         OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
@@ -113,6 +103,9 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                         adapter.setData(data);
                     }
                 });
+//      加载未完成头像
+
+
         //头像集访问
         OkGo.post(UrlCollect.iconsOfSendGift)//
                 .tag(this)//
@@ -190,8 +183,7 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_makesure_pubwall:
-                //TODO:获取容器内所有控件 获取位置点击上传
-
+                //获取容器内所有控件 获取位置点击上传
                 OkGo.post(UrlCollect.sendGift)//
                         .tag(this)//
                         .params("giftId", String.valueOf(gift))//
@@ -205,14 +197,16 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
-                                //TODO:假如成功 清屏 失败的操作?本地保存?网络断是否有数据?
+                                //TODO:假如成功 清屏 失败:上传未完成
 //                                Log.e("!!!!!!!!!!!!!!!!!!!!", "onSuccess: "+s);
                                 view.removeAllViews();
                             }
                         });
                 break;
             case R.id.iv_mall_pubwall:
-                //跳转
+                //保存未完成
+
+
                 startActivity(new Intent(PublicWallActivity.this,MallActivity.class));
                 view.removeAllViews();
                 break;

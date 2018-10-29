@@ -17,6 +17,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyRecord;
@@ -39,11 +40,8 @@ public class MyRecordActivity extends Activity {
         //
         initView();
         //设置头部
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String image_url = intent.getStringExtra("image_url");
-        tv_name.setText(name);
-        Picasso.with(this).load(image_url).into(iv_icon);
+        tv_name.setText(MyApplication.NAME);
+        Picasso.with(this).load(MyApplication.USERICON).into(iv_icon);
     }
 
     private void initView() {
@@ -59,10 +57,10 @@ public class MyRecordActivity extends Activity {
         tv_history = findViewById(R.id.tv_history_myrecord);
         tv_detailrecord = findViewById(R.id.tv_detailrecord_myrecord);
         iv_icon = findViewById(R.id.iv_icon_myrecord);
-        //TODO:新增需求
-        TextView hand = findViewById(R.id.tv_hand_myrecord);
-        TextView foot = findViewById(R.id.tv_foot_myrecord);
-        TextView jifen = findViewById(R.id.tv_jifen_myrecord);
+        //新增需求
+//        TextView hand = findViewById(R.id.tv_hand_myrecord);
+//        TextView foot = findViewById(R.id.tv_foot_myrecord);
+//        TextView jifen = findViewById(R.id.tv_jifen_myrecord);
         //设置字体样式 渐变
         Typeface font = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -91,13 +89,12 @@ public class MyRecordActivity extends Activity {
                 .tag(this)//
                 .params("userId", "27")
                 .params("page", "0")
-                .params("pageSize", "10")
+                .params("pageSize", "30")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         MyRecordBean recordBean = new Gson().fromJson(s, MyRecordBean.class);
                         adapter.setData(recordBean.getData().getPageInfo().getList());
-                        //TODO:获取总计数据 核查内容
 //                        tv_detailrecord = findViewById(R.id.tv_detailrecord_myrecord);
 //                        tv_detailrecord.setText(recordBean.getData().getPageInfo().getTotal()+"");
                     }

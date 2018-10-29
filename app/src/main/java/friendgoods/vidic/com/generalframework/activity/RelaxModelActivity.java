@@ -62,12 +62,16 @@ public class RelaxModelActivity extends AppCompatActivity implements View.OnClic
                 tv_number.setAnimation(animation);
                 break;
             case R.id.iv_exit_relaxmodel:
+                gametime=System.currentTimeMillis()-gametime;
+                addrecord();
                 finish();
                 break;
             case R.id.tv_gotomall_relaxmodel:
-                finish();
 //                跳转
+                gametime=System.currentTimeMillis()-gametime;
+                addrecord();
                 startActivity(new Intent(RelaxModelActivity.this,MallActivity.class));
+                finish();
                 break;
         }
     }

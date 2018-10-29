@@ -1,10 +1,14 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +42,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
     private int flag=0;
     private TextView tv_number;
     private long gametime;
+    private ScaleAnimation animation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,8 +57,21 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         ImageView icon = findViewById(R.id.iv_icon_storymodel);
         TextView name = findViewById(R.id.tv_name_storymodel);
         tv_number = findViewById(R.id.tv_number_storymodel);
+        name.setText(MyApplication.NAME);
+        Picasso.with(StoryModelActivity.this).load(MyApplication.USERICON).into(icon);
 
-
+        Typeface font=null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            font = getResources().getFont(R.font.edo);
+            tv_number.setTypeface(font);
+        }
+        //        缩放动画
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        animation.setDuration(500);
+        tv_number.setAnimation(animation);
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         int r=0;
         switch (sex){
@@ -72,9 +90,6 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         }
         if (r!=0)
             person.setImageDrawable(getResources().getDrawable(r));
-//        Picasso.with(this).load().into(icon);
-//        name.setText();
-//        Intent intent = getIntent();
     }
 
     private void request() {
@@ -83,7 +98,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("========", "onSuccess: "+s);
+//                        Log.e("========", "onSuccess: "+s);
                         StoryModelBean bean = new Gson().fromJson(s, StoryModelBean.class);
                         numbers = bean.getData().getRandom();
                         images=bean.getData().getStoryIMG();
@@ -103,16 +118,14 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.iv_click_storymodel:
-                tv_number.setText(++count+"");
                 if (numbers==null){
-//                    Toast.makeText(this, "请检查网络", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "网络故障,请重新载入", Toast.LENGTH_SHORT).show();
                     request();
                     return;
                 }
                 gametime=System.currentTimeMillis();
                 if (count==numbers.get(flag)){
                     requestImage(flag);
-                    Toast.makeText(this, "tupian", Toast.LENGTH_SHORT).show();
                     flag++;
                 }
                 if (flag==numbers.size()){
@@ -121,6 +134,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                     addrecord();
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                 }
+                tv_number.setText(++count+"");
                 break;
         }
     }
@@ -160,5 +174,12 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gametime=System.currentTimeMillis()-gametime;
+        addrecord();
     }
 }

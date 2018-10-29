@@ -1,14 +1,10 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.IBinder;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,7 +35,7 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
     private EditText et_code;
     private TextView btn_code;
     private TimeCount time;
-    private MusicService serv;
+//    private MusicService serv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,19 +48,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
 //        bindService(intent, conn, Context.BIND_AUTO_CREATE);
     }
 
-//    private ServiceConnection conn = new ServiceConnection() {
-//        /** 获取服务对象时的操作 */
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-////            serv =  MusicService
-//
-//        }
-//
-//        /** 无法获取到服务对象时的操作 */
-//        public void onServiceDisconnected(ComponentName name) {
-//            serv= null;
-//        }
-//
-//    };
     private void initView() {
         et_phone = findViewById(R.id.et_phone_logincode);
         et_code = findViewById(R.id.et_code_logincode);
@@ -109,7 +92,7 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                 login(number,code);
                 break;
             case R.id.iv_weixin_logincode:
-                startActivity(new Intent(LoginCodeActivity.this,WXLoginActivity.class));
+                startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                 break;
         }
     }

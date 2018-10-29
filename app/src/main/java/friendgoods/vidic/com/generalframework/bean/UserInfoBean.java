@@ -2,9 +2,8 @@ package friendgoods.vidic.com.generalframework.bean;
 
 public class UserInfoBean {
 
-
     /**
-     * data : {"voice":1,"shake":1,"integral":9.9993414699E8,"sex":"1","name":"111111","mobile":"18666409792","photo":"https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erEibGWxFCNRZm68yZNOeUIOjDe4511sdbFrPibqRSgGwc9tv6IlrbF0sMtzUcCYmeC5w4Tr3zoFpzQ/132","logo":"woman2.png","id":27}
+     * data : {"voice":1,"shake":1,"integral":0,"sex":"0","name":"。。。。。。","weChat":"o5BgB5ZpkDLnaD-mi0FR6VSil20E","photo":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLSOR5dff1ibic8u1stdGgZXVuib3I9dEmGJVW7pY3uvVauZzarP3IblImS7rp5G4cUnUJX14zhbeyJw/132","logo":"man1"}
      * message : 请求成功
      * state : 1
      */
@@ -41,13 +40,12 @@ public class UserInfoBean {
         /**
          * voice : 1
          * shake : 1
-         * integral : 9.9993414699E8
-         * sex : 1
-         * name : 111111
-         * mobile : 18666409792
-         * photo : https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erEibGWxFCNRZm68yZNOeUIOjDe4511sdbFrPibqRSgGwc9tv6IlrbF0sMtzUcCYmeC5w4Tr3zoFpzQ/132
-         * logo : woman2.png
-         * id : 27
+         * integral : 0.0
+         * sex : 0
+         * name : 。。。。。。
+         * weChat : o5BgB5ZpkDLnaD-mi0FR6VSil20E
+         * photo : https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLSOR5dff1ibic8u1stdGgZXVuib3I9dEmGJVW7pY3uvVauZzarP3IblImS7rp5G4cUnUJX14zhbeyJw/132
+         * logo : man1
          */
 
         private int voice;
@@ -55,10 +53,9 @@ public class UserInfoBean {
         private double integral;
         private String sex;
         private String name;
-        private String mobile;
+        private String weChat;
         private String photo;
         private String logo;
-        private int id;
 
         public int getVoice() {
             return voice;
@@ -100,12 +97,12 @@ public class UserInfoBean {
             this.name = name;
         }
 
-        public String getMobile() {
-            return mobile;
+        public String getWeChat() {
+            return weChat;
         }
 
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
+        public void setWeChat(String weChat) {
+            this.weChat = weChat;
         }
 
         public String getPhoto() {
@@ -122,14 +119,6 @@ public class UserInfoBean {
 
         public void setLogo(String logo) {
             this.logo = logo;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
         }
     }
 }

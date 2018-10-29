@@ -4,23 +4,35 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
+
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
 import friendgoods.vidic.com.generalframework._idle.DouFragment;
+import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
-    private static boolean mBackKeyPressed = false;//记录是否有首次按键
+    private static boolean mBackKeyPressed = false;
     private RadioButton  model_rg;
     private static int preFt;
     private List<Fragment> list=new ArrayList<>();
@@ -31,6 +43,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
 
         initView();
+        request();
+    }
+
+    private void request() {
+        OkGo.post(UrlCollect.getUsers)//
+                .tag(this)//
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        UserInfoBean infoBean = new Gson().fromJson(s, UserInfoBean.class);
+                        if ("请求成功".equals(infoBean.getMessage())){
+                            MyApplication.NAME=infoBean.getData().getName();
+                            MyApplication.USERICON=infoBean.getData().getPhoto();
+                            MyApplication.USERINTEGRAL=infoBean.getData().getIntegral();
+                        }
+                    }
+                });
     }
 
     protected void initView() {

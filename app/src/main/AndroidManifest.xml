@@ -99,10 +99,8 @@
         <activity android:name=".activity.WXListActivity"
             android:exported="true"
             ></activity>
-        <activity android:name=".activity.WXLoginActivity">
-
-        </activity>
-
+        <activity android:name=".activity.WXBindActivity"></activity>
+        <activity android:name=".activity.PhoneBindActivity"></activity>
         <!--音乐播放-->
         <service android:name=".musicplay.DownloadService" android:exported="false"></service>
         <service android:name=".musicplay.MusicService" android:exported="false"></service>

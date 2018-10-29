@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
@@ -12,9 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +32,9 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 import friendgoods.vidic.com.generalframework.widget.OnTimeSelectListener;
 import friendgoods.vidic.com.generalframework.widget.TimePickerBuilder;
@@ -56,32 +67,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView one;
     private ImageView click;
 
-    private Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 2:
-                    three.setVisibility(View.INVISIBLE);
-                    two.setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    two.setVisibility(View.INVISIBLE);
-                    one.setVisibility(View.VISIBLE);
-                    break;
-                case 0:
-                    one.setVisibility(View.INVISIBLE);
-                    click.setVisibility(View.VISIBLE);
-                    click.setClickable(true);
-//                    开始游戏
-                    Toast.makeText(PKModelActivity.this, "开始游戏", Toast.LENGTH_SHORT).show();
-//                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
-//                    请求成功的话
-//                    pkCount=0;
-
-                    break;
-            }
-        }
-    };
 //    均需网络访问才能赋值
     private ImageView person1;
     private ImageView light1;
@@ -93,12 +78,49 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
+    private int roomId;
+    private long gametime;
 
+    private Socket socStatus;
+    private Socket socGame;
+
+    //倒计时三秒
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 4:
+                    break;
+                case 3:
+                    break;
+                case 2:
+                    three.setVisibility(View.INVISIBLE);
+                    two.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    two.setVisibility(View.INVISIBLE);
+                    one.setVisibility(View.VISIBLE);
+                    break;
+                case 0:
+
+                    one.setVisibility(View.INVISIBLE);
+                    click.setVisibility(View.VISIBLE);
+                    click.setClickable(true);
+//                    开始游戏
+                    Toast.makeText(PKModelActivity.this, "开始游戏", Toast.LENGTH_SHORT).show();
+//                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
+//                    请求成功的话
+//                    pkCount=0;
+                    isGaming=true;
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
-
+        gametime=System.currentTimeMillis();
         initView();
     }
 //
@@ -128,12 +150,32 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         light2 = findViewById(R.id.iv_light_two_pkmodel);
         ImageView icon2 = findViewById(R.id.iv_icon_two_pkmodel);
         name2 = findViewById(R.id.tv_name_two_pkmodel);
+        Picasso.with(this).load(MyApplication.USERICON).into(icon2);
+        int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
+        switch (sex){
+            case 11:
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_one));
+                break;
+            case 12:
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_two));
+                break;
+            case 21:
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_one));
+                break;
+            case 22:
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_two));
+                break;
+        }
         //3
         person3 = findViewById(R.id.iv_person_three_pkmodel);
         light3 = findViewById(R.id.iv_light_three_pkmodel);
         icon3 = findViewById(R.id.iv_icon_three_pkmodel);
         name3 = findViewById(R.id.tv_name_three_pkmodel);
-//按钮
+
+        name1.setOnClickListener(this);
+        name3.setOnClickListener(this);
+
+//点击按钮
         click = findViewById(R.id.iv_click_pkmodel);
 //倒计时
         one = findViewById(R.id.iv_one_pkmodel);
@@ -147,34 +189,82 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
         startno = findViewById(R.id.iv_startno_pkmodel);
-//        TODO:
+//
         if (isHost){
             light2.setVisibility(View.VISIBLE);
-//            startno.setVisibility(View.VISIBLE);
-            startyes.setVisibility(View.VISIBLE);
+            startno.setVisibility(View.VISIBLE);
+//            startyes.setVisibility(View.VISIBLE);
             addroom();
         }else{
             ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
             joinRoom();
         }
-//
+//        开启新线程来监听
+//        socket连接  两个  一个监听状态 一个监听游戏数据 192.168.1.153:8081/shakeLeg/user/aaa
 
-//        tv_number = findViewById(R.id.tv_number_storymodel);
-//        Typeface font=null;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            font = getResources().getFont(R.font.edo);
-//            tv_number.setTypeface(font);
-//        }
-//        //        缩放动画
-//        animation = new ScaleAnimation(
-//                1.0f, 2.0f, 1.0f, 2.0f,
-//                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-//        );
-//        animation.setDuration(100);
     }
-
-
+    private class StatusThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                socStatus = new Socket("192.168.1.153",8081);//???????????
+                while (!isGaming){
+                    InputStream is = socStatus.getInputStream();
+                    Log.e("=============", "initView: "+is.toString());
+//                    数据字符串处理
+//                    String str=null;
+//                    str.replace("[","");
+//                    str.replace("]","");
+//                    String[] split = str.split(",");
+//                    new Gson().fromJson(split[0],SocStatusBean.class);
+//                    new Gson().fromJson(split[1],SocStatusBean.class);
+//                    new Gson().fromJson(split[2],SocStatusBean.class);
+//                    JSONObject jo=new JSONObject(split[3]);
+//                    String type = jo.getString("type");
+//                    对界面进行修改 影响  用handler
+                }
+                socStatus.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+        }
+    }
+    private class GameThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                socGame = new Socket("192.168.1.153",8081);//????????????????
+                while (!isGaming){
+                    InputStream is = socGame.getInputStream();
+                    Log.e("=============", "initView: "+is.toString());
+//                    数据字符串处理
+//                    String str=null;
+//                    str.replace("[","");
+//                    str.replace("]","");
+//                    String[] split = str.split(",");
+//                    new Gson().fromJson(split[0],SocStatusBean.class);
+//                    new Gson().fromJson(split[1],SocStatusBean.class);
+//                    new Gson().fromJson(split[2],SocStatusBean.class);
+//                    JSONObject jo=new JSONObject(split[3]);
+//                    String type = jo.getString("type");
+//                    对界面进行修改 影响  用handler
+                }
+                socGame.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+        }
+    }
+    //final Socket socket = new Socket();
+//SocketAddress address = new InetSocketAddress("www.fortify.net", 443);
+//try {    socket.connect(address);}
     public void getLlstOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
@@ -188,6 +278,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_timer_pk:
+//                非游戏状态下  计时器有点击事件
                 if (!isGaming)
                     pvCustomTime.show();
                 break;
@@ -238,12 +329,20 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.iv_click_pkmodel:
-//
                 name2.setText(++pkCount);
                 break;
+//                进入好友邀请界面  /shakeLeg/user/inviteFriend 进入好友列表页面开启接口
+            case R.id.tv_name_one_pkmodel:
+                if (name1.getText()=="邀请好友")
+
+                break;
+            case R.id.tv_name_three_pkmodel:
+                if (name3.getText()=="邀请好友")
+
+                    break;
         }
     }
-
+//创建 房间
     private void addroom() {
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
@@ -252,34 +351,63 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-
+                        if (null!=s){
+                            JSONObject jo= null;
+                            try {
+                                jo = new JSONObject(s);
+                                JSONObject data = jo.getJSONObject("data");
+                                roomId=data.getInt("roomId");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 });
     }
+//    邀请进入房间
     private void joinRoom() {
         OkGo.post(UrlCollect.intoRoomJudge)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
-//                .params("roomId", roomId)
+                .params("roomId", roomId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                     }
                 });
     }
-
+//  退出房间
     private void exitRoom() {
         OkGo.post(UrlCollect.updateRoomUserStatus)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
-//                .params("roomId", roomId)
+                .params("roomId", roomId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+
                     }
                 });
     }
 
+    private void addrecord() {
+        gametime=System.currentTimeMillis()-gametime;
+        OkGo.post(UrlCollect.addRecord)//
+                .tag(this)//
+                .params("userId", MyApplication.USERID)
+                .params("time", gametime+"")
+                .params("shakeNum", pkCount+"")
+                .params("type", "0")//0（自己）1（好友）  用得着传好友么?
+                .params("roomId", roomId+"")
+                .params("status", "0")//0（手动）1（脚动）
+                .params("mode", "3")//1（挑战）2（故事）3（pk）4（休闲）
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                    }
+                });
+    }
     //至少定义10秒钟
     private boolean checkTime() {
         getLlstOfTime();
@@ -332,6 +460,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        try {
+//            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        需要保持连接么?掉线重连? 在restart方法中保存数据?pkcount
     }
 }

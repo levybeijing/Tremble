@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -135,8 +136,8 @@ public class SexChooseActivity extends AppCompatActivity implements View.OnClick
                 .params("userId", MyApplication.USERID)
                 .params("sex", sex)//0  man  1  woman
                 .params("logo", logo)//man1.png  woman1.png
-                .params("name", "")//weixin mingcheng
-                .params("photo", "")//weixin touxiang
+                .params("name", MyApplication.NAME)
+                .params("photo", MyApplication.USERICON)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
