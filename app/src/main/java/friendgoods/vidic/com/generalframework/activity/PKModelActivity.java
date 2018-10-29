@@ -51,14 +51,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //   是否是房主
     private static boolean isHost=true;
 //   是否已经设置时间
-    private static boolean haveTime=false;
+//    private static boolean haveTime=false;
     private LinearLayout ll;
     private ImageView readyno;
     private ImageView readyyes;
     private ImageView startyes;
     private ImageView startno;
-    //
+    //点击数
     private static int pkCount=0;
+//    倒数计时开始
     private static int lastTime=2;
 
     private ImageView light2;
@@ -66,8 +67,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView two;
     private ImageView one;
     private ImageView click;
-
-//    均需网络访问才能赋值
+//    socket赋值
     private ImageView person1;
     private ImageView light1;
     private ImageView icon1;
@@ -83,15 +83,68 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
     private Socket socStatus;
     private Socket socGame;
+    private int SOCSTATUS=200;
+    private int SOCGAME=300;
 
+//    计时器
+    private int x;
+    private int y;
+    private int z;
+    private Thread Threetoone = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                while (lastTime >= 0) {
+                    Thread.sleep(1000);
+                    Message message = Message.obtain();
+                    message.what = lastTime--;
+                    handler.sendMessage(message);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    });
     //倒计时三秒
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
-                case 4:
+//                计时器
+                case 400://SOCGAME
+                    if (x>0||y>0||z>0){
+                        if (z==0&&y>0){
+                            z=59;
+                        }else if(z==0&&y==0){
+                            z=59;
+                            y=59;
+                        }else {
+                            z--;
+                        }
+                        tv1_timer.setText(x/10+"");
+                        tv2_timer.setText(x%10+"");
+                        tv3_timer.setText(y/10+"");
+                        tv4_timer.setText(y%10+"");
+                        tv5_timer.setText(z/10+"");
+                        tv6_timer.setText(z%10+"");
+                    }else{
+                        isGaming=false;
+                        gametime=System.currentTimeMillis()-gametime;
+                        addrecord();
+                        try {
+                            socGame.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
-                case 3:
+                case 300://SOCGAME
+
+                    break;
+                case 200://SOCSTATUS
+//假如是非房主  游戏开始 倒计时
+                    readyno.setVisibility(View.INVISIBLE);
+//                    Threetoone.start();
                     break;
                 case 2:
                     three.setVisibility(View.INVISIBLE);
@@ -102,7 +155,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     one.setVisibility(View.VISIBLE);
                     break;
                 case 0:
-
                     one.setVisibility(View.INVISIBLE);
                     click.setVisibility(View.VISIBLE);
                     click.setClickable(true);
@@ -112,10 +164,28 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                    请求成功的话
 //                    pkCount=0;
                     isGaming=true;
+//                    倒计时开始
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                while(isGaming){
+                                    Thread.sleep(1000);
+                                    Message message=Message.obtain();
+                                    message.what=400;
+                                    handler.sendMessage(message);
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
                     break;
             }
         }
     };
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,10 +241,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         light3 = findViewById(R.id.iv_light_three_pkmodel);
         icon3 = findViewById(R.id.iv_icon_three_pkmodel);
         name3 = findViewById(R.id.tv_name_three_pkmodel);
-
+//邀请好有监听
         name1.setOnClickListener(this);
         name3.setOnClickListener(this);
-
 //点击按钮
         click = findViewById(R.id.iv_click_pkmodel);
 //倒计时
@@ -202,8 +271,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         }
 //        开启新线程来监听
 //        socket连接  两个  一个监听状态 一个监听游戏数据 192.168.1.153:8081/shakeLeg/user/aaa
-
+            new StatusThread().run();
     }
+//    处理房间状态的socket线程
     private class StatusThread extends Thread{
         @Override
         public void run() {
@@ -223,6 +293,10 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                    JSONObject jo=new JSONObject(split[3]);
 //                    String type = jo.getString("type");
 //                    对界面进行修改 影响  用handler
+                    Message message = handler.obtainMessage();
+                    message.obj=is.toString();
+                    message.what=SOCSTATUS;
+                    handler.sendMessage(message);
                 }
                 socStatus.close();
             } catch (IOException e) {
@@ -233,12 +307,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //            }
         }
     }
+//    处理游戏中的socket信息线程
     private class GameThread extends Thread{
         @Override
         public void run() {
             try {
                 socGame = new Socket("192.168.1.153",8081);//????????????????
-                while (!isGaming){
+                while (isGaming){
                     InputStream is = socGame.getInputStream();
                     Log.e("=============", "initView: "+is.toString());
 //                    数据字符串处理
@@ -278,8 +353,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_timer_pk:
-//                非游戏状态下  计时器有点击事件
-                if (!isGaming)
+//                非游戏状态下  计时器有点击事件 非房主无反应
+                if (!isGaming||!isHost)
                     pvCustomTime.show();
                 break;
             case R.id.iv_sure_pkmodel:
@@ -295,6 +370,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     tv6_timer.setText(String.valueOf(0));
                     return;
                 }
+//上传时间
+                String time=tv1_timer.getText().toString()+ tv2_timer.getText()+":"+
+                            tv3_timer.getText()+tv4_timer.getText()+":"+
+                            tv5_timer.getText()+ tv6_timer.getText();
+                requestTime(time);
                 break;
             case R.id.iv_exit_pkmodel:
                 exitRoom();
@@ -305,44 +385,73 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 startyes.setVisibility(View.INVISIBLE);
                 three.setVisibility(View.VISIBLE);
 //                倒计时 开始游戏
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            while(lastTime>=0){
-                                Thread.sleep(1000);
-                                Message message=Message.obtain();
-                                message.what=lastTime--;
-                                handler.sendMessage(message);
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+                requestStart();
+                Threetoone.start();
                 break;
             case R.id.iv_readyyes_pkmodel:
-//                准备好了
+//               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
-
+                changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount);
                 break;
-//                进入好友邀请界面  /shakeLeg/user/inviteFriend 进入好友列表页面开启接口
             case R.id.tv_name_one_pkmodel:
-                if (name1.getText()=="邀请好友")
-
-                break;
             case R.id.tv_name_three_pkmodel:
-                if (name3.getText()=="邀请好友")
+                if (!name1.getText().equals("邀请好友"))
+                    return;
+                if (!name3.getText().equals("邀请好友"))
+                    return;
+//                进入好友邀请界面  /shakeLeg/user/inviteFriend 进入好友列表页面开启接口
 
                     break;
         }
     }
-//创建 房间
+//开始游戏
+    private void requestStart() {
+        OkGo.post(UrlCollect.updateRoom)//
+                .tag(this)//
+                .params("roomId", roomId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        不必提示
+                    }
+                });
+    }
+
+    // 非房主改变状态
+    private void changeStatus() {
+        OkGo.post(UrlCollect.updateRoomStatus)//
+                .tag(this)//
+                .params("userId", MyApplication.USERID)
+                .params("roomId", roomId)
+                .params("status", "2")//0 退出 1 未准备  2 已准备
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        不必提示
+                    }
+                });
+    }
+
+    //房主上传时间
+    private void requestTime(String time) {
+        OkGo.post(UrlCollect.updateRoomTime)//
+                .tag(this)//
+                .params("roomId", MyApplication.USERID)
+                .params("time", time)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        不必提示
+                    }
+                });
+    }
+
+    //创建 房间
     private void addroom() {
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
@@ -388,6 +497,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                     }
                 });
+        try {
+            if (socGame.isConnected())
+                socGame.close();
+            if (socStatus.isConnected())
+                socStatus.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addrecord() {
@@ -438,6 +555,10 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 tv4_timer.setText(String.valueOf(datetime.charAt(4)));
                 tv5_timer.setText(String.valueOf(datetime.charAt(6)));
                 tv6_timer.setText(String.valueOf(datetime.charAt(7)));
+                z=datetime.charAt(6)*10+datetime.charAt(7);
+                y=datetime.charAt(3)*10+datetime.charAt(4);
+                x=datetime.charAt(0)*10+datetime.charAt(1);
+
             }
         })
                 .setDate(selectedDate)
@@ -460,11 +581,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        try {
-//            socket.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        需要保持连接么?掉线重连? 在restart方法中保存数据?pkcount
+        exitRoom();
     }
 }
