@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     >
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@mipmap/top_my_3x"
-        android:gravity="center"
+        android:background="@color/commen_top"
+        android:gravity="center_vertical|left"
         >
         <ImageView
             android:id="@+id/iv_back_detailorders"
@@ -24,7 +28,6 @@
             android:text="订单详情"
             android:textColor="@color/white"
             android:textSize="26dp"
-            android:layout_weight="1"
             />
     </LinearLayout>
     <LinearLayout
@@ -126,6 +129,7 @@
             android:layout_height="70dp"
             android:src="@mipmap/temp_icon"
             android:background="@drawable/bg_goods_myorders"
+            android:scaleType="centerCrop"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -211,6 +215,78 @@
     </LinearLayout>
 
     <!--商品总额-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品总额:"
+                />
+            <TextView
+                android:id="@+id/tv_money_detailorders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="运费"
+                />
+            <TextView
+                android:id="@+id/tv_fare_detailorders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="right|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="实付款:"
+                android:textSize="14dp"
+                />
+            <TextView
+                android:id="@+id/tv_zonge_detailorders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥0.00"
+                android:textColor="#f00"
+                />
+        </LinearLayout>
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -223,11 +299,11 @@
         android:padding="10dp"
         android:gravity="right"
         >
-        <Button
+        <ImageView
             android:id="@+id/btn_shouhou_detailorders"
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:text="申请售后"
+            android:layout_width="84dp"
+            android:layout_height="24dp"
+            android:background="@mipmap/service_myorders_3x"
             />
     </LinearLayout>
     <View
@@ -235,4 +311,5 @@
         android:layout_height="match_parent"
         android:background="@drawable/div_detailorders"
         />
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

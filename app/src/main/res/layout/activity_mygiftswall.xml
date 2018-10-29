@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@mipmap/top_my_3x"
+        android:background="@color/commen_top"
         android:gravity="center"
         >
         <ImageView

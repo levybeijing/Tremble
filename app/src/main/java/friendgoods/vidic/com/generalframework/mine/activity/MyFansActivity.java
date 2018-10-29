@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -17,14 +16,14 @@ import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFans;
-import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
+import friendgoods.vidic.com.generalframework.bean.MyFansBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class MyFansActivity extends Activity {
 
     private RecyclerView rv;
-
+    private AdapterMyFans adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,8 @@ public class MyFansActivity extends Activity {
         rv = findViewById(R.id.rv_fans);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         rv.setLayoutManager(manager);
-
+        adapter = new AdapterMyFans(MyFansActivity.this);
+        rv.setAdapter(adapter);
 
         request();
     }
@@ -59,17 +59,9 @@ public class MyFansActivity extends Activity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         MyFansBean myFansBean = new Gson().fromJson(s, MyFansBean.class);
-                        Log.e("========MyFansActivity", "onSuccess: "+s);
-                        Log.e("========MyFansActivity", "onSuccess: "+(myFansBean.getData().getPageInfo()==null));
+//                        Log.e("========MyFansActivity", "onSuccess: "+s);
                         List<MyFansBean.DataBean.PageInfoBean.ListBean> list = myFansBean.getData().getPageInfo().getList();
-
-                        AdapterMyFans adapter=new AdapterMyFans(MyFansActivity.this,list);
-                        rv.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-
+                        adapter.setData(list);
                     }
                 });
 

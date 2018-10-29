@@ -16,36 +16,97 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
+
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.bean.DetailOrderBean;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class DetailOrdersActivity  extends Activity{
+    private String orderId;
+    private TextView userName;
+    private TextView phone;
+    private ImageView icon;
+    private TextView address;
+    private TextView goodsName;
+    private TextView number;
+    private TextView price,serial;
+    private TextView orderTime,payway;
+    private TextView paytime,tv_money,tv_fare,tv_zonge;
 
-    private TextView tv_weixin;
+
+//    private TextView tv_weixin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailorders);
-
+        orderId = getIntent().getStringExtra("orderId");
         initView();
+        request();
+    }
+
+    private void request() {
+        OkGo.post(UrlCollect.orderDetail)//
+                .tag(this)//
+                .params("orderId", orderId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        Log.e("################", "onSuccess: "+s);
+                        DetailOrderBean detailOrderBean = new Gson().fromJson(s, DetailOrderBean.class);
+                        DetailOrderBean.DataBean data = detailOrderBean.getData();
+                        Picasso.with(DetailOrdersActivity.this).load(UrlCollect.baseIamgeUrl+data.getPhoto()).into(icon);
+                        userName.setText(data.getConsignee());
+                        phone.setText(data.getMobile()+"");
+                        address.setText(data.getSite());
+                        goodsName.setText(data.getGoodsName());
+                        number.setText("X"+data.getNum());
+                        price.setText("￥"+data.getMoney());
+                        serial.setText("订单编号:   "+data.getOrder_uuid());
+                        orderTime.setText("下单时间:   "+data.getCreateTime());
+
+                        tv_money.setText(data.getMoneys());
+//                        tv_fare.setText(data.getCreateTime());
+                        tv_zonge.setText(data.getMoneys());
+
+                    }
+
+                });
     }
 
     private void initView() {
+        findViewById(R.id.iv_back_detailorders).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 //
-        TextView userName = findViewById(R.id.tv_username_orders);
-        TextView phone = findViewById(R.id.tv_phone_orders);
+        userName = findViewById(R.id.tv_username_orders);
+        phone = findViewById(R.id.tv_phone_orders);
+        address = findViewById(R.id.tv_address_orders);
+
+        icon = findViewById(R.id.iv_icon_orders);
+        goodsName = findViewById(R.id.tv_name_orders);
+        number = findViewById(R.id.tv_number_orders);
+        price = findViewById(R.id.tv_price_orders);
 //
-        ImageView icon = findViewById(R.id.iv_icon_orders);
-        TextView goodsName = findViewById(R.id.tv_name_orders);
-        TextView number = findViewById(R.id.tv_number_orders);
-        TextView price = findViewById(R.id.tv_price_orders);
+        serial = findViewById(R.id.tv_serial_orders);
+        orderTime = findViewById(R.id.tv_time_orders);
+        payway = findViewById(R.id.tv_payway_orders);
+        paytime = findViewById(R.id.tv_paytime_orders);
 //
-        TextView serial = findViewById(R.id.tv_serial_orders);
-        TextView orderTime = findViewById(R.id.tv_time_orders);
-        TextView payway = findViewById(R.id.tv_payway_orders);
-        TextView paytime = findViewById(R.id.tv_paytime_orders);
-//
-        Button shouhou = findViewById(R.id.btn_shouhou_detailorders);
+        tv_money = findViewById(R.id.tv_money_detailorders);
+        tv_fare = findViewById(R.id.tv_fare_detailorders);
+        tv_zonge = findViewById(R.id.tv_zonge_detailorders);
+
+        ImageView shouhou = findViewById(R.id.btn_shouhou_detailorders);
         shouhou.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +114,6 @@ public class DetailOrdersActivity  extends Activity{
                 showDialog();
             }
         });
-
-
     }
     @SuppressLint("RestrictedApi")
     public void showDialog() {
@@ -64,8 +123,8 @@ public class DetailOrdersActivity  extends Activity{
 
         final View layout = inflater.inflate(R.layout.dialog_shouhou, null);//获取自定义布局
         Button button = layout.findViewById(R.id.btn_copy_dialog);
-        tv_weixin = layout.findViewById(R.id.tv_weixin_dailog);
-        ImageView iv_erweima= layout.findViewById(R.id.iv_erweima_dialog);
+        final TextView tv_weixin = layout.findViewById(R.id.tv_weixin_dailog);
+//        ImageView iv_erweima= layout.findViewById(R.id.iv_erweima_dialog);
 
         //网络访问 设置
 //        tv_weixin.setText();

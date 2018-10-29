@@ -7,12 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,17 +18,18 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListenerPubWall;
-import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyRecord;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
-import friendgoods.vidic.com.generalframework.mine.bean.IconSetBean;
-import friendgoods.vidic.com.generalframework.mine.bean.MyGiftsListBean;
-import friendgoods.vidic.com.generalframework.mine.bean.MyRecordBean;
+import friendgoods.vidic.com.generalframework.bean.IconSetBean;
+import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
+import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.PileLayout;
@@ -43,12 +41,18 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView rv;
     private AdapterPubWall adapter;
     private RelativeLayout view;
-    private String presentsWallId;
     private PileLayout set;
-    private int top;
-    private int left;
-    private int right;
-    private int bottom;
+    private TextView name;
+    private TextView energy;
+    private ImageView icon;
+    private static double scale;
+    private String receiveId;
+    private String wallId;
+    private StringBuffer yaxle;
+    private StringBuffer xaxle;
+    private StringBuffer gift;
+    //用于网络访问请求收集参数
+    private List<MoveImageView> imageList=new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,36 +60,47 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_publicwall);
 
         Intent intent = getIntent();
-        presentsWallId = intent.getStringExtra("presentsWallId");
-
-//        TextView name = findViewById(R.id.tv_name_pubwall);
-//        name.setText(intent.getStringExtra("name"));
-//        TextView energy = findViewById(R.id.tv_energy_pubwall);
-//        energy.setText(intent.getStringExtra("energy"));
-//        ImageView icon = findViewById(R.id.iv_icon_pubwall);
-//        Picasso.with(PublicWallActivity.this).load(intent.getStringExtra("icon")).into(icon);
-
+        //跳转
+        gift = new StringBuffer();
+        xaxle = new StringBuffer();
+        yaxle = new StringBuffer();
+        receiveId = intent.getStringExtra("userId");
+        wallId = intent.getStringExtra("wallId");
         initView();
     }
 
     private void initView() {
+
+        name = findViewById(R.id.tv_name_pubwall);
+        energy = findViewById(R.id.tv_energy_pubwall);
+        icon = findViewById(R.id.iv_icon_pubwall);
+
         findViewById(R.id.iv_makesure_pubwall).setOnClickListener(this);
         findViewById(R.id.iv_mall_pubwall).setOnClickListener(this);
-
-        //设置头像集合  获取好友ID  网络访问
+        //头像集
         set = findViewById(R.id.customiconset_pubwall);
-        //获取定位
+        //容器
         view = findViewById(R.id.container_pubwall);
-        top = view.getTop();
-        left = view.getLeft();
-        right = view.getRight();
-        bottom = view.getBottom();
+
         rv = findViewById(R.id.rv_pubwall);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(manager);
         adapter = new AdapterPubWall(PublicWallActivity.this);
         rv.setAdapter(adapter);
+        //用户信息
+        OkGo.post(UrlCollect.persenalDetail)//
+                .tag(this)//
+                .params("userId", receiveId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        UserInfoBean infoBean = new Gson().fromJson(s, UserInfoBean.class);
+                        name.setText(infoBean.getData().getName());
+                        energy.setText(infoBean.getData().getIntegral()+"");
+                        Picasso.with(PublicWallActivity.this).load(infoBean.getData().getPhoto()).into(icon);
+                    }
+                });
         //底部礼物集合
         OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
@@ -93,87 +108,113 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("********************", "onSuccess: "+s);
                         MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
                         List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
                         adapter.setData(data);
                     }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                    }
                 });
         //头像集访问
-//        OkGo.post(UrlCollect.iconsOfSendGift)//
-//                .tag(this)//
-//                .params("presentsWallId", presentsWallId)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-//                        IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
-//                        List<IconSetBean.DataBean> data = iconSetBean.getData();
-//
-//                        for (int i = 0; i < data.size(); i++) {
-//                            CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
-//                            Picasso.with(PublicWallActivity.this).load(data.get(i).getPhoto()).into(imageView);
-//                            set.addView(imageView);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-//                    }
-//                });
+        OkGo.post(UrlCollect.iconsOfSendGift)//
+                .tag(this)//
+                .params("presentsWallId", receiveId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
+                        List<IconSetBean.DataBean> data = iconSetBean.getData();
+                        for (int i = 0; i < data.size(); i++) {
+                            CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
+                            Picasso.with(PublicWallActivity.this).load(data.get(i).getPhoto()).into(imageView);
+                            set.addView(imageView);
+                        }
+                    }
+                });
 
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
+
             @Override
-            public void onItemClick(String sx,String sy,String surl) {
+            public void onItemClick(String sx,String sy,String surl,String id) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
-//                Display defaultDisplay = getWindow().getWindowManager().getDefaultDisplay();
 
                 DisplayMetrics dm = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
-                //获取活动区外的空间高度
-                int dpi = dm.densityDpi;
-                int gap = dpi / 160*150;
-                Log.e("ddddddpppppppp", "onItemClick: "+dpi);
-
-                int heightPixels = dm.heightPixels;
-                int widthPixels = dm.widthPixels;
-
-//                int width = defaultDisplay.getWidth();
-//                int height = defaultDisplay.getHeight();
+                //获取
+//                int dpi = dm.densityDpi;
                 //图片尺寸放大缩小比率
-                double scale=widthPixels/325;
+                scale = view.getWidth()/325;
+//                Log.e("#############", "onItemClick: "+scale);
                 //实际图片尺寸
-                int realwidth= (int) (x*scale);
-                int realheight= (int) (y*scale);
-
-                //增加子控件  随机位置  可拖动  可以传输限定位置
-                MoveImageView iv=new MoveImageView(PublicWallActivity.this,widthPixels,heightPixels-gap);
-                Picasso.with(PublicWallActivity.this).load("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3311496021,2379882468&fm=27&gp=0.jpg").into(iv);
-                view.addView(iv);
+                int realwidth= (int) (x* scale);
+                int realheight= (int) (y* scale);
+                //获取限定范围 以父控件为参照
+                int left = view.getLeft();
+                int top = view.getTop();
+                int right = view.getRight();
+                int bottom = view.getBottom();
+                //传入父控件的左上右下
+                MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
                 //加载图片
-
+                Picasso.with(PublicWallActivity.this).load("http://wx1.sinaimg.cn/orj360/006pnLoLgy1ft6yichmarj30j60j675x.jpg").into(iv);
+                //传入自己的真实像素
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                        360, 360);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
+                //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
+                int xx=new Random().nextInt(right-left-360);
+                lp.leftMargin=xx;
+                int yy = new Random().nextInt(bottom - top - 360);
+                lp.topMargin= yy;
+                //设置布局参数
+                iv.setLayoutParams(lp);
+                //加载控件
+                view.addView(iv);
+                //?????网络访问的集合
+                imageList.add(iv);
+                //?????如何收集参数
+                if (gift.length()==0){
+                    yaxle.append(iv.getTop()/scale);
+                    xaxle.append(iv.getLeft()/scale);
+                    gift.append(id);
+                }else{
+                    yaxle.append(","+iv.getTop()/scale);
+                    xaxle.append(","+iv.getLeft()/scale);
+                    gift.append(","+id);
+                }
             }
         });
-
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_makesure_pubwall:
-                //获取容器内所有控件 获取位置
-                //点击上传 并清除容器内容 容器置为空
+                //TODO:获取容器内所有控件 获取位置点击上传
 
-
+                OkGo.post(UrlCollect.sendGift)//
+                        .tag(this)//
+                        .params("giftId", String.valueOf(gift))//
+                        .params("userId",receiveId)//接收人ID
+                        .params("fansId", MyApplication.USERID)
+                        .params("xaxle", String.valueOf(xaxle))//
+                        .params("yaxle", String.valueOf(yaxle))//
+                        .params("presentsWallId",wallId)//墙的ID
+                        .params("status","0")
+                        .params("url","")//status为1的时候上传
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                //TODO:假如成功 清屏 失败的操作?本地保存?网络断是否有数据?
+//                                Log.e("!!!!!!!!!!!!!!!!!!!!", "onSuccess: "+s);
+                                view.removeAllViews();
+                            }
+                        });
                 break;
             case R.id.iv_mall_pubwall:
                 //跳转
-
+                startActivity(new Intent(PublicWallActivity.this,MallActivity.class));
+                view.removeAllViews();
                 break;
         }
 

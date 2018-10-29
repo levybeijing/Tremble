@@ -12,29 +12,47 @@ import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerAddress;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyAddresses;
-import friendgoods.vidic.com.generalframework.mine.bean.AddressesBean;
-import friendgoods.vidic.com.generalframework.mine.bean.DetailGoodsBean;
+import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class MyAddressesActivity extends Activity {
-    private static final int RETURNCODE=1000;
     private RecyclerView rv;
-
+    private AdapterMyAddresses adapter;
+    //是否是回传数据
+    private boolean retun=false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myaddresses);
 
+        Intent intent = getIntent();
+        retun=intent.getBooleanExtra("forResult",false);
         initView();
+        adapter.setOnItemClickListener(new OnItemClickListenerAddress() {
+            @Override
+            public void onItemClick(AddressesBean.DataBean i) {
+                if (retun){
+                    retun=!retun;
+                    Intent intent=new Intent();
+                    intent.putExtra("bean",i);
+                    setResult(10000,intent);
+                    finish();
+                }
+            }
+        });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         request();
     }
 
@@ -47,13 +65,7 @@ public class MyAddressesActivity extends Activity {
                     public void onSuccess(String s, Call call, Response response) {
                         AddressesBean addressesBean = new Gson().fromJson(s, AddressesBean.class);
                         List<AddressesBean.DataBean> data = addressesBean.getData();
-                        AdapterMyAddresses adapter=new AdapterMyAddresses(MyAddressesActivity.this,data);
-                        rv.setAdapter(adapter);
-                    }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-
+                        adapter.setData(data);
                     }
                 });
 
@@ -72,7 +84,12 @@ public class MyAddressesActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ///跳转
-                startActivityForResult(new Intent(MyAddressesActivity.this,AddAddressActivity.class),RETURNCODE);
+//                if (retun){
+//                    retun=!retun;
+//                    finish();
+//                }else{
+//                }
+                startActivity(new Intent(MyAddressesActivity.this,AddAddressActivity.class));
             }
         });
 
@@ -80,10 +97,9 @@ public class MyAddressesActivity extends Activity {
         rv = findViewById(R.id.rv_myaddress);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         rv.setLayoutManager(manager);
-
+        adapter = new AdapterMyAddresses(MyAddressesActivity.this);
+        rv.setAdapter(adapter);
     }
 
-
-    //onactivity
 
 }

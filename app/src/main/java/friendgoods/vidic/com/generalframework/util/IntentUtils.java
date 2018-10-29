@@ -2,21 +2,9 @@ package friendgoods.vidic.com.generalframework.util;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import friendgoods.vidic.com.generalframework.MainActivity;
-import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.SpleashActivity;
-
-import static android.R.attr.entries;
 import static friendgoods.vidic.com.generalframework.MyApplication.getApplication;
 
 public class IntentUtils {

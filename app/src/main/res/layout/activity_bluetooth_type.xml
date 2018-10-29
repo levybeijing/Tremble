@@ -59,6 +59,7 @@
         android:layout_marginTop="35dp"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_gotohand_bluelink"
             android:layout_width="280dp"
             android:layout_height="48dp"
             android:textSize="18dp"
@@ -67,6 +68,7 @@
             android:background="@mipmap/button_bg"
             android:text="手动抖动"/>
         <TextView
+            android:id="@+id/tv_settings_bluelink"
             android:layout_marginTop="20dp"
             android:layout_width="280dp"
             android:layout_height="48dp"

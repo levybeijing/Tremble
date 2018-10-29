@@ -13,31 +13,40 @@
         <TextView
             android:id="@+id/tv_count_rv_myrecord"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="次数"
             />
         <TextView
             android:id="@+id/tv_time_rv_myrcord"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:text="时长"
             />
         <TextView
             android:id="@+id/tv_rank_rv_myrcord"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
+            android:gravity="center"
+            android:text="总排名"
             />
         <TextView
             android:id="@+id/tv_type_rv_myrcord"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:text="类型"
             />
     </LinearLayout>
-    <View
+    <ImageView
+        android:id="@+id/iv_line_myrecord"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@drawable/div_next_"
+        android:src="@mipmap/line_mine_3x"
         />
 </LinearLayout>

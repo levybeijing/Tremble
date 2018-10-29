@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:padding="15dp"
+            android:gravity="center_vertical"
             >
             <ImageView
                 android:id="@+id/iv_goods_dialog"
@@ -37,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:text="商品名称"
                     android:textSize="12dp"
+                    android:layout_margin="5dp"
                     />
                 <TextView
                     android:id="@+id/tv_price_dialog"
@@ -45,14 +47,15 @@
                     android:text="$129.00"
                     android:textColor="#f00"
                     android:textSize="15dp"
+                    android:layout_margin="5dp"
                     />
-
             </LinearLayout>
             <ImageView
                 android:id="@+id/iv_close_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/close_detailgoods_3x"
+                android:layout_marginBottom="15dp"
                 />
         </LinearLayout>
 
@@ -70,6 +73,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/lin_first"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -77,18 +82,19 @@
                 android:layout_weight="1"
                 android:text="购买数量"
                 android:layout_marginLeft="10dp"
+                android:textSize="18dp"
                 />
             <ImageView
                 android:id="@+id/iv_reduce_dialog"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:background="@mipmap/reduceone_detailgoods_3x"
                 android:layout_marginRight="5dp"
                 />
             <EditText
                 android:id="@+id/et_number_dialog"
                 android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_height="24dp"
                 android:background="@drawable/bg_buy_mall"
                 android:text="5"
                 android:textSize="12dp"
@@ -97,10 +103,10 @@
                 />
             <ImageView
                 android:id="@+id/iv_add_dialog"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:background="@mipmap/addone_detailgoods_3x"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="15dp"
                 />
 
         </LinearLayout>

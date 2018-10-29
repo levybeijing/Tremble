@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@mipmap/top_my_3x"
+        android:background="@color/commen_top"
         android:gravity="center"
         >
         <ImageView
@@ -31,90 +31,120 @@
     <!--地址编辑部分-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:padding="10dp"
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="收货人"
             />
         <EditText
-            android:id="@+id/edit_name_editaddress"
+            android:id="@+id/edit_name_addaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="姓名"
+            android:background="@null"
+            android:focusable="true"
+            android:textSize="12dp"
             />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:padding="10dp"
+
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+
             android:layout_height="wrap_content"
             android:text="联系电话"
             />
         <EditText
-            android:id="@+id/edit_phone_editaddress"
+            android:id="@+id/edit_phone_addaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="手机号码"
+            android:background="@null"
+            android:focusable="true"
+            android:textSize="12dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="收件地区"
             />
         <EditText
-            android:id="@+id/edit_district_editaddress"
+            android:id="@+id/edit_district_addaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="收件地区"
+            android:background="@null"
+            android:focusable="true"
+            android:textSize="12dp"
+
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+
             android:layout_height="wrap_content"
             android:text="详细地址"
             />
         <EditText
-            android:id="@+id/edit_detailaddress_editaddress"
+            android:id="@+id/edit_detailaddress_addaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="如街道/小区门牌等"
+            android:background="@null"
+            android:focusable="true"
+            android:textSize="12dp"
             />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+
         >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="设为默认"
+            android:layout_weight="1"
             />
         <Switch
-            android:id="@+id/switch_default_editaddress"
+            android:id="@+id/switch_default_addaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -122,7 +152,7 @@
 
 
     <ImageView
-        android:id="@+id/save_addaddress"
+        android:id="@+id/iv_save_addaddress"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@mipmap/save_addaddress_3x"

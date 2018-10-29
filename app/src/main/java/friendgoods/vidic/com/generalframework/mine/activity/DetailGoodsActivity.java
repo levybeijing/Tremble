@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.CustomDialogBottom;
-import friendgoods.vidic.com.generalframework.mine.bean.DetailGoodsBean;
+import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -25,11 +25,16 @@ public class DetailGoodsActivity extends AppCompatActivity {
 
     private String goodsId;
     private ImageView iv_top;
-    private ImageView iv_bottom;
+    private ImageView iv_bottom1;
+    private ImageView iv_bottom2;
+
     private ImageView share;
     private TextView name;
     private TextView price;
     private TextView fareprice;
+
+    private String pricedialog;
+    private DetailGoodsBean.DataBean data;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,11 +42,11 @@ public class DetailGoodsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailgoods);
 
         Intent intent = getIntent();
+        //
         goodsId = intent.getStringExtra("goodsId");
-
         initView();
-
-        request();
+        if (this.goodsId !=null)
+            request();
     }
 
     private void request() {
@@ -53,17 +58,16 @@ public class DetailGoodsActivity extends AppCompatActivity {
                     public void onSuccess(String s, Call call, Response response) {
                         //暂时没有数据
                         DetailGoodsBean bean = new Gson().fromJson(s, DetailGoodsBean.class);
-                        Picasso.with(DetailGoodsActivity.this).load(bean.getData().getPhoto1()).into(iv_top);
-                        Picasso.with(DetailGoodsActivity.this).load(bean.getData().getPhoto2()).into(iv_bottom);
-                        name.setText(bean.getData().getName());
-                        price.setText(bean.getData().getMoney()+"");
-                        //积分
-                        int jifen = bean.getData().getIntegral();
-                    }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-
+                        data = bean.getData();
+                        Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+ data.getPhoto()).into(iv_top);
+//                        TODO:图片加载
+//                          String photo1 = bean.getData().getPhoto1();
+//                        Log.e("$$$$$$$$$$$$$$$$$$$$$", "onSuccess: "+photo1);
+//                        Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+bean.getData().getPhoto1()[0]).into(iv_bottom1);
+//                        Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+bean.getData().getPhoto2()).into(iv_bottom2);
+                        name.setText(data.getName());
+                        pricedialog = "￥"+ data.getMoney();
+                        price.setText(pricedialog);
                     }
                 });
 
@@ -79,7 +83,8 @@ public class DetailGoodsActivity extends AppCompatActivity {
         });
 
         iv_top = findViewById(R.id.iv_top_detailgoods);
-        iv_bottom = findViewById(R.id.iv_back_detailgoods);
+        iv_bottom1 = findViewById(R.id.iv_bottom1_detailgoods);
+        iv_bottom2 = findViewById(R.id.iv_bottom2_detailgoods);
 
         name = findViewById(R.id.tv_name_detailgoods);
         price = findViewById(R.id.tv_price_detailgoods);
@@ -96,7 +101,9 @@ public class DetailGoodsActivity extends AppCompatActivity {
         iv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new CustomDialogBottom(DetailGoodsActivity.this).showAtLocation(DetailGoodsActivity.this.findViewById(R.id.root_detailgoods), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                new CustomDialogBottom(DetailGoodsActivity.this,data)
+                        .showAtLocation(DetailGoodsActivity.this.findViewById(R.id.root_detailgoods),
+                                Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
     }

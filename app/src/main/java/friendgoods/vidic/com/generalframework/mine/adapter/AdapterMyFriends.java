@@ -14,22 +14,26 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
-import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
-import friendgoods.vidic.com.generalframework.mine.bean.MyFriendsBean;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
+import friendgoods.vidic.com.generalframework.bean.MyFriendsBean;
 
 public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyViewHolder> {
     private Context context;
-    private OnItemClickListener itemClickListener;
+    private OnItemClickListenerPosition itemClickListener;
     private List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list;
-    public AdapterMyFriends(Context context_, List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list_) {
+    public AdapterMyFriends(Context context_) {
         context=context_;
-        list=list_;
+
     }
 
-//    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
-//        itemClickListener=itemClickListene_;
-//    }
+    public void setOnItemClickListener(OnItemClickListenerPosition itemClickListene_){
+        itemClickListener=itemClickListene_;
+    }
+
+    public void setData(List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list_){
+        list=list_;
+        notifyDataSetChanged();
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,7 +43,7 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         switch (position){
             case 0:
                 Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
@@ -58,6 +62,19 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
         holder.tv_time.setText(list.get(position).getTime());
         holder.tv_count.setText(list.get(position).getShakeNum()+"");
         Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
+        
+        View itemView = holder.itemView;
+
+        if (itemClickListener != null) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int userId = list.get(position).getUserId();
+//                    int position = holder.getLayoutPosition();
+                    itemClickListener.onItemClick(userId);
+                }
+            });
+        }
     }
 
     @Override
@@ -65,20 +82,11 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
         return super.getItemViewType(position);
     }
 
-    //        View itemView = ((RelativeLayout) holder.itemView).getChildAt(0);
-//
-//        if (itemClickListener != null) {
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = holder.getLayoutPosition();
-//                    itemClickListener.onItemClick(position);
-//                }
-//            });
-//        }
-
     @Override
     public int getItemCount() {
+        if (list==null){
+            return 0;
+        }
         return list.size();
     }
 
@@ -91,9 +99,7 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
             super(view);
             iv_rank = view.findViewById(R.id.iv_item1_myfriends);
             tv_rank = view.findViewById(R.id.tv_item1_myfriends);
-
             iv_icon= view.findViewById(R.id.iv_icon_myfriends);
-
             tv_name= view.findViewById(R.id.tv_name_myfriends);
             tv_time = view.findViewById(R.id.tv_time_myfriends);
             tv_count = view.findViewById(R.id.tv_count_myfriends);

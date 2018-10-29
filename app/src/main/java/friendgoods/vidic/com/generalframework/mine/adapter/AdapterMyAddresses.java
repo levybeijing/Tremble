@@ -11,17 +11,26 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerAddress;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.mine.activity.EditAddressActivity;
-import friendgoods.vidic.com.generalframework.mine.bean.AddressesBean;
+import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 
 public class AdapterMyAddresses extends RecyclerView.Adapter {
     private Context context;
     private List<AddressesBean.DataBean> list;
-
-    public AdapterMyAddresses(Context context_, List<AddressesBean.DataBean> data) {
+    private OnItemClickListenerAddress onItemClickListener;
+    public AdapterMyAddresses(Context context_) {
         context=context_;
+    }
+
+    public void setData(List<AddressesBean.DataBean> data){
         list=data;
+        notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListenerAddress onItemClickListener_){
+        onItemClickListener=onItemClickListener_;
     }
 
     @Override
@@ -31,26 +40,37 @@ public class AdapterMyAddresses extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         //假如是默认地址
         if (position==0){
             ((MyViewHolder)holder).tv_default.setVisibility(View.VISIBLE);
         }
-        ((MyViewHolder)holder).tv_name.setText(list.get(position).getUserId());
+        ((MyViewHolder)holder).tv_name.setText(list.get(position).getUserId()+"");
         ((MyViewHolder)holder).tv_phone.setText(list.get(position).getMobile());
         ((MyViewHolder)holder).tv_detail.setText(list.get(position).getSite());
 
         ((MyViewHolder)holder).iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:传递并返回
-                context.startActivity(new Intent(context, EditAddressActivity.class));
+                Intent intent = new Intent(context, EditAddressActivity.class);
+                intent.putExtra("bean",list.get(position));
+                context.startActivity(intent);
+            }
+        });
+        View itemView = ((MyViewHolder) holder).itemView;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(list.get(position));
             }
         });
     }
 
     @Override
     public int getItemCount() {
+        if (list==null){
+            return 0;
+        }
         return list.size();
     }
 

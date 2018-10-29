@@ -1,19 +1,41 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "friendgoods.vidic.com.generalframework"
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        debug {
+            storeFile file("../tremble.jks")
+            storePassword '123456'
+            keyAlias 'tremble'
+            keyPassword '123456'
+        }
+
+        release {
+            storeFile file("../tremble.jks")
+            storePassword '123456'
+            keyAlias 'tremble'
+            keyPassword '123456'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+            abortOnError false
         }
     }
 }
@@ -23,24 +45,15 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:appcompat-v7:26.+'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.lzy.net:okgo:2.0.0'
-    //可以单独使用，不需要依赖下方的扩展包
-    implementation 'com.lzy.net:okrx:0.1.0'
-    //RxJava扩展支持，根据需要添加
-    implementation 'com.lzy.net:okserver:1.1.0'
-    //下载管理和上传管理扩展，根据需要添加
     implementation 'com.google.code.gson:gson:2.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'io.reactivex:rxandroid:1.1.0'
     implementation 'io.reactivex:rxjava:1.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.clj.fastble:FastBleLib:2.3.2'
+    implementation 'com.android.support:design:27.1.0'
     implementation 'com.contrarywind:Android-PickerView:3.2.7'
-    //图片加载框架fresco
-    implementation 'com.facebook.fresco:fresco:0.12.0'
-    // 支持 GIF 动图，需要添加
-    implementation 'com.facebook.fresco:animated-gif:0.12.0'
-    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

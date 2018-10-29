@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="friendgoods.vidic.com.generalframework">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--震动器-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!--蓝牙-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -19,47 +26,93 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".activity.SpleashActivity">
-
-        </activity>
-        <activity android:name=".MainActivity" android:screenOrientation="sensorPortrait"/>
-        <activity android:name=".activity.LoginActivity" android:screenOrientation="sensorPortrait"/>
-        <activity android:name=".activity.BluetoothTypeActivity" android:screenOrientation="sensorPortrait"/>
-        <activity android:name=".activity.PKHoseActivity" android:screenOrientation="sensorPortrait"/>
-
-        <!--mine-->
-        <activity android:name=".mine.activity.SettingsActivity">
-        </activity>
-        <activity android:name=".mine.activity.MallActivity">
-        </activity>
-        <activity android:name=".mine.activity.AddAddressActivity"></activity>
-        <activity android:name=".mine.activity.EditAddressActivity"></activity>
-        <activity android:name=".mine.activity.MyAddressesActivity"></activity>
-        <activity android:name=".mine.activity.MyFansActivity">
-
-        </activity>
-        <activity android:name=".mine.activity.MyFriendsActivity"></activity>
-        <activity android:name=".mine.activity.MyGiftsActivity"></activity>
-        <activity android:name=".mine.activity.MyOrdersActivity"></activity>
-        <activity android:name=".mine.activity.MyRecordActivity"></activity>
-        <activity android:name=".mine.activity.MyVIPWallActivity"></activity>
-        <!--次页面-->
-        <activity android:name=".mine.activity.DetailGoodsActivity">
-
-        </activity>
-        <activity android:name=".mine.activity.DetailOrdersActivity">
-
-        </activity>
-        <activity android:name=".mine.activity.PublicWallActivity">
-            <intent-filter>p=
+        <!--欢迎页面-->
+        <activity android:name=".activity.SpleashActivity"
+            android:theme="@style/Theme.Splash"
+            >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--登录注册 个人信息页面-->
+        <activity android:name=".activity.LoginPWDActivity"
+            android:screenOrientation="sensorPortrait"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.LoginCodeActivity"
+            android:screenOrientation="sensorPortrait"
+            android:launchMode="singleTask"
+            />
+        <activity android:name=".activity.RegisterActivity"
+            android:screenOrientation="sensorPortrait"
+            android:launchMode="singleTask"
+           />
+        <activity android:name=".activity.IntroduceActivity"></activity>
+        <activity android:name=".activity.SexChooseActivity"></activity>
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            />
+        <!--主页-->
+        <activity android:name=".activity.MainActivity" android:screenOrientation="sensorPortrait">
+            <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="friendgoods.vidic.com" android:scheme="android"/>
+            </intent-filter>
+        </activity>
+        <!--mine-->
+        <activity android:name=".mine.activity.SettingsActivity"></activity>
+        <activity android:name=".mine.activity.MallActivity"></activity>
+        <activity android:name=".mine.activity.AddAddressActivity"></activity>
+        <activity android:name=".mine.activity.EditAddressActivity"></activity>
+        <activity android:name=".mine.activity.MyAddressesActivity"></activity>
+        <activity android:name=".mine.activity.MyFansActivity"></activity>
+        <activity android:name=".mine.activity.MyFriendsActivity"></activity>
+        <activity android:name=".mine.activity.MyGiftsActivity"></activity>
+        <activity android:name=".mine.activity.MyOrdersActivity"></activity>
+        <activity android:name=".mine.activity.MyRecordActivity"></activity>
+        <activity android:name=".mine.activity.MyPubWallActivity"></activity>
+        <!--次页面-->
+        <activity android:name=".mine.activity.DetailGoodsActivity"></activity>
+        <activity android:name=".mine.activity.DetailOrdersActivity"></activity>
+        <activity android:name=".mine.activity.PublicWallActivity"></activity>
+        <activity android:name=".mine.activity.VIPGiftsWallActivity"></activity>
+        <activity android:name=".mine.activity.FriendNameActivity"></activity>
+        <activity android:name=".mine.activity.FansBangActivity"></activity>
+        <activity android:name=".mine.activity.PersonRecordActivity"></activity>
+        <activity android:name=".mine.activity.VIPSendWallActivity"></activity>
+        <activity android:name=".mine.activity.CommitOrderActivity"></activity>
 
-        <activity android:name=".mine.activity.VIPGiftsWallActivity">
+        <!--蓝牙功能-->
+        <activity android:name="._idle.BluetoothTypeActivity" android:screenOrientation="sensorPortrait"/>
+        <activity android:name="._idle.BluetoothListActivity"></activity>
+        <!--四大模式-->
+        <activity android:name=".activity.StoryModelActivity"></activity>
+        <activity android:name=".activity.RelaxModelActivity"></activity>
+        <activity android:name=".activity.ChallengeModelActivity"></activity>
+        <activity android:name=".activity.PKModelActivity"></activity>
+        <!--微信-->
+        <activity android:name=".activity.WXListActivity"
+            android:exported="true"
+            ></activity>
+        <activity android:name=".activity.WXLoginActivity">
 
         </activity>
+
+        <!--音乐播放-->
+        <service android:name=".musicplay.DownloadService" android:exported="false"></service>
+        <service android:name=".musicplay.MusicService" android:exported="false"></service>
+
+        <receiver android:name=".musicplay.MusicReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ServiceStart" /><!-- 广播接收的Intent -->
+                <action android:name="android.intent.action.ServiceEnd" /><!-- 广播接收的Intent -->
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

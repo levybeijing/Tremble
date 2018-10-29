@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@mipmap/top_my_3x"
+        android:background="@color/commen_top"
         android:gravity="center"
         >
         <ImageView
@@ -112,6 +112,7 @@
 
             />
         <TextView
+            android:id="@+id/tv_weixin_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已绑定"

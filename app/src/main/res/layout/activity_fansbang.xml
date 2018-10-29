@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/commen_top"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/iv_back_fansbang"
+            android:layout_width="14dp"
+            android:layout_height="24dp"
+            android:background="@mipmap/back_top_3x"
+            android:layout_margin="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="粉丝霸榜"
+            android:textColor="@color/white"
+            android:textSize="26dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_top_fansbang"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:layout_margin="10dp"
+        android:id="@+id/rv_bottom_fansbang"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_fansbang"
+        />
+</LinearLayout>

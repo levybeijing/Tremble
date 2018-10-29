@@ -14,16 +14,15 @@
         >
         <ImageView
             android:id="@+id/iv_item1_myfriends"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginRight="10dp"
             />
         <TextView
             android:id="@+id/tv_item1_myfriends"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             />
     </FrameLayout>

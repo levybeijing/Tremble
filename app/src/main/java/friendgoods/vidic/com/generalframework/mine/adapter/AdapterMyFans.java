@@ -14,20 +14,22 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
-import friendgoods.vidic.com.generalframework.mine.bean.MyFansBean;
+import friendgoods.vidic.com.generalframework.bean.MyFansBean;
 
 public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHolder> {
     private Context context;
-    private OnItemClickListener itemClickListener;
+//    private OnItemClickListenerMine itemClickListener;
     private List<MyFansBean.DataBean.PageInfoBean.ListBean> list;
 
-    public AdapterMyFans(Context context_, List<MyFansBean.DataBean.PageInfoBean.ListBean> list_) {
+    public AdapterMyFans(Context context_) {
         context=context_;
-        list=list_;
     }
 
-//    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
+    public void setData(List<MyFansBean.DataBean.PageInfoBean.ListBean> list_){
+        list=list_;
+        notifyDataSetChanged();
+    }
+//    public void setOnItemClickListener(OnItemClickListenerMine itemClickListene_){
 //        itemClickListener=itemClickListene_;
 //    }
 
@@ -43,7 +45,6 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
         switch (position){
             case 0:
                 Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
-
                 break;
             case 1:
                 Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
@@ -82,6 +83,9 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
 
     @Override
     public int getItemCount() {
+        if (list==null){
+            return 0;
+        }
         return list.size();
     }
 

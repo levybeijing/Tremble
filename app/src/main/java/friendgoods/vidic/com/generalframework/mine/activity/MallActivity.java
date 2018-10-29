@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +24,7 @@ public class MallActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mall);
+        setContentView(R.layout.activity_mall);
         initView();
     }
 
@@ -36,13 +37,13 @@ public class MallActivity extends AppCompatActivity{
             }
         });
         //通过网络访问设置金币数量
-        TextView tv_number = findViewById(R.id.tv_smallTitle);
-
+        TextView tv_number = findViewById(R.id.tv_numberofcoin);
+        tv_number.setText(getIntent().getStringExtra("number"));
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //转移到我的礼物的界面
+                startActivity(new Intent(MallActivity.this,MyGiftsActivity.class));
             }
         });
         //
@@ -74,24 +75,6 @@ public class MallActivity extends AppCompatActivity{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             iv2.setBackground(getResources().getDrawable(R.mipmap.gift_noselete_3x));//设置tab上的文字
         }
-        //TODO:设置动画
-//        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                tab.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(true);
-//                vp.setCurrentItem(tab.getPosition());
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//                tab.getCustomView().findViewById(R.id.iv_item_tab_mall).setSelected(false);
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
 
     }
 }

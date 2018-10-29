@@ -14,16 +14,22 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
-import friendgoods.vidic.com.generalframework.mine.bean.GoodsRecommendBean;
+import friendgoods.vidic.com.generalframework.bean.GoodsRecommendBean;
 
 public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<GoodsRecommendBean.DataBean.PageInfoBean.ListBean> list;
 
-    public AdapterRecommendMall(Context context_, List<GoodsRecommendBean.DataBean.PageInfoBean.ListBean> list_) {
+    public AdapterRecommendMall(Context context_) {
         context=context_;
+
+    }
+
+    public void setData(List<GoodsRecommendBean.DataBean.PageInfoBean.ListBean> list_){
         list=list_;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,18 +46,22 @@ public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.View
                 //跳转到详情页面 并弹窗选择数量
                 Intent intent = new Intent(context, DetailGoodsActivity.class);
                 //加入数据
-                intent.putExtra("goodsId",list.get(position).getId());
+                intent.putExtra("bean",list.get(position));
+                intent.putExtra("goodsId",list.get(position).getId()+"");
                 context.startActivity(intent);
             }
         });
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
         ((MyViewHolder)holder).tv_sub.setText(list.get(position).getIntro());
         ((MyViewHolder)holder).tv_price.setText(list.get(position).getMoney()+"");
-        Picasso.with(context).load(list.get(position).getPhoto()).into(((MyViewHolder)holder).iv_goods);
+        Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getPhoto()).into(((MyViewHolder)holder).iv_goods);
     }
 
     @Override
     public int getItemCount() {
+        if (list==null){
+            return 0;
+        }
         return list.size();
     }
 

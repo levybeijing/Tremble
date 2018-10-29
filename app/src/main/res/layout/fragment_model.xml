@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/modeloption_3x"
+    android:gravity="center"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="30dp"
+        android:background="@drawable/bg_radus_option"
+        >
+        <TextView
+            android:id="@+id/tv_tiaozhan_option"
+            android:text="挑战模式"
+            style="@style/text_modeloption" />
+        <TextView
+            android:id="@+id/tv_gushi_option"
+            android:text="故事模式"
+            style="@style/text_modeloption" />
+        <TextView
+            android:id="@+id/tv_pk_option"
+            android:text="PK模式"
+            style="@style/text_modeloption" />
+        <TextView
+            android:id="@+id/tv_xiuxian_option"
+            android:text="休闲模式"
+            style="@style/text_modeloption" />
+    </LinearLayout>
+
+</LinearLayout>

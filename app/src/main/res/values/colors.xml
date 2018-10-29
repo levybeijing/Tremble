@@ -5,4 +5,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#fff</color>
     <color name="black">#000</color>
+
+    <!--界面顶部颜色或者背景-->
+    <color name="commen_top">#f4d13d</color>
+    <!--登录注册主色调-->
+    <!--<color name="color_login">#353a68</color>-->
+    <!--模式选择颜色-->
+    <color name="color_modeloption">#f8e65c</color>
+    <!--app主色调-->
+    <color name="color_main">#333d60</color>
 </resources>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +15,7 @@
             android:background="@drawable/bg_goods_myorders"
             android:src="@mipmap/temp_icon"
             android:layout_margin="10dp"
+            android:scaleType="centerCrop"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,12 +31,12 @@
                 android:textSize="16dp"
                 android:layout_marginBottom="10dp"
                 />
-            <TextView
-                android:id="@+id/tv_guige_myorders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="商品规格"
-                />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_guige_myorders"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="商品规格"-->
+                <!--/>-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,61 +46,72 @@
             android:orientation="vertical"
             android:layout_margin="15dp"
             >
-            <TextView
-                android:id="@+id/tv_price_myorders"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$69.00"
-                android:textSize="16dp"
-                android:textColor="#f00"
-                />
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/tv_jifen_myorders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFC849"
+                    android:text="1314积分"
+                    android:visibility="invisible"
+                    />
+                <TextView
+                    android:id="@+id/tv_price_myorders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+¥0.00"
+                    android:textSize="16dp"
+                    android:textColor="#f00"
+                    />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_status_myorders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="待付款"
+                android:text="订单状态"
                 android:layout_below="@+id/tv_price_myorders"
                 />
             <TextView
                 android:id="@+id/tv_number_myorders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X1"
+                android:text="X0"
                 android:layout_below="@+id/tv_status_myorders"
                 android:layout_weight="1"
                 android:layout_marginTop="20dp"
                 />
         </LinearLayout>
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_zongjie_myorders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共1件商品  合计:¥69.00(含运费¥0.00)"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            />
-    </RelativeLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_zongjie_myorders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:text="共1件商品  合计:¥0.00(含运费¥0.00)"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
         android:gravity="right"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="right|center_vertical"
         >
         <ImageView
             android:id="@+id/iv_left_goods_myorders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="81dp"
+            android:layout_height="24dp"
             android:layout_marginRight="15dp"
             />
         <ImageView
             android:id="@+id/iv_right_goods_myorders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="81dp"
+            android:layout_height="24dp"
             android:layout_marginRight="15dp"
             />
     </LinearLayout>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@mipmap/top_my_3x"
+        android:background="@color/commen_top"
         android:gravity="center"
         >
         <ImageView
@@ -38,30 +38,29 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:gravity="center"
+            android:gravity="center_vertical|left"
             android:padding="10dp"
             >
             <ImageView
+                android:id="@+id/iv_icon_myrecord"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@mipmap/head_mine_3x"
                 />
-            <TextView
-                android:id="@+id/tv_username"
+            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+                android:id="@+id/tv_username_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="抖抖抖不停"
                 android:textSize="16dp"
-                android:textColor="#f00"
-                android:layout_weight="1"
                 android:layout_marginLeft="20dp"
                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <!--best-->
     <android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         >
         <LinearLayout
@@ -70,19 +69,18 @@
             android:orientation="vertical"
             android:padding="10dp"
             >
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="历史最佳战绩:"
                 android:textSize="16dp"
+                android:text="历史最佳战绩"
                 />
-            <TextView
+            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
                 android:id="@+id/tv_mingcheng_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="take me hand"
-                android:textSize="36dp"
+                android:textSize="32dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 />
@@ -90,8 +88,78 @@
                 android:id="@+id/tv_detailrecord_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时长: 4:20 次数:952 总排名: 1"
+                android:text="时长: 4:20 总排名: 1"
+                android:layout_marginTop="10dp"
                 />
+            <!---->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/hand_record_3x"
+                        />
+                    <TextView
+                        android:id="@+id/tv_hand_myrecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/foot_record_3x"
+                        />
+                    <TextView
+                        android:id="@+id/tv_foot_myrecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight="1"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:src="@mipmap/jifen_record_3x"
+                        />
+                    <TextView
+                        android:id="@+id/tv_jifen_myrecord"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
@@ -106,20 +174,19 @@
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:gravity="center"
+            android:gravity="center_vertical|left"
             >
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@mipmap/head_mine_3x"
-                />
-            <TextView
+            <!--<ImageView-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@mipmap/head_mine_3x"-->
+                <!--/>-->
+            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+                android:id="@+id/tv_history_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="历史记录"
                 android:textSize="16dp"
-                android:textColor="#f00"
-                android:layout_weight="1"
                 android:layout_marginLeft="20dp"
                 />
         </LinearLayout>
@@ -127,23 +194,22 @@
     </android.support.v7.widget.CardView>
     <!--record-->
     <android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="10dp"
         >
-        <android.support.v4.widget.SwipeRefreshLayout
+        <!--<android.support.v4.widget.SwipeRefreshLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/srl_myrecord"-->
+            <!--&gt;-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_myrecord"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/srl_myrecord"
-            >
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_myrecord"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                />
-        </android.support.v4.widget.SwipeRefreshLayout>
-
+            />
+        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+        <!--android:overScrollMode="never"-->
     </android.support.v7.widget.CardView>
 </LinearLayout>

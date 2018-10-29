@@ -14,18 +14,18 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFriends;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyGifts;
-import friendgoods.vidic.com.generalframework.mine.bean.MyFriendsBean;
-import friendgoods.vidic.com.generalframework.mine.bean.MyGiftsBean;
+import friendgoods.vidic.com.generalframework.bean.MyGiftsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class MyGiftsActivity extends Activity {
 
     private RecyclerView rv;
+    private AdapterMyGifts adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,31 +43,26 @@ public class MyGiftsActivity extends Activity {
         });
 
         rv = findViewById(R.id.rv_mygifts);
-
         GridLayoutManager manager=new GridLayoutManager(this,4);
         rv.setLayoutManager(manager);
-//        AdapterMyGifts adapter=new AdapterMyGifts();
-//        rv.setAdapter(adapter);
+        adapter = new AdapterMyGifts(MyGiftsActivity.this);
+        rv.setAdapter(adapter);
 
         repuest();
     }
 
     private void repuest() {
 
-        OkGo.post(UrlCollect.myFriends)//
+        OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
-                .params("isUse", "27")
-                .params("page", "0")
-                .params("pageSize", "12")
+                .params("userId", MyApplication.USERID)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("MyGiftsActivity", "onSuccess: "+s);
+                        Log.e("###############", "onSuccess: "+s);
                         MyGiftsBean bean = new Gson().fromJson(s, MyGiftsBean.class);
-                        List<MyGiftsBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
-                        AdapterMyGifts adapter=new AdapterMyGifts(MyGiftsActivity.this,list);
-                        rv.setAdapter(adapter);
-
+                        List<MyGiftsBean.DataBean> data = bean.getData();
+                        adapter.setData(data);
                     }
 
                     @Override

@@ -12,14 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
 
 public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder> {
     private Context context;
     private String[] array;
     private Drawable[] paths;
     //1
-    private OnItemClickListener itemClickListener;
+    private OnItemClickListenerMine itemClickListener;
 
 
     public AdapterOrder(Context context_,String[] array_,Drawable[] paths_){
@@ -28,7 +28,7 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
         paths=paths_;
     }
 //2
-    public void setOnItemClickListener(OnItemClickListener itemClickListene_){
+    public void setOnItemClickListener(OnItemClickListenerMine itemClickListene_){
         itemClickListener=itemClickListene_;
     }
 
@@ -62,6 +62,9 @@ public class AdapterOrder extends RecyclerView.Adapter<AdapterOrder.MyViewHolder
                     itemClickListener.onItemClick(position);
                 }
             });
+        }
+        if (position==array.length-1){
+            holder.iv_bottom.setVisibility(View.INVISIBLE);
         }
     }
 

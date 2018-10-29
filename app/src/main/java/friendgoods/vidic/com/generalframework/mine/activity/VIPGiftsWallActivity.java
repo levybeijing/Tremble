@@ -13,7 +13,8 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipWall;
-import friendgoods.vidic.com.generalframework.mine.frag.FragVipWall;
+import friendgoods.vidic.com.generalframework.mine.frag.FragVipGiftReceive;
+import friendgoods.vidic.com.generalframework.mine.frag.FragVipGiftSend;
 
 public class VIPGiftsWallActivity extends AppCompatActivity {
     @Override
@@ -36,8 +37,8 @@ public class VIPGiftsWallActivity extends AppCompatActivity {
         ViewPager vp = findViewById(R.id.vp_vipwall);
 
         List<Fragment> list=new ArrayList<>();
-        list.add(new FragVipWall());
-        list.add(new FragVipWall());
+        list.add(new FragVipGiftReceive());
+        list.add(new FragVipGiftSend());
 
         //进行关联
         vp.setAdapter(new AdapterVipWall(getSupportFragmentManager(),list));

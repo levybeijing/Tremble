@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">抖腿</string>
+    <string name="app_name">抖腿大乐斗</string>
 
     <array name="list_mine">
         <item>商城</item>
@@ -14,7 +14,7 @@
     </array>
 
     <string-array name="icon_mine">
-        <item>@drawable/mail_my_3x</item>
+        <item>@drawable/mall_my_3x</item>
         <item>@drawable/fans_my_3x</item>
         <item>@drawable/friends_my_3x</item>
         <item>@drawable/gifts_my_3x</item>

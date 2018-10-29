@@ -1,11 +1,11 @@
 package friendgoods.vidic.com.generalframework.mine.frag;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +15,16 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerOrderId;
+import friendgoods.vidic.com.generalframework.mine.activity.DetailOrdersActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterOrdersCommon;
-import friendgoods.vidic.com.generalframework.mine.bean.OrdersBean;
+import friendgoods.vidic.com.generalframework.bean.OrdersBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class FragOrders1 extends Fragment{
 
+    private AdapterOrdersCommon adapter;
 
     @Nullable
     @Override
@@ -36,28 +39,32 @@ public class FragOrders1 extends Fragment{
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         rv.setLayoutManager(manager);
 
+        adapter = new AdapterOrdersCommon(getContext());
+        adapter.setHasStableIds(true);
+        rv.setAdapter(adapter);
         //网络访问
-        OkGo.post(UrlCollect.recordOfGame)//
+        OkGo.post(UrlCollect.obtainOrderList)//
                 .tag(this)//
                 .params("userId", "27")
-                .params("page", "0")
+                .params("page", "1")
                 .params("pageSize", "10")
-                .params("status", "0")
+                .params("status", "")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=====================", "onSuccess: "+s);
                         OrdersBean ordersBean = new Gson().fromJson(s, OrdersBean.class);
                         List<OrdersBean.DataBean.PageInfoBean.ListBean> list = ordersBean.getData().getPageInfo().getList();
-
-                        AdapterOrdersCommon adapter=new AdapterOrdersCommon(getContext(),list);
-                        rv.setAdapter(adapter);
+                        adapter.setData(list);
                     }
 
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                    }
                 });
-
+        adapter.setClickListenerPosition(new OnItemClickListenerOrderId() {
+            @Override
+            public void onItemClick(String s) {
+                Intent intent=new Intent(getContext(), DetailOrdersActivity.class);
+                intent.putExtra("orderId",s);
+                startActivity(intent);
+            }
+        });
     }
 }

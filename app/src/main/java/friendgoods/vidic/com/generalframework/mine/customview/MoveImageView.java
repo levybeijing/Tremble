@@ -10,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class MoveImageView extends android.support.v7.widget.AppCompatImageView {
+    private int parentLeft=0;
+    private int parentTop=0;
+    private int parentRight=0;
+    private int parentBottom=0;
+
     public MoveImageView(Context context) {
         super(context);
     }
@@ -17,21 +22,20 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     public MoveImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
-    public MoveImageView(Context context,int a,int b) {
+    public MoveImageView(Context context,int a,int b,int c,int d) {
         super(context);
-        screenWidth=a;
-        screenHeight=b;
+        parentLeft=a;
+        parentTop=b;
+        parentRight=c;
+        parentBottom=d;
     }
-    private int lastX = 0;
-    private int lastY = 0;
-
-    private static int screenWidth; //容器高度
-    private static int screenHeight; //容器高度
-
+    public int lastX = 0;
+    public int lastY = 0;
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) this.getLayoutParams();
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -53,24 +57,32 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                     left = 0;
                     right = left + getWidth();
                 }
-                if(right > screenWidth){
-                    right = screenWidth;
+                if(right > parentRight-parentLeft){
+                    right = parentRight-parentLeft;
                     left = right - getWidth();
                 }
                 if(top < 0){
                     top = 0;
                     bottom = top + getHeight();
                 }
-                if(bottom > screenHeight){
-                    bottom = screenHeight;
+                if(bottom > parentBottom-parentTop){
+                    bottom = parentBottom-parentTop;
                     top = bottom - getHeight();
                 }
                 layout(left, top, right, bottom);
 
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
+                //点击事件的坐标
+//                Log.e("#########Move", "onTouchEvent: "+getBottom());
+//                Log.e("#########Move", "onTouchEvent: "+getRight());
+                //记录当前位置  拖曳过程中 会变小!?
+                lp.setMargins(getLeft(),getTop(),getLeft()+getWidth(),getTop()+getHeight());
+                this.setLayoutParams(lp);
                 break;
             case MotionEvent.ACTION_UP:
+
+
                 break;
             default:
                 break;

@@ -9,12 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+
+import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.mine.adapter.AdapterGiftsMall;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.adapter.AdapterGiftMall;
+import friendgoods.vidic.com.generalframework.bean.GiftsMallBean;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class FragGifts extends Fragment {
+
+    private AdapterGiftMall adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,19 +35,26 @@ public class FragGifts extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //        super.onViewCreated(view, savedInstanceState);
-        RecyclerView rv = view.findViewById(R.id.rv_gifts_mall);
+
+        final RecyclerView rv = view.findViewById(R.id.rv_gifts_mall);
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         rv.setLayoutManager(manager);
-        //优化设置
-//        rv.setItemViewCacheSize(20);
-//        rv.setDrawingCacheEnabled(true);
-//        rv.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        //在此传输数据 未考虑懒加载
-        AdapterGiftsMall adapter= new AdapterGiftsMall(getContext(),new ArrayList<String>());
-        //如果必须用 notifyDataSetChanged()，那么最好设置 mAdapter.setHasStableIds(true)
-        //adapter.setHasStableIds(true);
-
+        adapter = new AdapterGiftMall(getContext());
         rv.setAdapter(adapter);
+
+        OkGo.post(UrlCollect.giftsListGift)//
+                .tag(this)//
+                .params("isUse", "0")
+                .params("page", "1")
+                .params("pageSize", "7")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        Log.e("*************", "onSuccess: "+s);
+                        GiftsMallBean giftsMallBean = new Gson().fromJson(s, GiftsMallBean.class);
+                        List<GiftsMallBean.DataBean.PageInfoBean.ListBean> list = giftsMallBean.getData().getPageInfo().getList();
+                        adapter.setData(list);
+                    }
+                });
     }
 }

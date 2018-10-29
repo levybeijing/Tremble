@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_game_3x"
+    >
+    <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+        android:id="@+id/tv_number_relaxmodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="54dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/rl_relaxmodel"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_relaxmodel"
+        android:layout_width="match_parent"
+        android:layout_height="424dp"
+        android:background="@mipmap/niu_game_3x"
+        android:layout_centerInParent="true"
+        >
+        <ImageView
+            android:id="@+id/iv_click_relaxmodel"
+            android:layout_width="150dp"
+            android:layout_height="123dp"
+            android:background="@mipmap/button_game_3x"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_exit_relaxmodel"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@mipmap/game_exit"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        />
+    <ImageView
+        android:id="@+id/tv_gotomall_relaxmodel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:background="@mipmap/gotomall_3x"
+        />
+</RelativeLayout>

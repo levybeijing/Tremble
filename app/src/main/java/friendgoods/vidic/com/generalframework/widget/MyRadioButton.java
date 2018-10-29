@@ -13,7 +13,7 @@ import friendgoods.vidic.com.generalframework.R;
  * Created by wh on 2017/6/29.
  */
 
-public class MyRadioButton extends RadioButton {
+public class MyRadioButton extends android.support.v7.widget.AppCompatRadioButton {
 
     private int mDrawableSize;// xml文件中设置的大小
 

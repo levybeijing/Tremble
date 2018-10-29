@@ -4,6 +4,8 @@
     android:layout_width="80dp"
     android:layout_height="113dp"
     android:gravity="center"
+    android:padding="5dp"
+    android:background="#F7F8FF"
     >
     <ImageView
         android:id="@+id/iv_icon_mygifts"

@@ -16,9 +16,9 @@
         >
         <ImageView
             android:id="@+id/iv_icon_mine"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="15dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="20dp"
             />
         <!--用户名-->
         <TextView
@@ -41,7 +41,10 @@
     <ImageView
         android:id="@+id/iv_line_mine"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@+id/lin_item_mine"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/line_mine_3x"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         />
 </RelativeLayout>

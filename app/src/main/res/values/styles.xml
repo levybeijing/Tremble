@@ -12,5 +12,54 @@
         <item name="android:windowEnterAnimation">@anim/pickerview_dialog_scale_in</item>
         <item name="android:windowExitAnimation">@anim/pickerview_dialog_scale_out</item>
     </style>
+<!--启动页主题-->
+    <style name="Theme.Splash" parent="@android:style/Theme.Translucent">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+<!--模式选择字体设置-->
+    <style name="text_modeloption">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:textSize">28dp</item>
+        <item name="android:textColor">@color/color_modeloption</item>
+        <item name="android:background">@drawable/bg_yellow_option</item>
+    </style>
+<!--PK模式计时器背景-->
+    <style name="bg_tv_pk">
+        <item name="android:textSize">40dp</item>
+        <item name="android:textColor">#ED3195</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:background">@mipmap/edit_bg</item>
+    </style>
+<!---->
+    <style name="et_register">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">#EC2C98</item>
+        <item name="android:layout_marginLeft">36dp</item>
+        <item name="android:layout_marginRight">36dp</item>
+        <item name="android:textColorHint">#fff</item>
+        <item name="android:background">@drawable/bg_et_register</item>
+        <item name="android:textSize">12dp</item>
+    </style>
 
+    /**
+    微信登录
+    */
+    <style name="wx_login_style" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item><!--退出动画-->
+        <item name="android:activityOpenExitAnimation">@anim/activity_close_exit</item>
+        <!--<item name="android:background">@color/color_transparent_9000</item>-->
+    </style>
 </resources>

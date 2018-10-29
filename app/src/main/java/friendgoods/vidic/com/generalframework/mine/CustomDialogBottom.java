@@ -2,6 +2,7 @@ package friendgoods.vidic.com.generalframework.mine;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.mine.activity.CommitOrderActivity;
+import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
 
 public class CustomDialogBottom extends PopupWindow{
 
@@ -24,16 +27,17 @@ public class CustomDialogBottom extends PopupWindow{
     private ImageView goodsicon,add,reduce,close;
     private TextView name,price;
     private Button next;
-    public CustomDialogBottom(final Activity context) {
+    public CustomDialogBottom(final Activity context, final DetailGoodsBean.DataBean data) {
         super(context);
         //LayoutInflater inflater = LayoutInflater.from(context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.customdialog, null);
         //商品图片
         goodsicon = dialogView.findViewById(R.id.iv_goods_dialog);
         //名称价格
         name = dialogView.findViewById(R.id.tv_name_detailgoods);
         price = dialogView.findViewById(R.id.tv_price_dialog);
+        price.setText(data.getMoney()+"");
         //数量操作及关闭
         et_number = dialogView.findViewById(R.id.et_number_dialog);
         add = dialogView.findViewById(R.id.iv_add_dialog);
@@ -94,16 +98,16 @@ public class CustomDialogBottom extends PopupWindow{
                 String reg="^[0-9]*$";
                 Pattern pattern = Pattern.compile(reg);
                 Matcher matcher = pattern.matcher(number);
-                if (matcher.matches()&&Integer.parseInt(number)>=0){
-                    Toast.makeText(context, "NEXT", Toast.LENGTH_SHORT).show();
-//                    bottomDialogOnclickListener.onPositiveClick("", CustomDialogBottom.this);
+                if (matcher.matches()&&Integer.parseInt(number)>0){
+                    Intent intent=new Intent(context, CommitOrderActivity.class);
+                    intent.putExtra("bean",data);
+                    intent.putExtra("number",number);
+                    context.startActivity(intent);
                 }else{
                     Toast.makeText(context, "输入不合法", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
         this.setContentView(dialogView);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);

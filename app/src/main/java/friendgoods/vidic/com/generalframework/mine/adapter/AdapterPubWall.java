@@ -5,11 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -17,9 +13,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListener;
-import friendgoods.vidic.com.generalframework.mine.OnItemClickListenerPubWall;
-import friendgoods.vidic.com.generalframework.mine.bean.MyGiftsListBean;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
+import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
 
 public class AdapterPubWall extends RecyclerView.Adapter {
     private Context context;
@@ -48,19 +44,23 @@ public class AdapterPubWall extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final String photo = UrlCollect.baseIamgeUrl+list.get(position).getPhoto();
+
         ((MyViewHolder)holder).tv_energy.setText(list.get(position).getScore()+"能量");
         ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()+"");
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
-        Picasso.with(context).load(list.get(position).getPhoto()).into(((MyViewHolder)holder).iv_goods);
 
-        View itemView = ((LinearLayout) holder.itemView).getChildAt(0);
-        final int top = itemView.getTop();
+        Picasso.with(context).load(photo).into(((MyViewHolder)holder).iv_goods);
+
+        View itemView =  holder.itemView;
+//        final int top = itemView.getTop();
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = holder.getLayoutPosition();
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(),list.get(position).getPhoto());
+                    String giftId = list.get(position).getGiftId()+"";
+                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,giftId);
                 }
             });
         }

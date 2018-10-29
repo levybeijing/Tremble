@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/iv_hand_douhand"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:background="@mipmap/tremble_head" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+                android:id="@+id/tv_number_douhand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:gravity="center_horizontal"
+                android:textSize="54dp"/>
+            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+                android:id="@+id/tv_time_douhand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="持续时长：26分钟"
+                android:textColor="#fff"
+                android:gravity="center_horizontal"
+                android:textSize="18dp"/>
+
+        </LinearLayout>
+
+        <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/vp_FindFragment_pager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+    </LinearLayout>
+
+</LinearLayout>
