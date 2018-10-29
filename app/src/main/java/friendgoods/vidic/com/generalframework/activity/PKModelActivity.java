@@ -50,8 +50,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private static boolean isGaming=false;
 //   是否是房主
     private static boolean isHost=true;
-//   是否已经设置时间
-//    private static boolean haveTime=false;
+
     private LinearLayout ll;
     private ImageView readyno;
     private ImageView readyyes;
