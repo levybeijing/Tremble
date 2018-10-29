@@ -141,6 +141,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                     break;
                 case 200://SOCSTATUS
+//                    假如都准备好了  可以start 然后开始
+                    startyes.setVisibility(View.VISIBLE);
 //假如是非房主  游戏开始 倒计时
                     readyno.setVisibility(View.INVISIBLE);
 //                    Threetoone.start();
