@@ -84,11 +84,14 @@ public class SpleashActivity extends Activity {
                 int sex = userinfo.getInt("sex", 0);
                 String userId = userinfo.getString("userId", "");
                 boolean bindwx = userinfo.getBoolean("bindwx", false);
-
+                boolean bindphone = userinfo.getBoolean("bindphone", false);
+                //两条线路 一个是先手机后微信 一个是先微信后手机
                 if(userId.equals("")){
                     startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
-                } else if(!bindwx){
+                }else if(!bindwx){
                     startActivity(new Intent(SpleashActivity.this,WXBindActivity.class));
+                }else if (!bindphone){
+                    startActivity(new Intent(SpleashActivity.this,PhoneBindActivity.class));
                 }else if (sex==0){
                     startActivity(new Intent(SpleashActivity.this,IntroduceActivity.class));
                 }else{

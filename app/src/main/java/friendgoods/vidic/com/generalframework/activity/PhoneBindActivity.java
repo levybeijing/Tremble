@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -35,9 +36,10 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phonebind);
         time = new TimeCount(60000, 1000);
-
         initView();
     }
+
+
 
     private void initView() {
         findViewById(R.id.iv_back_phonebind).setOnClickListener(this);
@@ -79,7 +81,6 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
                 }
                 bind(number,code);
                 break;
-
         }
     }
 
@@ -96,6 +97,8 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(PhoneBindActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(PhoneBindActivity.this,IntroduceActivity.class));
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

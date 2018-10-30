@@ -15,10 +15,19 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import friendgoods.vidic.com.generalframework.MyApplication;
+import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
+import friendgoods.vidic.com.generalframework.activity.PhoneBindActivity;
+import friendgoods.vidic.com.generalframework.activity.SpleashActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.WXUserInfoBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXAccessTokenBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXRespBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -70,24 +79,10 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
         String result = "";
+        requestWX(wxRespBean.getCode());
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
-//                showDialog("正在获取个人资料..");
-                //现在请求获取数据 access_token https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-//                showMsg(1,result);
-                /*Call call = RetrofitUtils.getApiService("https://api.weixin.qq.com/").getWeiXinAccessToken(Config.APP_ID_WX,Config.APP_SECRET_WX,entity.getCode(),"authorization_code");
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        ViseLog.d("response:"+JSON.toJSONString(response));
-                    }
-
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-                        closeDialog();
-                    }
-                });*/
                 OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
                         .tag(this)//
                         .params("appid", UrlCollect.WXAppID)
@@ -126,18 +121,72 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      * 获取个人信息
      * @param accessTokenEntity
      */
-    private void getUserInfo(WXAccessTokenBean accessTokenEntity) {
+    private void getUserInfo(final WXAccessTokenBean accessTokenEntity) {
         //https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID
+
+        final String openid = accessTokenEntity.getOpenid();
         OkGo.get("https://api.weixin.qq.com/sns/userinfo")//
                 .tag(this)//
                 .params("access_token", accessTokenEntity.getAccess_token())
-                .params("openid", accessTokenEntity.getOpenid())
+                .params("openid", openid)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        WXUserInfoBean userInfoBean = new Gson().fromJson(s, WXUserInfoBean.class);
-//                        传出数据
-//                        finish();
+                        WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
+                        MyApplication.NAME = bean.getNickname();
+                        MyApplication.USERICON = bean.getHeadimgurl();
+                        MyApplication.WX=openid;
+                        if ((boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindphone", false)){
+                            requestBind(openid);
+                            startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
+                        }else{
+                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
+                        }
+                        finish();
+                    }
+                });
+    }
+
+    private void requestBind(String openid) {
+        OkGo.post(UrlCollect.updateWeChat)//
+                .tag(this)//
+                .params("type", "1")
+                .params("userId", MyApplication.USERID)
+                .params("name", MyApplication.NAME)
+                .params("photo", MyApplication.USERICON)
+                .params("weChat", openid)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            if ("请求成功".equals(jo.getString("message"))){
+                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+    }
+
+    private void requestWX(String s) {
+        OkGo.post(UrlCollect.appLogin)//
+                .tag(this)//
+                .params("code", s)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            if ("请求成功".equals(jo.getString("message"))){
+                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
     }

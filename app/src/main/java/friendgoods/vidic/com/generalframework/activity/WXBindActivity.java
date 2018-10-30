@@ -1,17 +1,12 @@
 package friendgoods.vidic.com.generalframework.activity;
 
-import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import friendgoods.vidic.com.generalframework.PermissionsUtils;
 import friendgoods.vidic.com.generalframework.R;
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
@@ -26,23 +21,7 @@ public class WXBindActivity extends AppCompatActivity implements View.OnClickLis
 
         api = WXAPIFactory.createWXAPI(this,WXAppID,true);
         api.registerApp(WXAppID);
-
         initView();
-        String[] permession =new String[]{
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        PermissionsUtils.getInstance().chekPermissions(this, permession, new PermissionsUtils.IPermissionsResult() {
-            @Override
-            public void passPermissons() {
-
-            }
-
-            @Override
-            public void forbitPermissons() {
-
-            }
-        });
     }
 
     private void initView() {
@@ -63,11 +42,5 @@ public class WXBindActivity extends AppCompatActivity implements View.OnClickLis
                 api.sendReq(req);
                 break;
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        PermissionsUtils.getInstance().onRequestPermissionsResult(this,requestCode,permissions,grantResults);
     }
 }

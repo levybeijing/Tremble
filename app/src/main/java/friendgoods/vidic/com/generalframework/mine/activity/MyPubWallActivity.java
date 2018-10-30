@@ -17,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyPubWall;
@@ -59,8 +60,22 @@ public class MyPubWallActivity extends Activity{
         rv.setLayoutManager(manager);
         adapter = new AdapterMyPubWall(this);
         rv.setAdapter(adapter);
-        //请求获取头像集合
+//      请求获取头像集合
         request();
+//        请求墙和底部人物集
+        requestWall();
+    }
+
+    private void requestWall() {
+        OkGo.post(UrlCollect.getPresentsWalls)
+                .tag(this)
+                .params("userId",MyApplication.USERID)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                    }
+                });
     }
 
     private void request() {
@@ -70,10 +85,10 @@ public class MyPubWallActivity extends Activity{
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(MyPubWallActivity.this, s, Toast.LENGTH_SHORT).show();
-                        IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
-                        List<IconSetBean.DataBean> data = iconSetBean.getData();
-                        adapter.setData(data);
+//                        Toast.makeText(MyPubWallActivity.this, s, Toast.LENGTH_SHORT).show();
+//                        IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
+//                        List<IconSetBean.DataBean> data = iconSetBean.getData();
+//                        adapter.setData(data);
                     }
                 });
     }

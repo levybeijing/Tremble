@@ -103,9 +103,6 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                         adapter.setData(data);
                     }
                 });
-//      加载未完成头像
-
-
         //头像集访问
         OkGo.post(UrlCollect.iconsOfSendGift)//
                 .tag(this)//

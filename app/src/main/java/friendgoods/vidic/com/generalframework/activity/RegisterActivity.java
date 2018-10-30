@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -122,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
                                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                                SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
                                 startActivity(new Intent(RegisterActivity.this,LoginPWDActivity.class));
                             }
                         } catch (JSONException e) {
