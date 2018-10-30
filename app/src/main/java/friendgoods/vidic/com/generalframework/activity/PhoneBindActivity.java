@@ -98,12 +98,16 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(PhoneBindActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(PhoneBindActivity.this,IntroduceActivity.class));
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
 
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        Toast.makeText(PhoneBindActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,11 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +47,8 @@ import friendgoods.vidic.com.generalframework.widget.TimePickerBuilder;
 import friendgoods.vidic.com.generalframework.widget.TimePickerView;
 import okhttp3.Call;
 import okhttp3.Response;
+
+import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 public class PKModelActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
@@ -186,11 +194,19 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         }
     };
 
+    private IWXAPI api;
+    private String inviteId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
+        //非房主状态收到roomid
+        Uri data = getIntent().getData();
+        inviteId = data.getQueryParameter("id");
+
+        api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
+        api.registerApp(WXAppID);
         gametime=System.currentTimeMillis();
         initView();
     }
@@ -405,8 +421,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 if (!name3.getText().equals("邀请好友"))
                     return;
-//                进入好友邀请界面  /shakeLeg/user/inviteFriend 进入好友列表页面开启接口
+//                微信url分享界面
+                WXWebpageObject webpaget=new WXWebpageObject();
+                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
 
+                WXMediaMessage msg=new WXMediaMessage(webpaget);
+                msg.title="抖腿大乐斗";
+                msg.description="一玩就上瘾的游戏!";
+
+                SendMessageToWX.Req req=new SendMessageToWX.Req();
+                req.message=msg;
+                req.scene=SendMessageToWX.Req.WXSceneSession;
+                api.sendReq(req);
                     break;
         }
     }
@@ -479,7 +505,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         OkGo.post(UrlCollect.intoRoomJudge)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
-                .params("roomId", roomId)
+                .params("roomId", inviteId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

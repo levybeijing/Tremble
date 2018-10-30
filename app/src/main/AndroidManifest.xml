@@ -55,15 +55,7 @@
             android:exported="true"
             />
         <!--主页-->
-        <activity android:name=".activity.MainActivity" android:screenOrientation="sensorPortrait">
-            <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="friendgoods.vidic.com" android:scheme="android"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.MainActivity" android:screenOrientation="sensorPortrait"></activity>
         <!--mine-->
         <activity android:name=".mine.activity.SettingsActivity"></activity>
         <activity android:name=".mine.activity.MallActivity"></activity>
@@ -94,23 +86,23 @@
         <activity android:name=".activity.StoryModelActivity"></activity>
         <activity android:name=".activity.RelaxModelActivity"></activity>
         <activity android:name=".activity.ChallengeModelActivity"></activity>
-        <activity android:name=".activity.PKModelActivity"></activity>
+        <activity android:name=".activity.PKModelActivity">
+            <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com.dou -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="friendgoods.vidic.com.dou" android:scheme="android"/>
+            </intent-filter>
+        </activity>
         <!--微信-->
-        <activity android:name=".activity.WXListActivity"
+        <activity android:name="._idle.WXListActivity"
             android:exported="true"
             ></activity>
         <activity android:name=".activity.WXBindActivity"></activity>
         <activity android:name=".activity.PhoneBindActivity"></activity>
         <!--音乐播放-->
-        <service android:name=".musicplay.DownloadService" android:exported="false"></service>
         <service android:name=".musicplay.MusicService" android:exported="false"></service>
 
-        <receiver android:name=".musicplay.MusicReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.ServiceStart" /><!-- 广播接收的Intent -->
-                <action android:name="android.intent.action.ServiceEnd" /><!-- 广播接收的Intent -->
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
     </application>
 </manifest>

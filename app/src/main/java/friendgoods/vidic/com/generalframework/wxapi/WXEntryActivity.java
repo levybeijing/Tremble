@@ -75,7 +75,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Log.e("==============", "baseResp:--A"+new Gson().toJson(baseResp));
+//        登录
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
         String result = "";
@@ -83,6 +83,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
+//                登录
                 OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
                         .tag(this)//
                         .params("appid", UrlCollect.WXAppID)

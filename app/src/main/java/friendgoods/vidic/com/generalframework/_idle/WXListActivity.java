@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework._idle;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

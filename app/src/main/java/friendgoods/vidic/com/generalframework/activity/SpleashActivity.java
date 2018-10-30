@@ -19,10 +19,10 @@ public class SpleashActivity extends Activity {
     //延迟3秒
 //    private static final long SPLASH_DELAY_MILLIS = 2000;
     private static final long ANIMATION_TIME = 1000;
-    public static SharedPreferences sp;
+    public SharedPreferences sp;
 //    private String myVersion;
 //    private boolean islog = true;
-    private ImageView mSpleashBg;
+//    private ImageView mSpleashBg;
 
 
     @Override
@@ -30,7 +30,7 @@ public class SpleashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        mSpleashBg = findViewById(R.id.spleash_iv_bg);
+//        mSpleashBg = findViewById(R.id.spleash_iv_bg);
 
         String[] permession =new String[]{
                 Manifest.permission.READ_PHONE_STATE,
@@ -60,24 +60,12 @@ public class SpleashActivity extends Activity {
         this.findViewById(R.id.spleash_iv_bg).startAnimation(gradient);
 
         gradient.setAnimationListener(new Animation.AnimationListener() {
-
-            /**
-             * 动画开始时
-             */
             @Override
             public void onAnimationStart(Animation animation) {
             }
-
-            /**
-             * 重复动画时
-             */
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
-
-            /**
-             * 动画结束时
-             */
             @Override
             public void onAnimationEnd(Animation animation) {
                 SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);

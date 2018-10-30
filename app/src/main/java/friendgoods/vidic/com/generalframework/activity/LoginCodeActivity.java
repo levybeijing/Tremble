@@ -174,5 +174,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
 //        this.unbindService(conn);
+        MusicService.getInstance().onDestroy();
     }
 }

@@ -5,22 +5,28 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 
 public class MusicService extends Service {
 //    实现单例模式
     private static MusicService service;
 
-//    public static MusicService getInstance(){
-//        service=new MusicService();
-//        return service;
-//    }
+    public static MusicService getInstance(){
+        service=new MusicService();
+        return service;
+    }
     public class MyBinder extends Binder {
         public MusicService getService(){
             return MusicService.this;
@@ -40,14 +46,18 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("==============", "onStartCommand");
         mp = new MediaPlayer();
-        String music1 = (String) SharedPFUtils.getParam(this, "music0", null);
+//        File file=new File(MyApplication.MUSICPATH);
+//        String[] list = file.list();
         try {
-            mp.setDataSource(music1);
+            mp.setDataSource(this, Uri.parse("http://doutui.oss-cn-beijing.aliyuncs.com/1537522790.mp3"));
+            mp.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mp.start();
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
             public void onCompletion(MediaPlayer mp) {
@@ -72,7 +82,7 @@ public class MusicService extends Service {
                 return false;
             }
         });
-        return super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
     @Nullable

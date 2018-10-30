@@ -27,6 +27,7 @@ import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
 import friendgoods.vidic.com.generalframework._idle.DouFragment;
 import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -120,5 +121,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             System.exit(0);
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MusicService.getInstance().onDestroy();
     }
 }
