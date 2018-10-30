@@ -20,6 +20,7 @@ import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
+import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class MusicThread extends Thread {
@@ -40,25 +41,26 @@ public class MusicThread extends Thread {
 //        for (int i = 0; i < data.size(); i++) {
         final MusicBean.DataBean dataBean = data.get(0);
         Log.e("==============", "music "+UrlCollect.baseIamgeUrl+dataBean.getUrl());
-        context.startService(new Intent(context,MusicService.class));
-        OkGo.post(UrlCollect.baseIamgeUrl+dataBean.getUrl())//
+        OkGo.get(UrlCollect.baseIamgeUrl+dataBean.getUrl())//
                     .tag(this)//
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(String s, Call call, Response response) {
-                            InputStream inputStream = response.body().byteStream();
+                            Log.e("==============", "runmusic ");
                             try {
+                                InputStream inputStream = response.body().byteStream();
                                 FileOutputStream fos=new FileOutputStream(new File(MyApplication.MUSICPATH+File.separator+dataBean.getUrl()));
                                 int size;
-                                byte[] buffer=new byte[1024];
+                                byte[] buffer=new byte[2048];
                                 while((size=inputStream.read(buffer))!=-1){
                                     fos.write(buffer,0,size);
+                                    fos.flush();
                                 }
                                 fos.close();
                                 //        标记加上启动服务
-                                Log.e("==============", "runmusic ");
+                                Log.e("==============", "fos.close() ");
                                 SharedPFUtils.setParam(context,"havemusic",true);
-
+                                context.startService(new Intent(context,MusicService.class));
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
