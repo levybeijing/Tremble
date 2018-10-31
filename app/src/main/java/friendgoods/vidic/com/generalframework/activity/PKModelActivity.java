@@ -392,7 +392,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
                 webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
-
+//
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
                 msg.description="一玩就上瘾的游戏!";
