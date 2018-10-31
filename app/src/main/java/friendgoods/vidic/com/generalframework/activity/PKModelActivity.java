@@ -391,7 +391,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     return;
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
-                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
+//                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
+                webpaget.webpageUrl="http://47.94.174.211/share/#/?roomId="+roomId;
 //
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
@@ -417,7 +418,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
-    // 非房主改变状态
+// 非房主改变状态
     private void changeStatus() {
         OkGo.post(UrlCollect.updateRoomStatus)//
                 .tag(this)//
