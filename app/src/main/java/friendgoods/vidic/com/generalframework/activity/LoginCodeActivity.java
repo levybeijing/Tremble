@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,9 +44,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
         time = new TimeCount(60000, 1000);
 
         initView();
-//        Intent intent = new Intent(LoginCodeActivity.this, MusicService.class);
-//        /** 进入Activity开始服务 */
-//        bindService(intent, conn, Context.BIND_AUTO_CREATE);
     }
 
     private void initView() {
@@ -112,7 +110,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             if ("请求成功".equals(message)){
 //                                Log.e("*************", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
-
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"password",bean.getData().getPassword());
@@ -126,8 +123,14 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+                                if ((boolean)SharedPFUtils.getParam(LoginCodeActivity.this,"bindwx",false))
+                                    startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
+                                else
+                                    startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                                 finish();
-                                startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
+                                SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+                            }else{
+                                Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

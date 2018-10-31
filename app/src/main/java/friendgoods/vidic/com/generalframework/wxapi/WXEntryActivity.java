@@ -79,24 +79,19 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
         String result = "";
-        requestWX(wxRespBean.getCode());
+//        requestWX(wxRespBean.getCode());
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 result ="发送成功";
-//                登录
-                OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
-                        .tag(this)//
-                        .params("appid", UrlCollect.WXAppID)
-                        .params("secret", UrlCollect.WXsecret)
-                        .params("code",wxRespBean.getCode())
-                        .params("grant_type", "authorization_code")
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(String s, Call call, Response response) {
-                                WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
-                                getUserInfo(tokenBean);
-                            }
-                        });
+                if (wxRespBean.getState().equals("bind")){
+                    requestLogin(wxRespBean.getCode());
+                }else{
+                    finish();
+                }
+//                if (!(boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindwx", false)){
+//
+//                }
+//                getUserInfo(wxRespBean);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = "发送取消";
@@ -118,6 +113,24 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         Toast.makeText(WXEntryActivity.this,result,Toast.LENGTH_LONG).show();
     }
 
+
+    private void requestLogin(String code){
+        //                登录
+        OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
+                .tag(this)//
+                .params("appid", UrlCollect.WXAppID)
+                .params("secret", UrlCollect.WXsecret)
+                .params("code",code)
+                .params("grant_type", "authorization_code")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
+                        getUserInfo(tokenBean);
+                    }
+                });
+    }
+
     /**
      * 获取个人信息
      * @param accessTokenEntity
@@ -136,13 +149,15 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
                         MyApplication.NAME = bean.getNickname();
                         MyApplication.USERICON = bean.getHeadimgurl();
+                        Log.e("=========", "onSuccess: "+bean );
                         MyApplication.WX=openid;
-                        if ((boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindphone", false)){
+//                        if ((boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindphone", false)){
                             requestBind(openid);
                             startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-                        }else{
-                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
-                        }
+//                        }else{
+////                        requestLogin(wxRespBean.getCode());
+//                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
+//                        }
                         finish();
                     }
                 });
@@ -167,28 +182,27 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 });
     }
 
-    private void requestWX(String s) {
-        OkGo.post(UrlCollect.appLogin)//
-                .tag(this)//
-                .params("code", s)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            if ("请求成功".equals(jo.getString("message"))){
-                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-    }
+//    private void requestWX(String s) {
+//        OkGo.post(UrlCollect.appLogin)//
+//                .tag(this)//
+//                .params("code", s)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(String s, Call call, Response response) {
+//                        try {
+//                            JSONObject jo=new JSONObject(s);
+//                            if ("请求成功".equals(jo.getString("message"))){
+//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//    }
 }

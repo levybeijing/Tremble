@@ -74,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.tv_gotologin_register:
                 startActivity(new Intent(RegisterActivity.this,LoginCodeActivity.class));
+                finish();
                 break;
 //                注册
             case R.id.tv_regi_register:
@@ -125,6 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                                 SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
                                 startActivity(new Intent(RegisterActivity.this,LoginPWDActivity.class));
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

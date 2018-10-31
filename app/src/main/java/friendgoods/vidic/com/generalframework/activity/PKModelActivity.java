@@ -29,13 +29,20 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import app.socketlib.com.library.ContentServiceHelper;
+import app.socketlib.com.library.listener.SocketResponseListener;
+import app.socketlib.com.library.socket.SessionManager;
+import app.socketlib.com.library.socket.SocketConfig;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
@@ -50,7 +57,7 @@ import okhttp3.Response;
 
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
-public class PKModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class PKModelActivity extends AppCompatActivity implements View.OnClickListener, SocketResponseListener {
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -87,9 +94,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name2;
     private int roomId;
     private long gametime;
-
-    private Socket socStatus;
-    private Socket socGame;
     private int SOCSTATUS=200;
     private int SOCGAME=300;
 
@@ -113,6 +117,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         }
     });
     //倒计时三秒
+    private static final int PORT = 8081;
+    private static final String Host = "192.168.1.153";
+
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -120,11 +127,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                计时器
                 case 400://SOCGAME
                     if (x>0||y>0||z>0){
-                        if (z==0&&y>0){
-                            z=59;
-                        }else if(z==0&&y==0){
-                            z=59;
-                            y=59;
+                        if (z==0){
+                            if (y==0){
+                                z=59;
+                                y=59;
+                                x--;
+                            }else{
+                                z=59;
+                                y--;
+                            }
                         }else {
                             z--;
                         }
@@ -138,11 +149,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                         isGaming=false;
                         gametime=System.currentTimeMillis()-gametime;
                         addrecord();
-                        try {
-                            socGame.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                     break;
                 case 300://SOCGAME
@@ -203,14 +209,31 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_pkmodel);
         //非房主状态收到roomid
         Uri data = getIntent().getData();
-        inviteId = data.getQueryParameter("id");
+        if (data!=null)
+            inviteId = data.getQueryParameter("id");
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         gametime=System.currentTimeMillis();
         initView();
+//        初始化socket lib
+        SocketConfig socketConfig = new SocketConfig.Builder(getApplicationContext())
+                .setIp(Host)//ip
+                .setPort(PORT)//端口
+                .setReadBufferSize(10240)//readBuffer
+                .setIdleTimeOut(30)//客户端空闲时间,客户端在超过此时间内不向服务器发送数据,则视为idle状态,则进入心跳状态
+                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
+                .setRequestInterval(10)//请求超时间隔时间
+                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
+                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
+                .builder();
+        ContentServiceHelper.bindService(this, socketConfig);
+        SessionManager.getInstance().setReceivedResponseListener(this);
     }
 //
+//    @Override
+//    public void socketMessageReceived(String msg) {
+//    }
     private void initView() {
         ll = findViewById(R.id.ll_timer_pk);
         ll.setOnClickListener(this);
@@ -234,9 +257,10 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         name1 = findViewById(R.id.tv_name_one_pkmodel);
         //2 本人
         ImageView person2 = findViewById(R.id.iv_person_two_pkmodel);
-        light2 = findViewById(R.id.iv_light_two_pkmodel);
+//        light2 = findViewById(R.id.iv_light_two_pkmodel);
         ImageView icon2 = findViewById(R.id.iv_icon_two_pkmodel);
         name2 = findViewById(R.id.tv_name_two_pkmodel);
+        name2.setText(MyApplication.NAME);
         Picasso.with(this).load(MyApplication.USERICON).into(icon2);
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
@@ -277,7 +301,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         startno = findViewById(R.id.iv_startno_pkmodel);
 //
         if (isHost){
-            light2.setVisibility(View.VISIBLE);
+//            light2.setVisibility(View.VISIBLE);
             startno.setVisibility(View.VISIBLE);
 //            startyes.setVisibility(View.VISIBLE);
             addroom();
@@ -287,76 +311,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             joinRoom();
         }
 //        开启新线程来监听
-//        socket连接  两个  一个监听状态 一个监听游戏数据 192.168.1.153:8081/shakeLeg/user/aaa
-            new StatusThread().run();
+//  192.168.1.153:8081/shakeLeg/user/aaa
+
     }
-//    处理房间状态的socket线程
-    private class StatusThread extends Thread{
-        @Override
-        public void run() {
-            try {
-                socStatus = new Socket("192.168.1.153",8081);//???????????
-                while (!isGaming){
-                    InputStream is = socStatus.getInputStream();
-                    Log.e("=============", "initView: "+is.toString());
-//                    数据字符串处理
-//                    String str=null;
-//                    str.replace("[","");
-//                    str.replace("]","");
-//                    String[] split = str.split(",");
-//                    new Gson().fromJson(split[0],SocStatusBean.class);
-//                    new Gson().fromJson(split[1],SocStatusBean.class);
-//                    new Gson().fromJson(split[2],SocStatusBean.class);
-//                    JSONObject jo=new JSONObject(split[3]);
-//                    String type = jo.getString("type");
-//                    对界面进行修改 影响  用handler
-                    Message message = handler.obtainMessage();
-                    message.obj=is.toString();
-                    message.what=SOCSTATUS;
-                    handler.sendMessage(message);
-                }
-                socStatus.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        }
+
+    @Override
+    public void socketMessageReceived(String msg) {
+        Log.e("========", "socketMessageReceived: "+msg);
     }
-//    处理游戏中的socket信息线程
-    private class GameThread extends Thread{
-        @Override
-        public void run() {
-            try {
-                socGame = new Socket("192.168.1.153",8081);//????????????????
-                while (isGaming){
-                    InputStream is = socGame.getInputStream();
-                    Log.e("=============", "initView: "+is.toString());
-//                    数据字符串处理
-//                    String str=null;
-//                    str.replace("[","");
-//                    str.replace("]","");
-//                    String[] split = str.split(",");
-//                    new Gson().fromJson(split[0],SocStatusBean.class);
-//                    new Gson().fromJson(split[1],SocStatusBean.class);
-//                    new Gson().fromJson(split[2],SocStatusBean.class);
-//                    JSONObject jo=new JSONObject(split[3]);
-//                    String type = jo.getString("type");
-//                    对界面进行修改 影响  用handler
-                }
-                socGame.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        }
-    }
-    //final Socket socket = new Socket();
-//SocketAddress address = new InetSocketAddress("www.fortify.net", 443);
-//try {    socket.connect(address);}
+
     public void getLlstOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
@@ -410,10 +373,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
+//                TODO:socket发送状态
+                ContentServiceHelper.sendClientMsg( "\n");
                 changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount);
+//                SocStatusBean status = new SocStatusBean();
+//                status.setUserId();
+                ContentServiceHelper.sendClientMsg(pkCount + "\n");
                 break;
             case R.id.tv_name_one_pkmodel:
             case R.id.tv_name_three_pkmodel:
@@ -433,7 +401,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 req.message=msg;
                 req.scene=SendMessageToWX.Req.WXSceneSession;
                 api.sendReq(req);
-                    break;
+                break;
         }
     }
 //开始游戏
@@ -524,14 +492,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                     }
                 });
-        try {
-            if (socGame.isConnected())
-                socGame.close();
-            if (socStatus.isConnected())
-                socStatus.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void addrecord() {
@@ -609,5 +569,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         exitRoom();
+        if (!isHost)
+//            todo:
+
+        ContentServiceHelper.unBindService(this);
     }
 }

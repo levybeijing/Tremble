@@ -108,8 +108,10 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        mp.stop();
-        mp.release();
+        if (mp!=null){
+            mp.stop();
+            mp.release();
+        }
         super.onDestroy();
     }
 

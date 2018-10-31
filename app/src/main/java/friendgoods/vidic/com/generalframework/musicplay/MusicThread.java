@@ -2,7 +2,6 @@ package friendgoods.vidic.com.generalframework.musicplay;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -20,7 +19,6 @@ import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class MusicThread extends Thread {

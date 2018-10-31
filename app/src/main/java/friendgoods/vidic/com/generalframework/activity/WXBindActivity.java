@@ -38,8 +38,9 @@ public class WXBindActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.iv_bind_wxbind:
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "forcode";
+                req.state = "bind";
                 api.sendReq(req);
+                finish();
                 break;
         }
     }

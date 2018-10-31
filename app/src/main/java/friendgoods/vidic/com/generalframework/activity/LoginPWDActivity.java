@@ -105,8 +105,12 @@ public class LoginPWDActivity extends Activity implements View.OnClickListener {
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"mobile",bean.getData().getMobile());
 
+                                if ((boolean)SharedPFUtils.getParam(LoginPWDActivity.this,"bindwx",false))
+                                    startActivity(new Intent(LoginPWDActivity.this,IntroduceActivity.class));
+                                else
+                                    startActivity(new Intent(LoginPWDActivity.this,WXBindActivity.class));
+                                SharedPFUtils.setParam(LoginPWDActivity.this,"bindphone",true);
                                 finish();
-                                startActivity(new Intent(LoginPWDActivity.this,IntroduceActivity.class));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
