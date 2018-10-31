@@ -40,4 +40,17 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$/library">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://link.s29.csome.cn:20197/svn/dou/android/Tremble/library" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>

@@ -86,13 +86,15 @@
         <activity android:name=".activity.StoryModelActivity"></activity>
         <activity android:name=".activity.RelaxModelActivity"></activity>
         <activity android:name=".activity.ChallengeModelActivity"></activity>
-        <activity android:name=".activity.PKModelActivity">
+        <activity android:name=".activity.PKModelActivity"
+            android:exported="true"
+            >
             <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com.dou -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="friendgoods.vidic.com.dou" android:scheme="android"/>
+                <data android:host="dou" android:scheme="tremble"/>
             </intent-filter>
         </activity>
         <!--微信-->
