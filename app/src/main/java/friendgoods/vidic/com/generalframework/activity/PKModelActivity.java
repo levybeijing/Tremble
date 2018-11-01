@@ -29,6 +29,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -93,7 +95,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
-    private int roomId;
+    private String roomId;
     private long gametime;
     private int SOCSTATUS=200;
 
@@ -120,8 +122,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private static final int PORT = 8081;
     private static final String Host = "192.168.1.153";
 // id集合
-    private List<Integer> usersList=new ArrayList<>();
-    private Handler handler=new Handler(){
+//    private List<Integer> usersList=new ArrayList<>();
+//    WeakReference weak=new WeakReference(handler);
+    private  Handler sHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -200,9 +203,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     };
+//   通过软应用来实现 避免内存泄漏
+    WeakReference soft=new WeakReference(sHandler);
+    Handler handler= (Handler) soft.get();
 
     private IWXAPI api;
-    private String inviteId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -211,25 +216,31 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         //非房主状态收到roomid
         Uri data = getIntent().getData();
         if (data!=null)
-            inviteId = data.getQueryParameter("id");
+            roomId = data.getQueryParameter("id");
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
+
+        
+
         gametime=System.currentTimeMillis();
-        initView();
+
 //        初始化socket lib
         SocketConfig socketConfig = new SocketConfig.Builder(getApplicationContext())
                 .setIp(Host)//ip
                 .setPort(PORT)//端口
                 .setReadBufferSize(10240)//readBuffer
                 .setIdleTimeOut(30)//客户端空闲时间,客户端在超过此时间内不向服务器发送数据,则视为idle状态,则进入心跳状态
-                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
+//                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
                 .setRequestInterval(10)//请求超时间隔时间
-                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
-                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
+//                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
+//                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
                 .builder();
         ContentServiceHelper.bindService(this, socketConfig);
         SessionManager.getInstance().setReceivedResponseListener(this);
+
+        Log.e("========", "设置完成: ");
+        initView();
     }
 
     private void initView() {
@@ -259,7 +270,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         ImageView icon2 = findViewById(R.id.iv_icon_two_pkmodel);
         name2 = findViewById(R.id.tv_name_two_pkmodel);
         name2.setText(MyApplication.NAME);
-        Picasso.with(this).load(MyApplication.USERICON).into(icon2);
+        if (MyApplication.USERICON!=null)
+            Picasso.with(this).load(MyApplication.USERICON).into(icon2);
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
             case 11:
@@ -308,11 +320,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             readyyes.setVisibility(View.VISIBLE);
             joinRoom();
         }
-//        开启新线程来监听
-//  192.168.1.153:8081/shakeLeg/user/aaa
-
     }
-
 
     public void getLlstOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
@@ -368,7 +376,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 readyno.setVisibility(View.VISIBLE);
 //                light2.setVisibility(View.VISIBLE);
 //                TODO:socket发送状态
-                ContentServiceHelper.sendClientMsg( "\n");
+//                ContentServiceHelper.sendClientMsg( "\n");
                 changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
@@ -387,12 +395,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
                 webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
-//                webpaget.webpageUrl="http://47.94.174.211/share/#/?roomId="+roomId;
-//
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
                 msg.description="一玩就上瘾的游戏!";
-
                 SendMessageToWX.Req req=new SendMessageToWX.Req();
                 req.message=msg;
                 req.scene=SendMessageToWX.Req.WXSceneSession;
@@ -403,9 +408,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void socketMessageReceived(String msg) {
-        Log.e("========", "socketMessageReceived: "+msg);
+        Log.e("===========", "socketMessageReceived: "+msg);
     }
-//开始游戏
+//房主开始游戏
     private void requestStart() {
         OkGo.post(UrlCollect.updateRoom)//
                 .tag(this)//
@@ -433,7 +438,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
-    //房主上传时间
+//房主上传时间
     private void requestTime(String time) {
         OkGo.post(UrlCollect.updateRoomTime)//
                 .tag(this)//
@@ -446,7 +451,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-    //创建 房间
+//房主创建 房间
     private void addroom() {
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
@@ -460,7 +465,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             try {
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
-                                roomId=data.getInt("roomId");
+                                roomId=data.getInt("roomId")+"";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -468,12 +473,12 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-//    邀请进入房间
+//    加入房间
     private void joinRoom() {
         OkGo.post(UrlCollect.intoRoomJudge)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
-                .params("roomId", inviteId)
+                .params("roomId", roomId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -498,10 +503,10 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         OkGo.post(UrlCollect.overRoom)//
                 .tag(this)//
                 .params("userId", "")//1,2,3（多用户，拼接）
-                .params("roomId", roomId)
-                .params("time", roomId)//00:56:21
-                .params("status", roomId)//0（手动）1（脚动）
-                .params("shakeNum", roomId)//12312,43134,51356,（对应用户，拼接） 抖动数
+                .params("roomId", "")
+                .params("time", "")//00:56:21
+                .params("status", "")//0（手动）1（脚动）
+                .params("shakeNum", "")//12312,43134,51356,（对应用户，拼接） 抖动数
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -509,7 +514,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-
+//增加游戏记录
     private void addrecord() {
         gametime=System.currentTimeMillis()-gametime;
         OkGo.post(UrlCollect.addRecord)//
@@ -528,7 +533,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-    //至少定义10秒钟
+//至少定义10秒钟
     private boolean checkTime() {
         getLlstOfTime();
         for (int i = 0; i < 5; i++) {
