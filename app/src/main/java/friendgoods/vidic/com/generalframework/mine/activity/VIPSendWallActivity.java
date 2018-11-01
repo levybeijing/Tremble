@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,21 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
@@ -32,14 +38,25 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
     private RecyclerView rv;
     private AdapterVIPSendWall adapter;
     private RelativeLayout view;
-    private List<String> giftId;
-    private double scale;
+    private int scale;
+
+    private String receiveId;
+    private String wallId;
+    private StringBuffer yaxle;
+    private StringBuffer xaxle;
+    private StringBuffer gift;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vipsendwall);
-        giftId=new ArrayList<>();
 
+        Intent intent = getIntent();
+        receiveId = intent.getStringExtra("userId");
+        wallId = intent.getStringExtra("wallId");
+
+        gift = new StringBuffer();
+        xaxle = new StringBuffer();
+        yaxle = new StringBuffer();
         initView();
     }
 
@@ -57,23 +74,9 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
         adapter = new AdapterVIPSendWall(VIPSendWallActivity.this);
 
         rv.setAdapter(adapter);
-        //底部礼物集合
-        OkGo.post(UrlCollect.myGifts)//
-                .tag(this)//
-                .params("userId", "27")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
-                        List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
-                        adapter.setData(data);
-                    }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                    }
-                });
-
+//        获取礼物集合
+        requestGift();
+//        TODO:点击事件后  数量的变化  非零判断
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
             @Override
             public void onItemClick(String sx,String sy,String surl,String id) {
@@ -83,12 +86,12 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
                 DisplayMetrics dm = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
                 //获取
-                int dpi = dm.densityDpi;
+//                int dpi = dm.densityDpi;
                 //图片尺寸放大缩小比率
                 scale = view.getWidth()/325;
                 //实际图片尺寸
-                int realwidth= (int) (x* scale);
-                int realheight= (int) (y* scale);
+                int realwidth= x* scale;
+                int realheight= y* scale;
                 //获取限定范围 以父控件为参照
                 int left = view.getLeft();
                 int top = view.getTop();
@@ -97,7 +100,7 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
                 //加载图片
-                Picasso.with(VIPSendWallActivity.this).load("http://wx1.sinaimg.cn/orj360/006pnLoLgy1ft6yichmarj30j60j675x.jpg").into(iv);
+                Picasso.with(VIPSendWallActivity.this).load(surl).into(iv);
                 //传入自己的真实像素
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                         realwidth, realheight);
@@ -110,6 +113,16 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
                 lp.topMargin= yy;
                 iv.setLayoutParams(lp);//设置布局参数
                 view.addView(iv);//加载图片
+                //获取容器内所有控件 获取位置
+                if (gift.length()==0){
+                    yaxle.append(iv.getTop()/scale);
+                    xaxle.append(iv.getLeft()/scale);
+                    gift.append(id);
+                }else{
+                    yaxle.append(","+iv.getTop()/scale);
+                    xaxle.append(","+iv.getLeft()/scale);
+                    gift.append(","+id);
+                }
             }
         });
     }
@@ -121,13 +134,54 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.iv_makesure_vipwall:
-
+                sendGift("1");
                 view.removeAllViews();
                 break;
             case R.id.iv_mall_vipwall:
-
+                startActivity(new Intent(VIPSendWallActivity.this,MallActivity.class));
                 view.removeAllViews();
                 break;
         }
+    }
+    private void requestGift() {
+        //底部礼物集合
+        OkGo.post(UrlCollect.myGifts)//
+                .tag(this)//
+                .params("userId", MyApplication.USERID)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
+                        List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
+                        adapter.setData(data);
+                    }
+                });
+    }
+    private void sendGift(String status){
+        OkGo.post(UrlCollect.sendGift)//
+                .tag(this)//
+                .params("giftId", String.valueOf(gift))//
+                .params("userId",receiveId)//接收人ID
+                .params("fansId", MyApplication.USERID)
+                .params("xaxle", String.valueOf(xaxle))//
+                .params("yaxle", String.valueOf(yaxle))//
+                .params("presentsWallId",wallId)//墙的ID
+                .params("status",status)
+                .params("url","")//status为1的时候上传
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            if ("请求成功".equals(message)){
+                                view.removeAllViews();
+                                Toast.makeText(VIPSendWallActivity.this, "已送达", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

@@ -71,7 +71,7 @@ public class MyPubWallActivity extends Activity{
     }
 
     private void requestWall() {
-        OkGo.post(UrlCollect.getPresentsWalls)
+        OkGo.post(UrlCollect.getPresentsWall)
                 .tag(this)
                 .params("userId",MyApplication.USERID)
                 .execute(new StringCallback() {
@@ -97,7 +97,7 @@ public class MyPubWallActivity extends Activity{
                             ImageView view=new ImageView(MyPubWallActivity.this);
                             Picasso.with(MyPubWallActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getUrl()).into(view);
                             view.setLayoutParams(lp);
-                            rv.addView(view);
+                            rl.addView(view);
                         }
                     }
                 });

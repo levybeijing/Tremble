@@ -75,44 +75,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_height="38dp">
-                <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                >
+                <TextView
                     android:id="@+id/ll_pre_rank"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                    <ImageView
-                        android:layout_marginLeft="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/img_up"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textColor="#FBBD46"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="10dp"
-                        android:text="上一页"/>
-                </LinearLayout>
-                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/pre_rank_3x"
+                    />
+                <TextView
                     android:id="@+id/ll_next_rank"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="12dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textColor="#FBBD46"
-                        android:layout_marginRight="4dp"
-                        android:textSize="10dp"
-                        android:text="上一页"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/img_next"/>
-                </LinearLayout>
+                    android:background="@mipmap/next_rank_3x"
+                    />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

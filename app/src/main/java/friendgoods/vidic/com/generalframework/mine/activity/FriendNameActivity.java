@@ -8,17 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterFriendName;
@@ -34,7 +38,7 @@ public class FriendNameActivity extends AppCompatActivity implements View.OnClic
     private String userId;
     private String wallId;
     private RelativeLayout container;
-
+    private int scale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,12 +89,28 @@ public class FriendNameActivity extends AppCompatActivity implements View.OnClic
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("$$$$$$$$$$$$$$$$$$", "onSuccess: "+s);
-                        //获取墙的ID  参数3
-
-                        //获取所有参数 绘制图片
-//                        container.addView();
-
+                        MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
+                        List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
+                        wallId=myWallBean.getData().getId()+"";
+                        for (int i = 0; i < axle.size(); i++) {
+                            MyWallBean.DataBean.AxleBean bean = axle.get(i);
+                            int realx=Integer.parseInt(bean.getXaxle())*scale;
+                            int realy=Integer.parseInt(bean.getYaxle())*scale;
+                            int realhight=Integer.parseInt(bean.getHigh())*scale;
+                            int realweith=Integer.parseInt(bean.getWide())*scale;
+                            //传入自己的真实像素
+                            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                                    realweith, realhight);
+                            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
+                            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
+                            //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
+                            lp.leftMargin=realx;
+                            lp.topMargin= realy;
+                            ImageView view=new ImageView(FriendNameActivity.this);
+                            Picasso.with(FriendNameActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getUrl()).into(view);
+                            view.setLayoutParams(lp);
+                            container.addView(view);
+                        }
                     }
                 });
     }

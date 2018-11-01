@@ -76,12 +76,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //    倒数计时开始
     private static int lastTime=2;
 
-    private ImageView light2;
+//    private ImageView light2;
     private ImageView three;
     private ImageView two;
     private ImageView one;
+    private int SOCGAME=300;
     private ImageView click;
-//    socket赋值
+    //    socket赋值
     private ImageView person1;
     private ImageView light1;
     private ImageView icon1;
@@ -95,7 +96,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private int roomId;
     private long gametime;
     private int SOCSTATUS=200;
-    private int SOCGAME=300;
 
 //    计时器
     private int x;
@@ -231,10 +231,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         ContentServiceHelper.bindService(this, socketConfig);
         SessionManager.getInstance().setReceivedResponseListener(this);
     }
-//
-//    @Override
-//    public void socketMessageReceived(String msg) {
-//    }
+
     private void initView() {
         ll = findViewById(R.id.ll_timer_pk);
         ll.setOnClickListener(this);
@@ -369,7 +366,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
-                light2.setVisibility(View.VISIBLE);
+//                light2.setVisibility(View.VISIBLE);
 //                TODO:socket发送状态
                 ContentServiceHelper.sendClientMsg( "\n");
                 changeStatus();
@@ -496,6 +493,22 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
+//    游戏结束????谁发送
+    private void gameOver() {
+        OkGo.post(UrlCollect.overRoom)//
+                .tag(this)//
+                .params("userId", "")//1,2,3（多用户，拼接）
+                .params("roomId", roomId)
+                .params("time", roomId)//00:56:21
+                .params("status", roomId)//0（手动）1（脚动）
+                .params("shakeNum", roomId)//12312,43134,51356,（对应用户，拼接） 抖动数
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                    }
+                });
+    }
 
     private void addrecord() {
         gametime=System.currentTimeMillis()-gametime;
@@ -574,7 +587,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         exitRoom();
         if (!isHost)
 //            todo:
-
         ContentServiceHelper.unBindService(this);
     }
 }
