@@ -2,31 +2,21 @@ package friendgoods.vidic.com.generalframework.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.bean.GiftsMallBean;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
-import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
-import okhttp3.Call;
-import okhttp3.Response;
 
-public class AdapterWeekRank extends RecyclerView.Adapter<AdapterWeekRank.MyViewHolder> {
+public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> {
     private Context context;
     private List<WeekRankBean.DataBean.PageInfoBean.ListBean> list;
     private OnItemClickListenerPosition itemClickListener;
@@ -35,7 +25,7 @@ public class AdapterWeekRank extends RecyclerView.Adapter<AdapterWeekRank.MyView
         itemClickListener=itemClickListene_;
     }
 
-    public AdapterWeekRank(Context context_) {
+    public AdapterRank(Context context_) {
         context=context_;
     }
 

@@ -3,6 +3,7 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -81,12 +83,14 @@ public class SettingsActivity extends Activity {
                     if (i==0)
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
+                    startService(new Intent(SettingsActivity.this,MusicService.class));
                 }else{
                     VOICE=0;
                     edit.putBoolean("voice",false);
                     edit.commit();
                     mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
+                    MusicService.getInstance().onDestroy();
                 }
                 request(SHAKE,VOICE);
             }

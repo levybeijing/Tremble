@@ -65,7 +65,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private static boolean isGaming=false;
 //   是否是房主
     private static boolean isHost=true;
-
+//
     private LinearLayout ll;
     private ImageView readyno;
     private ImageView readyyes;
@@ -119,7 +119,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     //倒计时三秒
     private static final int PORT = 8081;
     private static final String Host = "192.168.1.153";
-
+// id集合
+    private List<Integer> usersList=new ArrayList<>();
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -315,10 +316,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    @Override
-    public void socketMessageReceived(String msg) {
-        Log.e("========", "socketMessageReceived: "+msg);
-    }
 
     public void getLlstOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
@@ -381,6 +378,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 name2.setText(++pkCount);
 //                SocStatusBean status = new SocStatusBean();
 //                status.setUserId();
+
                 ContentServiceHelper.sendClientMsg(pkCount + "\n");
                 break;
             case R.id.tv_name_one_pkmodel:
@@ -391,8 +389,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     return;
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
-//                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
-                webpaget.webpageUrl="http://47.94.174.211/share/#/?roomId="+roomId;
+                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
+//                webpaget.webpageUrl="http://47.94.174.211/share/#/?roomId="+roomId;
 //
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
@@ -404,6 +402,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 api.sendReq(req);
                 break;
         }
+    }
+
+    @Override
+    public void socketMessageReceived(String msg) {
+        Log.e("========", "socketMessageReceived: "+msg);
     }
 //开始游戏
     private void requestStart() {
@@ -446,7 +449,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-
     //创建 房间
     private void addroom() {
         OkGo.post(UrlCollect.addRoom)//

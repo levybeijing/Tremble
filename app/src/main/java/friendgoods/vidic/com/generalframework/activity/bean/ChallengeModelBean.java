@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework.activity.bean;
 
 import java.util.List;
 

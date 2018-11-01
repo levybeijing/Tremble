@@ -1,26 +1,26 @@
 package friendgoods.vidic.com.generalframework.activity.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
-import java.util.List;
-
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.base.LazyFragment;
-import friendgoods.vidic.com.generalframework.adapter.AdapterWeekRank;
+import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import okhttp3.Call;
@@ -31,7 +31,10 @@ import okhttp3.Response;
  */
 public class WeekRankFragment extends Fragment {
 
-    private AdapterWeekRank adapter;
+    private AdapterRank adapter;
+    private String currentAction="android.tremble.WORLD";
+    private int worldPage=1;
+    private int friendPage=1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,14 +54,70 @@ public class WeekRankFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.rv_weekrank);
         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         rv.setLayoutManager(manager);
-        adapter = new AdapterWeekRank(getActivity());
+        adapter = new AdapterRank(getActivity());
         rv.setAdapter(adapter);
-        request();
+        // 1. 实例化BroadcastReceiver子类 &  IntentFilter
+        BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (currentAction.equals(intent.getAction())){
+                    return;
+                }
+                switch (intent.getAction()){
+                    case "android.tremble.FRIEND":
+                        request2(friendPage);
+                        break;
+                    case "android.tremble.WORLD":
+                        request(worldPage);
+                        break;
+                    case "android.tremble.PRE":
+                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
+                            request(--worldPage);
+                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
+                            request2(--friendPage);
+                        else
+                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "android.tremble.NEXT":
+                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
+                            request(++worldPage);
+                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
+                            request2(++friendPage);
+                        else
+                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter();
+        // 2. 设置接收广播的类型
+        intentFilter.addAction("android.tremble.FRIEND");
+        intentFilter.addAction("android.tremble.WORLD");
+        intentFilter.addAction("android.tremble.PRE");
+        intentFilter.addAction("android.tremble.NEXT");
+        // 3. 动态注册：调用Context的registerReceiver（）方法
+        getContext().registerReceiver(mBroadcastReceiver, intentFilter);
+        request(1);
     }
-    private void request() {
+    private void request(int page) {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
-                .params("page", "1")
+                .params("page", page+"")
+                .params("pageSize", "10")
+                .params("type", "1")    //1 周排行
+                .params("status", "0")//0  手动  1脚动
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
+                        adapter.setData(bean.getData().getPageInfo().getList());
+                    }
+                });
+    }
+    private void request2(int page) {
+        OkGo.post(UrlCollect.getFriendp)//
+                .tag(this)//
+                .params("page", page+"")
                 .params("pageSize", "10")
                 .params("type", "1")    //1 周排行
                 .params("status", "0")//0  手动  1脚动

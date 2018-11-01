@@ -104,7 +104,7 @@ public class PublicWallActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
         //头像集访问
-        OkGo.post(UrlCollect.iconsOfSendGift)//
+        OkGo.post(UrlCollect.getUserPhoto)//
                 .tag(this)//
                 .params("presentsWallId", receiveId)
                 .execute(new StringCallback() {

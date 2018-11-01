@@ -14,10 +14,11 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.bean.IconSetBean;
+import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 
 public class AdapterMyPubWall extends RecyclerView.Adapter<AdapterMyPubWall.MyViewHolder> {
     private Context context;
-    private List<IconSetBean.DataBean> list;
+    private List<MyWallBean.DataBean.UserPhotoBean> list;
 
     public AdapterMyPubWall(Context context_) {
         context=context_;
@@ -48,7 +49,7 @@ public class AdapterMyPubWall extends RecyclerView.Adapter<AdapterMyPubWall.MyVi
         return list.size();
     }
 
-    public void setData(List<IconSetBean.DataBean> list_) {
+    public void setData(List<MyWallBean.DataBean.UserPhotoBean> list_) {
         list=list_;
         notifyDataSetChanged();
     }
