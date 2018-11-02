@@ -48,11 +48,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import app.socketlib.com.library.ContentServiceHelper;
-import app.socketlib.com.library.listener.SocketResponseListener;
-import app.socketlib.com.library.socket.SessionManager;
-import app.socketlib.com.library.socket.SocketConfig;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
@@ -70,7 +65,7 @@ import okhttp3.Response;
 
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
-public class PKModelActivity extends AppCompatActivity implements View.OnClickListener, SocketResponseListener {
+public class PKModelActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -129,12 +124,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     });
-    //倒计时三秒
-    private static final int PORT = 8081;
-    private static final String Host = "192.168.1.153";
-// id集合
-//    private List<Integer> usersList=new ArrayList<>();
-//    WeakReference weak=new WeakReference(handler);
     private  Handler sHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -170,10 +159,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                     break;
                 case 200://SOCSTATUS
-//                    假如都准备好了  可以start 然后开始
-                    startyes.setVisibility(View.VISIBLE);
-//假如是非房主  游戏开始 倒计时
-                    readyno.setVisibility(View.INVISIBLE);
+//                  都准备好了  可以start 然后开始
+                    if (isHost)
+                        startyes.setVisibility(View.VISIBLE);
+//                    else
+//                        readyno.setVisibility(View.INVISIBLE);
 //                    Threetoone.start();
                     break;
                 case 2:
@@ -224,32 +214,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
-        //非房主状态收到roomid
-        Uri data = getIntent().getData();
-        if (data!=null)
-            roomId = data.getQueryParameter("id");
+
         connect();
+
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
 
-        
-
         gametime=System.currentTimeMillis();
-  //        初始化socket lib
-//        SocketConfig socketConfig = new SocketConfig.Builder(getApplicationContext())
-//                .setIp(Host)//ip
-//                .setPort(PORT)//端口
-//                .setReadBufferSize(10240)//readBuffer
-//                .setIdleTimeOut(30)//客户端空闲时间,客户端在超过此时间内不向服务器发送数据,则视为idle状态,则进入心跳状态
-////                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
-//                .setRequestInterval(10)//请求超时间隔时间
-////                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
-////                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
-//                .builder();
-//        ContentServiceHelper.bindService(this, socketConfig);
-//        SessionManager.getInstance().setReceivedResponseListener(this);
 
-        Log.e("========", "设置完成: ");
         initView();
     }
 
@@ -319,16 +291,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
         startno = findViewById(R.id.iv_startno_pkmodel);
-//
-        if (isHost){
-//            light2.setVisibility(View.VISIBLE);
-            startno.setVisibility(View.VISIBLE);
-//            startyes.setVisibility(View.VISIBLE);
-            addroom();
-        }else{
+////非房主状态收到roomid
+        Uri data = getIntent().getData();
+        Log.e("===========", "roomId: "+roomId);
+        if (data!=null){
+            roomId = data.getQueryParameter("id");
+            isHost=false;
+            joinRoom();
             ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
-            joinRoom();
+        }else{
+            startno.setVisibility(View.VISIBLE);
+            addroom();
         }
     }
 
@@ -398,6 +372,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.tv_name_one_pkmodel:
             case R.id.tv_name_three_pkmodel:
+                if (!isHost){
+                    return;
+                }
                 if (!name1.getText().equals("邀请好友"))
                     return;
                 if (!name3.getText().equals("邀请好友"))
@@ -414,11 +391,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 api.sendReq(req);
                 break;
         }
-    }
-
-    @Override
-    public void socketMessageReceived(String msg) {
-        Log.e("===========", "socketMessageReceived: "+msg);
     }
 //房主开始游戏
     private void requestStart() {
@@ -463,6 +435,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //房主创建 房间
     private void addroom() {
+        Log.e("==============addroom", "");
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
@@ -485,6 +458,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //    加入房间
     private void joinRoom() {
+        Log.e("==============joinRoom", "");
         OkGo.post(UrlCollect.intoRoomJudge)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
@@ -497,6 +471,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //  退出房间
     private void exitRoom() {
+        Log.e("==============exitRoom", "");
         OkGo.post(UrlCollect.updateRoomUserStatus)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
@@ -508,7 +483,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-//    游戏结束????谁发送
+//    游戏结束????谁发送 时间到了 发送????????//为什么是三个人的?
     private void gameOver() {
         OkGo.post(UrlCollect.overRoom)//
                 .tag(this)//
@@ -526,6 +501,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //增加游戏记录
     private void addrecord() {
+        Log.e("==============addrecord", "");
         gametime=System.currentTimeMillis()-gametime;
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
@@ -599,6 +575,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        isHost=true;
         exitRoom();
         mConnect.disconnect();
     }
@@ -622,8 +599,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onTextMessage(String payload) {
                     Log.e("==============", payload);
-//                    mText.setText(payload != null ? payload : "");
-//                    mConnect.sendTextMessage("I am android client");
+
                 }
 
                 @Override

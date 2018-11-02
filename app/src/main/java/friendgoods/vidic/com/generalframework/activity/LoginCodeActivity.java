@@ -122,10 +122,13 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
-                                if ((boolean)SharedPFUtils.getParam(LoginCodeActivity.this,"bindwx",false))
-                                    startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
-                                else
+                                if (!(boolean)SharedPFUtils.getParam(LoginCodeActivity.this,"bindwx",false)){
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
+                                } else if (SharedPFUtils.getParam(LoginCodeActivity.this,"sex", 0)==0) {
+                                    startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
+                                }else{
+                                    startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
+                                }
                                 finish();
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
                             }else{
