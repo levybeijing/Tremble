@@ -1,8 +1,15 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +41,7 @@ import java.lang.ref.WeakReference;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +53,9 @@ import app.socketlib.com.library.ContentServiceHelper;
 import app.socketlib.com.library.listener.SocketResponseListener;
 import app.socketlib.com.library.socket.SessionManager;
 import app.socketlib.com.library.socket.SocketConfig;
+import de.tavendo.autobahn.WebSocketConnection;
+import de.tavendo.autobahn.WebSocketException;
+import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
@@ -73,7 +84,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView readyyes;
     private ImageView startyes;
     private ImageView startno;
-    //点击数
+//  点击数
     private static int pkCount=0;
 //    倒数计时开始
     private static int lastTime=2;
@@ -217,27 +228,26 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         Uri data = getIntent().getData();
         if (data!=null)
             roomId = data.getQueryParameter("id");
-
+        connect();
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
 
         
 
         gametime=System.currentTimeMillis();
-
-//        初始化socket lib
-        SocketConfig socketConfig = new SocketConfig.Builder(getApplicationContext())
-                .setIp(Host)//ip
-                .setPort(PORT)//端口
-                .setReadBufferSize(10240)//readBuffer
-                .setIdleTimeOut(30)//客户端空闲时间,客户端在超过此时间内不向服务器发送数据,则视为idle状态,则进入心跳状态
-//                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
-                .setRequestInterval(10)//请求超时间隔时间
-//                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
-//                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
-                .builder();
-        ContentServiceHelper.bindService(this, socketConfig);
-        SessionManager.getInstance().setReceivedResponseListener(this);
+  //        初始化socket lib
+//        SocketConfig socketConfig = new SocketConfig.Builder(getApplicationContext())
+//                .setIp(Host)//ip
+//                .setPort(PORT)//端口
+//                .setReadBufferSize(10240)//readBuffer
+//                .setIdleTimeOut(30)//客户端空闲时间,客户端在超过此时间内不向服务器发送数据,则视为idle状态,则进入心跳状态
+////                .setTimeOutCheckInterval(10)//客户端连接超时时间,超过此时间则视为连接超时
+//                .setRequestInterval(10)//请求超时间隔时间
+////                .setHeartbeatRequest("(1,1)\r\n")//与服务端约定的发送过去的心跳包
+////                .setHeartbeatResponse("(10,10)\r\n") //与服务端约定的接收到的心跳包
+//                .builder();
+//        ContentServiceHelper.bindService(this, socketConfig);
+//        SessionManager.getInstance().setReceivedResponseListener(this);
 
         Log.e("========", "设置完成: ");
         initView();
@@ -384,7 +394,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                SocStatusBean status = new SocStatusBean();
 //                status.setUserId();
 
-                ContentServiceHelper.sendClientMsg(pkCount + "\n");
+//                ContentServiceHelper.sendClientMsg(pkCount + "\n");
                 break;
             case R.id.tv_name_one_pkmodel:
             case R.id.tv_name_three_pkmodel:
@@ -590,8 +600,52 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         exitRoom();
-        if (!isHost)
-//            todo:
-        ContentServiceHelper.unBindService(this);
+        mConnect.disconnect();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    private WebSocketConnection mConnect=new WebSocketConnection();
+    private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
+    private String TAG="==============";
+    private void connect() {
+        try {
+            mConnect.connect(socketUrl, new WebSocketHandler() {
+                @Override
+                public void onOpen() {
+                    Log.e(TAG, "Status:Connect to " + socketUrl);
+                }
+
+                @Override
+                public void onTextMessage(String payload) {
+                    Log.e("==============", payload);
+//                    mText.setText(payload != null ? payload : "");
+//                    mConnect.sendTextMessage("I am android client");
+                }
+
+                @Override
+                public void onClose(int code, String reason) {
+                    Log.e(TAG, "Connection lost..");
+                }
+            });
+        } catch (WebSocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param msg
+     */
+    private void sendMessage(String msg) {
+        if (mConnect.isConnected()) {
+            mConnect.sendTextMessage(msg);
+        } else {
+            Log.i(TAG, "no connection!!");
+        }
     }
 }

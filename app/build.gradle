@@ -58,4 +58,5 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.github.Jeromeer:MinaSocket:1.0'
+    implementation files('libs/autobahn-0.5.0.jar')
 }

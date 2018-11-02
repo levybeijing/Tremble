@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.IOException;
@@ -15,15 +14,16 @@ import java.lang.ref.WeakReference;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+import javax.net.SocketFactory;
 
 public class BackService extends Service {
     private static final String TAG = "BackService";
     /** 心跳检测时间  */
     private static final long HEART_BEAT_RATE = 3 * 1000;
     /** 主机IP地址  */
-    private static final String HOST = "192.168.1.104";
+    private static final String HOST = "192.168.1.153";
     /** 端口号  */
-    public static final int PORT = 9800;
+    public static final int PORT = 8081;
     /** 消息广播  */
     public static final String MESSAGE_ACTION = "tremble.message_ACTION";
     /** 心跳广播  */
@@ -52,6 +52,11 @@ public class BackService extends Service {
     public void onCreate() {
         super.onCreate();
         new InitSocketThread().start();
+//        try {
+//            SocketFactory.getDefault().createSocket();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     // 发送心跳包
@@ -84,7 +89,7 @@ public class BackService extends Service {
                 os.write(message.getBytes());
                 os.flush();
                 sendTime = System.currentTimeMillis();// 每次发送成功数据，就改一下最后成功发送的时间，节省心跳间隔时间
-                Log.i(TAG, "发送成功的时间：" + sendTime);
+//                Log.i(TAG, "发送成功的时间：" + sendTime);
             } else {
                 return false;
             }
@@ -96,16 +101,16 @@ public class BackService extends Service {
     }
 
     // 初始化socket
-    private void initSocket() throws UnknownHostException, IOException {
+    private void initSocket() throws IOException {
         Socket socket = new Socket(HOST, PORT);
-        mSocket = new WeakReference<Socket>(socket);
+        mSocket = new WeakReference<>(socket);
         mReadThread = new ReadThread(socket);
         mReadThread.start();
         mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);// 初始化成功后，就准备发送心跳包
     }
 
     // 释放socket
-    private void releaseLastSocket(WeakReference<socket> mSocket) {
+    private void releaseLastSocket(WeakReference<Socket> mSocket) {
         try {
             if (null != mSocket) {
                 Socket sk = mSocket.get();
@@ -139,7 +144,7 @@ public class BackService extends Service {
         private boolean isStart = true;
 
         public ReadThread(Socket socket) {
-            mWeakSocket = new WeakReference<Socket>(socket);
+            mWeakSocket = new WeakReference<>(socket);
         }
 
         public void release() {
@@ -152,31 +157,33 @@ public class BackService extends Service {
         public void run() {
             super.run();
             Socket socket = mWeakSocket.get();
-            if (null != socket) {
-                try {
-                    InputStream is = socket.getInputStream();
-                    byte[] buffer = new byte[1024 * 4];
-                    int length = 0;
-                    while (!socket.isClosed() && !socket.isInputShutdown()
-                            && isStart && ((length = is.read(buffer)) != -1)) {
-                        if (length > 0) {
-                            String message = new String(Arrays.copyOf(buffer,
-                                    length)).trim();
-                            Log.i(TAG, "收到服务器发送来的消息："+message);
-                            // 收到服务器过来的消息，就通过Broadcast发送出去
-                            if (message.equals("ok")) {// 处理心跳回复
-                                Intent intent = new Intent(HEART_BEAT_ACTION);
-                                sendBroadcast(intent);
-                            } else {
-                                // 其他消息回复
-                                Intent intent = new Intent(MESSAGE_ACTION);
-                                intent.putExtra("message", message);
-                                sendBroadcast(intent);
+            while (true) {
+                if (null != socket) {
+                    try {
+                        InputStream is = socket.getInputStream();
+                        byte[] buffer = new byte[1024 * 4];
+                        int length = 0;
+                        while (!socket.isClosed() && !socket.isInputShutdown()
+                                && isStart && ((length = is.read(buffer)) != -1)) {
+                            if (length > 0) {
+                                String message = new String(Arrays.copyOf(buffer,
+                                        length)).trim();
+                                Log.e(TAG, "收到服务器发送来的消息：" + message);
+                                // 收到服务器过来的消息，就通过Broadcast发送出去
+                                if (message.equals("ok")) {// 处理心跳回复
+                                    Intent intent = new Intent(HEART_BEAT_ACTION);
+                                    sendBroadcast(intent);
+                                } else {
+                                    // 其他消息回复
+                                    Intent intent = new Intent(MESSAGE_ACTION);
+                                    intent.putExtra("message", message);
+                                    sendBroadcast(intent);
+                                }
                             }
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }

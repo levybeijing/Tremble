@@ -117,7 +117,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
-                                MyApplication.USERID=bean.getData().getId()+"";
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"status",bean.getData().getStatus());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"is_use",bean.getData().getIs_use());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
