@@ -108,7 +108,7 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
-//                                Log.e("*************", "onSuccess: "+s);
+                                Log.e("*************", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
@@ -122,9 +122,10 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+//                                if ()
                                 if (!(boolean)SharedPFUtils.getParam(LoginCodeActivity.this,"bindwx",false)){
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
-                                } else if (SharedPFUtils.getParam(LoginCodeActivity.this,"sex", 0)==0) {
+                                } else if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex", 0)==0) {
                                     startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
