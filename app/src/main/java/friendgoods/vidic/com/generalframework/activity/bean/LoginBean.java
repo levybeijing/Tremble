@@ -3,7 +3,7 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 public class LoginBean {
 
     /**
-     * data : {"voice":1,"spNum":0,"password":"33054eacef5156f411036507080aceaf","shake":1,"signDays":1,"createTime":"2018-10-22 13:42:21","integral":0,"mobile":"15210903179","id":54,"is_use":1,"status":0}
+     * data : {"voice":1,"spNum":0,"shake":1,"weChatA":"o-CJL1IxT1aYtdIpxBggH1I727Hg","mobile":"15210903179","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","updateTime":"2018-11-05 14:59:06","signDays":1,"createTime":"2018-11-05 14:53:39","integral":0,"name":"levy","logo":"man1.png","id":181,"is_use":1,"status":0}
      * message : 请求成功
      * state : 1
      */
@@ -40,25 +40,33 @@ public class LoginBean {
         /**
          * voice : 1
          * spNum : 0
-         * password : 33054eacef5156f411036507080aceaf
          * shake : 1
-         * signDays : 1
-         * createTime : 2018-10-22 13:42:21
-         * integral : 0.0
+         * weChatA : o-CJL1IxT1aYtdIpxBggH1I727Hg
          * mobile : 15210903179
-         * id : 54
+         * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
+         * updateTime : 2018-11-05 14:59:06
+         * signDays : 1
+         * createTime : 2018-11-05 14:53:39
+         * integral : 0.0
+         * name : levy
+         * logo : man1.png
+         * id : 181
          * is_use : 1
          * status : 0
          */
 
         private int voice;
         private int spNum;
-        private String password;
         private int shake;
+        private String weChatA;
+        private String mobile;
+        private String photo;
+        private String updateTime;
         private int signDays;
         private String createTime;
         private double integral;
-        private String mobile;
+        private String name;
+        private String logo;
         private int id;
         private int is_use;
         private int status;
@@ -79,20 +87,44 @@ public class LoginBean {
             this.spNum = spNum;
         }
 
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
         public int getShake() {
             return shake;
         }
 
         public void setShake(int shake) {
             this.shake = shake;
+        }
+
+        public String getWeChatA() {
+            return weChatA;
+        }
+
+        public void setWeChatA(String weChatA) {
+            this.weChatA = weChatA;
+        }
+
+        public String getMobile() {
+            return mobile;
+        }
+
+        public void setMobile(String mobile) {
+            this.mobile = mobile;
+        }
+
+        public String getPhoto() {
+            return photo;
+        }
+
+        public void setPhoto(String photo) {
+            this.photo = photo;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(String updateTime) {
+            this.updateTime = updateTime;
         }
 
         public int getSignDays() {
@@ -119,12 +151,20 @@ public class LoginBean {
             this.integral = integral;
         }
 
-        public String getMobile() {
-            return mobile;
+        public String getName() {
+            return name;
         }
 
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getLogo() {
+            return logo;
+        }
+
+        public void setLogo(String logo) {
+            this.logo = logo;
         }
 
         public int getId() {

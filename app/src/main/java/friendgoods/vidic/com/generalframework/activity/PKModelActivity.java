@@ -1,27 +1,18 @@
 package friendgoods.vidic.com.generalframework.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
@@ -34,15 +25,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,7 +36,6 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
@@ -303,9 +285,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         startno = findViewById(R.id.iv_startno_pkmodel);
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
-        Log.e("===========", "roomId: "+roomId);
         if (data!=null){
-            roomId = data.getQueryParameter("id");
+            roomId = data.getQueryParameter("roomId");
+            Log.e("===========", ": "+roomId);
             isHost=false;
             joinRoom();
             ll.setClickable(false);
@@ -458,6 +440,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
                                 roomId=data.getInt("roomId")+"";
+                                Log.e("===========", "id: "+roomId);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

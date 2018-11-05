@@ -80,11 +80,11 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 //        登录
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
-        String result = "";
+//        String result = "";
 //        requestWX(wxRespBean.getCode());
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-                result ="发送成功";
+//                result ="发送成功";
                 if (wxRespBean.getState().equals("bind")){
                     requestLogin(wxRespBean.getCode());
                 }else{
@@ -92,18 +92,18 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = "发送取消";
+//                result = "发送取消";
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = "发送被拒绝";
+//                result = "发送被拒绝";
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_BAN:
-                result = "签名错误";
+//                result = "签名错误";
                 break;
             default:
-                result = "发送返回";
+//                result = "发送返回";
 //                showMsg(0,result);
                 finish();
                 break;
@@ -157,7 +157,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     private void requestBind(String openid) {
         OkGo.post(UrlCollect.updateWeChat)//
                 .tag(this)//
-                .params("type", "3")
+                .params("type", "1")
                 .params("userId", MyApplication.USERID)
                 .params("name", MyApplication.NAME)
                 .params("photo", MyApplication.USERICON)

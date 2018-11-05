@@ -32,12 +32,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText et_phone;
     private EditText et_code;
-//    private EditText et_pwd;
     private TextView btn_code;
     private TimeCount time;
-
-//    private SharedPreferences.Editor edit;
-//    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,11 +90,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return;
                 }
                 register(number,code);
-//                MyApplication.PHONE=number;
-//                MyApplication.CODE=code;
-//                register(number,code);
-//                Intent intent = new Intent(RegisterActivity.this, WXBindActivity.class);
-//                startActivity(intent);
                 break;
         }
     }

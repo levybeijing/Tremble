@@ -100,7 +100,6 @@ public class LoginPWDActivity extends Activity implements View.OnClickListener {
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"voice",bean.getData().getVoice()==1?true:false);
-                                SharedPFUtils.setParam(LoginPWDActivity.this,"password",bean.getData().getPassword());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"spNum",bean.getData().getSpNum());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"integral",bean.getData().getIntegral());

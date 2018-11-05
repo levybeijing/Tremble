@@ -18,6 +18,7 @@ import com.lzy.okgo.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
@@ -121,10 +122,26 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+                                switch (bean.getData().getLogo()){
+                                    case "man1.png":
+                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",11);
+                                    break;
+                                    case "man2.png":
+                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",12);
+                                        break;
+                                    case "woman1.png":
+                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",21);
+                                        break;
+                                    case "woman2.png":
+                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",22);
+                                    break;
 
-                                if (!(boolean)SharedPFUtils.getParam(LoginCodeActivity.this,"bindwx",false)){
+                                }
+                                if (bean.getData().getWeChatA()==null){
+                                    MyApplication.NAME=bean.getData().getName();
+                                    MyApplication.USERICON=bean.getData().getPhoto();
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
-                                } else if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex", 0)==0) {
+                                } else if (bean.getData().getLogo()==null) {
                                     startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
