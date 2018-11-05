@@ -39,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Intent intent = getIntent();
 
         time = new TimeCount(60000, 1000);
 
@@ -49,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initView() {
         et_phone = findViewById(R.id.et_phone_register);
         et_code = findViewById(R.id.et_code_register);
-//        et_pwd = findViewById(R.id.et_pwd_register);
 
         btn_code = findViewById(R.id.tv_obtioncode_register);
         btn_code.setOnClickListener(this);
@@ -107,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void register(String phone,String code) {
-        OkGo.post(UrlCollect.register)//
+        OkGo.post(UrlCollect.registers)//
                 .tag(this)//
                 .params("mobile",phone)
                 .params("smsCode", code)
