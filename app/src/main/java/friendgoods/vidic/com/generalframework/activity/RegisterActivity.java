@@ -18,7 +18,9 @@ import com.lzy.okgo.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
@@ -29,17 +31,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText et_phone;
     private EditText et_code;
-    private EditText et_pwd;
+//    private EditText et_pwd;
     private TextView btn_code;
     private TimeCount time;
 
-    private SharedPreferences.Editor edit;
-    private SharedPreferences sharedPreferences;
+//    private SharedPreferences.Editor edit;
+//    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Intent intent = getIntent();
 
         time = new TimeCount(60000, 1000);
 
@@ -49,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initView() {
         et_phone = findViewById(R.id.et_phone_register);
         et_code = findViewById(R.id.et_code_register);
-        et_pwd = findViewById(R.id.et_pwd_register);
+//        et_pwd = findViewById(R.id.et_pwd_register);
 
         btn_code = findViewById(R.id.tv_obtioncode_register);
         btn_code.setOnClickListener(this);
@@ -80,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.tv_regi_register:
                 String number = et_phone.getText().toString().trim();
                 String code = et_code.getText().toString().trim();
-                String pwd = et_pwd.getText().toString().trim();
+//                String pwd = et_pwd.getText().toString().trim();
                 if (!StringUtil.isPhoneNumber(number)){
                     Toast.makeText(this, "手机号不正确", Toast.LENGTH_SHORT).show();
                     return;
@@ -89,11 +92,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!StringUtil.isPwdOk(pwd)){
-                    Toast.makeText(this, "密码不符合要求", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                register(number,pwd,code);
+                MyApplication.PHONE=number;
+                MyApplication.CODE=code;
+//                register(number,code);
+                Intent intent = new Intent(RegisterActivity.this, WXBindActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -109,31 +112,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-    private void register(String phone,String password,String smsCode) {
-        OkGo.post(UrlCollect.register)//
-                .tag(this)//
-                .params("mobile", phone)
-                .params("password", password)
-                .params("smsCode", smsCode)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-//                        成功则提示 考虑自动登录
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if ("请求成功".equals(message)){
-                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
-                                startActivity(new Intent(RegisterActivity.this,LoginPWDActivity.class));
-                                finish();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
 
     class TimeCount extends CountDownTimer {
 

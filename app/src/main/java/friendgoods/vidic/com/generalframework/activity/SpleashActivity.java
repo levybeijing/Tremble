@@ -76,11 +76,13 @@ public class SpleashActivity extends Activity {
                 //两条线路 一个是先手机后微信 一个是先微信后手机
                 if(userId.equals("")){
                     startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
-                }else if(!bindwx){
-                    startActivity(new Intent(SpleashActivity.this,WXBindActivity.class));
-                }else if (!bindphone){
-                    startActivity(new Intent(SpleashActivity.this,PhoneBindActivity.class));
-                }else if (sex==0){
+                }else if(!bindwx||!bindphone){
+                    startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
+                }
+//                else if (){
+//                    startActivity(new Intent(SpleashActivity.this,PhoneBindActivity.class));
+//                }
+                else if (sex==0){
                     startActivity(new Intent(SpleashActivity.this,IntroduceActivity.class));
                 }else{
                     startActivity(new Intent(SpleashActivity.this,MainActivity.class));

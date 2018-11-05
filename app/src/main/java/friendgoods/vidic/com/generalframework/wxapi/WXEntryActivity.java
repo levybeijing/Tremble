@@ -21,7 +21,9 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
+import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.PhoneBindActivity;
+import friendgoods.vidic.com.generalframework.activity.RegisterActivity;
 import friendgoods.vidic.com.generalframework.activity.SpleashActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.WXUserInfoBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXAccessTokenBean;
@@ -88,10 +90,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 }else{
                     finish();
                 }
-//                if (!(boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindwx", false)){
-//
-//                }
-//                getUserInfo(wxRespBean);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = "发送取消";
@@ -110,12 +108,12 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 finish();
                 break;
         }
-        Toast.makeText(WXEntryActivity.this,result,Toast.LENGTH_LONG).show();
+//        Toast.makeText(WXEntryActivity.this,result,Toast.LENGTH_LONG).show();
     }
 
 
     private void requestLogin(String code){
-        //                登录
+        //登录
         OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
                 .tag(this)//
                 .params("appid", UrlCollect.WXAppID)
@@ -149,43 +147,68 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
                         MyApplication.NAME = bean.getNickname();
                         MyApplication.USERICON = bean.getHeadimgurl();
-                        Log.e("=========", "onSuccess: "+bean );
                         MyApplication.WX=openid;
-//                        if ((boolean)SharedPFUtils.getParam(WXEntryActivity.this,"bindphone", false)){
-                            requestBind(openid);
-                            startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-//                        }else{
-////                        requestLogin(wxRespBean.getCode());
-//                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
-//                        }
-                        finish();
+                        register(openid);
+//                        requestBind(openid);
+//                        startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
+//                        finish();
                     }
                 });
     }
 
-    private void requestBind(String openid) {
-        OkGo.post(UrlCollect.updateWeChat)//
+//    private void requestBind(String openid) {
+//        OkGo.post(UrlCollect.updateWeChat)//
+//                .tag(this)//
+//                .params("type", "1")
+//                .params("userId", MyApplication.USERID)
+//                .params("name", MyApplication.NAME)
+//                .params("photo", MyApplication.USERICON)
+//                .params("weChat", openid)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(String s, Call call, Response response) {
+//                        try {
+//                            JSONObject jo=new JSONObject(s);
+//                            if ("请求成功".equals(jo.getString("message"))){
+//                                Log.e("=========", "绑定成功: " );
+//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+//    }
+
+    private void register(String openid) {
+        OkGo.post(UrlCollect.register)//
                 .tag(this)//
-                .params("type", "1")
-                .params("userId", MyApplication.USERID)
-                .params("name", MyApplication.NAME)
-                .params("photo", MyApplication.USERICON)
+                .params("mobile", MyApplication.PHONE)
+                .params("smsCode", MyApplication.CODE)
+                .params("type", "3")
                 .params("weChat", openid)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+//                        成功则提示 考虑自动登录
                         try {
                             JSONObject jo=new JSONObject(s);
-                            if ("请求成功".equals(jo.getString("message"))){
+                            String message = jo.getString("message");
+                            if ("请求成功".equals(message)){
+                                Toast.makeText(WXEntryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                                 SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+                                SharedPFUtils.setParam(WXEntryActivity.this,"bindphone",true);
+                                startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
+                            }else {
+                                Toast.makeText(WXEntryActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
+                            finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
     }
-
 //    private void requestWX(String s) {
 //        OkGo.post(UrlCollect.appLogin)//
 //                .tag(this)//

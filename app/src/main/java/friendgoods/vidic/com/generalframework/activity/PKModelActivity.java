@@ -88,7 +88,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView three;
     private ImageView two;
     private ImageView one;
-    private int SOCGAME=300;
     private ImageView click;
     //    socket赋值
     private ImageView person1;
@@ -103,12 +102,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name2;
     private String roomId;
     private long gametime;
+    private int SOCGAME=300;
     private int SOCSTATUS=200;
 
 //    计时器
     private int x;
     private int y;
     private int z;
+//    三秒倒计时
     private Thread Threetoone = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -130,40 +131,22 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             switch (msg.what){
 //                计时器
                 case 400://SOCGAME
-                    if (x>0||y>0||z>0){
-                        if (z==0){
-                            if (y==0){
-                                z=59;
-                                y=59;
-                                x--;
-                            }else{
-                                z=59;
-                                y--;
-                            }
-                        }else {
-                            z--;
-                        }
-                        tv1_timer.setText(x/10+"");
-                        tv2_timer.setText(x%10+"");
-                        tv3_timer.setText(y/10+"");
-                        tv4_timer.setText(y%10+"");
-                        tv5_timer.setText(z/10+"");
-                        tv6_timer.setText(z%10+"");
-                    }else{
-                        isGaming=false;
-                        gametime=System.currentTimeMillis()-gametime;
-                        addrecord();
-                    }
+//                    不停地设置时间
+                    setTime();
                     break;
-                case 300://SOCGAME
+                case 300://SOC GAME
 
                     break;
-                case 200://SOCSTATUS
+                case 200://SOC STATUS
 //                  都准备好了  可以start 然后开始
-                    if (isHost)
+                    if (isHost){
                         startyes.setVisibility(View.VISIBLE);
+                        startno.setVisibility(View.INVISIBLE);
+                    }
+
 //                    else
 //                        readyno.setVisibility(View.INVISIBLE);
+//                    非房主倒计时
 //                    Threetoone.start();
                     break;
                 case 2:
@@ -184,7 +167,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //                    请求成功的话
 //                    pkCount=0;
                     isGaming=true;
-//                    倒计时开始
+//                    游戏时间开始
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -204,7 +187,35 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     };
-//   通过软应用来实现 避免内存泄漏
+
+    private void setTime() {
+        if (x>0||y>0||z>0){
+            if (z==0){
+                if (y==0){
+                    z=59;
+                    y=59;
+                    x--;
+                }else{
+                    z=59;
+                    y--;
+                }
+            }else {
+                z--;
+            }
+            tv1_timer.setText(x/10+"");
+            tv2_timer.setText(x%10+"");
+            tv3_timer.setText(y/10+"");
+            tv4_timer.setText(y%10+"");
+            tv5_timer.setText(z/10+"");
+            tv6_timer.setText(z%10+"");
+        }else{
+            isGaming=false;
+            gametime=System.currentTimeMillis()-gametime;
+            addrecord();
+        }
+    }
+
+    //   通过软应用来实现 避免内存泄漏
     WeakReference soft=new WeakReference(sHandler);
     Handler handler= (Handler) soft.get();
 
@@ -240,7 +251,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         tv6_timer= findViewById(R.id.tv6_timer_pk);
 //
         initCustomTimePicker();
-
         //1
         person1 = findViewById(R.id.iv_person_one_pkmodel);
         light1 = findViewById(R.id.iv_light_one_pkmodel);
@@ -305,7 +315,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             addroom();
         }
     }
-
+//获取当前时间值
     public void getLlstOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
@@ -346,6 +356,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 exitRoom();
                 finish();
                 break;
+//                房主逻辑
             case R.id.iv_startyes_pkmodel:
                 isGaming=true;
                 startyes.setVisibility(View.INVISIBLE);
@@ -404,7 +415,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-
 // 非房主改变状态
     private void changeStatus() {
         OkGo.post(UrlCollect.updateRoomStatus)//
@@ -419,7 +429,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-
 //房主上传时间
     private void requestTime(String time) {
         OkGo.post(UrlCollect.updateRoomTime)//
@@ -483,7 +492,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-//    游戏结束????谁发送 时间到了 发送????????//为什么是三个人的?
+///为什么是三个人的?
     private void gameOver() {
         OkGo.post(UrlCollect.overRoom)//
                 .tag(this)//
@@ -580,11 +589,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         mConnect.disconnect();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
     private WebSocketConnection mConnect=new WebSocketConnection();
     private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
     private String TAG="==============";
@@ -599,7 +603,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onTextMessage(String payload) {
                     Log.e("==============", payload);
-
                 }
 
                 @Override

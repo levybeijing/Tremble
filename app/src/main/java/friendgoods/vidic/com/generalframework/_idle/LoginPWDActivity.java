@@ -1,9 +1,8 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework._idle;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +16,11 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
+import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.activity.MainActivity;
+import friendgoods.vidic.com.generalframework.activity.RegisterActivity;
+import friendgoods.vidic.com.generalframework.activity.WXBindActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -92,7 +96,7 @@ public class LoginPWDActivity extends Activity implements View.OnClickListener {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
-                                Log.e("*************", "onSuccess: "+s);
+//                                Log.e("*************", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"voice",bean.getData().getVoice()==1?true:false);
