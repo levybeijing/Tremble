@@ -148,59 +148,31 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         MyApplication.NAME = bean.getNickname();
                         MyApplication.USERICON = bean.getHeadimgurl();
                         MyApplication.WX=openid;
-                        register(openid);
-//                        requestBind(openid);
-//                        startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
-//                        finish();
+
+                        requestBind(openid);
                     }
                 });
     }
 
-//    private void requestBind(String openid) {
-//        OkGo.post(UrlCollect.updateWeChat)//
-//                .tag(this)//
-//                .params("type", "1")
-//                .params("userId", MyApplication.USERID)
-//                .params("name", MyApplication.NAME)
-//                .params("photo", MyApplication.USERICON)
-//                .params("weChat", openid)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-//                        try {
-//                            JSONObject jo=new JSONObject(s);
-//                            if ("请求成功".equals(jo.getString("message"))){
-//                                Log.e("=========", "绑定成功: " );
-//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//    }
-
-    private void register(String openid) {
-        OkGo.post(UrlCollect.register)//
+    private void requestBind(String openid) {
+        OkGo.post(UrlCollect.updateWeChat)//
                 .tag(this)//
-                .params("mobile", MyApplication.PHONE)
-                .params("smsCode", MyApplication.CODE)
                 .params("type", "3")
+                .params("userId", MyApplication.USERID)
+                .params("name", MyApplication.NAME)
+                .params("photo", MyApplication.USERICON)
                 .params("weChat", openid)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        成功则提示 考虑自动登录
                         try {
                             JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if ("请求成功".equals(message)){
-                                Toast.makeText(WXEntryActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            if ("请求成功".equals(jo.getString("message"))){
+                                Toast.makeText(WXEntryActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
                                 SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-                                SharedPFUtils.setParam(WXEntryActivity.this,"bindphone",true);
                                 startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
                             }else {
-                                Toast.makeText(WXEntryActivity.this, message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(WXEntryActivity.this, "绑定失败"+s, Toast.LENGTH_SHORT).show();
                             }
                             finish();
                         } catch (JSONException e) {
@@ -209,6 +181,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
+
 //    private void requestWX(String s) {
 //        OkGo.post(UrlCollect.appLogin)//
 //                .tag(this)//

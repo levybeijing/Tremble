@@ -24,6 +24,7 @@ import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
+import friendgoods.vidic.com.generalframework.wxapi.WXEntryActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -92,11 +93,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                MyApplication.PHONE=number;
-                MyApplication.CODE=code;
+                register(number,code);
+//                MyApplication.PHONE=number;
+//                MyApplication.CODE=code;
 //                register(number,code);
-                Intent intent = new Intent(RegisterActivity.this, WXBindActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(RegisterActivity.this, WXBindActivity.class);
+//                startActivity(intent);
                 break;
         }
     }
@@ -113,6 +115,34 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    private void register(String phone,String code) {
+        OkGo.post(UrlCollect.register)//
+                .tag(this)//
+                .params("mobile",phone)
+                .params("smsCode", code)
+                .params("type", "3")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        成功则提示 考虑自动登录
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            if ("请求成功".equals(message)){
+                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+//                                SharedPFUtils.setParam(RegisterActivity.this,"bindwx",true);
+                                SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
+                                startActivity(new Intent(RegisterActivity.this,WXBindActivity.class));
+                                finish();
+                            }else {
+                                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
     class TimeCount extends CountDownTimer {
 
         public TimeCount(long millisInFuture, long countDownInterval) {

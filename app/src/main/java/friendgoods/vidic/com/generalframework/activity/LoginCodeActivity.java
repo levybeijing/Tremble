@@ -129,8 +129,8 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
                                 }
-                                finish();
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+                                finish();
                             }else{
                                 Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
                             }
