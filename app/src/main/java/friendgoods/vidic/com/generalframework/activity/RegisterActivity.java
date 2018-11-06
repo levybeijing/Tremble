@@ -78,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.tv_regi_register:
                 String number = et_phone.getText().toString().trim();
                 String code = et_code.getText().toString().trim();
-//                String pwd = et_pwd.getText().toString().trim();
                 if (!StringUtil.isPhoneNumber(number)){
                     Toast.makeText(this, "手机号不正确", Toast.LENGTH_SHORT).show();
                     return;
@@ -119,7 +118,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
                                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-//                                SharedPFUtils.setParam(RegisterActivity.this,"bindwx",true);
                                 SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
                                 startActivity(new Intent(RegisterActivity.this,WXBindActivity.class));
                                 finish();

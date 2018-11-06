@@ -450,7 +450,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //    加入房间
     private void joinRoom() {
-        Log.e("==============joinRoom", "");
+        Log.e("==============joinRoom", ""+roomId);
         OkGo.post(UrlCollect.intoRoomJudge)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)

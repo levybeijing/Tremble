@@ -37,7 +37,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
     private EditText et_code;
     private TextView btn_code;
     private TimeCount time;
-//    private MusicService serv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
 
         btn_code = findViewById(R.id.tv_code_logincode);
         btn_code.setOnClickListener(this);
-//        findViewById(R.id.tv_gotopwd_logincode).setOnClickListener(this);
         findViewById(R.id.tv_gotoregi_logincode).setOnClickListener(this);
         findViewById(R.id.tv_login_logincode).setOnClickListener(this);
         findViewById(R.id.iv_weixin_logincode).setOnClickListener(this);
@@ -71,9 +69,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                 obtioncode(trim);
                 time.start();
                 break;
-//            case R.id.tv_gotopwd_logincode:
-//                startActivity(new Intent(LoginCodeActivity.this,LoginPWDActivity.class));
-//                break;
             case R.id.tv_gotoregi_logincode:
                 startActivity(new Intent(LoginCodeActivity.this,RegisterActivity.class));
                 break;
@@ -109,39 +104,42 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
-                                Log.e("*************", "onSuccess: "+s);
+//                                Log.e("===============", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"spNum",bean.getData().getSpNum());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
+//                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"status",bean.getData().getStatus());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"is_use",bean.getData().getIs_use());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
-                                switch (bean.getData().getLogo()){
-                                    case "man1.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",11);
-                                    break;
-                                    case "man2.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",12);
-                                        break;
-                                    case "woman1.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",21);
-                                        break;
-                                    case "woman2.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this,"sex",22);
-                                    break;
-
-                                }
+                                MyApplication.USERID=bean.getData().getId()+"";
                                 if (bean.getData().getWeChatA()==null){
+                                    startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
+                                } else if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
+                                    SharedPFUtils.setParam(LoginCodeActivity.this,"bindwx",true);
                                     MyApplication.NAME=bean.getData().getName();
                                     MyApplication.USERICON=bean.getData().getPhoto();
-                                    startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
-                                } else if (bean.getData().getLogo()==null) {
+                                    if (bean.getData().getLogo()!=null) {
+                                        switch (bean.getData().getLogo()) {
+                                            case "man1.png":
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
+                                                break;
+                                            case "man2.png":
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
+                                                break;
+                                            case "woman1.png":
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
+                                                break;
+                                            case "woman2.png":
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
+                                                break;
+                                        }
+                                    }
                                     startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
