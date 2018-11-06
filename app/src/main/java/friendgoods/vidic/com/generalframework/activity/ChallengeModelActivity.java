@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -155,7 +156,7 @@ public class ChallengeModelActivity extends AppCompatActivity implements View.On
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("=======", "onSuccess: "+s);
+                        Log.e("=======", "onSuccess: "+s);
                         ChallengeModelBean bean = new Gson().fromJson(s, ChallengeModelBean.class);
                         time = bean.getData().get(0).getTime();
                         aimNumber=bean.getData().get(0).getNum();

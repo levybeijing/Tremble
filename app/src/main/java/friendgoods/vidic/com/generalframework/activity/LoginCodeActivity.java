@@ -104,28 +104,31 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
-//                                Log.e("===============", "onSuccess: "+s);
+                                Log.e("===============", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"spNum",bean.getData().getSpNum());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"status",bean.getData().getStatus());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"is_use",bean.getData().getIs_use());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
+                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
                                 MyApplication.USERID=bean.getData().getId()+"";
                                 if (bean.getData().getWeChatA()==null){
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
-                                } else if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
+                                } else {
                                     SharedPFUtils.setParam(LoginCodeActivity.this,"bindwx",true);
                                     MyApplication.NAME=bean.getData().getName();
+                                    SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
                                     MyApplication.USERICON=bean.getData().getPhoto();
-                                    if (bean.getData().getLogo()!=null) {
-                                        switch (bean.getData().getLogo()) {
+                                    SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
+                                    String logo = bean.getData().getLogo();
+                                    if (logo !=null) {
+                                        switch (logo) {
                                             case "man1.png":
                                                 SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
                                                 break;
@@ -133,18 +136,19 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                                 SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
                                                 break;
                                             case "woman1.png":
-                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
                                                 break;
                                             case "woman2.png":
-                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
                                                 break;
                                         }
                                     }
+                                }
+                                if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
                                     startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
                                 }
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
                                 finish();
                             }else{
                                 Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();

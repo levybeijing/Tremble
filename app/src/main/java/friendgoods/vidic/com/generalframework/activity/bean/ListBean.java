@@ -1,24 +1,23 @@
 package friendgoods.vidic.com.generalframework.activity.bean;
 
-public class SocStatusBean {
-    private String name;
-    private String phone;
-    private String logo;
-    private int is_use;
+public class ListBean {
+    /**
+     * name : 大黑
+     * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132
+     * logo : man2.png
+     * id : 1748
+     * is_use : 1
+     * userId : 193
+     * status : 2
+     */
 
+    private String name;
+    private String photo;
+    private String logo;
     private int id;
+    private int is_use;
     private int userId;
     private int status;
-
-    private String time;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -28,12 +27,12 @@ public class SocStatusBean {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public String getLogo() {
@@ -42,6 +41,14 @@ public class SocStatusBean {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIs_use() {
@@ -66,13 +73,5 @@ public class SocStatusBean {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 }

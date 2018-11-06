@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
@@ -25,6 +26,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.ListBean;
+import friendgoods.vidic.com.generalframework.activity.bean.NewSocBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
@@ -240,12 +244,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         name1 = findViewById(R.id.tv_name_one_pkmodel);
         //2 本人
         ImageView person2 = findViewById(R.id.iv_person_two_pkmodel);
-//        light2 = findViewById(R.id.iv_light_two_pkmodel);
         ImageView icon2 = findViewById(R.id.iv_icon_two_pkmodel);
         name2 = findViewById(R.id.tv_name_two_pkmodel);
-        name2.setText(MyApplication.NAME);
-        if (MyApplication.USERICON!=null)
-            Picasso.with(this).load(MyApplication.USERICON).into(icon2);
+        name2.setText((String)SharedPFUtils.getParam(PKModelActivity.this,"name",""));
+        String icon = (String) SharedPFUtils.getParam(PKModelActivity.this, "icon", "");
+        if (icon!=null) {
+            Picasso.with(this).load(icon).into(icon2);
+        }
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
             case 11:
@@ -297,15 +302,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             addroom();
         }
     }
-//获取当前时间值
-    public void getLlstOfTime() {
-        numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
-        numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
-        numlist.add(Integer.parseInt(tv3_timer.getText().toString()));
-        numlist.add(Integer.parseInt(tv4_timer.getText().toString()));
-        numlist.add(Integer.parseInt(tv5_timer.getText().toString()));
-        numlist.add(Integer.parseInt(tv6_timer.getText().toString()));
-    }
 
     @Override
     public void onClick(View v) {
@@ -318,6 +314,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.iv_sure_pkmodel:
                 if (!isHost)
                     break;
+
                 if (!checkTime()){
                     Toast.makeText(this, "请至少设置10秒", Toast.LENGTH_SHORT).show();
                     tv1_timer.setText(String.valueOf(0));
@@ -329,9 +326,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
 //上传时间
-                String time=tv1_timer.getText().toString()+ tv2_timer.getText()+":"+
-                            tv3_timer.getText()+tv4_timer.getText()+":"+
-                            tv5_timer.getText()+ tv6_timer.getText();
+                String time=""+numlist.get(0)+ numlist.get(1)+":"+
+                        numlist.get(2)+numlist.get(3)+":"+
+                    numlist.get(4)+numlist.get(5);
+                Log.e("==============", "" + time);
+                Log.e("==============", "" + roomId);
+                Log.e("==============", "" + x);
+                Log.e("==============", "" + y);
+                Log.e("==============", "" + z);
                 requestTime(time);
                 break;
             case R.id.iv_exit_pkmodel:
@@ -351,17 +353,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
-//                light2.setVisibility(View.VISIBLE);
-//                TODO:socket发送状态
-//                ContentServiceHelper.sendClientMsg( "\n");
+
                 changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount);
-//                SocStatusBean status = new SocStatusBean();
-//                status.setUserId();
-
-//                ContentServiceHelper.sendClientMsg(pkCount + "\n");
+                ListBean bean=new ListBean();
+                bean.setId(Integer.parseInt(MyApplication.USERID));
+                bean.setName(MyApplication.NAME);
+                bean.setPhoto(MyApplication.USERICON);
+                bean.setStatus(6);
+                mConnect.sendTextMessage(new Gson().toJson(bean));
                 break;
             case R.id.tv_name_one_pkmodel:
             case R.id.tv_name_three_pkmodel:
@@ -411,7 +413,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-//房主上传时间
+//房主设置时间
     private void requestTime(String time) {
         OkGo.post(UrlCollect.updateRoomTime)//
                 .tag(this)//
@@ -420,7 +422,16 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        不必提示
+                        Log.e("==============", "房主设置时间" + s);
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            if (message.equals("请求成功")){
+                                Toast.makeText(PKModelActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -458,6 +469,16 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            if (!message.equals("请求成功")){
+                                Toast.makeText(PKModelActivity.this, message, Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -514,12 +535,24 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //至少定义10秒钟
     private boolean checkTime() {
         getLlstOfTime();
+        x=numlist.get(0)*10+numlist.get(1);
+        y=numlist.get(2)*10+numlist.get(3);
+        z=numlist.get(4)*10+numlist.get(5);
         for (int i = 0; i < 5; i++) {
             if (numlist.get(i)!=0){
                 return true;
             }
         }
         return false;
+    }
+    //获取当前时间值
+    public void getLlstOfTime() {
+        numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
+        numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
+        numlist.add(Integer.parseInt(tv3_timer.getText().toString()));
+        numlist.add(Integer.parseInt(tv4_timer.getText().toString()));
+        numlist.add(Integer.parseInt(tv5_timer.getText().toString()));
+        numlist.add(Integer.parseInt(tv6_timer.getText().toString()));
     }
 
     private void initCustomTimePicker() {
@@ -541,9 +574,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 tv4_timer.setText(String.valueOf(datetime.charAt(4)));
                 tv5_timer.setText(String.valueOf(datetime.charAt(6)));
                 tv6_timer.setText(String.valueOf(datetime.charAt(7)));
-                z=datetime.charAt(6)*10+datetime.charAt(7);
-                y=datetime.charAt(3)*10+datetime.charAt(4);
-                x=datetime.charAt(0)*10+datetime.charAt(1);
 
             }
         })
@@ -571,33 +601,133 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         exitRoom();
         mConnect.disconnect();
     }
-
+//接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
     private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
-    private String TAG="==============";
+    private int pkCount1=0;
+    private int pkCount3=0;
     private void connect() {
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
                 @Override
                 public void onOpen() {
-                    Log.e(TAG, "Status:Connect to " + socketUrl);
+                    Log.e("==============", "Status:Connect to " + socketUrl);
                 }
 
                 @Override
                 public void onTextMessage(String payload) {
+//                    不停地接受信息
                     Log.e("==============", payload);
-                }
+//处理字符串
+                    payload=payload.substring(0,payload.length()-1);
+                    StringBuffer sb = new StringBuffer();
+                    sb=sb.append(payload).insert(0,"\"list\":");
+                    sb=sb.insert(sb.length()-11,"]");
+                    sb=sb.replace(sb.length()-10,sb.length()-9,"");
+                    payload="{"+sb;
+//                    Log.e("==============", payload+"\n");
+                    NewSocBean newSocBean = new Gson().fromJson(payload, NewSocBean.class);
+                    int type = newSocBean.getType();
+                    List<ListBean> list = newSocBean.getList();
+//                    Log.e("==============", SharedPFUtils.getParam(PKModelActivity.this,"name","")+"\n");
 
+                    //过滤当前用户
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getName().equals(SharedPFUtils.getParam(PKModelActivity.this,"name",""))){
+                            list.remove(i);
+                        }
+                    }
+
+                    switch (type){
+                        case 0:
+                            // 刚进去房间  均有逻辑 增加用户数据 并且标记???
+//                            第一个控件
+                            if (list.size()>0)
+                                setOne(list.get(0));
+//                            第二个控件
+                            if (list.size()>1){
+                                setThree(list.get(1));
+                            }
+                            break;
+                        case 1:
+                            // 组员退出 均有逻辑
+                            clearOne();
+                            clearThree();
+                            if (list.size()>0)
+                                setOne(list.get(0));
+//                            第二个控件
+                            if (list.size()>1){
+                                setThree(list.get(1));
+                            }
+                            break;
+                        case 2:
+                            // 房主退出
+                            if (isHost)
+                                break;
+                            finish();
+                            break;
+                        case 3:
+                            // 游戏时间  非房主操作 设置时间
+                            if (isHost)
+                                break;
+
+                            break;
+                        case 4:
+                            // 修改状态(准备/未准备) 均有逻辑
+                            if (isHost)
+
+
+                            break;
+                        case 5:
+                            // 开始游戏 非房主开始倒计时
+
+                            // 所有人开始计时
+                            if (isHost)
+                                break;
+
+                            break;
+                        case 6:
+                            // 同步计数 均有逻辑
+                            if (list.size()>0)
+                                name1.setText(++pkCount1+"");
+                            if (list.size()>1)
+                                name3.setText(++pkCount3+"");
+                            break;
+                    }
+                }
                 @Override
                 public void onClose(int code, String reason) {
-                    Log.e(TAG, "Connection lost..");
+                    Log.e("=============", "Connection lost..");
                 }
             });
         } catch (WebSocketException e) {
             e.printStackTrace();
         }
     }
+//控件操作
+    private void  setOne(ListBean bean){
+        name1.setText(bean.getName());
+        Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon1);
+        Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person1);
+    }
 
+    private void  setThree(ListBean bean){
+        name3.setText(bean.getName());
+        Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon3);
+        Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person3);
+    }
+
+    private void clearOne(){
+        name1.setText("");
+        icon1.setImageDrawable(null);
+        person1.setImageDrawable(null);
+    }
+
+    private void clearThree(){
+        name1.setText("");
+        icon1.setImageDrawable(null);
+        person1.setImageDrawable(null);
+    }
     /**
      * 发送消息
      *
@@ -607,7 +737,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         if (mConnect.isConnected()) {
             mConnect.sendTextMessage(msg);
         } else {
-            Log.i(TAG, "no connection!!");
+            Log.i("===========", "no connection!!");
         }
     }
 }
