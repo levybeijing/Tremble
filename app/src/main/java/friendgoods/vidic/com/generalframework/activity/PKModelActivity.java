@@ -616,21 +616,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                 @Override
                 public void onTextMessage(String payload) {
-//                    不停地接受信息
+                    //不停地接受信息
                     Log.e("==============", payload);
-//处理字符串
+                    //处理字符串
                     payload=payload.substring(0,payload.length()-1);
                     StringBuffer sb = new StringBuffer();
                     sb=sb.append(payload).insert(0,"\"list\":");
                     sb=sb.insert(sb.length()-11,"]");
                     sb=sb.replace(sb.length()-10,sb.length()-9,"");
                     payload="{"+sb;
-//                    Log.e("==============", payload+"\n");
                     NewSocBean newSocBean = new Gson().fromJson(payload, NewSocBean.class);
                     int type = newSocBean.getType();
                     List<ListBean> list = newSocBean.getList();
-//                    Log.e("==============", SharedPFUtils.getParam(PKModelActivity.this,"name","")+"\n");
-
                     //过滤当前用户
                     for (int i = 0; i < list.size(); i++) {
                         if (list.get(i).getName().equals(SharedPFUtils.getParam(PKModelActivity.this,"name",""))){
