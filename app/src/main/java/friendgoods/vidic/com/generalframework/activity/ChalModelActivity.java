@@ -28,7 +28,7 @@ import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class ChallengeModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChalModelActivity extends AppCompatActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number,tv_time;
     private ScaleAnimation animation;
@@ -129,7 +129,7 @@ public class ChallengeModelActivity extends AppCompatActivity implements View.On
 
                 finish();
 //                跳转
-                startActivity(new Intent(ChallengeModelActivity.this,MallActivity.class));
+                startActivity(new Intent(ChalModelActivity.this,MallActivity.class));
                 break;
         }
     }

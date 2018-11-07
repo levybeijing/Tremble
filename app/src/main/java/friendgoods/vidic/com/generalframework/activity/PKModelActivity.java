@@ -33,13 +33,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.bean.ListBean;
-import friendgoods.vidic.com.generalframework.activity.bean.NewSocBean;
+import friendgoods.vidic.com.generalframework.activity.bean.SetStatusBean;
+import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
+import friendgoods.vidic.com.generalframework.activity.bean.UserStatusBean;
+import friendgoods.vidic.com.generalframework.activity.bean.SetTimeBean;
+import friendgoods.vidic.com.generalframework.activity.bean.TypeBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
@@ -70,7 +74,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //    倒数计时开始
     private static int lastTime=2;
 
-//    private ImageView light2;
     private ImageView three;
     private ImageView two;
     private ImageView one;
@@ -78,6 +81,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     //    socket赋值
     private ImageView person1;
     private ImageView light1;
+    private ImageView light2;
     private ImageView icon1;
     private TextView name1;
     private ImageView person3;
@@ -88,8 +92,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name2;
     private String roomId;
     private long gametime;
-    private int SOCGAME=300;
-    private int SOCSTATUS=200;
 
 //    计时器
     private int x;
@@ -195,6 +197,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             tv5_timer.setText(z/10+"");
             tv6_timer.setText(z%10+"");
         }else{
+//           发送游戏结束衔接
             isGaming=false;
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
@@ -212,7 +215,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
 
-        connect();
+
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
@@ -220,14 +223,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         gametime=System.currentTimeMillis();
 
         initView();
+
+        connect();
     }
 
     private void initView() {
         ll = findViewById(R.id.ll_timer_pk);
         ll.setOnClickListener(this);
-
-        findViewById(R.id.iv_sure_pkmodel).setOnClickListener(this);
-        findViewById(R.id.iv_exit_pkmodel).setOnClickListener(this);
 
         tv1_timer= findViewById(R.id.tv1_timer_pk);
         tv2_timer= findViewById(R.id.tv2_timer_pk);
@@ -235,8 +237,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         tv4_timer= findViewById(R.id.tv4_timer_pk);
         tv5_timer= findViewById(R.id.tv5_timer_pk);
         tv6_timer= findViewById(R.id.tv6_timer_pk);
-//
+
         initCustomTimePicker();
+
+        findViewById(R.id.iv_sure_pkmodel).setOnClickListener(this);
+        findViewById(R.id.iv_exit_pkmodel).setOnClickListener(this);
+//
+
         //1
         person1 = findViewById(R.id.iv_person_one_pkmodel);
         light1 = findViewById(R.id.iv_light_one_pkmodel);
@@ -245,6 +252,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         //2 本人
         ImageView person2 = findViewById(R.id.iv_person_two_pkmodel);
         ImageView icon2 = findViewById(R.id.iv_icon_two_pkmodel);
+        light2= findViewById(R.id.iv_light_two_pkmodel);
+
         name2 = findViewById(R.id.tv_name_two_pkmodel);
         name2.setText((String)SharedPFUtils.getParam(PKModelActivity.this,"name",""));
         String icon = (String) SharedPFUtils.getParam(PKModelActivity.this, "icon", "");
@@ -295,12 +304,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             Log.e("===========", ": "+roomId);
             isHost=false;
             joinRoom();
-            ll.setClickable(false);
+//            ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
+            light2.setVisibility(View.INVISIBLE);
         }else{
             startno.setVisibility(View.VISIBLE);
             addroom();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -314,26 +329,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.iv_sure_pkmodel:
                 if (!isHost)
                     break;
-
-                if (!checkTime()){
-                    Toast.makeText(this, "请至少设置10秒", Toast.LENGTH_SHORT).show();
-                    tv1_timer.setText(String.valueOf(0));
-                    tv2_timer.setText(String.valueOf(0));
-                    tv3_timer.setText(String.valueOf(0));
-                    tv4_timer.setText(String.valueOf(0));
-                    tv5_timer.setText(String.valueOf(0));
-                    tv6_timer.setText(String.valueOf(0));
-                    return;
-                }
 //上传时间
+                getLlstOfTime();
+                x=numlist.get(0)*10+numlist.get(1);
+                y=numlist.get(2)*10+numlist.get(3);
+                z=numlist.get(4)*10+numlist.get(5);
                 String time=""+numlist.get(0)+ numlist.get(1)+":"+
                         numlist.get(2)+numlist.get(3)+":"+
                     numlist.get(4)+numlist.get(5);
-                Log.e("==============", "" + time);
-                Log.e("==============", "" + roomId);
-                Log.e("==============", "" + x);
-                Log.e("==============", "" + y);
-                Log.e("==============", "" + z);
                 requestTime(time);
                 break;
             case R.id.iv_exit_pkmodel:
@@ -353,12 +356,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
-
+                if (!isHost){
+                    light2.setVisibility(View.VISIBLE);
+                }
                 changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount);
-                ListBean bean=new ListBean();
+                UserStatusBean bean=new UserStatusBean();
                 bean.setId(Integer.parseInt(MyApplication.USERID));
                 bean.setName(MyApplication.NAME);
                 bean.setPhoto(MyApplication.USERICON);
@@ -415,9 +420,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //房主设置时间
     private void requestTime(String time) {
+//        Log.e("==============", "房主设置时间" + time);
+//        Log.e("==============", "房主设置时间" + roomId);
         OkGo.post(UrlCollect.updateRoomTime)//
                 .tag(this)//
-                .params("roomId", MyApplication.USERID)
+                .params("roomId", roomId)
                 .params("time", time)
                 .execute(new StringCallback() {
                     @Override
@@ -574,7 +581,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 tv4_timer.setText(String.valueOf(datetime.charAt(4)));
                 tv5_timer.setText(String.valueOf(datetime.charAt(6)));
                 tv6_timer.setText(String.valueOf(datetime.charAt(7)));
-
             }
         })
                 .setDate(selectedDate)
@@ -606,6 +612,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
     private int pkCount1=0;
     private int pkCount3=0;
+//    private boolean Allready=false;
     private void connect() {
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
@@ -617,80 +624,124 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onTextMessage(String payload) {
                     //不停地接受信息
-                    Log.e("==============", payload);
+//                    Log.e("==============", payload);
                     //处理字符串
                     payload=payload.substring(0,payload.length()-1);
                     StringBuffer sb = new StringBuffer();
-                    sb=sb.append(payload).insert(0,"\"list\":");
-                    sb=sb.insert(sb.length()-11,"]");
-                    sb=sb.replace(sb.length()-10,sb.length()-9,"");
-                    payload="{"+sb;
-                    NewSocBean newSocBean = new Gson().fromJson(payload, NewSocBean.class);
-                    int type = newSocBean.getType();
-                    List<ListBean> list = newSocBean.getList();
-                    //过滤当前用户
-                    for (int i = 0; i < list.size(); i++) {
-                        if (list.get(i).getName().equals(SharedPFUtils.getParam(PKModelActivity.this,"name",""))){
-                            list.remove(i);
-                        }
-                    }
+                    sb=sb.append(payload).insert(sb.length()-11,"]");
+                    sb=sb.insert(sb.length()-11,"&&");
+                    sb=sb.replace(sb.length()-11,sb.length()-10,"");
+                    payload=sb.toString();
+                    String[] split = payload.split("&&");
+                    TypeBean typeBean = new Gson().fromJson(split[1], TypeBean.class);
+                    int type= typeBean.getType();
+                    split[0]="{ \"list\":"+split[0]+"}";
+                    Log.e("==============", split[0]);
 
                     switch (type){
-                        case 0:
-                            // 刚进去房间  均有逻辑 增加用户数据 并且标记???
-//                            第一个控件
-                            if (list.size()>0)
-                                setOne(list.get(0));
-//                            第二个控件
-                            if (list.size()>1){
-                                setThree(list.get(1));
-                            }
-                            break;
-                        case 1:
-                            // 组员退出 均有逻辑
-                            clearOne();
-                            clearThree();
-                            if (list.size()>0)
-                                setOne(list.get(0));
-//                            第二个控件
-                            if (list.size()>1){
-                                setThree(list.get(1));
-                            }
-                            break;
-                        case 2:
-                            // 房主退出
-                            if (isHost)
+                            case 0:
+                                SocStatusBean statusBean = new Gson().fromJson(split[0], SocStatusBean.class);
+                                List<UserStatusBean> list = statusBean.getList();
+                                // 刚进去房间  均有逻辑 增加用户数据 并且标记???
+    //                            第一个控件
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (list.get(i).getUserId()==Integer.parseInt((String) SharedPFUtils.getParam(PKModelActivity.this,"userId",""))){
+                                        list.remove(i);
+                                    }
+                                }
+                                if (list.size()>0)
+                                    setOne(list.get(0));
+    //                            第二个控件
+                                if (list.size()>1){
+                                    setThree(list.get(1));
+                                }
                                 break;
-                            finish();
-                            break;
-                        case 3:
-                            // 游戏时间  非房主操作 设置时间
-                            if (isHost)
+                            case 1:
+                                //改变状态
+                                SocStatusBean statusBean1 = new Gson().fromJson(split[0], SocStatusBean.class);
+                                List<UserStatusBean> list1 = statusBean1.getList();
+                                // 组员退出 均有逻辑
+                                for (int i = 0; i < list1.size(); i++) {
+                                    if (list1.get(i).getUserId()==Integer.parseInt((String) SharedPFUtils.getParam(PKModelActivity.this,"userId",""))){
+                                        list1.remove(i);
+                                    }
+                                }
+                                clearOne();
+                                clearThree();
+                                if (list1.size()>0)
+                                    setOne(list1.get(0));
+    //                            第二个控件
+                                if (list1.size()>1){
+                                    setThree(list1.get(1));
+                                }
                                 break;
-
-                            break;
-                        case 4:
-                            // 修改状态(准备/未准备) 均有逻辑
-                            if (isHost)
-
-
-                            break;
-                        case 5:
-                            // 开始游戏 非房主开始倒计时
-
-                            // 所有人开始计时
-                            if (isHost)
+                            case 2:
+                                // 房主退出
+                                if (isHost)
+                                    break;
+                                finish();
                                 break;
+                            case 3:
+                                // 游戏时间  非房主操作 设置时间
+                                if (isHost)
+                                    break;
+                                SetTimeBean setTimeBean = new Gson().fromJson(split[0], SetTimeBean.class);
+                                SetTimeBean.TimeBean timeBean = setTimeBean.getList().get(0);
+                                String time = timeBean.getTime();
+//                                if (!isHost){
+//                                    tv1_timer= findViewById(R.id.tv1_timer_pk);
+//                                    tv2_timer= findViewById(R.id.tv2_timer_pk);
+//                                    tv3_timer= findViewById(R.id.tv3_timer_pk);
+//                                    tv4_timer= findViewById(R.id.tv4_timer_pk);
+//                                    tv5_timer= findViewById(R.id.tv5_timer_pk);
+//                                    tv6_timer= findViewById(R.id.tv6_timer_pk);
+//                                }
+                                tv1_timer.setText(time.charAt(0));
+                                tv2_timer.setText(time.charAt(1));
+                                tv3_timer.setText(time.charAt(3));
+                                tv4_timer.setText(time.charAt(4));
+                                tv5_timer.setText(time.charAt(6));
+                                tv6_timer.setText(time.charAt(7));
+                                break;
+                            case 4:
+                                // 修改状态(准备/未准备) 均有逻辑
+                                SetStatusBean setStatusBean = new Gson().fromJson(split[0], SetStatusBean.class);
+                                List<SetStatusBean.ListBean> list2 = setStatusBean.getList();
+                                if (isHost){
+                                    if (list2.size()==1&&list2.get(0).getStatus().equals("2")){
+                                        startyes.setVisibility(View.VISIBLE);
+                                    }
+                                    if (list2.size()==2&&list2.get(1).getStatus().equals("2")&&list2.get(0).getStatus().equals("2")){
+                                        startyes.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                                if (list2.size()>0&&list2.get(0).getStatus().equals("2")){
+                                    light1.setVisibility(View.VISIBLE);
+                                }else{
+                                    light1.setVisibility(View.INVISIBLE);
+                                }
+                                if (list2.size()>1&&list2.get(1).getStatus().equals("2")){
+                                    light3.setVisibility(View.VISIBLE);
+                                }else{
+                                    light3.setVisibility(View.INVISIBLE);
+                                }
+                                break;
+                            case 5:
+                                // 开始游戏 非房主开始倒计时
 
-                            break;
-                        case 6:
-                            // 同步计数 均有逻辑
-                            if (list.size()>0)
-                                name1.setText(++pkCount1+"");
-                            if (list.size()>1)
-                                name3.setText(++pkCount3+"");
-                            break;
-                    }
+                                // 所有人开始计时
+                                if (isHost)
+                                    break;
+
+                                break;
+                            case 6:
+                                // 同步计数 均有逻辑
+//                                if (list.size()>0)
+//                                    name1.setText(++pkCount1+"");
+//                                if (list.size()>1)
+//                                    name3.setText(++pkCount3+"");
+                                break;
+                        }
                 }
                 @Override
                 public void onClose(int code, String reason) {
@@ -702,13 +753,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 //控件操作
-    private void  setOne(ListBean bean){
+    private void  setOne(UserStatusBean bean){
         name1.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon1);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person1);
     }
 
-    private void  setThree(ListBean bean){
+    private void  setThree(UserStatusBean bean){
         name3.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon3);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person3);
@@ -721,9 +772,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void clearThree(){
-        name1.setText("");
-        icon1.setImageDrawable(null);
-        person1.setImageDrawable(null);
+        name3.setText("");
+        icon3.setImageDrawable(null);
+        person3.setImageDrawable(null);
     }
     /**
      * 发送消息

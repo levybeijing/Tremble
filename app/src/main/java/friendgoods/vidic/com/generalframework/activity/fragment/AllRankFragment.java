@@ -21,10 +21,10 @@ public class AllRankFragment extends Fragment {
 //    private int page = 1;
 //    private int pageSize = 10;
 //    private int status = 3;
-//    List<HaveHandBean.DataBean.ListBean> haveDataAll = new ArrayList();
+//    List<HaveHandBean.DataBean.UserStatusBean> haveDataAll = new ArrayList();
 //    private HaveListAdapter haveListAdapter;
 //    private ImageView mNullData;
-//    private List<NewBean.DataBean.PageInfoBean.ListBean> newListAll = new ArrayList<>();
+//    private List<NewBean.DataBean.PageInfoBean.UserStatusBean> newListAll = new ArrayList<>();
 //    private MainListAdapter mainListAdapter;
 
     @Nullable
@@ -81,7 +81,7 @@ public class AllRankFragment extends Fragment {
 //                        mMainRecycler.stopLoadMore();
 //                        if (!JsonUtul.getString("state", s).equals("0")) {
 //                            NewBean newBean = new Gson().fromJson(s, NewBean.class);
-//                            List<NewBean.DataBean.PageInfoBean.ListBean> newList = newBean.getData().getPageInfo().getList();
+//                            List<NewBean.DataBean.PageInfoBean.UserStatusBean> newList = newBean.getData().getPageInfo().getList();
 //                            if (!newList.isEmpty()) {
 //                                newListAll.addAll(newList);
 //                                mainListAdapter = new MainListAdapter(getActivity(), newListAll, 1);

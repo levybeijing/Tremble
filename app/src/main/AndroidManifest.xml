@@ -85,7 +85,7 @@
         <!--四大模式-->
         <activity android:name=".activity.StoryModelActivity"></activity>
         <activity android:name=".activity.RelaxModelActivity"></activity>
-        <activity android:name=".activity.ChallengeModelActivity"></activity>
+        <activity android:name=".activity.ChalModelActivity"></activity>
         <activity android:name=".activity.PKModelActivity"
             android:exported="true"
             android:launchMode="singleTop"

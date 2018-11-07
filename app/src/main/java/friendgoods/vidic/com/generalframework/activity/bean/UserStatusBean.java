@@ -1,11 +1,12 @@
 package friendgoods.vidic.com.generalframework.activity.bean;
 
-public class ListBean {
+public class UserStatusBean {
+
     /**
      * name : 大黑
      * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132
      * logo : man2.png
-     * id : 1748
+     * id : 1779
      * is_use : 1
      * userId : 193
      * status : 2

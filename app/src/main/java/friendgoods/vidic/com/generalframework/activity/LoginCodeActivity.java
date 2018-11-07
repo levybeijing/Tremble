@@ -130,10 +130,10 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                     if (logo !=null) {
                                         switch (logo) {
                                             case "man1.png":
-                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
                                                 break;
                                             case "man2.png":
-                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
+                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
                                                 break;
                                             case "woman1.png":
                                                 SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);

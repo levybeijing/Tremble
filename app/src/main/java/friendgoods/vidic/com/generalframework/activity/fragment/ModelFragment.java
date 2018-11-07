@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.ChallengeModelActivity;
+import friendgoods.vidic.com.generalframework.activity.ChalModelActivity;
 import friendgoods.vidic.com.generalframework.activity.PKModelActivity;
 import friendgoods.vidic.com.generalframework.activity.RelaxModelActivity;
 import friendgoods.vidic.com.generalframework.activity.StoryModelActivity;
@@ -41,7 +41,7 @@ public class ModelFragment extends BaseFragment {
     protected void onClick(int id) {
         switch (id){
             case R.id.tv_tiaozhan_option:
-                startActivity(new Intent(getContext(),ChallengeModelActivity.class));
+                startActivity(new Intent(getContext(),ChalModelActivity.class));
                 break;
             case R.id.tv_gushi_option:
                 startActivity(new Intent(getContext(),StoryModelActivity.class));
