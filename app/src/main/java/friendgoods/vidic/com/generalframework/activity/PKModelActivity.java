@@ -39,6 +39,7 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.BeginGameBean;
 import friendgoods.vidic.com.generalframework.activity.bean.SetStatusBean;
 import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
 import friendgoods.vidic.com.generalframework.activity.bean.UserStatusBean;
@@ -201,6 +202,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             isGaming=false;
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
+//            等待获取排名
         }
     }
 
@@ -304,7 +306,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             Log.e("===========", ": "+roomId);
             isHost=false;
             joinRoom();
-//            ll.setClickable(false);
+            ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
             light2.setVisibility(View.INVISIBLE);
         }else{
@@ -330,7 +332,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 if (!isHost)
                     break;
 //上传时间
-                getLlstOfTime();
+                getListOfTime();
                 x=numlist.get(0)*10+numlist.get(1);
                 y=numlist.get(2)*10+numlist.get(3);
                 z=numlist.get(4)*10+numlist.get(5);
@@ -356,9 +358,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
-                if (!isHost){
+//                if (!isHost){
                     light2.setVisibility(View.VISIBLE);
-                }
+//                }
                 changeStatus();
                 break;
             case R.id.iv_click_pkmodel:
@@ -392,7 +394,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-//房主开始游戏
+//c
     private void requestStart() {
         OkGo.post(UrlCollect.updateRoom)//
                 .tag(this)//
@@ -401,6 +403,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        不必提示
+                        Log.e("==============", "房主开始游戏" + s);
                     }
                 });
     }
@@ -420,8 +423,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //房主设置时间
     private void requestTime(String time) {
-//        Log.e("==============", "房主设置时间" + time);
-//        Log.e("==============", "房主设置时间" + roomId);
+        Log.e("==============", "房主设置时间" + time);
+        Log.e("==============", "房主设置时间" + roomId);
         OkGo.post(UrlCollect.updateRoomTime)//
                 .tag(this)//
                 .params("roomId", roomId)
@@ -539,21 +542,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-//至少定义10秒钟
-    private boolean checkTime() {
-        getLlstOfTime();
-        x=numlist.get(0)*10+numlist.get(1);
-        y=numlist.get(2)*10+numlist.get(3);
-        z=numlist.get(4)*10+numlist.get(5);
-        for (int i = 0; i < 5; i++) {
-            if (numlist.get(i)!=0){
-                return true;
-            }
-        }
-        return false;
-    }
     //获取当前时间值
-    public void getLlstOfTime() {
+    public void getListOfTime() {
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv2_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv3_timer.getText().toString()));
@@ -610,9 +600,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
     private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
-    private int pkCount1=0;
-    private int pkCount3=0;
-//    private boolean Allready=false;
+//    private int pkCount1=0;
+//    private int pkCount3=0;
+    private List<Integer> idlist=new ArrayList<>();
     private void connect() {
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
@@ -688,33 +678,33 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 SetTimeBean setTimeBean = new Gson().fromJson(split[0], SetTimeBean.class);
                                 SetTimeBean.TimeBean timeBean = setTimeBean.getList().get(0);
                                 String time = timeBean.getTime();
-//                                if (!isHost){
-//                                    tv1_timer= findViewById(R.id.tv1_timer_pk);
-//                                    tv2_timer= findViewById(R.id.tv2_timer_pk);
-//                                    tv3_timer= findViewById(R.id.tv3_timer_pk);
-//                                    tv4_timer= findViewById(R.id.tv4_timer_pk);
-//                                    tv5_timer= findViewById(R.id.tv5_timer_pk);
-//                                    tv6_timer= findViewById(R.id.tv6_timer_pk);
-//                                }
-                                tv1_timer.setText(time.charAt(0));
-                                tv2_timer.setText(time.charAt(1));
-                                tv3_timer.setText(time.charAt(3));
-                                tv4_timer.setText(time.charAt(4));
-                                tv5_timer.setText(time.charAt(6));
-                                tv6_timer.setText(time.charAt(7));
+                                Log.e("=============", time);
+
+                                tv1_timer.setText(time.charAt(0)+"");
+                                tv2_timer.setText(time.charAt(1)+"");
+                                tv3_timer.setText(time.charAt(3)+"");
+                                tv4_timer.setText(time.charAt(4)+"");
+                                tv5_timer.setText(time.charAt(6)+"");
+                                tv6_timer.setText(time.charAt(7)+"");
                                 break;
                             case 4:
                                 // 修改状态(准备/未准备) 均有逻辑
                                 SetStatusBean setStatusBean = new Gson().fromJson(split[0], SetStatusBean.class);
                                 List<SetStatusBean.ListBean> list2 = setStatusBean.getList();
+                                Log.e("=============", list2.toString());
                                 if (isHost){
-                                    if (list2.size()==1&&list2.get(0).getStatus().equals("2")){
-                                        startyes.setVisibility(View.VISIBLE);
-                                    }
-                                    if (list2.size()==2&&list2.get(1).getStatus().equals("2")&&list2.get(0).getStatus().equals("2")){
-                                        startyes.setVisibility(View.VISIBLE);
-                                    }
+                                    startyes.setVisibility(View.VISIBLE);
+                                    startno.setVisibility(View.INVISIBLE);
                                 }
+
+//                                if (isHost){
+//                                    if (list2.size()==1&&list2.get(0).getStatus().equals("2")){
+//                                        startyes.setVisibility(View.VISIBLE);
+//                                    }
+//                                    if (list2.size()==2&&list2.get(1).getStatus().equals("2")&&list2.get(0).getStatus().equals("2")){
+//                                        startyes.setVisibility(View.VISIBLE);
+//                                    }
+//                                }
                                 if (list2.size()>0&&list2.get(0).getStatus().equals("2")){
                                     light1.setVisibility(View.VISIBLE);
                                 }else{
@@ -728,14 +718,30 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 break;
                             case 5:
                                 // 开始游戏 非房主开始倒计时
-
+                                Log.e("=============开始游戏", split[0]);
                                 // 所有人开始计时
                                 if (isHost)
                                     break;
-
+                                StringBuffer sb1 = new StringBuffer();
+                                sb1=sb1.append(split[0]);
+                                sb1.replace(10, 22, "");
+                                split[0]=sb1.toString();
+                                BeginGameBean begin = new Gson().fromJson(split[0], BeginGameBean.class);
+                                List<BeginGameBean.ListBean> list3 = begin.getList();
+                                for (int i = 0; i < list3.size(); i++) {
+                                    idlist.add(list3.get(i).getUserId());
+                                }
+                                readyno.setVisibility(View.INVISIBLE);
+//                                click.setVisibility(View.VISIBLE);
+//                                click.setClickable(true);
+                                three.setVisibility(View.VISIBLE);
+                                Threetoone.start();
                                 break;
                             case 6:
-                                // 同步计数 均有逻辑
+                                Log.e("=============同步计数", split[0]);
+
+                                // 同步计数 均有逻辑 传出数据格式????
+
 //                                if (list.size()>0)
 //                                    name1.setText(++pkCount1+"");
 //                                if (list.size()>1)

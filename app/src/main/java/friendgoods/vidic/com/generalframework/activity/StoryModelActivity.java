@@ -125,7 +125,8 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 }
                 gametime=System.currentTimeMillis();
                 if (count==numbers.get(flag)){
-                    requestImage(flag);
+//                    requestImage(flag);
+                    Picasso.with(StoryModelActivity.this).load("http://img.zcool.cn/community/01f9ea56e282836ac72531cbe0233b.jpg@2o.jpg").into(iv_net);
                     flag++;
                 }
                 if (flag==numbers.size()){
