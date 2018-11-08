@@ -773,10 +773,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 SynCountBean synCount = new Gson().fromJson(split[0], SynCountBean.class);
                                 List<SynCountBean.ListBean> list4 = synCount.getList();
                                 // 同步计数 均有逻辑
-                                if (list4.size()>0)
-                                    name1.setText(list4.get(0).getNum());
-                                if (list4.size()>1)
-                                    name3.setText(list4.get(1).getNum());
+                                for (int i = 0; i < idlist.size(); i++) {
+                                    if (list4.get(0).getUserId().equals(idlist.get(i)+"")&&i==0){
+                                        name1.setText(list4.get(0).getNum());
+                                    }else {
+                                        name3.setText(list4.get(0).getNum());
+                                    }
+                                }
+//                                if (list4.size()>0)
+//                                    name1.setText(list4.get(0).getNum());
+//                                if (list4.size()>1)
+//                                    name3.setText(list4.get(1).getNum());
                                 break;
                         }
                 }
@@ -837,4 +844,12 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
+//    退出登录
+//    public static void clear(Context context) {
+//        SharedPreferences preferences = context.getSharedPreferences("name", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.clear();
+//
+//        editor.commit();
+//    }
 }
