@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/ready_no_3x"
-                android:clickable="true"
+                android:clickable="false"
                 android:visibility="invisible"
                 android:layout_centerInParent="true"
                 />
@@ -53,21 +53,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/start_no_3x"
-                android:clickable="true"
+                android:clickable="false"
                 android:visibility="invisible"
                 android:layout_centerInParent="true"
                 />
-        <!--点击按钮-->
-            <ImageView
-                android:id="@+id/iv_click_pkmodel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/btn_story_3x"
-                android:clickable="true"
-                android:visibility="invisible"
-                android:layout_centerInParent="true"
-                />
-        <!--倒计时-->
+
+        <!--倒计时-android:visibility="invisible"-->
             <ImageView
                 android:id="@+id/iv_three_pkmodel"
                 android:layout_width="wrap_content"
@@ -95,6 +86,36 @@
                 android:clickable="false"
                 android:layout_centerInParent="true"
                 />
+        <!--点击按钮-->
+        <ImageButton
+            android:id="@+id/iv_click_pkmodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/btn_story_3x"
+            android:clickable="true"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            />
+        <ImageView
+            android:id="@+id/iv_click_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/click_right_3x"
+            android:clickable="false"
+            android:layout_toRightOf="@+id/iv_click_pkmodel"
+            android:layout_alignTop="@+id/iv_click_pkmodel"
+            android:visibility="invisible"
+            />
+        <ImageView
+            android:id="@+id/iv_click_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/click_left_3x"
+            android:clickable="false"
+            android:layout_toLeftOf="@+id/iv_click_pkmodel"
+            android:layout_alignBottom="@+id/iv_click_pkmodel"
+            android:visibility="invisible"
+            />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
