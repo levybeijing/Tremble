@@ -47,6 +47,7 @@ import friendgoods.vidic.com.generalframework.activity.bean.BeginGameBean;
 import friendgoods.vidic.com.generalframework.activity.bean.CountBean;
 import friendgoods.vidic.com.generalframework.activity.bean.SetStatusBean;
 import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
+import friendgoods.vidic.com.generalframework.activity.bean.SynCountBean;
 import friendgoods.vidic.com.generalframework.activity.bean.UserStatusBean;
 import friendgoods.vidic.com.generalframework.activity.bean.SetTimeBean;
 import friendgoods.vidic.com.generalframework.activity.bean.TypeBean;
@@ -98,7 +99,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name2;
     private String roomId;
     private long gametime;
-    private ScaleAnimation animation;
+    private ScaleAnimation animation,animation1;
 
 //    计时器
     private int x;
@@ -199,6 +200,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             tv6_timer.setText(z%10+"");
         }else{
 //           发送游戏结束衔接
+            click.setClickable(false);
             isGaming=false;
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
@@ -318,9 +320,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         //        缩放动画
         animation = new ScaleAnimation(
                 1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
         );
         animation.setDuration(100);
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        );
+        animation1.setDuration(100);
         click_left = findViewById(R.id.iv_click_left);
         click_righr = findViewById(R.id.iv_click_right);
 
@@ -379,8 +386,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
-                click_left.setAnimation(animation);
+                click_left.setAnimation(animation1);
                 click_righr.setAnimation(animation);
+
                 CountBean bean=new CountBean();
                 bean.setUserId(MyApplication.USERID);
                 bean.setNum(pkCount+"");
@@ -619,6 +627,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private void connect() {
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
+
+                private int type;
+
                 @Override
                 public void onOpen() {
                     Log.e("==============", "Status:Connect to " + socketUrl);
@@ -627,31 +638,39 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onTextMessage(String payload) {
                     //不停地接受信息
-//                    Log.e("==============", payload);
+                    Log.e("==============", payload);
+                    if (payload.contains("|")){
+//                        String[] split = payload.split("|");
+//                        payload=split[0];
+                        payload=payload.substring(0,payload.length()-4);
+                    }
+                    Log.e("==============", payload);
+
                     //处理字符串
-                    payload=payload.substring(0,payload.length()-1);
-                    StringBuffer sb = new StringBuffer();
-                    sb=sb.append(payload).insert(sb.length()-11,"]");
-                    sb=sb.insert(sb.length()-11,"&&");
-                    sb=sb.replace(sb.length()-11,sb.length()-10,"");
-                    payload=sb.toString();
-                    String[] split = payload.split("&&");
-                    TypeBean typeBean = new Gson().fromJson(split[1], TypeBean.class);
-                    int type= typeBean.getType();
-                    split[0]="{ \"list\":"+split[0]+"}";
-                    Log.e("==============", split[0]);
+                        payload=payload.substring(0,payload.length()-1);
+                        StringBuffer sb = new StringBuffer();
+                        sb=sb.append(payload).insert(sb.length()-11,"]");
+                        sb=sb.insert(sb.length()-11,"&&");
+                        sb=sb.replace(sb.length()-11,sb.length()-10,"");
+                        payload=sb.toString();
+                        String[] split = payload.split("&&");
+                        Log.e("==============", split[1]);
+                        TypeBean typeBean = new Gson().fromJson(split[1], TypeBean.class);
+                        type = typeBean.getType();
+                        split[0]="{ \"list\":"+split[0]+"}";
+                        Log.e("==============", split[0]);
 
                     switch (type){
                             case 0:
                                 SocStatusBean statusBean = new Gson().fromJson(split[0], SocStatusBean.class);
                                 List<UserStatusBean> list = statusBean.getList();
-                                // 刚进去房间  均有逻辑 增加用户数据 并且标记???
-    //                            第一个控件
+
                                 for (int i = 0; i < list.size(); i++) {
                                     if (list.get(i).getUserId()==Integer.parseInt((String) SharedPFUtils.getParam(PKModelActivity.this,"userId",""))){
                                         list.remove(i);
                                     }
                                 }
+                                //                            第一个控件
                                 if (list.size()>0)
                                     setOne(list.get(0));
     //                            第二个控件
@@ -743,11 +762,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 break;
                             case 6:
                                 Log.e("=============同步计数", split[0]);
+                                SynCountBean synCount = new Gson().fromJson(split[0], SynCountBean.class);
+                                List<SynCountBean.ListBean> list4 = synCount.getList();
                                 // 同步计数 均有逻辑
-//                                if (list.size()>0)
-//                                    name1.setText();
-//                                if (list.size()>1)
-//                                    name3.setText();
+                                if (list4.size()>0)
+                                    name1.setText(list4.get(0).getNum());
+                                if (list4.size()>1)
+                                    name3.setText(list4.get(1).getNum());
                                 break;
                         }
                 }
