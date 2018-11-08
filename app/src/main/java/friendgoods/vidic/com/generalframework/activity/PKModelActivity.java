@@ -139,12 +139,12 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     break;
                 case 0:
                     one.setVisibility(View.GONE);
-                    click.setVisibility(View.VISIBLE);
                     readyno.setVisibility(View.GONE);
                     readyyes.setVisibility(View.GONE);
                     startyes.setVisibility(View.GONE);
                     startno.setVisibility(View.GONE);
 
+                    click.setVisibility(View.VISIBLE);
                     click_left.setVisibility(View.VISIBLE);
                     click_righr.setVisibility(View.VISIBLE);
                     //                    开始游戏
@@ -204,7 +204,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             isGaming=false;
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
-//            等待获取排名
+            Toast.makeText(this, "结束访问排名", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -223,6 +223,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         api.registerApp(WXAppID);
 
         gametime=System.currentTimeMillis();
+
 
         initView();
 
@@ -305,6 +306,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         Uri data = getIntent().getData();
         if (data!=null){
             roomId = data.getQueryParameter("roomId");
+            String friendId = data.getQueryParameter("friendId");
+            toBeFriend(friendId);
             Log.e("===========", ": "+roomId);
             isHost=false;
             joinRoom();
@@ -341,6 +344,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         numlist.add(Integer.parseInt(tv4_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv5_timer.getText().toString()));
         numlist.add(Integer.parseInt(tv6_timer.getText().toString()));
+        x=numlist.get(0)*10+numlist.get(1);
+        y=numlist.get(2)*10+numlist.get(3);
+        z=numlist.get(4)*10+numlist.get(5);
     }
     @Override
     public void onClick(View v) {
@@ -356,9 +362,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //上传时间
                 getListOfTime();
 //                Log.e("===========", ": "+numlist.toString());
-                x=numlist.get(0)*10+numlist.get(1);
-                y=numlist.get(2)*10+numlist.get(3);
-                z=numlist.get(4)*10+numlist.get(5);
+
                 String time=""+numlist.get(0)+ numlist.get(1)+":"+
                         numlist.get(2)+numlist.get(3)+":"+
                     numlist.get(4)+numlist.get(5);
@@ -370,6 +374,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 //                房主逻辑
             case R.id.iv_startyes_pkmodel:
+                if (x==0&&y==0&&z==0){
+                    Toast.makeText(this, "请设置时间", Toast.LENGTH_SHORT).show();
+                }
                 isGaming=true;
                 startyes.setVisibility(View.INVISIBLE);
                 three.setVisibility(View.VISIBLE);
@@ -411,7 +418,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     return;
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
-                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId;
+                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId+"&friendId"+MyApplication.USERID;
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
                 msg.description="一玩就上瘾的游戏!";
@@ -755,6 +762,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                     idlist.add(list3.get(i).getUserId());
                                 }
                                 if (!isHost){
+                                    getListOfTime();
                                     readyno.setVisibility(View.INVISIBLE);
                                     three.setVisibility(View.VISIBLE);
                                     Threetoone.start();
@@ -816,5 +824,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             Log.i("===========", "no connection!!");
         }
+    }
+
+    private void toBeFriend(String hostid) {
+        OkGo.post(UrlCollect.inviteFriend)//
+                .tag(this)//
+                .params("userId", MyApplication.USERID)
+                .params("weChat", hostid)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                    }
+                });
     }
 }
