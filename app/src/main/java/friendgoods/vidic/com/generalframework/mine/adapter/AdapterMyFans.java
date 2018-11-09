@@ -48,11 +48,9 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
                 break;
             case 1:
                 Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
-
                 break;
             case 2:
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
-
                 break;
             default:
                 holder.tv_rank.setText(position+1);

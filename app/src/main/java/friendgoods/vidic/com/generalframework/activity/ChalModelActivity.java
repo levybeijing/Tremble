@@ -37,16 +37,27 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
     private int minites;
     private int seconds;
     private boolean havetime=true;
-    private int aimNumber;
+//    private int aimNumber;
     private long gametime;
     private boolean requsetOk=true;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
-           if (msg.what==100){
-               tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
-           }
+            if (minites>0||seconds>0){
+                if (seconds==0){
+                    minites--;
+                    seconds=59;
+                }else {
+                    seconds--;
+                }
+                tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
+            }else{
+                iv_click.setClickable(false);
+                requestGift();
+//                gametime=System.currentTimeMillis()-gametime;
+//                addrecord();
+            }
         }
     };
 
@@ -80,7 +91,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.iv_exit_challengemodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_challengemodel).setOnClickListener(this);
 //
-        request();
+        requestTime();
     }
     private Thread thread=new Thread(new Runnable() {
         @Override
@@ -112,9 +123,6 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 if (!requsetOk){
                     Toast.makeText(this, "网络延迟,请重新进入", Toast.LENGTH_SHORT).show();
                 }
-                if (number==aimNumber){
-                    Toast.makeText(this, "挑战成功", Toast.LENGTH_SHORT).show();
-                }
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
                 if (!thread.isAlive()){
@@ -126,10 +134,8 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 finish();
                 break;
             case R.id.tv_gotomall_challengemodel:
-
-                finish();
-//                跳转
                 startActivity(new Intent(ChalModelActivity.this,MallActivity.class));
+                finish();
                 break;
         }
     }
@@ -150,16 +156,14 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
     }
-    private void request() {
+    private void requestTime() {
         OkGo.post(UrlCollect.getChallengeMode)//
                 .tag(this)//
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=======", "onSuccess: "+s);
                         ChallengeModelBean bean = new Gson().fromJson(s, ChallengeModelBean.class);
-                        time = bean.getData().get(0).getTime();
-                        aimNumber=bean.getData().get(0).getNum();
+                        time = bean.getData().getTime();
                         tv_time.setText(time);
                         if (time!=null){
                             String[] split = time.split(":");
@@ -169,13 +173,30 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
     }
+    private void requestGift() {
+        OkGo.post(UrlCollect.getChallengeMode)//
+                .tag(this)//
+                .params("time", time)
+                .params("num", number+"")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=======", "onSuccess: "+s);
+                        //成功的话  弹窗 again  或者 退出
+                        showdialog();
+                    }
+                });
+    }
+    private void showdialog() {
 
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gametime=System.currentTimeMillis()-gametime;
-        addrecord();
+//        gametime=System.currentTimeMillis()-gametime;
+//        addrecord();
         thread.stop();
         handler=null;
     }
+
 }

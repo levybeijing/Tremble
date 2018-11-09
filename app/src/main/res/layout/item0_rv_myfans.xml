@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="10dp"
     android:gravity="center"
-    android:background="#ffe78c"
+    android:background="@mipmap/bg_fans_top"
     >
     <TextView
         android:id="@+id/tv_item2_myfans"

@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textSize="50dp"
+            android:layout_margin="30dp"
             />
         <ImageView
             android:id="@+id/iv_click_storymodel"

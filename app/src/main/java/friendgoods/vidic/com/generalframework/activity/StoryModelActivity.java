@@ -137,6 +137,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                 }
                 tv_number.setText(++count+"");
+                tv_number.setAnimation(animation);
                 break;
         }
     }

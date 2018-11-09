@@ -18,5 +18,95 @@
         android:layout_alignParentTop="true"
         android:layout_margin="20dp"
         />
-
+<!--人物-->
+    <ImageView
+        android:id="@+id/char_two_pkrank"
+        android:layout_width="54dp"
+        android:layout_height="117dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="299dp"
+        />
+    <ImageView
+        android:id="@+id/char_one_pkrank"
+        android:layout_width="66dp"
+        android:layout_height="117dp"
+        android:layout_marginLeft="155dp"
+        android:layout_marginTop="250dp"
+        />
+    <ImageView
+        android:id="@+id/char_three_pkrank"
+        android:layout_width="66dp"
+        android:layout_height="116dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="311dp"
+        />
+<!--站台-->
+        <ImageView
+            android:layout_width="106dp"
+            android:layout_height="121dp"
+            android:background="@mipmap/number2_3x"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="388dp"
+            />
+        <ImageView
+            android:layout_width="123dp"
+            android:layout_height="146dp"
+            android:background="@mipmap/number1_3x"
+            android:layout_marginLeft="129dp"
+            android:layout_marginTop="363dp"
+            />
+        <ImageView
+            android:layout_width="102dp"
+            android:layout_height="116dp"
+            android:background="@mipmap/number3_3x"
+            android:layout_marginLeft="243dp"
+            android:layout_marginTop="393dp"
+            />
+<!--头像-->
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_two_pkrank"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="480dp"
+        />
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_one_pkrank"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="137dp"
+        android:layout_marginTop="479dp"
+        />
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_three_pkrank"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="274dp"
+        android:layout_marginTop="479dp"
+        />
+<!--名字-->
+    <TextView
+        android:id="@+id/name_two_pkrank"
+        android:layout_width="84dp"
+        android:layout_height="34dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="486dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/name_one_pkrank"
+        android:layout_width="93dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="151dp"
+        android:layout_marginTop="498dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/name_three_pkrank"
+        android:layout_width="84dp"
+        android:layout_height="33dp"
+        android:layout_marginLeft="281dp"
+        android:layout_marginTop="487dp"
+        android:gravity="center"
+        />
 </RelativeLayout>
