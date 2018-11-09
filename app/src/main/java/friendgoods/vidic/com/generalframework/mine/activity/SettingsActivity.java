@@ -55,7 +55,6 @@ public class SettingsActivity extends Activity {
 
         tv = findViewById(R.id.tv_weixin_settings);
 
-
         ImageView iv_back = findViewById(R.id.iv_top_set);
 
         //检测上次请求
@@ -68,6 +67,21 @@ public class SettingsActivity extends Activity {
                 finish();
             }
         });
+
+        voice = findViewById(R.id.switch_voice);
+        shake = findViewById(R.id.switch_shake);
+        //私有数据
+        boolean bindwx = sharedPreferences.getBoolean("bindwx", false);
+//        tv.setText(bindwx?"已绑定":"未绑定");
+        tv.setText("已绑定");
+
+        boolean isShake = sharedPreferences.getBoolean("shake", true);
+        boolean isVoide = sharedPreferences.getBoolean("voice", true);
+        shake.setChecked(isShake);
+        voice.setChecked(isVoide);
+        SHAKE=isShake?1:0;
+        VOICE=isVoide?1:0;
+
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         edit.putInt("volume",volume);
@@ -81,16 +95,16 @@ public class SettingsActivity extends Activity {
                     edit.commit();
                     int i = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                     if (i==0)
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
+//                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
-                    startService(new Intent(SettingsActivity.this,MusicService.class));
+//                    startService(new Intent(SettingsActivity.this,MusicService.class));
                 }else{
                     VOICE=0;
                     edit.putBoolean("voice",false);
                     edit.commit();
-                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
+//                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
-                    MusicService.getInstance().onDestroy();
+//                    MusicService.getInstance().onDestroy();
                 }
                 request(SHAKE,VOICE);
             }
@@ -137,21 +151,5 @@ public class SettingsActivity extends Activity {
                     }
                 });
         return false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        voice = findViewById(R.id.switch_voice);
-        shake = findViewById(R.id.switch_shake);
-        //私有数据
-        boolean bindwx = sharedPreferences.getBoolean("bindwx", false);
-        tv.setText(bindwx?"已绑定":"未绑定");
-        boolean isShake = sharedPreferences.getBoolean("shake", true);
-        boolean isVoide = sharedPreferences.getBoolean("voice", true);
-        shake.setChecked(isShake);
-        voice.setChecked(isVoide);
-        SHAKE=isShake?1:0;
-        VOICE=isVoide?1:0;
     }
 }

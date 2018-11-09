@@ -5,7 +5,7 @@
     android:layout_height="113dp"
     android:gravity="center"
     android:padding="5dp"
-    android:background="#F7F8FF"
+    android:background="@drawable/bg_yellow_option"
     >
     <ImageView
         android:id="@+id/iv_icon_mygifts"
@@ -19,15 +19,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="爱你一万年"
+        android:singleLine="true"
         />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         >
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@mipmap/energy_mygifts_3x"
             />
         <TextView

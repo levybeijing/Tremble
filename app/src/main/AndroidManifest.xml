@@ -55,7 +55,8 @@
             android:exported="true"
             />
         <!--主页-->
-        <activity android:name=".activity.MainActivity" android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="sensorPortrait"></activity>
         <!--mine-->
         <activity android:name=".mine.activity.SettingsActivity"></activity>
         <activity android:name=".mine.activity.MallActivity"></activity>
@@ -80,7 +81,8 @@
         <activity android:name=".mine.activity.CommitOrderActivity"></activity>
 
         <!--蓝牙功能-->
-        <activity android:name="._idle.BluetoothTypeActivity" android:screenOrientation="sensorPortrait"/>
+        <activity android:name="._idle.BluetoothTypeActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity android:name="._idle.BluetoothListActivity"></activity>
         <!--四大模式-->
         <activity android:name=".activity.StoryModelActivity"></activity>
@@ -104,5 +106,8 @@
         <!--音乐播放-->
         <service android:name=".musicplay.MusicService" android:exported="false"></service>
 
+        <activity android:name=".activity.PKRankActivity">
+
+        </activity>
     </application>
 </manifest>

@@ -96,7 +96,7 @@
                 android:layout_width="40dp"
                 android:layout_height="24dp"
                 android:background="@drawable/bg_buy_mall"
-                android:text="5"
+                android:text="1"
                 android:textSize="12dp"
                 android:gravity="center"
                 android:layout_marginRight="5dp"

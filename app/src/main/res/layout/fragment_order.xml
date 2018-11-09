@@ -36,10 +36,10 @@
                 android:layout_weight="1"
                 >
                 <!--用户头像-->
-                <ImageView
+                <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                     android:id="@+id/fragment_mine_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@mipmap/temp_icon"
                     android:layout_margin="10dp"
                     />

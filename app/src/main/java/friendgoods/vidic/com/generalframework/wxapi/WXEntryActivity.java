@@ -80,7 +80,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 //        登录
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
-//        String result = "";
 //        requestWX(wxRespBean.getCode());
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
@@ -92,23 +91,18 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
-//                result = "发送取消";
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
-//                result = "发送被拒绝";
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_BAN:
-//                result = "签名错误";
                 break;
             default:
-//                result = "发送返回";
 //                showMsg(0,result);
                 finish();
                 break;
         }
-//        Toast.makeText(WXEntryActivity.this,result,Toast.LENGTH_LONG).show();
     }
 
 
@@ -170,6 +164,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(WXEntryActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
                                 SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+//                                进行网络请求 微信登录
                                 startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
                             }else {
                                 Toast.makeText(WXEntryActivity.this, "绑定失败"+s, Toast.LENGTH_SHORT).show();
@@ -181,7 +176,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
-
+//
 //    private void requestWX(String s) {
 //        OkGo.post(UrlCollect.appLogin)//
 //                .tag(this)//

@@ -40,10 +40,10 @@ public class AdapterMyRecord  extends RecyclerView.Adapter{
 //            ((MyViewHolder)holder).tv_rank.setText("总排名");
 //            ((MyViewHolder)holder).tv_type.setText("类型");
         }else {
-            ((MyViewHolder)holder).tv_count.setText(list.get(position-1).getShakeNum());
+            ((MyViewHolder)holder).tv_count.setText(list.get(position-1).getShakeNum()+"");
             ((MyViewHolder)holder).tv_time.setText(list.get(position-1).getTime());
-            ((MyViewHolder)holder).tv_rank.setText(list.get(position-1).getStatus());
-            ((MyViewHolder)holder).tv_type.setText(list.get(position-1).getType());
+            ((MyViewHolder)holder).tv_rank.setText(list.get(position-1).getStatus()+"");
+            ((MyViewHolder)holder).tv_type.setText(list.get(position-1).getType()+"");
         }
         if (list!=null&&position==list.size()-1){
             ((MyViewHolder)holder).iv_line.setVisibility(View.INVISIBLE);

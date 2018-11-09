@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -204,7 +205,12 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             isGaming=false;
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
-            Toast.makeText(this, "结束访问排名", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "游戏结束", Toast.LENGTH_SHORT).show();
+
+            Intent intent=new Intent(this,PKRankActivity.class);
+            intent.putExtra("roomId",roomId);
+            startActivity(intent);
+//            finish();
         }
     }
 
@@ -308,7 +314,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             roomId = data.getQueryParameter("roomId");
             String friendId = data.getQueryParameter("friendId");
             toBeFriend(friendId);
-            Log.e("===========", ": "+roomId);
+            Log.e("===========被邀进来", ""+roomId);
             isHost=false;
             joinRoom();
             ll.setClickable(false);
@@ -376,6 +382,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.iv_startyes_pkmodel:
                 if (x==0&&y==0&&z==0){
                     Toast.makeText(this, "请设置时间", Toast.LENGTH_SHORT).show();
+                    break;
                 }
                 isGaming=true;
                 startyes.setVisibility(View.INVISIBLE);
@@ -773,17 +780,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 SynCountBean synCount = new Gson().fromJson(split[0], SynCountBean.class);
                                 List<SynCountBean.ListBean> list4 = synCount.getList();
                                 // 同步计数 均有逻辑
-                                for (int i = 0; i < idlist.size(); i++) {
-                                    if (list4.get(0).getUserId().equals(idlist.get(i)+"")&&i==0){
-                                        name1.setText(list4.get(0).getNum());
-                                    }else {
-                                        name3.setText(list4.get(0).getNum());
-                                    }
-                                }
-//                                if (list4.size()>0)
-//                                    name1.setText(list4.get(0).getNum());
-//                                if (list4.size()>1)
-//                                    name3.setText(list4.get(1).getNum());
+//                                for (int i = 0; i < idlist.size(); i++) {
+//                                    if (list4.get(0).getUserId().equals(idlist.get(i)+"")&&i==0){
+//                                        name1.setText(list4.get(0).getNum());
+//                                    }else {
+//                                        name3.setText(list4.get(0).getNum());
+//                                    }
+//                                }
+                                if (list4.size()>0)
+                                    name1.setText(list4.get(0).getNum());
+                                if (list4.size()>1)
+                                    name3.setText(list4.get(1).getNum());
                                 break;
                         }
                 }

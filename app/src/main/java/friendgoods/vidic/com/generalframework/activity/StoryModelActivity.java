@@ -57,8 +57,9 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         ImageView icon = findViewById(R.id.iv_icon_storymodel);
         TextView name = findViewById(R.id.tv_name_storymodel);
         tv_number = findViewById(R.id.tv_number_storymodel);
-        name.setText(MyApplication.NAME);
-        Picasso.with(StoryModelActivity.this).load(MyApplication.USERICON).into(icon);
+
+        name.setText((String) SharedPFUtils.getParam(this, "name", ""));
+        Picasso.with(StoryModelActivity.this).load((String) SharedPFUtils.getParam(this, "icon", "")).into(icon);
 
         Typeface font=null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

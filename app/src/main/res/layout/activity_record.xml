@@ -29,34 +29,34 @@
             android:layout_weight="1"
             />
     </LinearLayout>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|left"
-            android:padding="10dp"
-            >
-            <ImageView
-                android:id="@+id/iv_icon_myrecord"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@mipmap/head_mine_3x"
-                />
-            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
-                android:id="@+id/tv_username_myrecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="抖抖抖不停"
-                android:textSize="16dp"
-                android:layout_marginLeft="20dp"
-                />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="10dp"-->
+        <!--&gt;-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center_vertical|left"-->
+            <!--android:padding="10dp"-->
+            <!--&gt;-->
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_icon_myrecord"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="@mipmap/head_mine_3x"-->
+                <!--/>-->
+            <!--<friendgoods.vidic.com.generalframework.mine.customview.ColorTextView-->
+                <!--android:id="@+id/tv_username_myrecord"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="抖抖抖不停"-->
+                <!--android:textSize="16dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
     <!--best-->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 android:id="@+id/tv_detailrecord_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时长: 4:20 总排名: 1"
+                android:text="时长: 00:00 总排名: 0"
                 android:layout_marginTop="10dp"
                 />
             <!---->
@@ -116,7 +116,7 @@
                         android:id="@+id/tv_hand_myrecord"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -136,7 +136,7 @@
                         android:id="@+id/tv_foot_myrecord"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         />
                 </LinearLayout>
                 <LinearLayout
@@ -156,7 +156,7 @@
                         android:id="@+id/tv_jifen_myrecord"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         />
                 </LinearLayout>
             </LinearLayout>
