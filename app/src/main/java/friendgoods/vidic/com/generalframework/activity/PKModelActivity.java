@@ -311,10 +311,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
         if (data!=null){
-            roomId = data.getQueryParameter("roomId");
+            roomId = data.getQueryParameter("id");
             String friendId = data.getQueryParameter("friendId");
             toBeFriend(friendId);
             Log.e("===========被邀进来", ""+roomId);
+            Log.e("===========被邀进来", ""+friendId);
             isHost=false;
             joinRoom();
             ll.setClickable(false);
