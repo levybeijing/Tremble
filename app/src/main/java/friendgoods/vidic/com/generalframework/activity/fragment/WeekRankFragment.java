@@ -23,6 +23,8 @@ import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
+import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -56,6 +58,14 @@ public class WeekRankFragment extends Fragment {
         rv.setLayoutManager(manager);
         adapter = new AdapterRank(getActivity());
         rv.setAdapter(adapter);
+        adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
+            @Override
+            public void onItemClick(int i) {
+                Intent intent=new Intent(getContext(),MyRecordActivity.class);
+                intent.putExtra("userId",i+"");
+                startActivity(intent);
+            }
+        });
         // 1. 实例化BroadcastReceiver子类 &  IntentFilter
         BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -70,22 +80,22 @@ public class WeekRankFragment extends Fragment {
                     case "android.tremble.WORLD":
                         request(worldPage);
                         break;
-                    case "android.tremble.PRE":
-                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
-                            request(--worldPage);
-                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
-                            request2(--friendPage);
-                        else
-                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
-                        break;
-                    case "android.tremble.NEXT":
-                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
-                            request(++worldPage);
-                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
-                            request2(++friendPage);
-                        else
-                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
-                        break;
+//                    case "android.tremble.PRE":
+//                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
+//                            request(--worldPage);
+//                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
+//                            request2(--friendPage);
+//                        else
+//                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case "android.tremble.NEXT":
+//                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
+//                            request(++worldPage);
+//                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
+//                            request2(++friendPage);
+//                        else
+//                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
+//                        break;
                 }
             }
         };
@@ -93,8 +103,8 @@ public class WeekRankFragment extends Fragment {
         // 2. 设置接收广播的类型
         intentFilter.addAction("android.tremble.FRIEND");
         intentFilter.addAction("android.tremble.WORLD");
-        intentFilter.addAction("android.tremble.PRE");
-        intentFilter.addAction("android.tremble.NEXT");
+//        intentFilter.addAction("android.tremble.PRE");
+//        intentFilter.addAction("android.tremble.NEXT");
         // 3. 动态注册：调用Context的registerReceiver（）方法
         getContext().registerReceiver(mBroadcastReceiver, intentFilter);
         request(1);

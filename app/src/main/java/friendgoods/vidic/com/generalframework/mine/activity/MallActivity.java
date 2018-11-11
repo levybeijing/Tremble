@@ -19,6 +19,7 @@ import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMall;
 import friendgoods.vidic.com.generalframework.mine.frag.FragGifts;
 import friendgoods.vidic.com.generalframework.mine.frag.FragRecommend;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 
 public class MallActivity extends AppCompatActivity{
     @Override
@@ -38,7 +39,7 @@ public class MallActivity extends AppCompatActivity{
         });
         //通过网络访问设置金币数量
         TextView tv_number = findViewById(R.id.tv_numberofcoin);
-        tv_number.setText(getIntent().getStringExtra("number"));
+        tv_number.setText((String)SharedPFUtils.getParam(this,"integral",""));
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override

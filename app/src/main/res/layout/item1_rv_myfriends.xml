@@ -39,16 +39,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="董桑"
-        android:layout_weight="10"
+        android:layout_weight="8"
         android:gravity="center"
+        android:maxEms="5"
         />
     <TextView
         android:id="@+id/tv_time_myfriends"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_weight="6"
-        android:text="25:87"
+        android:text="hms"
         android:gravity="center"
+        android:singleLine="true"
         />
     <TextView
         android:id="@+id/tv_count_myfriends"

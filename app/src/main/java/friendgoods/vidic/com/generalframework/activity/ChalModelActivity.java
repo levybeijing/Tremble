@@ -195,8 +195,10 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         super.onDestroy();
 //        gametime=System.currentTimeMillis()-gametime;
 //        addrecord();
-        thread.stop();
-        handler=null;
+        if (thread!=null)
+            thread.stop();
+        if (handler!=null)
+            handler=null;
     }
 
 }

@@ -77,9 +77,9 @@ public class CommitOrderActivity extends AppCompatActivity implements View.OnCli
         TextView name = findViewById(R.id.tv_name_commitorder);
         name.setText(bean.getName());
         TextView price = findViewById(R.id.tv_price_commitorder);
-        price.setText(price_+"");
+        price.setText("￥"+price_);
         TextView number = findViewById(R.id.tv_number_commitorder);
-        number.setText(number_);
+        number.setText("X"+number_);
         TextView zonge = findViewById(R.id.tv_moneys_commitorder);
         zonge.setText(Integer.parseInt(number_)*price_+"");
 
@@ -133,7 +133,6 @@ public class CommitOrderActivity extends AppCompatActivity implements View.OnCli
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        //todo:解析数据  成功就跳转至我的订单界面
                         haveAddress=false;
                         startActivity(new Intent(CommitOrderActivity.this,MyOrdersActivity.class));
                     }

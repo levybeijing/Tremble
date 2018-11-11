@@ -50,7 +50,7 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
         if (photo!=null&&!photo.equals("")) {
             Picasso.with(context).load(photo).into(holder.iv_icon);
         }
-//        int userId = list.get(position).getUserId();
+        final int userId = list.get(position).getUserId();
 
         View itemView = holder.itemView;
 
@@ -58,7 +58,7 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onItemClick(position);
+                    itemClickListener.onItemClick(userId);
                 }
             });
         }

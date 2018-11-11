@@ -16,6 +16,7 @@ import com.lzy.okgo.callback.StringCallback;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -72,8 +73,8 @@ public class AddAddressActivity extends Activity implements View.OnClickListener
                 }
 
                 String mobile = phone.getText().toString().trim();
-                if (mobile ==null|| mobile.length()==0){
-                    Toast.makeText(this, "手机号不能为空", Toast.LENGTH_SHORT).show();
+                if (!StringUtil.isPhoneNumber(mobile)){
+                    Toast.makeText(this, "手机号格式错误", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String site = dis.getText().toString().trim();

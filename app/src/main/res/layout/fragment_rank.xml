@@ -72,26 +72,26 @@
                     android:layout_weight="1"
                     android:background="@drawable/interest_friends_styple"/>
             </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                >
-                <TextView
-                    android:id="@+id/ll_pre_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/pre_rank_3x"
-                    />
-                <TextView
-                    android:id="@+id/ll_next_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/next_rank_3x"
-                    />
-            </RelativeLayout>
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="20dp"-->
+                <!--&gt;-->
+                <!--<TextView-->
+                    <!--android:id="@+id/ll_pre_rank"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@mipmap/pre_rank_3x"-->
+                    <!--/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/ll_next_rank"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:background="@mipmap/next_rank_3x"-->
+                    <!--/>-->
+            <!--</RelativeLayout>-->
         </RelativeLayout>
     </LinearLayout>
 
