@@ -1,7 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,14 +43,8 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.bean.BeginGameBean;
-import friendgoods.vidic.com.generalframework.activity.bean.CountBean;
-import friendgoods.vidic.com.generalframework.activity.bean.SetStatusBean;
-import friendgoods.vidic.com.generalframework.activity.bean.SocStatusBean;
-import friendgoods.vidic.com.generalframework.activity.bean.SynCountBean;
-import friendgoods.vidic.com.generalframework.activity.bean.UserStatusBean;
-import friendgoods.vidic.com.generalframework.activity.bean.SetTimeBean;
-import friendgoods.vidic.com.generalframework.activity.bean.TypeBean;
+import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
+import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
@@ -79,7 +72,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView startno;
 //  点击数
     private static int pkCount=0;
-//    倒数计时开始
+//  倒数计时开始
     private static int lastTime=2;
 
     private ImageView three;
@@ -98,7 +91,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
-    private String roomId;
+    private int roomId;
     private long gametime;
     private ScaleAnimation animation,animation1;
 
@@ -206,11 +199,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             gametime=System.currentTimeMillis()-gametime;
             addrecord();
             Toast.makeText(this, "游戏结束", Toast.LENGTH_SHORT).show();
-
+//            game over
+            PKSocketBean end =new PKSocketBean();
+            end.setType(6);
+            end.setRoomId(roomId);
+            end.setUserId(currentId);
+            sendMessage(new Gson().toJson(end));
+//            jump
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("roomId",roomId);
             startActivity(intent);
-//            finish();
+            finish();
         }
     }
 
@@ -219,21 +218,17 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     Handler handler= (Handler) soft.get();
 
     private IWXAPI api;
-
+    private int currentId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
-
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
-
         gametime=System.currentTimeMillis();
-
-
         initView();
-
         connect();
+        currentId=(int)SharedPFUtils.getParam(this,"userId","");
     }
 
     private void initView() {
@@ -270,6 +265,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         if (icon!=null) {
             Picasso.with(this).load(icon).into(icon2);
         }
+//        to do better
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
             case 11:
@@ -311,21 +307,27 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
         if (data!=null){
-            roomId = data.getQueryParameter("id");
+            roomId = Integer.parseInt(data.getQueryParameter("id"));
             String friendId = data.getQueryParameter("friendId");
             toBeFriend(friendId);
-            Log.e("===========被邀进来", ""+roomId);
-            Log.e("===========被邀进来", ""+friendId);
+//            Log.e("===========被邀进来", ""+roomId);
+//            Log.e("===========被邀进来", ""+friendId);
             isHost=false;
-            joinRoom();
             ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
             light2.setVisibility(View.INVISIBLE);
             iv_sure.setVisibility(View.GONE);
+//            send socket
+            PKSocketBean join=new PKSocketBean();
+            join.setType(1);
+            join.setRoomId(roomId);
+            join.setMaster(0);
+            join.setUserId(currentId);
+            sendMessage(new Gson().toJson(join));
         }else{
             startno.setVisibility(View.VISIBLE);
             light2.setVisibility(View.VISIBLE);
-            addroom();
+            createroom();
         }
         //        缩放动画
         animation = new ScaleAnimation(
@@ -366,17 +368,28 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.iv_sure_pkmodel:
                 if (!isHost)
                     break;
-//上传时间
                 getListOfTime();
-//                Log.e("===========", ": "+numlist.toString());
-
-                String time=""+numlist.get(0)+ numlist.get(1)+":"+
-                        numlist.get(2)+numlist.get(3)+":"+
-                    numlist.get(4)+numlist.get(5);
-                requestTime(time);
+                String time=x+":"+y +":"+z;
+//settime
+                PKSocketBean settime=new PKSocketBean();
+                settime.setType(3);
+                settime.setRoomId(roomId);
+                settime.setTime(time);
+                sendMessage(new Gson().toJson(settime));
                 break;
             case R.id.iv_exit_pkmodel:
-                exitRoom();
+//exit
+                PKSocketBean exit=new PKSocketBean();
+                if (isHost){
+                    exit.setType(10);
+                    if (isGaming)
+                        exit.setType(11);
+                }else{
+                    exit.setType(8);
+                }
+                exit.setRoomId(roomId);
+                exit.setUserId(currentId);
+                sendMessage(new Gson().toJson(exit));
                 finish();
                 break;
 //                房主逻辑
@@ -388,32 +401,37 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 isGaming=true;
                 startyes.setVisibility(View.INVISIBLE);
                 three.setVisibility(View.VISIBLE);
-//                倒计时 开始游戏
-                requestStart();
+//start
+                PKSocketBean start=new PKSocketBean();
+                start.setType(4);
+                start.setRoomId(roomId);
+                start.setUserId(currentId);
+                sendMessage(new Gson().toJson(start));
                 Threetoone.start();
                 break;
             case R.id.iv_readyyes_pkmodel:
-//               不是房主 准备好了
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
-                changeStatus();
+//ready
+                PKSocketBean ready=new PKSocketBean();
+                ready.setRoomId(roomId);
+                ready.setType(2);
+                ready.setUserId(currentId);
+                ready.setReady(1);
+                sendMessage(new Gson().toJson(ready));
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
                 click_left.setAnimation(animation1);
                 click_righr.setAnimation(animation);
-
-                CountBean bean=new CountBean();
-                bean.setUserId(MyApplication.USERID);
-                bean.setNum(pkCount+"");
-                TypeBean tye=new TypeBean();
-                tye.setType(6);
-                String aim="["+new Gson().toJson(bean)+","+new Gson().toJson(tye)+"]";
-                for (int i = 0; i < idlist.size(); i++) {
-                    sendMessage(aim+"|"+idlist.get(i));
-                    Log.e("=============", idlist.get(i)+"");
-                }
+//send count
+                PKSocketBean count=new PKSocketBean();
+                count.setType(5);
+                count.setRoomId(roomId);
+                count.setUserId(currentId);
+                count.setNum(pkCount);
+                sendMessage(new Gson().toJson(count));
                 break;
             case R.id.tv_name_one_pkmodel:
             case R.id.tv_name_three_pkmodel:
@@ -437,63 +455,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-
-//c
-    private void requestStart() {
-        OkGo.post(UrlCollect.updateRoom)//
-                .tag(this)//
-                .params("roomId", roomId)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-//                        不必提示
-                        Log.e("==============", "房主开始游戏" + s);
-                    }
-                });
-    }
-// 非房主改变状态
-    private void changeStatus() {
-        OkGo.post(UrlCollect.updateRoomStatus)//
-                .tag(this)//
-                .params("userId", MyApplication.USERID)
-                .params("roomId", roomId)
-                .params("status", "2")//0 退出 1 未准备  2 已准备
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-//                        不必提示
-                    }
-                });
-    }
-//房主设置时间
-    private void requestTime(String time) {
-//        Log.e("==============", "房主设置时间" + time);
-//        Log.e("==============", "房主设置时间" + roomId);
-        OkGo.post(UrlCollect.updateRoomTime)//
-                .tag(this)//
-                .params("roomId", roomId)
-                .params("time", time)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("==============", "房主设置时间" + s);
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if (message.equals("请求成功")){
-                                Toast.makeText(PKModelActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
-//                                iv_sure.setVisibility(View.GONE);
-//                                ll.setClickable(false);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
 //房主创建 房间
-    private void addroom() {
-        Log.e("==============addroom", "");
+    private void createroom() {
+//        Log.e("==============addroom", "");
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
@@ -506,65 +470,19 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             try {
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
-                                roomId=data.getInt("roomId")+"";
-                                Log.e("===========", "id: "+roomId);
+                                roomId=data.getInt("roomId");
+
+                                PKSocketBean add=new PKSocketBean();
+                                add.setType(1);
+                                add.setRoomId(roomId);
+                                add.setUserId(currentId);
+                                add.setMaster(1);
+                                sendMessage(new Gson().toJson(add));
+//                                Log.e("===========", "id: "+roomId);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
-                    }
-                });
-    }
-//    加入房间
-    private void joinRoom() {
-        Log.e("==============joinRoom", ""+roomId);
-        OkGo.post(UrlCollect.intoRoomJudge)//
-                .tag(this)//
-                .params("userId", MyApplication.USERID)
-                .params("roomId", roomId)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if (!message.equals("请求成功")){
-                                Toast.makeText(PKModelActivity.this, message, Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-//  退出房间
-    private void exitRoom() {
-        Log.e("==============exitRoom", "");
-        OkGo.post(UrlCollect.updateRoomUserStatus)//
-                .tag(this)//
-                .params("userId", MyApplication.USERID)
-                .params("roomId", roomId)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-
-                    }
-                });
-    }
-///为什么是三个人的?
-    private void gameOver() {
-        OkGo.post(UrlCollect.overRoom)//
-                .tag(this)//
-                .params("userId", "")//1,2,3（多用户，拼接）
-                .params("roomId", "")
-                .params("time", "")//00:56:21
-                .params("status", "")//0（手动）1（脚动）
-                .params("shakeNum", "")//12312,43134,51356,（对应用户，拼接） 抖动数
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-
                     }
                 });
     }
@@ -588,7 +506,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
     }
-
 
     private void initCustomTimePicker() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
@@ -632,7 +549,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         isHost=true;
-        exitRoom();
+//exit
+        PKSocketBean exit=new PKSocketBean();
+        if (isHost){
+            exit.setType(10);
+            if (isGaming)
+                exit.setType(11);
+        }else{
+            exit.setType(8);
+        }
+        exit.setRoomId(roomId);
+        exit.setUserId(currentId);
+        sendMessage(new Gson().toJson(exit));
         mConnect.disconnect();
     }
 //接收socket信息 后期引入心跳机制
@@ -643,8 +571,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
 
-                private int type;
-
                 @Override
                 public void onOpen() {
                     Log.e("==============", "Status:Connect to " + socketUrl);
@@ -654,79 +580,30 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 public void onTextMessage(String payload) {
                     //不停地接受信息
                     Log.e("==============", payload);
-                    if (payload.contains("|")){
-//                        String[] split = payload.split("|");
-//                        payload=split[0];
-                        payload=payload.substring(0,payload.length()-4);
-                    }
-                    Log.e("==============", payload);
-
-                    //处理字符串
-                        payload=payload.substring(0,payload.length()-1);
-                        StringBuffer sb = new StringBuffer();
-                        sb=sb.append(payload).insert(sb.length()-11,"]");
-                        sb=sb.insert(sb.length()-11,"&&");
-                        sb=sb.replace(sb.length()-11,sb.length()-10,"");
-                        payload=sb.toString();
-                        String[] split = payload.split("&&");
-                        Log.e("==============", split[1]);
-                        TypeBean typeBean = new Gson().fromJson(split[1], TypeBean.class);
-                        type = typeBean.getType();
-                        split[0]="{ \"list\":"+split[0]+"}";
-                        Log.e("==============", split[0]);
-
-                    switch (type){
-                            case 0:
-                                SocStatusBean statusBean = new Gson().fromJson(split[0], SocStatusBean.class);
-                                List<UserStatusBean> list = statusBean.getList();
-
-                                for (int i = 0; i < list.size(); i++) {
-                                    if (list.get(i).getUserId()==Integer.parseInt((String) SharedPFUtils.getParam(PKModelActivity.this,"userId",""))){
-                                        list.remove(i);
-                                    }
-                                }
-                                //                            第一个控件
-                                if (list.size()>0)
-                                    setOne(list.get(0));
-    //                            第二个控件
-                                if (list.size()>1){
-                                    setThree(list.get(1));
-                                }
-                                break;
+                    PKSocketBean pkbean = new Gson().fromJson(payload, PKSocketBean.class);
+                    switch (pkbean.getType()){
                             case 1:
-                                //改变状态
-                                SocStatusBean statusBean1 = new Gson().fromJson(split[0], SocStatusBean.class);
-                                List<UserStatusBean> list1 = statusBean1.getList();
-                                // 组员退出 均有逻辑
-                                for (int i = 0; i < list1.size(); i++) {
-                                    if (list1.get(i).getUserId()==Integer.parseInt((String) SharedPFUtils.getParam(PKModelActivity.this,"userId",""))){
-                                        list1.remove(i);
-                                    }
-                                }
-                                clearOne();
-                                clearThree();
-                                if (list1.size()>0)
-                                    setOne(list1.get(0));
-    //                            第二个控件
-                                if (list1.size()>1){
-                                    setThree(list1.get(1));
+                                // join in room ,non homeowner handle
+                                if (!isHost){
+
                                 }
                                 break;
                             case 2:
-                                // 房主退出
-                                if (isHost)
-                                    break;
-                                finish();
+                                //  ready
+                                int userId = pkbean.getUserId();
+                                if (idlist.size()>0&&idlist.get(0)==userId&&pkbean.getStatus()==2){
+                                        light1.setVisibility(View.VISIBLE);
+                                }
+                                if (idlist.size()>1&&idlist.get(1)==userId&&pkbean.getStatus()==2){
+                                    light3.setVisibility(View.VISIBLE);
+                                }
                                 break;
                             case 3:
-                                // 游戏时间  非房主操作 设置时间
+                                // settime
                                 if (isHost)
                                     break;
-                                SetTimeBean setTimeBean = new Gson().fromJson(split[0], SetTimeBean.class);
-                                SetTimeBean.TimeBean timeBean = setTimeBean.getList().get(0);
-                                String time = timeBean.getTime();
+                                String time = pkbean.getTime();
                                 Log.e("=============", time);
-
                                 tv1_timer.setText(time.charAt(0)+"");
                                 tv2_timer.setText(time.charAt(1)+"");
                                 tv3_timer.setText(time.charAt(3)+"");
@@ -735,64 +612,64 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 tv6_timer.setText(time.charAt(7)+"");
                                 break;
                             case 4:
-                                // 修改状态(准备/未准备) 均有逻辑
-                                SetStatusBean setStatusBean = new Gson().fromJson(split[0], SetStatusBean.class);
-                                List<SetStatusBean.ListBean> list2 = setStatusBean.getList();
-                                Log.e("=============", list2.toString());
-                                if (isHost){
-                                    startyes.setVisibility(View.VISIBLE);
-                                    startno.setVisibility(View.INVISIBLE);
-                                }
-                                if (list2.size()>0&&list2.get(0).getStatus().equals("2")){
-                                    light1.setVisibility(View.VISIBLE);
-                                }else{
-                                    light1.setVisibility(View.INVISIBLE);
-                                }
-                                if (list2.size()>1&&list2.get(1).getStatus().equals("2")){
-                                    light3.setVisibility(View.VISIBLE);
-                                }else{
-                                    light3.setVisibility(View.INVISIBLE);
-                                }
-                                break;
-                            case 5:
-                                // 开始游戏 非房主开始倒计时
-                                Log.e("=============开始游戏", split[0]);
-                                // 所有人开始计时
-                                if (isHost)
-                                    break;
-                                StringBuffer sb1 = new StringBuffer();
-                                sb1=sb1.append(split[0]);
-                                sb1.replace(10, 23, "");
-                                split[0]=sb1.toString();
-                                BeginGameBean begin = new Gson().fromJson(split[0], BeginGameBean.class);
-                                List<BeginGameBean.ListBean> list3 = begin.getList();
-                                for (int i = 0; i < list3.size(); i++) {
-                                    idlist.add(list3.get(i).getUserId());
-                                }
+                                // start game
+//                                Log.e("=============", list2.toString());
                                 if (!isHost){
-                                    getListOfTime();
                                     readyno.setVisibility(View.INVISIBLE);
-                                    three.setVisibility(View.VISIBLE);
                                     Threetoone.start();
                                 }
                                 break;
-                            case 6:
-                                Log.e("=============同步计数", split[0]);
-                                SynCountBean synCount = new Gson().fromJson(split[0], SynCountBean.class);
-                                List<SynCountBean.ListBean> list4 = synCount.getList();
-                                // 同步计数 均有逻辑
-//                                for (int i = 0; i < idlist.size(); i++) {
-//                                    if (list4.get(0).getUserId().equals(idlist.get(i)+"")&&i==0){
-//                                        name1.setText(list4.get(0).getNum());
-//                                    }else {
-//                                        name3.setText(list4.get(0).getNum());
-//                                    }
-//                                }
-                                if (list4.size()>0)
-                                    name1.setText(list4.get(0).getNum());
-                                if (list4.size()>1)
-                                    name3.setText(list4.get(1).getNum());
+                            case 5:
+                                // synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
+                                int userId1 = pkbean.getUserId();
+                                if (idlist.size()>0&&idlist.get(0)==userId1){
+                                    name1.setText(pkbean.getNum()+"");
+                                }
+                                if (idlist.size()>1&&idlist.get(1)==userId1){
+                                    name3.setText(pkbean.getNum()+"");
+                                }
                                 break;
+                            case 6:
+//                                game over
+
+                                break;
+                            case 7:
+//                           the server send to homeowner the information of room {type:7, user:[{}]}
+                            List<GamerBean> list = pkbean.getUser();
+//                            过滤当前用户
+                            for (int i = 0; i < list.size(); i++) {
+                                if (list.get(i).getId()==(int)SharedPFUtils.getParam(PKModelActivity.this,"userId","")){
+                                    list.remove(i);
+                                    continue;
+                                }
+                                idlist.add(list.get(i).getId());
+                            }
+                            if (list.size()>0)
+                                setOne(list.get(0));
+                            if (list.size()>1)
+                                setOne(list.get(1));
+                            break;
+                        case 8:
+// member exit
+                            if (isHost){
+                                idlist.remove(pkbean.getUserId());
+                            }
+                            break;
+                        case 9:
+// error message
+                            Toast.makeText(PKModelActivity.this, pkbean.getMessage(), Toast.LENGTH_SHORT).show();
+                            break;
+                        case 10:
+// hoster exit before game
+                            if (!isHost)
+                                finish();
+                            break;
+                        case 11:
+// hoster exit when gaming
+                            if (!isHost){
+                                idlist.remove(pkbean.getUserId());
+                            }
+                            break;
                         }
                 }
                 @Override
@@ -805,13 +682,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 //控件操作
-    private void  setOne(UserStatusBean bean){
+    private void  setOne(GamerBean bean){
         name1.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon1);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person1);
     }
 
-    private void  setThree(UserStatusBean bean){
+    private void  setThree(GamerBean bean){
         name3.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon3);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person3);
@@ -849,15 +726,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+
                     }
                 });
     }
-//    退出登录
-//    public static void clear(Context context) {
-//        SharedPreferences preferences = context.getSharedPreferences("name", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.clear();
-//
-//        editor.commit();
-//    }
 }

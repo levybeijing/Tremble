@@ -63,14 +63,18 @@
             android:layout_alignParentRight="true"
             android:layout_margin="5dp"
             />
-        <ImageView
+
+        <TextView
             android:id="@+id/iv_goodsbuy_recommend"
             android:layout_width="41dp"
             android:layout_height="20dp"
-            android:background="@mipmap/buy_recommend_3x"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_margin="5dp"
+            android:background="@mipmap/bg_buy_3x"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:text="购买"
             />
     </RelativeLayout>
 </LinearLayout>

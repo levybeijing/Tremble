@@ -36,11 +36,8 @@ public class SettingsActivity extends Activity {
     private AudioManager mAudioManager;
     private SharedPreferences.Editor edit;
     private SharedPreferences sharedPreferences;
-
     private boolean requestIsOk=true;
     private SwitchCompat voice;
-    private SwitchCompat shake;
-    private TextView tv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,10 +47,8 @@ public class SettingsActivity extends Activity {
         initView();
     }
     private void initView() {
-        sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         edit = sharedPreferences.edit();
-
-        tv = findViewById(R.id.tv_weixin_settings);
 
         ImageView iv_back = findViewById(R.id.iv_top_set);
 
@@ -69,17 +64,9 @@ public class SettingsActivity extends Activity {
         });
 
         voice = findViewById(R.id.switch_voice);
-        shake = findViewById(R.id.switch_shake);
-        //私有数据
-        boolean bindwx = sharedPreferences.getBoolean("bindwx", false);
-//        tv.setText(bindwx?"已绑定":"未绑定");
-        tv.setText("已绑定");
 
-        boolean isShake = sharedPreferences.getBoolean("shake", true);
         boolean isVoide = sharedPreferences.getBoolean("voice", true);
-        shake.setChecked(isShake);
         voice.setChecked(isVoide);
-        SHAKE=isShake?1:0;
         VOICE=isVoide?1:0;
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -109,27 +96,15 @@ public class SettingsActivity extends Activity {
                 request(SHAKE,VOICE);
             }
         });
-        shake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        findViewById(R.id.exit_settings).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //设置震动标识
-                Vibrator vibrator = (Vibrator) (getSystemService(Service.VIBRATOR_SERVICE));
-                if (isChecked){
-                    SHAKE=1;
-                    edit.putBoolean("shake",true);
-                    edit.commit();
-                    Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
-                }else{
-                    SHAKE=0;
-                    vibrator.cancel();
-                    edit.putBoolean("shake",false);
-                    edit.commit();
-                    Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
-                }
-                request(SHAKE,VOICE);
+            public void onClick(View v) {
+                clear();
             }
         });
     }
+//
     public boolean request(int i,int j){
         OkGo.post(UrlCollect.modifySettings)//
                 .tag(this)//
@@ -151,5 +126,11 @@ public class SettingsActivity extends Activity {
                     }
                 });
         return false;
+    }
+    //    退出登录
+    public void clear() {
+        edit.clear();
+        edit.commit();
+        System.exit(0);
     }
 }

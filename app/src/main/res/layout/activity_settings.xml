@@ -63,59 +63,20 @@
         android:layout_height="8dp"
         android:background="@drawable/div_detailorders"
         />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/shake_settgings_3x"
-            />
+        android:layout_height="match_parent">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="震动"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
+            android:id="@+id/exit_settings"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="退出登录"
+            android:textSize="24dp"
+            android:textColor="#fff"
+            android:background="@color/commen_top"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
             />
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch_shake"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@drawable/div_detailorders"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/weixin_set_3x"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="微信"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-
-            />
-        <TextView
-            android:id="@+id/tv_weixin_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已绑定"
-            />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -1,6 +1,8 @@
 package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.GiftsMallBean;
+import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 
 public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyViewHolder> {
     private Context context;
@@ -38,18 +41,17 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //网络访问
-                String trim = holder.et_number.getText().toString().trim();
-                int number = Integer.parseInt(trim);
-                request(number);
-
+                //跳转到详情页面 并弹窗选择数量
+                Intent intent = new Intent(context, DetailGoodsActivity.class);
+                //加入数据
+                intent.putExtra("bean", (Parcelable) list.get(position));
+                intent.putExtra("goodsId",list.get(position).getId()+"");
+                context.startActivity(intent);
             }
-
-
         });
         holder.tv_name.setText(list.get(position).getName());
         holder.tv_energy.setText(list.get(position).getScore()+"");

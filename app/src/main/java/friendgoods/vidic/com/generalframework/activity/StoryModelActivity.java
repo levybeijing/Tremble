@@ -3,6 +3,8 @@ package friendgoods.vidic.com.generalframework.activity;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
@@ -43,7 +46,17 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_number;
     private long gametime;
     private ScaleAnimation animation;
-
+    private Handler handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==100){
+                Toast.makeText(StoryModelActivity.this, "点击消失", Toast.LENGTH_SHORT).show();
+                iv_net.setClickable(true);
+            }
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +64,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         initView();
 
         iv_net = findViewById(R.id.iv_net_story);
+        iv_net.setOnClickListener(this);
         request();
         //设置形象
         ImageView person = findViewById(R.id.iv_person_storymodel);
@@ -127,8 +141,10 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 gametime=System.currentTimeMillis();
                 if (count==numbers.get(flag)){
 //                    requestImage(flag);
-                    Picasso.with(StoryModelActivity.this).load("http://img.zcool.cn/community/01f9ea56e282836ac72531cbe0233b.jpg@2o.jpg").into(iv_net);
+                    int i = new Random().nextInt(5);
+                    Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+images.get(i)).into(iv_net);
                     flag++;
+                    xthread.start();
                 }
                 if (flag==numbers.size()){
                     gametime=System.currentTimeMillis()-gametime;
@@ -139,9 +155,25 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 tv_number.setText(++count+"");
                 tv_number.setAnimation(animation);
                 break;
+            case R.id.iv_net_story:
+                iv_net.setVisibility(View.INVISIBLE);
+                iv_net.setClickable(false);
+                break;
         }
     }
-
+    Thread xthread=new Thread(){
+        @Override
+        public void run() {
+            super.run();
+            try {
+                sleep(1000);
+                Message message = handler.obtainMessage(1000);
+                handler.sendMessage(message);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
     private void addrecord() {
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
@@ -156,25 +188,6 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 
-                    }
-                });
-    }
-
-    private void requestImage(final int flag) {
-        OkGo.post(UrlCollect.getStoryModeSJ)//
-                .tag(this)//
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            JSONArray data = jo.getJSONArray("data");
-                            JSONObject jo2 = (JSONObject) data.get(flag);
-                            String img = jo2.getString("img");
-                            Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+img).into(iv_net);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 });
     }

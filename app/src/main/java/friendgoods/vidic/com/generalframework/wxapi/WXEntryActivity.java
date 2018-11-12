@@ -180,20 +180,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
-//    private void login() {
-//        OkGo.post(UrlCollect.smsLogen)//
-//                .tag(this)//
-//                .params("mobile", phone)
-//                .params("smsCode", code)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-////                        记录用户信息
-//                        try {
-//                            JSONObject jo=new JSONObject(s);
-//                            String message = jo.getString("message");
-//                            if ("请求成功".equals(message)){
-//                                Log.e("===============", "onSuccess: "+s);
 //                                LoginBean bean = new Gson().fromJson(s, LoginBean.class);
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
@@ -239,16 +225,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 //                                    startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
 //                                }
 //                                finish();
-//                            }else{
-//                                Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-//    }
-//
     private void requestWX(String s) {
         OkGo.post(UrlCollect.appLogin)//
                 .tag(this)//
@@ -260,7 +236,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
                                 SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-
                                 startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
                             }
                         } catch (JSONException e) {
