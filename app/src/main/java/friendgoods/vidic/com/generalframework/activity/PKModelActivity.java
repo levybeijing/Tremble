@@ -142,10 +142,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     click_left.setVisibility(View.VISIBLE);
                     click_righr.setVisibility(View.VISIBLE);
                     //                    开始游戏
-
 //                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
-//                    请求成功的话
-//                    pkCount=0;
                     isGaming=true;
 //                    游戏时间开始
                     new Thread(new Runnable() {
@@ -226,9 +223,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         gametime=System.currentTimeMillis();
+        currentId= Integer.parseInt((String)SharedPFUtils.getParam(this,"userId",""));
         initView();
         connect();
-        currentId=(int)SharedPFUtils.getParam(this,"userId","");
     }
 
     private void initView() {
@@ -308,9 +305,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         Uri data = getIntent().getData();
         if (data!=null){
             roomId = Integer.parseInt(data.getQueryParameter("id"));
-            String friendId = data.getQueryParameter("friendId");
-            toBeFriend(friendId);
-//            Log.e("===========被邀进来", ""+roomId);
+//            String friendId = data.getQueryParameter("friendId");
+//            toBeFriend(friendId);
+            Log.e("===========roomId", ""+roomId);
 //            Log.e("===========被邀进来", ""+friendId);
             isHost=false;
             ll.setClickable(false);
@@ -322,7 +319,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             join.setType(1);
             join.setRoomId(roomId);
             join.setMaster(0);
-            join.setUserId(currentId);
+//            join.setUserId(currentId);
+            Log.e("===========currentId", ""+currentId);
             sendMessage(new Gson().toJson(join));
         }else{
             startno.setVisibility(View.VISIBLE);
@@ -371,6 +369,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 getListOfTime();
                 String time=x+":"+y +":"+z;
 //settime
+                Log.e("===========被邀进来", time);
+
                 PKSocketBean settime=new PKSocketBean();
                 settime.setType(3);
                 settime.setRoomId(roomId);
@@ -471,13 +471,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
                                 roomId=data.getInt("roomId");
-
-                                PKSocketBean add=new PKSocketBean();
-                                add.setType(1);
-                                add.setRoomId(roomId);
-                                add.setUserId(currentId);
-                                add.setMaster(1);
-                                sendMessage(new Gson().toJson(add));
+//
+//                                PKSocketBean add=new PKSocketBean();
+//                                add.setType(1);
+//                                add.setRoomId(roomId);
+//                                add.setUserId(currentId);
+//                                add.setMaster(1);
+//                                sendMessage(new Gson().toJson(add));
 //                                Log.e("===========", "id: "+roomId);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -584,10 +584,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     switch (pkbean.getType()){
                             case 1:
                                 // join in room ,non homeowner handle
-                                if (!isHost){
-
+                                List<GamerBean> list5 = pkbean.getUser();
+//  remove current user
+                                for (int i = 0; i < list5.size(); i++) {
+                                    if (list5.get(i).getId()==(int)SharedPFUtils.getParam(PKModelActivity.this,"userId","")){
+                                        continue;
+                                    }
+                                    idlist.add(list5.get(i).getId());
                                 }
-                                idlist.add(pkbean.getUser().get(0).getId());
+                                if (list5.size()>0)
+                                    setOne(list5.get(0));
+                                if (list5.size()>1)
+                                    setOne(list5.get(1));
                                 break;
                             case 2:
                                 //  ready
