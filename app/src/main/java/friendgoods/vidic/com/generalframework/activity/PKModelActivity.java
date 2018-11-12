@@ -587,15 +587,20 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 if (!isHost){
 
                                 }
+                                idlist.add(pkbean.getUser().get(0).getId());
                                 break;
                             case 2:
                                 //  ready
                                 int userId = pkbean.getUserId();
                                 if (idlist.size()>0&&idlist.get(0)==userId&&pkbean.getStatus()==2){
                                         light1.setVisibility(View.VISIBLE);
+                                }else{
+                                    light1.setVisibility(View.INVISIBLE);
                                 }
                                 if (idlist.size()>1&&idlist.get(1)==userId&&pkbean.getStatus()==2){
                                     light3.setVisibility(View.VISIBLE);
+                                }else{
+                                    light3.setVisibility(View.INVISIBLE);
                                 }
                                 break;
                             case 3:
@@ -612,7 +617,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 tv6_timer.setText(time.charAt(7)+"");
                                 break;
                             case 4:
-                                // start game
+// start game
 //                                Log.e("=============", list2.toString());
                                 if (!isHost){
                                     readyno.setVisibility(View.INVISIBLE);
@@ -630,16 +635,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 }
                                 break;
                             case 6:
-//                                game over
-
+//game over
+//no operation ,the solution is on top
                                 break;
                             case 7:
-//                           the server send to homeowner the information of room {type:7, user:[{}]}
+//the server send to homeowner the information of room {type:7, user:[{}]}
                             List<GamerBean> list = pkbean.getUser();
 //                            过滤当前用户
                             for (int i = 0; i < list.size(); i++) {
                                 if (list.get(i).getId()==(int)SharedPFUtils.getParam(PKModelActivity.this,"userId","")){
-                                    list.remove(i);
                                     continue;
                                 }
                                 idlist.add(list.get(i).getId());
@@ -651,9 +655,14 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case 8:
 // member exit
-                            if (isHost){
-                                idlist.remove(pkbean.getUserId());
+                            int userId3 = pkbean.getUserId();
+                            if (idlist.size()>0&&userId3==idlist.get(0)){
+                                clearOne();
                             }
+                            if (idlist.size()>1&&userId3==idlist.get(1)){
+                                clearThree();
+                            }
+                            idlist.remove(userId3);
                             break;
                         case 9:
 // error message
@@ -666,8 +675,15 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case 11:
 // hoster exit when gaming
+                            int userId2 = pkbean.getUserId();
+                            if (idlist.size()>0&&userId2==idlist.get(0)){
+                                clearOne();
+                            }
+                            if (idlist.size()>1&&userId2==idlist.get(1)){
+                                clearThree();
+                            }
                             if (!isHost){
-                                idlist.remove(pkbean.getUserId());
+                                idlist.remove(userId2);
                             }
                             break;
                         }
