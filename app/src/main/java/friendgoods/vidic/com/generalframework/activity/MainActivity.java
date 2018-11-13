@@ -44,26 +44,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_main);
 
         initView();
-//        request();
     }
-
-//    private void request() {
-//        OkGo.post(UrlCollect.getUsers)//
-//                .tag(this)//
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-//                        UserInfoBean infoBean = new Gson().fromJson(s, UserInfoBean.class);
-//                        Log.e("=============", "onSuccess: "+s);
-//                        if ("请求成功".equals(infoBean.getMessage())){
-//                            MyApplication.NAME=infoBean.getData().getName();
-//                            MyApplication.USERICON=infoBean.getData().getPhoto();
-//                            MyApplication.USERINTEGRAL=infoBean.getData().getIntegral();
-//                        }
-//                    }
-//                });
-//    }
-
     protected void initView() {
 
         list.add(new RankFragment());
@@ -127,6 +108,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MusicService.getInstance().onDestroy();
+//        MusicService.getInstance().onDestroy();
     }
 }

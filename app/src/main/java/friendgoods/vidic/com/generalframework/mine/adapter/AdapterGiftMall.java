@@ -51,24 +51,18 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
         holder.tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //跳转到订单页面?直接支付?
-                Intent intent = new Intent(context, DetailGoodsActivity.class);
-                //加入数据
-//                intent.putExtra("bean", list.get(position));
-//                intent.putExtra("goodsId",list.get(position).getId()+"");
-
-//                context.startActivity(intent);
+//                进入购买流程 直接出现支付界面
                 api = WXAPIFactory.createWXAPI(context, UrlCollect.WXAppID);
                 api.registerApp(WXAppID);
-                PayReq request = new PayReq();
-                request.appId = WXAppID;
-                request.partnerId = "1900000109";
-                request.prepayId= "1101000000140415649af9fc314aa427";
-                request.packageValue = "Sign=WXPay";
-                request.nonceStr= "1101000000140429eb40476f8896f4c9";
-                request.timeStamp= "1398746574";
-                request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-                api.sendReq(request);
+//                PayReq request = new PayReq();
+//                request.appId = WXAppID;
+//                request.partnerId = "1900000109";
+//                request.prepayId= "1101000000140415649af9fc314aa427";
+//                request.packageValue = "Sign=WXPay";
+//                request.nonceStr= "1101000000140429eb40476f8896f4c9";
+//                request.timeStamp= "1398746574";
+//                request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+//                api.sendReq(request);
             }
         });
         holder.tv_name.setText(list.get(position).getName());
@@ -86,13 +80,12 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
         holder.iv_reduce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.et_number.setText(Integer.parseInt(holder.et_number.getText().toString())-1+"");
+                int i = Integer.parseInt(holder.et_number.getText().toString())-1;
+                if (i>0)
+                    holder.et_number.setText(i+"");
             }
         });
     }
-//    private void request(int number) {
-//
-//    }
 
     @Override
     public int getItemCount() {

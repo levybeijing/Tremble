@@ -62,20 +62,19 @@
                     >
                     <TextView
                         android:id="@+id/tv_name_detailgoods"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="商品名称"
                         android:textSize="18dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
                         />
-                    <ImageView
-                        android:id="@+id/iv_share_detailgoods"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@mipmap/share_detailgoods_3x"
-                        android:layout_marginRight="15dp"
-                        />
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_share_detailgoods"-->
+                        <!--android:layout_width="18dp"-->
+                        <!--android:layout_height="18dp"-->
+                        <!--android:background="@mipmap/share_detailgoods_3x"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--/>-->
                 </LinearLayout>
 
                 <TextView

@@ -28,7 +28,7 @@ public class DetailGoodsActivity extends AppCompatActivity {
     private ImageView iv_bottom1;
     private ImageView iv_bottom2;
 
-    private ImageView share;
+//    private ImageView share;
     private TextView name;
     private TextView price;
     private TextView fareprice;
@@ -90,13 +90,13 @@ public class DetailGoodsActivity extends AppCompatActivity {
         price = findViewById(R.id.tv_price_detailgoods);
         fareprice = findViewById(R.id.tv_price_detailgoods);
 
-        share = findViewById(R.id.iv_share_detailgoods);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击分享
-            }
-        });
+//        share = findViewById(R.id.iv_share_detailgoods);
+//        share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //点击分享
+//            }
+//        });
         ImageView iv_buy = findViewById(R.id.iv_buy_detailgoods);
         iv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
