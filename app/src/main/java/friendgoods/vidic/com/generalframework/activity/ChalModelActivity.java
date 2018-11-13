@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -22,8 +23,10 @@ import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.ChalGiftBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ChallengeModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -37,10 +40,9 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
     private int minites;
     private int seconds;
     private boolean havetime=true;
-//    private int aimNumber;
     private long gametime;
     private boolean requsetOk=true;
-    private Handler handler=new Handler(){
+    private Handler handlerhcal=new Handler(){
         @Override
         public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
@@ -55,8 +57,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
             }else{
                 iv_click.setClickable(false);
                 requestGift();
-//                gametime=System.currentTimeMillis()-gametime;
-//                addrecord();
+                addrecord();
             }
         }
     };
@@ -99,17 +100,9 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
             while (havetime){
                 try {
                     Thread.sleep(1000);
-                    if (minites!=0&&seconds==0){
-                        seconds=59;
-                        minites--;
-                    }
-                    if (minites==0&&seconds==0){
-                        havetime=false;
-                    }
-                    Message message = handler.obtainMessage();
+                    Message message = handlerhcal.obtainMessage();
                     message.what=100;
-                    seconds--;
-                    handler.sendMessage(message);
+                    handlerhcal.sendMessage(message);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -143,7 +136,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
                 .params("userId", MyApplication.USERID)
-                .params("time", gametime)
+                .params("time", time)
                 .params("shakeNum", number)
                 .params("type", "0")
                 .params("roomId", "0")
@@ -174,7 +167,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 });
     }
     private void requestGift() {
-        OkGo.post(UrlCollect.getChallengeMode)//
+        OkGo.post(UrlCollect.getChallengeModeGift)//
                 .tag(this)//
                 .params("time", time)
                 .params("num", number+"")
@@ -182,23 +175,18 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=======", "onSuccess: "+s);
-                        //成功的话  弹窗 again  或者 退出
-                        showdialog();
+                        ChalGiftBean giftBean = new Gson().fromJson(s, ChalGiftBean.class);
+                        showdialog(giftBean.getData().getPhoto());
                     }
                 });
     }
-    private void showdialog() {
-
+    private void showdialog(String s) {
+        new CustomDialogGift(this,s).showAtLocation(this.findViewById(R.id.root_challege),
+                Gravity.CENTER, 0, 0);
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        gametime=System.currentTimeMillis()-gametime;
-//        addrecord();
-        if (thread!=null)
-            thread.stop();
-        if (handler!=null)
-            handler=null;
     }
 
 }

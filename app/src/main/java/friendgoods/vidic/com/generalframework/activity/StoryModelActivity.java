@@ -38,7 +38,7 @@ import okhttp3.Response;
 
 public class StoryModelActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static int count=0;
+    private int count=0;
     private ImageView iv_net;
     private List<Integer> numbers;
     private List<StoryModelBean.DataBean.StoryIMGBean> images;
@@ -133,6 +133,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.iv_click_storymodel:
+                count++;
                 if (numbers==null){
                     Toast.makeText(this, "网络故障,请重新载入", Toast.LENGTH_SHORT).show();
                     request();
@@ -142,7 +143,9 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 if (count==numbers.get(flag)){
 //                    requestImage(flag);
                     int i = new Random().nextInt(5);
+                    iv_net.setVisibility(View.VISIBLE);
                     Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+images.get(i)).into(iv_net);
+
                     flag++;
                     xthread.start();
                 }
@@ -152,7 +155,7 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                     addrecord();
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                 }
-                tv_number.setText(++count+"");
+                tv_number.setText(count+"");
                 tv_number.setAnimation(animation);
                 break;
             case R.id.iv_net_story:
@@ -197,5 +200,6 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         super.onDestroy();
         gametime=System.currentTimeMillis()-gametime;
         addrecord();
+//        count=0;
     }
 }

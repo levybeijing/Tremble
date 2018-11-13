@@ -75,27 +75,13 @@ public class WeekRankFragment extends Fragment {
                 }
                 switch (intent.getAction()){
                     case "android.tremble.FRIEND":
-                        request2(friendPage);
+                        requestFriend(friendPage);
+                        currentAction="android.tremble.FRIEND";
                         break;
                     case "android.tremble.WORLD":
-                        request(worldPage);
+                        requestworld(worldPage);
+                        currentAction="android.tremble.WORLD";
                         break;
-//                    case "android.tremble.PRE":
-//                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
-//                            request(--worldPage);
-//                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
-//                            request2(--friendPage);
-//                        else
-//                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case "android.tremble.NEXT":
-//                        if (currentAction.equals("android.tremble.WORLD")&&worldPage>1)
-//                            request(++worldPage);
-//                        else if (currentAction.equals("android.tremble.FRIEND")&&friendPage>1)
-//                            request2(++friendPage);
-//                        else
-//                            Toast.makeText(context, "当前是第一页", Toast.LENGTH_SHORT).show();
-//                        break;
                 }
             }
         };
@@ -103,18 +89,16 @@ public class WeekRankFragment extends Fragment {
         // 2. 设置接收广播的类型
         intentFilter.addAction("android.tremble.FRIEND");
         intentFilter.addAction("android.tremble.WORLD");
-//        intentFilter.addAction("android.tremble.PRE");
-//        intentFilter.addAction("android.tremble.NEXT");
-        // 3. 动态注册：调用Context的registerReceiver（）方法
         getContext().registerReceiver(mBroadcastReceiver, intentFilter);
-        request(1);
+
+        requestworld(1);
     }
-    private void request(int page) {
+    private void requestworld(int page) {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
                 .params("page", page+"")
                 .params("pageSize", "10")
-                .params("type", "1")    //1 周排行
+                .params("type", "1")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
                 .execute(new StringCallback() {
                     @Override
@@ -124,12 +108,12 @@ public class WeekRankFragment extends Fragment {
                     }
                 });
     }
-    private void request2(int page) {
+    private void requestFriend(int page) {
         OkGo.post(UrlCollect.getFriendp)//
                 .tag(this)//
                 .params("page", page+"")
                 .params("pageSize", "10")
-                .params("type", "1")    //1 周排行
+                .params("type", "1")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
                 .execute(new StringCallback() {
                     @Override
