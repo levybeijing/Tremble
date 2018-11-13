@@ -24,7 +24,6 @@ public class MyOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_myorders);
 
         initView();
-
     }
 
     private void initView() {

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     >
 
     <ImageView
@@ -13,9 +14,8 @@
         android:layout_margin="5dp"
         android:background="@mipmap/temp_icon"
         />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -85,18 +85,18 @@
         android:id="@+id/iv_reduce_gift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/newplus_3x"
+        android:background="@mipmap/newreduce_3x"
         />
-        <TextView
-            android:id="@+id/btn_buy_gifts"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/et_number_gifts"
-            android:layout_margin="5dp"
-            android:background="@mipmap/bg_buy_3x"
-            android:text="购买"
-            android:gravity="center"
-            android:textColor="#fff"
-            />
+    <TextView
+        android:id="@+id/btn_buy_gifts"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/et_number_gifts"
+        android:layout_margin="5dp"
+        android:background="@mipmap/bg_buy_3x"
+        android:text="购买"
+        android:gravity="center"
+        android:textColor="#fff"
+        />
 </LinearLayout>

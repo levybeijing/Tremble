@@ -44,6 +44,7 @@ import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
+import friendgoods.vidic.com.generalframework.activity.bean.ListGamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -223,9 +224,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         gametime=System.currentTimeMillis();
-        currentId= Integer.parseInt((String)SharedPFUtils.getParam(this,"userId",""));
+        currentId= (int) SharedPFUtils.getParam(this,"userId",0);
+//        connect();
         initView();
-        connect();
     }
 
     private void initView() {
@@ -314,14 +315,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             readyyes.setVisibility(View.VISIBLE);
             light2.setVisibility(View.INVISIBLE);
             iv_sure.setVisibility(View.GONE);
-//            send socket
-            PKSocketBean join=new PKSocketBean();
-            join.setType(1);
-            join.setRoomId(roomId);
-            join.setMaster(0);
-//            join.setUserId(currentId);
-            Log.e("===========currentId", ""+currentId);
-            sendMessage(new Gson().toJson(join));
+            connect();
         }else{
             startno.setVisibility(View.VISIBLE);
             light2.setVisibility(View.VISIBLE);
@@ -340,7 +334,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         animation1.setDuration(100);
         click_left = findViewById(R.id.iv_click_left);
         click_righr = findViewById(R.id.iv_click_right);
-
     }
     //获取当前时间值
     public void getListOfTime() {
@@ -367,7 +360,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 if (!isHost)
                     break;
                 getListOfTime();
-                String time=x+":"+y +":"+z;
+                String time=x+":"+y+":"+z;
 //settime
                 Log.e("===========被邀进来", time);
 
@@ -375,6 +368,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 settime.setType(3);
                 settime.setRoomId(roomId);
                 settime.setTime(time);
+                Log.e("===========被邀进来", new Gson().toJson(settime));
+
                 sendMessage(new Gson().toJson(settime));
                 break;
             case R.id.iv_exit_pkmodel:
@@ -455,7 +450,183 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-//房主创建 房间
+    //接收socket信息 后期引入心跳机制
+    private WebSocketConnection mConnect=new WebSocketConnection();
+    private static final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+MyApplication.USERID;
+    private List<Integer> idlist=new ArrayList<>();
+    private void connect() {
+        try {
+            mConnect.connect(socketUrl, new WebSocketHandler() {
+
+                @Override
+                public void onOpen() {
+                    idlist.add(0);
+                    idlist.add(0);
+                    //            send socket
+                    if (!isHost){
+                        PKSocketBean join=new PKSocketBean();
+                        join.setType(1);
+                        join.setRoomId(roomId);
+                        join.setMaster(0);
+                        join.setUserId(currentId);
+                        Log.e("===========currentId", ""+currentId);
+                        sendMessage(new Gson().toJson(join));
+                        Log.e("===========currentId", ""+new Gson().toJson(join));
+                    }else{
+                        PKSocketBean add=new PKSocketBean();
+                        add.setRoomId(roomId);
+                        add.setType(1);
+                        add.setUserId(currentId);
+                        add.setMaster(1);
+                        sendMessage(new Gson().toJson(add));
+                    }
+                    Log.e("==============", "Status:Connect to " + socketUrl);
+                }
+
+                @Override
+                public void onTextMessage(String payload) {
+                    //不停地接受信息
+                    Log.e("==============", payload);
+                    PKSocketBean pkbean = new Gson().fromJson(payload, PKSocketBean.class);
+                    switch (pkbean.getType()){
+                        case 1:
+                            List<GamerBean> list1 = pkbean.getUser();
+//                            过滤当前用户
+                            for (int i = 0; i <list1.size() ; i++) {
+                                int userId = (int) SharedPFUtils.getParam(PKModelActivity.this, "userId", 0);
+                                if (userId!=list1.get(i).getUserId()){
+                                    addid(list1.get(i).getUserId());
+                                }
+                            }
+                            if (list1.size()==0){
+                                return;
+                            }
+                            if (list1.get(0).getUserId()==idlist.get(0))
+                                setOne(list1.get(0));
+                            if (list1.get(0).getUserId()==idlist.get(1))
+                                setThree(list1.get(0));
+                            if (list1.size()==1){
+                                return;
+                            }
+                            if (list1.get(1).getUserId()==idlist.get(0))
+                                setOne(list1.get(1));
+                            if (list1.get(1).getUserId()==idlist.get(1))                                setThree(list1.get(0));
+                                setThree(list1.get(1));
+                            break;
+                        case 2:
+                            //  ready
+                            int userId = pkbean.getUserId();
+                            if (idlist.size()>0&&idlist.get(0)==userId&&pkbean.getStatus()==2){
+                                light1.setVisibility(View.VISIBLE);
+                            }else{
+                                light1.setVisibility(View.INVISIBLE);
+                            }
+                            if (idlist.size()>1&&idlist.get(1)==userId&&pkbean.getStatus()==2){
+                                light3.setVisibility(View.VISIBLE);
+                            }else{
+                                light3.setVisibility(View.INVISIBLE);
+                            }
+                            break;
+                        case 3:
+                            // settime
+                            if (isHost)
+                                break;
+                            String time = pkbean.getTime();
+                            Log.e("=============", time);
+                            tv1_timer.setText(time.charAt(0)+"");
+                            tv2_timer.setText(time.charAt(1)+"");
+                            tv3_timer.setText(time.charAt(3)+"");
+                            tv4_timer.setText(time.charAt(4)+"");
+                            tv5_timer.setText(time.charAt(6)+"");
+                            tv6_timer.setText(time.charAt(7)+"");
+                            break;
+                        case 4:
+// start game
+//                      Log.e("=============", list2.toString());
+                            if (!isHost){
+                                readyno.setVisibility(View.INVISIBLE);
+                                Threetoone.start();
+                            }
+                            break;
+                        case 5:
+                            // synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
+                            int userId1 = pkbean.getUserId();
+                            if (idlist.size()>0&&idlist.get(0)==userId1){
+                                name1.setText(pkbean.getNum()+"");
+                            }
+                            if (idlist.size()>1&&idlist.get(1)==userId1){
+                                name3.setText(pkbean.getNum()+"");
+                            }
+                            break;
+                        case 6:
+//game over
+//no operation ,the solution is on top
+                            break;
+                        case 7:
+//the server send to homeowner the information of room {type:7, user:{}}
+//                            String s= pkbean.getUser();
+//  remove current user
+
+                            GamerBean gamerBean = pkbean.getUser().get(0);
+                            if (gamerBean.getId()==idlist.get(0))
+                                setOne(gamerBean);
+                            if (gamerBean.getId()==idlist.get(1))
+                                setThree(gamerBean);
+                            break;
+                        case 8:
+// member exit
+                            int userId3 = pkbean.getUserId();
+                            if (idlist.size()>0&&userId3==idlist.get(0)){
+                                clearOne();
+                                idlist.add(0,0);
+                            }
+                            if (idlist.size()>1&&userId3==idlist.get(1)){
+                                clearThree();
+                                idlist.add(1,0);
+                            }
+                            break;
+                        case 9:
+// error message
+                            Toast.makeText(PKModelActivity.this, pkbean.getMessage(), Toast.LENGTH_SHORT).show();
+                            break;
+                        case 10:
+// hoster exit before game
+                            if (!isHost)
+                                finish();
+                            break;
+                        case 11:
+// hoster exit when gaming
+                            int userId2 = pkbean.getUserId();
+                            if (idlist.size()>0&&userId2==idlist.get(0)){
+                                clearOne();
+                                idlist.add(0,0);
+                            }
+                            if (idlist.size()>1&&userId2==idlist.get(1)){
+                                clearThree();
+                                idlist.add(1,0);
+                            }
+                            break;
+                    }
+                }
+                @Override
+                public void onClose(int code, String reason) {
+                    Log.e("=============", "Connection lost..");
+                }
+            });
+        } catch (WebSocketException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addid(int userId) {
+        for (int i = 0; i < idlist.size(); i++) {
+            if (idlist.get(i)==0){
+                idlist.add(i,userId);
+            }
+        }
+    }
+
+    //房主创建 房间
     private void createroom() {
 //        Log.e("==============addroom", "");
         OkGo.post(UrlCollect.addRoom)//
@@ -471,14 +642,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
                                 roomId=data.getInt("roomId");
-//
-//                                PKSocketBean add=new PKSocketBean();
-//                                add.setType(1);
-//                                add.setRoomId(roomId);
-//                                add.setUserId(currentId);
-//                                add.setMaster(1);
-//                                sendMessage(new Gson().toJson(add));
-//                                Log.e("===========", "id: "+roomId);
+                                Log.e("===========", "id: "+roomId);
+                                connect();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -563,171 +728,42 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         sendMessage(new Gson().toJson(exit));
         mConnect.disconnect();
     }
-//接收socket信息 后期引入心跳机制
-    private WebSocketConnection mConnect=new WebSocketConnection();
-    private static final String socketUrl="ws://www.dt.pub/shakeLeg/websocket/"+MyApplication.USERID;
-    private List<Integer> idlist=new ArrayList<>();
-    private void connect() {
-        try {
-            mConnect.connect(socketUrl, new WebSocketHandler() {
 
-                @Override
-                public void onOpen() {
-                    Log.e("==============", "Status:Connect to " + socketUrl);
-                }
-
-                @Override
-                public void onTextMessage(String payload) {
-                    //不停地接受信息
-                    Log.e("==============", payload);
-                    PKSocketBean pkbean = new Gson().fromJson(payload, PKSocketBean.class);
-                    switch (pkbean.getType()){
-                            case 1:
-                                // join in room ,non homeowner handle
-                                List<GamerBean> list5 = pkbean.getUser();
-//  remove current user
-                                for (int i = 0; i < list5.size(); i++) {
-                                    if (list5.get(i).getId()==(int)SharedPFUtils.getParam(PKModelActivity.this,"userId","")){
-                                        continue;
-                                    }
-                                    idlist.add(list5.get(i).getId());
-                                }
-                                if (list5.size()>0)
-                                    setOne(list5.get(0));
-                                if (list5.size()>1)
-                                    setOne(list5.get(1));
-                                break;
-                            case 2:
-                                //  ready
-                                int userId = pkbean.getUserId();
-                                if (idlist.size()>0&&idlist.get(0)==userId&&pkbean.getStatus()==2){
-                                        light1.setVisibility(View.VISIBLE);
-                                }else{
-                                    light1.setVisibility(View.INVISIBLE);
-                                }
-                                if (idlist.size()>1&&idlist.get(1)==userId&&pkbean.getStatus()==2){
-                                    light3.setVisibility(View.VISIBLE);
-                                }else{
-                                    light3.setVisibility(View.INVISIBLE);
-                                }
-                                break;
-                            case 3:
-                                // settime
-                                if (isHost)
-                                    break;
-                                String time = pkbean.getTime();
-                                Log.e("=============", time);
-                                tv1_timer.setText(time.charAt(0)+"");
-                                tv2_timer.setText(time.charAt(1)+"");
-                                tv3_timer.setText(time.charAt(3)+"");
-                                tv4_timer.setText(time.charAt(4)+"");
-                                tv5_timer.setText(time.charAt(6)+"");
-                                tv6_timer.setText(time.charAt(7)+"");
-                                break;
-                            case 4:
-// start game
-//                                Log.e("=============", list2.toString());
-                                if (!isHost){
-                                    readyno.setVisibility(View.INVISIBLE);
-                                    Threetoone.start();
-                                }
-                                break;
-                            case 5:
-                                // synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
-                                int userId1 = pkbean.getUserId();
-                                if (idlist.size()>0&&idlist.get(0)==userId1){
-                                    name1.setText(pkbean.getNum()+"");
-                                }
-                                if (idlist.size()>1&&idlist.get(1)==userId1){
-                                    name3.setText(pkbean.getNum()+"");
-                                }
-                                break;
-                            case 6:
-//game over
-//no operation ,the solution is on top
-                                break;
-                            case 7:
-//the server send to homeowner the information of room {type:7, user:[{}]}
-                            List<GamerBean> list = pkbean.getUser();
-//                            过滤当前用户
-                            for (int i = 0; i < list.size(); i++) {
-                                if (list.get(i).getId()==(int)SharedPFUtils.getParam(PKModelActivity.this,"userId","")){
-                                    continue;
-                                }
-                                idlist.add(list.get(i).getId());
-                            }
-                            if (list.size()>0)
-                                setOne(list.get(0));
-                            if (list.size()>1)
-                                setOne(list.get(1));
-                            break;
-                        case 8:
-// member exit
-                            int userId3 = pkbean.getUserId();
-                            if (idlist.size()>0&&userId3==idlist.get(0)){
-                                clearOne();
-                            }
-                            if (idlist.size()>1&&userId3==idlist.get(1)){
-                                clearThree();
-                            }
-                            idlist.remove(userId3);
-                            break;
-                        case 9:
-// error message
-                            Toast.makeText(PKModelActivity.this, pkbean.getMessage(), Toast.LENGTH_SHORT).show();
-                            break;
-                        case 10:
-// hoster exit before game
-                            if (!isHost)
-                                finish();
-                            break;
-                        case 11:
-// hoster exit when gaming
-                            int userId2 = pkbean.getUserId();
-                            if (idlist.size()>0&&userId2==idlist.get(0)){
-                                clearOne();
-                            }
-                            if (idlist.size()>1&&userId2==idlist.get(1)){
-                                clearThree();
-                            }
-                            if (!isHost){
-                                idlist.remove(userId2);
-                            }
-                            break;
-                        }
-                }
-                @Override
-                public void onClose(int code, String reason) {
-                    Log.e("=============", "Connection lost..");
-                }
-            });
-        } catch (WebSocketException e) {
-            e.printStackTrace();
-        }
-    }
 //控件操作
     private void  setOne(GamerBean bean){
         name1.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon1);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person1);
+        if (bean.getStatus()==2){
+            light1.setVisibility(View.VISIBLE);
+        }else{
+            light1.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void  setThree(GamerBean bean){
         name3.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon3);
         Picasso.with(PKModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getLogo()).into(person3);
+        if (bean.getStatus()==2){
+            light3.setVisibility(View.VISIBLE);
+        }else{
+            light3.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void clearOne(){
-        name1.setText("");
+        name1.setText("邀请好友");
         icon1.setImageDrawable(null);
         person1.setImageDrawable(null);
+        light1.setVisibility(View.INVISIBLE);
     }
 
     private void clearThree(){
-        name3.setText("");
+        name3.setText("邀请好友");
         icon3.setImageDrawable(null);
         person3.setImageDrawable(null);
+        light3.setVisibility(View.INVISIBLE);
     }
     /**
      * 发送消息

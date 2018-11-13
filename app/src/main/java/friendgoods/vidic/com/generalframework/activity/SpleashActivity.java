@@ -70,7 +70,7 @@ public class SpleashActivity extends Activity {
             public void onAnimationEnd(Animation animation) {
                 SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
                 int sex = userinfo.getInt("sex", 0);
-                String userId = userinfo.getString("userId", "");
+                String userId = userinfo.getInt("userId", 0)+"";
                 boolean bindwx = userinfo.getBoolean("bindwx", false);
                 boolean bindphone = userinfo.getBoolean("bindphone", false);
                 //两条线路 一个是先手机后微信 一个是先微信后手机

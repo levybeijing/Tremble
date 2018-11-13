@@ -25,6 +25,15 @@ public class PKSocketBean {
     public void setUser(List<GamerBean> user) {
         this.user = user;
     }
+//    private String user;
+//
+//    public String getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(String user) {
+//        this.user = user;
+//    }
 
     public int getType() {
         return type;

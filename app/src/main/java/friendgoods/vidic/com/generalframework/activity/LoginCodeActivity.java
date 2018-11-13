@@ -116,8 +116,8 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
-                                MyApplication.USERID=bean.getData().getId()+"";
+                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
+                                MyApplication.USERID=bean.getData().getId();
                                 if (bean.getData().getWeChatA()==null){
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                                 } else {
@@ -149,7 +149,7 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                 }else{
                                     startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
                                 }
-                                finish();
+//                                finish();
                             }else{
                                 Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
                             }

@@ -1,60 +1,31 @@
 package friendgoods.vidic.com.generalframework.activity.bean;
 
 public class GamerBean {
-    private int voice;
-    private int spNum;
-    private int shake;
-    private String weChatA;
-    private String mobile;
-    private String photo;
-    private String updateTime;
-    private int signDays;
-    private String createTime;
-    private double integral;
+
+    /**
+     * name : 薛
+     * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Wfic6iapia6Z12M1BWyqt3nKnWTOmUxJynPjynqaPSqOLUbmaEqV1WmiaKxdbMy2bQ6bznMaq8ddMlYcznCRQubD7A/132
+     * logo : man1.png
+     * id : 2032
+     * is_use : 1
+     * userId : 204
+     * status : 1
+     */
+
     private String name;
+    private String photo;
     private String logo;
     private int id;
     private int is_use;
+    private int userId;
     private int status;
 
-    public int getVoice() {
-        return voice;
+    public String getName() {
+        return name;
     }
 
-    public void setVoice(int voice) {
-        this.voice = voice;
-    }
-
-    public int getSpNum() {
-        return spNum;
-    }
-
-    public void setSpNum(int spNum) {
-        this.spNum = spNum;
-    }
-
-    public int getShake() {
-        return shake;
-    }
-
-    public void setShake(int shake) {
-        this.shake = shake;
-    }
-
-    public String getWeChatA() {
-        return weChatA;
-    }
-
-    public void setWeChatA(String weChatA) {
-        this.weChatA = weChatA;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhoto() {
@@ -63,46 +34,6 @@ public class GamerBean {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public int getSignDays() {
-        return signDays;
-    }
-
-    public void setSignDays(int signDays) {
-        this.signDays = signDays;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public double getIntegral() {
-        return integral;
-    }
-
-    public void setIntegral(double integral) {
-        this.integral = integral;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLogo() {
@@ -127,6 +58,14 @@ public class GamerBean {
 
     public void setIs_use(int is_use) {
         this.is_use = is_use;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getStatus() {

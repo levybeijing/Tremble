@@ -1,5 +1,8 @@
 package friendgoods.vidic.com.generalframework.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 public class GiftsMallBean {
@@ -238,7 +241,7 @@ public class GiftsMallBean {
                 this.navigatepageNums = navigatepageNums;
             }
 
-            public static class ListBean {
+            public static class ListBean implements Parcelable {
                 /**
                  * score : 20
                  * integral : 100
@@ -254,6 +257,27 @@ public class GiftsMallBean {
                 private int id;
                 private int is_use;
                 private String url;
+
+                protected ListBean(Parcel in) {
+                    score = in.readInt();
+                    integral = in.readInt();
+                    name = in.readString();
+                    id = in.readInt();
+                    is_use = in.readInt();
+                    url = in.readString();
+                }
+
+                public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
+                    @Override
+                    public ListBean createFromParcel(Parcel in) {
+                        return new ListBean(in);
+                    }
+
+                    @Override
+                    public ListBean[] newArray(int size) {
+                        return new ListBean[size];
+                    }
+                };
 
                 public int getScore() {
                     return score;
@@ -301,6 +325,21 @@ public class GiftsMallBean {
 
                 public void setUrl(String url) {
                     this.url = url;
+                }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeInt(score);
+                    dest.writeInt(integral);
+                    dest.writeString(name);
+                    dest.writeInt(id);
+                    dest.writeInt(is_use);
+                    dest.writeString(url);
                 }
             }
         }

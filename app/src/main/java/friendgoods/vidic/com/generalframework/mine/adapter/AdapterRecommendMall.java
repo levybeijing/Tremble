@@ -40,7 +40,7 @@ public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ((MyViewHolder)holder).iv_buy.setOnClickListener(new View.OnClickListener() {
+        ((MyViewHolder)holder).tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //跳转到详情页面 并弹窗选择数量
@@ -67,8 +67,8 @@ public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.View
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        ImageView iv_goods,iv_buy;
-        TextView tv_name,tv_sub,tv_price;
+        ImageView iv_goods;
+        TextView tv_name,tv_sub,tv_price,tv_buy;
         public MyViewHolder(View view)
         {
             super(view);
@@ -76,7 +76,7 @@ public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.View
             tv_sub = view.findViewById(R.id.tv_goodssub_recommend);
             tv_price = view.findViewById(R.id.tv_price_recommend);
             iv_goods = view.findViewById(R.id.iv_goodsicon_recommend);
-            iv_buy = view.findViewById(R.id.iv_goodsbuy_recommend);
+            tv_buy = view.findViewById(R.id.iv_goodsbuy_recommend);
         }
     }
 }

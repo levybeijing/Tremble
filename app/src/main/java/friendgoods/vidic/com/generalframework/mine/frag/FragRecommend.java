@@ -24,6 +24,7 @@ public class FragRecommend extends Fragment {
 
     private RecyclerView rv;
     private AdapterRecommendMall adapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

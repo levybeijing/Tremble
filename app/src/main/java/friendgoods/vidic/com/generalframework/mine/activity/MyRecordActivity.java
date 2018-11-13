@@ -47,7 +47,7 @@ public class MyRecordActivity extends Activity {
 
         String userId = getIntent().getStringExtra("userId");
         if (userId==null){
-            currentId=MyApplication.USERID;
+            currentId=MyApplication.USERID+"";
         }else{
             currentId=userId;
         }

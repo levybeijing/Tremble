@@ -103,8 +103,8 @@ public class LoginPWDActivity extends Activity implements View.OnClickListener {
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"spNum",bean.getData().getSpNum());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"integral",bean.getData().getIntegral());
-                                SharedPFUtils.setParam(LoginPWDActivity.this,"userId",bean.getData().getId()+"");
-                                MyApplication.USERID=bean.getData().getId()+"";
+                                SharedPFUtils.setParam(LoginPWDActivity.this,"userId",bean.getData().getId());
+                                MyApplication.USERID=bean.getData().getId();
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"status",bean.getData().getStatus());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"is_use",bean.getData().getIs_use());
                                 SharedPFUtils.setParam(LoginPWDActivity.this,"createTime",bean.getData().getCreateTime());
