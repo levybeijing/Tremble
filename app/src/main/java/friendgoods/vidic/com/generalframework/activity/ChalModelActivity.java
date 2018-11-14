@@ -51,25 +51,28 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
     private boolean havetime=true;
     private long gametime;
     private boolean requsetOk=true;
+    private boolean lock=false;
     private Handler handlerhcal=new Handler(){
         @Override
         public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
-            if (msg.what==100){
-                if (minites>0||seconds>0){
-                    if (seconds==0){
-                        minites--;
-                        seconds=59;
-                    }else {
-                        seconds--;
-                    }
-                    tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
-                }else{
-                    iv_click.setClickable(false);
-                    havetime=false;
-                    requestGift();
-                    addrecord();
+            if (lock){
+                return;
+            }
+            if (minites>0||seconds>0){
+                if (seconds==0){
+                    minites--;
+                    seconds=59;
+                }else {
+                    seconds--;
                 }
+                tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
+            } else{
+                iv_click.setClickable(false);
+                requestGift();
+                addrecord();
+                havetime=false;
+                lock=true;
             }
 
         }
