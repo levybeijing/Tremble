@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -46,6 +48,7 @@ import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ListGamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
+import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBeanx;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
@@ -458,6 +461,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
 
+                private PKSocketBean pkbean;
+
                 @Override
                 public void onOpen() {
                     idlist.add(0);
@@ -487,47 +492,69 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 public void onTextMessage(String payload) {
                     //不停地接受信息
                     Log.e("==============", payload);
-                    PKSocketBean pkbean = new Gson().fromJson(payload, PKSocketBean.class);
-                    switch (pkbean.getType()){
-                        case 1:
+
+                    Map map =(Map) JSON.parse(payload);
+                    String type = (String) map.get("type");
+                    if (!type.equals("7")){
+                        pkbean = new Gson().fromJson(payload, PKSocketBean.class);
+                    }
+                    switch (type){
+                        case "1":
                             List<GamerBean> list1 = pkbean.getUser();
 //                            过滤当前用户
                             for (int i = 0; i <list1.size() ; i++) {
                                 int userId = (int) SharedPFUtils.getParam(PKModelActivity.this, "userId", 0);
-                                if (userId!=list1.get(i).getUserId()){
-                                    addid(list1.get(i).getUserId());
+                                if (userId==list1.get(i).getUserId()){
+                                    list1.remove(i);
                                 }
                             }
+                            Log.e("==============idlist", idlist.get(0)+""+idlist.get(1));
                             if (list1.size()==0){
-                                return;
+                                break;
                             }
-                            if (list1.get(0).getUserId()==idlist.get(0))
+                            if (0==idlist.get(0)){
                                 setOne(list1.get(0));
-                            if (list1.get(0).getUserId()==idlist.get(1))
-                                setThree(list1.get(0));
-                            if (list1.size()==1){
-                                return;
+                                idlist.remove(0);
+                                idlist.add(0,list1.get(0).getId());
+                                break;
                             }
-                            if (list1.get(1).getUserId()==idlist.get(0))
-                                setOne(list1.get(1));
-                            if (list1.get(1).getUserId()==idlist.get(1))                                setThree(list1.get(0));
+                            if (0==idlist.get(1)){
+                                setThree(list1.get(0));
+                                idlist.remove(1);
+                                idlist.add(1,list1.get(0).getId());
+                                break;
+                            }
+                            if (list1.size()==1){
+                                break;
+                            }
+//                            if (0==idlist.get(0)){
+//                                setOne(list1.get(1));
+//                                idlist.remove(0);
+//                                idlist.add(0,list1.get(1).getId());
+//                                break;
+//                            }
+                            if (0==idlist.get(1)) {
                                 setThree(list1.get(1));
+                                idlist.remove(1);
+                                idlist.add(1,list1.get(1).getId());
+                                break;
+                            }
                             break;
-                        case 2:
+                        case "2":
                             //  ready
                             int userId = pkbean.getUserId();
-                            if (idlist.size()>0&&idlist.get(0)==userId&&pkbean.getStatus()==2){
+                            if (idlist.size()>0&&idlist.get(0)==userId&& pkbean.getStatus()==2){
                                 light1.setVisibility(View.VISIBLE);
                             }else{
                                 light1.setVisibility(View.INVISIBLE);
                             }
-                            if (idlist.size()>1&&idlist.get(1)==userId&&pkbean.getStatus()==2){
+                            if (idlist.size()>1&&idlist.get(1)==userId&& pkbean.getStatus()==2){
                                 light3.setVisibility(View.VISIBLE);
                             }else{
                                 light3.setVisibility(View.INVISIBLE);
                             }
                             break;
-                        case 3:
+                        case "3":
                             // settime
                             if (isHost)
                                 break;
@@ -540,7 +567,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             tv5_timer.setText(time.charAt(6)+"");
                             tv6_timer.setText(time.charAt(7)+"");
                             break;
-                        case 4:
+                        case "4":
 // start game
 //                      Log.e("=============", list2.toString());
                             if (!isHost){
@@ -548,8 +575,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 Threetoone.start();
                             }
                             break;
-                        case 5:
-                            // synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
+                        case "5":
+// synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
                             int userId1 = pkbean.getUserId();
                             if (idlist.size()>0&&idlist.get(0)==userId1){
                                 name1.setText(pkbean.getNum()+"");
@@ -558,51 +585,65 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 name3.setText(pkbean.getNum()+"");
                             }
                             break;
-                        case 6:
+                        case "6":
 //game over
-//no operation ,the solution is on top
+//no operation ,the solution is on top?
                             break;
-                        case 7:
+                        case "7":
 //the server send to homeowner the information of room {type:7, user:{}}
 //                            String s= pkbean.getUser();
 //  remove current user
-
-                            GamerBean gamerBean = pkbean.getUser().get(0);
-                            if (gamerBean.getId()==idlist.get(0))
+                            PKSocketBeanx pkSocketBeanx = new Gson().fromJson(payload, PKSocketBeanx.class);
+                            GamerBean gamerBean = pkSocketBeanx.getUser();
+                            if (0==idlist.get(0)){
                                 setOne(gamerBean);
-                            if (gamerBean.getId()==idlist.get(1))
+                                idlist.remove(0);
+                                idlist.add(0,gamerBean.getId());
+                                break;
+                            }
+                            if (0==idlist.get(1)){
                                 setThree(gamerBean);
+                                idlist.remove(1);
+                                idlist.add(1,gamerBean.getId());
+                                break;
+                            }
                             break;
-                        case 8:
+                        case "8":
 // member exit
                             int userId3 = pkbean.getUserId();
                             if (idlist.size()>0&&userId3==idlist.get(0)){
                                 clearOne();
+                                idlist.remove(0);
                                 idlist.add(0,0);
                             }
                             if (idlist.size()>1&&userId3==idlist.get(1)){
                                 clearThree();
+                                idlist.remove(1);
                                 idlist.add(1,0);
                             }
                             break;
-                        case 9:
+                        case "9":
 // error message
                             Toast.makeText(PKModelActivity.this, pkbean.getMessage(), Toast.LENGTH_SHORT).show();
                             break;
-                        case 10:
+                        case "10":
 // hoster exit before game
                             if (!isHost)
                                 finish();
                             break;
-                        case 11:
+                        case "11":
 // hoster exit when gaming
+                            if (isHost)
+                                break;
                             int userId2 = pkbean.getUserId();
                             if (idlist.size()>0&&userId2==idlist.get(0)){
                                 clearOne();
+                                idlist.remove(0);
                                 idlist.add(0,0);
                             }
                             if (idlist.size()>1&&userId2==idlist.get(1)){
                                 clearThree();
+                                idlist.remove(1);
                                 idlist.add(1,0);
                             }
                             break;
@@ -617,15 +658,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             e.printStackTrace();
         }
     }
-
-    private void addid(int userId) {
-        for (int i = 0; i < idlist.size(); i++) {
-            if (idlist.get(i)==0){
-                idlist.add(i,userId);
-            }
-        }
-    }
-
     //房主创建 房间
     private void createroom() {
 //        Log.e("==============addroom", "");

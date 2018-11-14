@@ -106,21 +106,17 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             if ("请求成功".equals(message)){
                                 Log.e("===============", "onSuccess: "+s);
                                 LoginBean bean = new Gson().fromJson(s, LoginBean.class);
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"spNum",bean.getData().getSpNum());
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
+//                                SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"status",bean.getData().getStatus());
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"is_use",bean.getData().getIs_use());
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
-                                SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
                                 MyApplication.USERID=bean.getData().getId();
                                 if (bean.getData().getWeChatA()==null){
                                     startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                                 } else {
+                                    SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());
                                     SharedPFUtils.setParam(LoginCodeActivity.this,"bindwx",true);
                                     MyApplication.NAME=bean.getData().getName();
                                     SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
@@ -143,13 +139,14 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                                                 break;
                                         }
                                     }
+                                    if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
+                                        startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
+                                        finish();
+                                    }else{
+                                        startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
+                                        finish();
+                                    }
                                 }
-                                if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
-                                    startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
-                                }else{
-                                    startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
-                                }
-//                                finish();
                             }else{
                                 Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
                             }

@@ -92,7 +92,7 @@ public class AllRankFragment extends Fragment {
         intentFilter.addAction("android.tremble.WORLD2");
         getContext().registerReceiver(mBroadcastReceiver, intentFilter);
 
-        requestFriend(1);
+        requestworld(1);
     }
     private void requestworld(int page) {
         OkGo.post(UrlCollect.worldRankings)//

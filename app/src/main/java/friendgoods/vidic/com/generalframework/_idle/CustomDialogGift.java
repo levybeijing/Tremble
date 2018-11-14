@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework._idle;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,21 +34,10 @@ public class CustomDialogGift extends PopupWindow{
         super(context);
         final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.dialog_challgift, null);
-        //商品图片
-        iv_net = dialogView.findViewById(R.id.iv_goods_dialog);
-        iv_mall = dialogView.findViewById(R.id.iv_gotomall);
-        tv_recerive = dialogView.findViewById(R.id.tv_recerive);
-        Picasso.with(context).load(s).into(iv_net);
-        iv_mall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context,MallActivity.class));
-                context.finish();
-            }
-        });
-        this.setContentView(dialogView);
-        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+
+//        this.setContentView(dialogView);
+//        this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+//        this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setFocusable(true);
 //        this.setAnimationStyle(R.style.DialogShowStyle); //设置SelectPicPopupWindow弹出窗体动画效果
         ColorDrawable dw = new ColorDrawable(0xb0000000);

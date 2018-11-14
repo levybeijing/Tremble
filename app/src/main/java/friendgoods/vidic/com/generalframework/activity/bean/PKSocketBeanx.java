@@ -2,7 +2,7 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 
 import java.util.List;
 
-public class PKSocketBean {
+public class PKSocketBeanx {
     private int type;
     private int roomId;
     private int userId;
@@ -16,13 +16,13 @@ public class PKSocketBean {
     private String message;//错误信息
     private String time;
 
-    private List<GamerBean> user;
+    private GamerBean user;
 
-    public List<GamerBean> getUser() {
+    public GamerBean getUser() {
         return user;
     }
 
-    public void setUser(List<GamerBean> user) {
+    public void setUser(GamerBean user) {
         this.user = user;
     }
 

@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import okhttp3.Call;
@@ -131,6 +132,8 @@ public class SettingsActivity extends Activity {
     public void clear() {
         edit.clear();
         edit.commit();
-        System.exit(0);
+//        System.exit(0);
+        startActivity(new Intent(this,LoginCodeActivity.class));
+        finish();
     }
 }

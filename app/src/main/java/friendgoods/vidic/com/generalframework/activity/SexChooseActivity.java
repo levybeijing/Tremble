@@ -49,7 +49,6 @@ public class SexChooseActivity extends AppCompatActivity implements View.OnClick
 
     private void initView() {
 
-
         findViewById(R.id.iv_man_sex).setOnClickListener(this);
         findViewById(R.id.iv_woman_sex).setOnClickListener(this);
 //男性

@@ -7,19 +7,28 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
+
+import java.io.File;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
@@ -46,19 +55,23 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void handleMessage(Message msg) {
 //            super.handleMessage(msg);
-            if (minites>0||seconds>0){
-                if (seconds==0){
-                    minites--;
-                    seconds=59;
-                }else {
-                    seconds--;
+            if (msg.what==100){
+                if (minites>0||seconds>0){
+                    if (seconds==0){
+                        minites--;
+                        seconds=59;
+                    }else {
+                        seconds--;
+                    }
+                    tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
+                }else{
+                    iv_click.setClickable(false);
+                    havetime=false;
+                    requestGift();
+                    addrecord();
                 }
-                tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
-            }else{
-                iv_click.setClickable(false);
-                requestGift();
-                addrecord();
             }
+
         }
     };
 
@@ -124,10 +137,12 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.iv_exit_challengemodel:
+                havetime=false;
                 finish();
                 break;
             case R.id.tv_gotomall_challengemodel:
                 startActivity(new Intent(ChalModelActivity.this,MallActivity.class));
+                havetime=false;
                 finish();
                 break;
         }
@@ -149,6 +164,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
     }
+
     private void requestTime() {
         OkGo.post(UrlCollect.getChallengeMode)//
                 .tag(this)//
@@ -166,6 +182,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                     }
                 });
     }
+
     private void requestGift() {
         OkGo.post(UrlCollect.getChallengeModeGift)//
                 .tag(this)//
@@ -174,19 +191,58 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=======", "onSuccess: "+s);
                         ChalGiftBean giftBean = new Gson().fromJson(s, ChalGiftBean.class);
-                        showdialog(giftBean.getData().getPhoto());
+                        showdialog(giftBean.getData().getPhoto(),giftBean.getData().getGiftId());
+                        Log.e("=======", "onSuccess: "+giftBean.getData().getPhoto());
                     }
                 });
     }
-    private void showdialog(String s) {
-        new CustomDialogGift(this,s).showAtLocation(this.findViewById(R.id.root_challege),
-                Gravity.CENTER, 0, 0);
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
+    private void showdialog(String s, final int i) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(ChalModelActivity.this).create();
+        alertDialog.show();
+        alertDialog.setContentView(R.layout.dialog_challgift);
+        Window window=alertDialog.getWindow();
+        window.setLayout(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        ImageView iv_gift = window.findViewById(R.id.iv_gift);
+        if (s!=null&&s.length()>0){
+            Picasso.with(ChalModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+s).into(iv_gift);
+        }
+
+        window.findViewById(R.id.iv_gotomall).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ChalModelActivity.this,MallActivity.class));
+            }
+        });
+
+        window.findViewById(R.id.tv_recerive).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addgift(i);
+                alertDialog.dismiss();
+            }
+        });
+
+//        window.findViewById(R.id.iv_close_story).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.dismiss();
+//            }
+//        });
+    }
+    private void addgift(int id){
+        OkGo.post(UrlCollect.getChallengeModeGift)//
+                .tag(this)//
+                .params("userId", MyApplication.USERID)
+                .params("giftId", id+"")
+                .params("num", "1")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+
+                    }
+                });
+    }
 }

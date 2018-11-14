@@ -39,24 +39,24 @@ import okhttp3.Response;
 public class StoryModelActivity extends AppCompatActivity implements View.OnClickListener {
 
     private int count=0;
-    private ImageView iv_net;
+    private ImageView iv_net,iv_close;
     private List<Integer> numbers;
     private List<StoryModelBean.DataBean.StoryIMGBean> images;
     private int flag=0;
     private TextView tv_number;
     private long gametime;
     private ScaleAnimation animation;
-    private Handler handler=new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what==100){
-                Toast.makeText(StoryModelActivity.this, "点击消失", Toast.LENGTH_SHORT).show();
-                iv_net.setClickable(true);
-            }
-        }
-    };
+//    private Handler handler=new Handler()
+//    {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            if (msg.what==100){
+//                Toast.makeText(StoryModelActivity.this, "点击消失", Toast.LENGTH_SHORT).show();
+//                iv_net.setClickable(true);
+//            }
+//        }
+//    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +64,11 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
         initView();
 
         iv_net = findViewById(R.id.iv_net_story);
-        iv_net.setOnClickListener(this);
+        iv_close = findViewById(R.id.iv_close_story);
+
+        iv_close.setOnClickListener(this);
         request();
+
         //设置形象
         ImageView person = findViewById(R.id.iv_person_storymodel);
         ImageView icon = findViewById(R.id.iv_icon_storymodel);
@@ -144,10 +147,11 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
 //                    requestImage(flag);
                     int i = new Random().nextInt(5);
                     iv_net.setVisibility(View.VISIBLE);
+                    iv_close.setVisibility(View.VISIBLE);
                     Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+images.get(i)).into(iv_net);
 
                     flag++;
-                    xthread.start();
+//                    xthread.start();
                 }
                 if (flag==numbers.size()){
                     gametime=System.currentTimeMillis()-gametime;
@@ -158,25 +162,25 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 tv_number.setText(count+"");
                 tv_number.setAnimation(animation);
                 break;
-            case R.id.iv_net_story:
+            case R.id.iv_close_story:
                 iv_net.setVisibility(View.INVISIBLE);
-                iv_net.setClickable(false);
+                iv_close.setVisibility(View.INVISIBLE);
                 break;
         }
     }
-    Thread xthread=new Thread(){
-        @Override
-        public void run() {
-            super.run();
-            try {
-                sleep(1000);
-                Message message = handler.obtainMessage(1000);
-                handler.sendMessage(message);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    };
+//    Thread xthread=new Thread(){
+//        @Override
+//        public void run() {
+//            super.run();
+//            try {
+//                sleep(1000);
+//                Message message = handler.obtainMessage(1000);
+//                handler.sendMessage(message);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
     private void addrecord() {
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//

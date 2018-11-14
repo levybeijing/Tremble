@@ -108,7 +108,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         }
     }
 
-
     private void requestLogin(String code){
         //登录
         OkGo.get("https://api.weixin.qq.com/sns/oauth2/access_token")
@@ -162,14 +161,15 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("===============", "register: "+s);
                         try {
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(WXEntryActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
-                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
 //                                进行网络请求 微信登录
-                                requestWX(openid);
-//                                startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
+//                                requestWX(openid);
+                                startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
                             }else {
                                 Toast.makeText(WXEntryActivity.this, "绑定失败"+s, Toast.LENGTH_SHORT).show();
                             }
@@ -181,14 +181,10 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 });
     }
 //                                LoginBean bean = new Gson().fromJson(s, LoginBean.class);
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"shake",bean.getData().getShake()==1?true:false);
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"spNum",bean.getData().getSpNum());
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"status",bean.getData().getStatus());
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"is_use",bean.getData().getIs_use());
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"createTime",bean.getData().getCreateTime());
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
 //                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
@@ -202,47 +198,24 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 //                                    MyApplication.USERICON=bean.getData().getPhoto();
 //                                    SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
 //                                    String logo = bean.getData().getLogo();
-//                                    if (logo !=null) {
-//                                        switch (logo) {
-//                                            case "man1.png":
-//                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
-//                                                break;
-//                                            case "man2.png":
-//                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
-//                                                break;
-//                                            case "woman1.png":
-//                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
-//                                                break;
-//                                            case "woman2.png":
-//                                                SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
-//                                                break;
-//                                        }
-//                                    }
-//                                }
-//                                if ((int)SharedPFUtils.getParam(LoginCodeActivity.this,"sex",0)==0) {
-//                                    startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
-//                                }else{
-//                                    startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
-//                                }
-//                                finish();
-    private void requestWX(String s) {
-        OkGo.post(UrlCollect.appLogin)//
-                .tag(this)//
-                .params("code", s)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            if ("请求成功".equals(jo.getString("message"))){
-                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-                                startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-    }
+//    private void requestWX(String s) {
+//        OkGo.post(UrlCollect.appLogin)//
+//                .tag(this)//
+//                .params("code", s)
+//                .execute(new StringCallback() {
+//                    @Override
+//                    public void onSuccess(String s, Call call, Response response) {
+//                        try {
+//                            JSONObject jo=new JSONObject(s);
+//                            if ("请求成功".equals(jo.getString("message"))){
+//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
+//                                startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//    }
 }

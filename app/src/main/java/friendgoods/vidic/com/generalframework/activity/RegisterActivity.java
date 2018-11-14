@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
+import friendgoods.vidic.com.generalframework.activity.bean.RegisterBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
@@ -86,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(this, "验证码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+//                判断验证码是否正确  进入 然后在微信界面进行注册
                 register(number,code);
                 break;
         }
@@ -98,10 +102,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("===============", "register: "+s);
                     }
                 });
     }
-
 
     private void register(String phone,String code) {
         OkGo.post(UrlCollect.registers)//
@@ -113,19 +117,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        成功则提示 考虑自动登录
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if ("请求成功".equals(message)){
-                                Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                                SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
-                                startActivity(new Intent(RegisterActivity.this,WXBindActivity.class));
-                                finish();
-                            }else {
-                                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        Log.e("===============", "register: "+s);
+                        RegisterBean bean = new Gson().fromJson(s, RegisterBean.class);
+                        if ("请求成功".equals(bean.getMessage())){
+                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
+                            MyApplication.USERID=bean.getData().getId();
+                            startActivity(new Intent(RegisterActivity.this,WXBindActivity.class));
+                        }else {
+                            Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -41,7 +41,7 @@ public class WXBindActivity extends AppCompatActivity implements View.OnClickLis
                 req.scope = "snsapi_userinfo";
                 req.state = "bind";
                 api.sendReq(req);
-                finish();
+//                finish();
                 break;
         }
     }
