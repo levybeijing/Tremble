@@ -194,7 +194,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         SharedPFUtils.setParam(WXEntryActivity.this,"signDays",wxLoginBean.getData().getSignDays());
                         SharedPFUtils.setParam(WXEntryActivity.this,"integral",wxLoginBean.getData().getIntegral());//
                         SharedPFUtils.setParam(WXEntryActivity.this,"mobile",wxLoginBean.getData().getMobile());
-                        SharedPFUtils.setParam(WXEntryActivity.this,"userId",wxLoginBean.getData().getId()+"");
+                        SharedPFUtils.setParam(WXEntryActivity.this,"userId",wxLoginBean.getData().getId());
                         SharedPFUtils.setParam(WXEntryActivity.this,"name",wxLoginBean.getData().getName());
                         SharedPFUtils.setParam(WXEntryActivity.this,"icon",wxLoginBean.getData().getPhoto());
                         MyApplication.USERID=wxLoginBean.getData().getId();
