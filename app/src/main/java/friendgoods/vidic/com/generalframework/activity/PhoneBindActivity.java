@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -85,11 +86,13 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void bind(String number, String code) {
-        OkGo.post(UrlCollect.updateMobile)//
+        OkGo.post(UrlCollect.register)//
                 .tag(this)//
-                .params("weChat", MyApplication.WX)
+                .params("weChat", (String) SharedPFUtils.getParam(this,"wx",""))
                 .params("mobile", number)
                 .params("smsCode", code)
+                .params("type", "3")
+                .params("type", "")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -103,7 +106,6 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
                             e.printStackTrace();
                         }
                     }
-
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);

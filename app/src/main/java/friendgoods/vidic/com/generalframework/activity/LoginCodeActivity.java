@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +32,8 @@ import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
+
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
@@ -37,12 +42,15 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
     private EditText et_code;
     private TextView btn_code;
     private TimeCount time;
+    private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logincode);
         time = new TimeCount(60000, 1000);
-
+        api = WXAPIFactory.createWXAPI(this,WXAppID,true);
+        api.registerApp(WXAppID);
         initView();
     }
 
@@ -86,8 +94,14 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                 login(number,code);
                 break;
             case R.id.iv_weixin_logincode:
-                startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
+//                startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
+//                通过微信确认登录  微信注册  然后判断是否有绑定手机号
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "login";
+                api.sendReq(req);
                 break;
+
         }
     }
 

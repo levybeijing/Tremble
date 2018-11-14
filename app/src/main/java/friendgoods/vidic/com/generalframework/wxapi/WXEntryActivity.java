@@ -28,6 +28,7 @@ import friendgoods.vidic.com.generalframework.activity.RegisterActivity;
 import friendgoods.vidic.com.generalframework.activity.SpleashActivity;
 import friendgoods.vidic.com.generalframework.activity.WXBindActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
+import friendgoods.vidic.com.generalframework.activity.bean.WXLoginBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXUserInfoBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXAccessTokenBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXRespBean;
@@ -43,10 +44,11 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      * 微信登录相关
      */
     private IWXAPI api;
-
+    private String status;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         try {
@@ -80,18 +82,13 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     @Override
     public void onResp(BaseResp baseResp) {
-//        登录
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
-//        requestWX(wxRespBean.getCode());
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
 //                result ="发送成功";
-                if (wxRespBean.getState().equals("bind")){
-                    requestLogin(wxRespBean.getCode());
-                }else{
-                    finish();
-                }
+                requestLogin(wxRespBean.getCode());
+                status=wxRespBean.getState();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 finish();
@@ -124,7 +121,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
-
     /**
      * 获取个人信息
      * @param accessTokenEntity
@@ -144,8 +140,15 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         MyApplication.NAME = bean.getNickname();
                         MyApplication.USERICON = bean.getHeadimgurl();
                         MyApplication.WX=openid;
-
-                        requestBind(openid);
+                        switch (status){
+                            case "bind":
+                                requestBind(openid);
+                                break;
+                            case "login":
+                                requestWX(openid);
+                                SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
+                                break;
+                        }
                     }
                 });
     }
@@ -166,9 +169,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(WXEntryActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
-//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-//                                进行网络请求 微信登录
-//                                requestWX(openid);
                                 startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
                             }else {
                                 Toast.makeText(WXEntryActivity.this, "绑定失败"+s, Toast.LENGTH_SHORT).show();
@@ -180,42 +180,37 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
-//                                LoginBean bean = new Gson().fromJson(s, LoginBean.class);
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"spNum",bean.getData().getSpNum());
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"signDays",bean.getData().getSignDays());
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"mobile",bean.getData().getMobile());
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
-//                                SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId()+"");
-//                                MyApplication.USERID=bean.getData().getId()+"";
-//                                if (bean.getData().getWeChatA()==null){
-//                                    startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
-//                                } else {
-//                                    SharedPFUtils.setParam(LoginCodeActivity.this,"bindwx",true);
-//                                    MyApplication.NAME=bean.getData().getName();
-//                                    SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
-//                                    MyApplication.USERICON=bean.getData().getPhoto();
-//                                    SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
-//                                    String logo = bean.getData().getLogo();
-//    private void requestWX(String s) {
-//        OkGo.post(UrlCollect.appLogin)//
-//                .tag(this)//
-//                .params("code", s)
-//                .execute(new StringCallback() {
-//                    @Override
-//                    public void onSuccess(String s, Call call, Response response) {
-//                        try {
-//                            JSONObject jo=new JSONObject(s);
-//                            if ("请求成功".equals(jo.getString("message"))){
-//                                SharedPFUtils.setParam(WXEntryActivity.this,"bindwx",true);
-//                                startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                    }
-//                });
-//    }
+    private void requestWX(String s) {
+        OkGo.post(UrlCollect.getUserByWeChatA)//
+                .tag(this)//
+                .params("weChat", s)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        Log.e("===============", "getUserByWeChatA: "+s);
+                        WXLoginBean wxLoginBean = new Gson().fromJson(s, WXLoginBean.class);
+//                        保存信息
+                        SharedPFUtils.setParam(WXEntryActivity.this,"voice",wxLoginBean.getData().getVoice()==1?true:false);
+                        SharedPFUtils.setParam(WXEntryActivity.this,"signDays",wxLoginBean.getData().getSignDays());
+                        SharedPFUtils.setParam(WXEntryActivity.this,"integral",wxLoginBean.getData().getIntegral());//
+                        SharedPFUtils.setParam(WXEntryActivity.this,"mobile",wxLoginBean.getData().getMobile());
+                        SharedPFUtils.setParam(WXEntryActivity.this,"userId",wxLoginBean.getData().getId()+"");
+                        SharedPFUtils.setParam(WXEntryActivity.this,"name",wxLoginBean.getData().getName());
+                        SharedPFUtils.setParam(WXEntryActivity.this,"icon",wxLoginBean.getData().getPhoto());
+                        MyApplication.USERID=wxLoginBean.getData().getId();
+                        MyApplication.NAME=wxLoginBean.getData().getName();
+                        MyApplication.USERICON=wxLoginBean.getData().getPhoto();
+                        String mobile = wxLoginBean.getData().getMobile();
+                        if (mobile==null){
+                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
+                            return;
+                        }
+                        if (wxLoginBean.getData().getLogo()==null){
+                            startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
+                        }else{
+                            startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
+                        }
+                    }
+                });
+    }
 }

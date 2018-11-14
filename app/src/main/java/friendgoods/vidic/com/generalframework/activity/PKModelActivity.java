@@ -527,12 +527,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             if (list1.size()==1){
                                 break;
                             }
-//                            if (0==idlist.get(0)){
-//                                setOne(list1.get(1));
-//                                idlist.remove(0);
-//                                idlist.add(0,list1.get(1).getId());
-//                                break;
-//                            }
                             if (0==idlist.get(1)) {
                                 setThree(list1.get(1));
                                 idlist.remove(1);
