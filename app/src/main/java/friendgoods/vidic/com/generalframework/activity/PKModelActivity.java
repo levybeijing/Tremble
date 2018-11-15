@@ -220,7 +220,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     Handler handler= (Handler) soft.get();
 
     private IWXAPI api;
-    private int currentId;
+    private String currentId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,7 +228,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         gametime=System.currentTimeMillis();
-        currentId= (int) SharedPFUtils.getParam(this,"userId",0);
+        currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
 //        connect();
         initView();
     }
@@ -363,7 +363,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 if (!isHost)
                     break;
                 getListOfTime();
-                String time=x+":"+y+":"+z;
+                String time=(x>9?x+"":"0"+x)
+                        +(y>9?y+"":"0"+y)+":"
+                        +(z>9?z+"":"0"+z);
 //settime
                 Log.e("===========被邀进来", time);
 
@@ -405,6 +407,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 start.setRoomId(roomId);
                 start.setUserId(currentId);
                 sendMessage(new Gson().toJson(start));
+                Log.e("===========socketUrl", ""+new Gson().toJson(start));
                 Threetoone.start();
                 break;
             case R.id.iv_readyyes_pkmodel:
@@ -418,6 +421,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 ready.setUserId(currentId);
                 ready.setReady(1);
                 sendMessage(new Gson().toJson(ready));
+                Log.e("===========socketUrl", ""+new Gson().toJson(ready));
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
@@ -503,6 +507,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     if (!type.equals("7")){
                         pkbean = new Gson().fromJson(payload, PKSocketBean.class);
                     }
+                    Log.e("==============idlist", idlist.get(0)+""+idlist.get(1));
+
                     switch (type){
                         case "1":
                             List<GamerBean> list1 = pkbean.getUser();
@@ -513,7 +519,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                     list1.remove(i);
                                 }
                             }
-//                            Log.e("==============idlist", idlist.get(0)+""+idlist.get(1));
                             if (list1.size()==0){
                                 break;
                             }
@@ -541,13 +546,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case "2":
                             //  ready
-                            int userId = pkbean.getUserId();
-                            if (idlist.size()>0&&idlist.get(0)==userId&& pkbean.getStatus()==2){
+                            String userId = pkbean.getUserId();
+                            if (idlist.get(0).equals(userId)&& pkbean.getStatus().equals("0")){
                                 light1.setVisibility(View.VISIBLE);
                             }else{
                                 light1.setVisibility(View.INVISIBLE);
                             }
-                            if (idlist.size()>1&&idlist.get(1)==userId&& pkbean.getStatus()==2){
+                            if (idlist.get(1).equals(userId)&& pkbean.getStatus().equals("0")){
                                 light3.setVisibility(View.VISIBLE);
                             }else{
                                 light3.setVisibility(View.INVISIBLE);
@@ -576,11 +581,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case "5":
 // synchronize the count of game   {type:5,roomId:1,userId:1,num:1}
-                            int userId1 = pkbean.getUserId();
-                            if (idlist.size()>0&&idlist.get(0)==userId1){
+                            String userId1 = pkbean.getUserId();
+                            if (idlist.get(0).equals(userId1)){
                                 name1.setText(pkbean.getNum()+"");
                             }
-                            if (idlist.size()>1&&idlist.get(1)==userId1){
+                            if (idlist.get(1).equals(userId1)){
                                 name3.setText(pkbean.getNum()+"");
                             }
                             break;
@@ -609,13 +614,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case "8":
 // member exit
-                            int userId3 = pkbean.getUserId();
-                            if (idlist.size()>0&&userId3==idlist.get(0)){
+                            String userId3 = pkbean.getUserId();
+                            if (userId3.equals(idlist.get(0))){
                                 clearOne();
                                 idlist.remove(0);
                                 idlist.add(0,0);
                             }
-                            if (idlist.size()>1&&userId3==idlist.get(1)){
+                            if (userId3.equals(idlist.get(1))){
                                 clearThree();
                                 idlist.remove(1);
                                 idlist.add(1,0);
@@ -635,13 +640,13 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 // hoster exit when gaming
                             if (isHost)
                                 break;
-                            int userId2 = pkbean.getUserId();
-                            if (idlist.size()>0&&userId2==idlist.get(0)){
+                            String userId2 = pkbean.getUserId();
+                            if (userId2.equals(idlist.get(0))){
                                 clearOne();
                                 idlist.remove(0);
                                 idlist.add(0,0);
                             }
-                            if (idlist.size()>1&&userId2==idlist.get(1)){
+                            if (userId2.equals(idlist.get(1))){
                                 clearThree();
                                 idlist.remove(1);
                                 idlist.add(1,0);

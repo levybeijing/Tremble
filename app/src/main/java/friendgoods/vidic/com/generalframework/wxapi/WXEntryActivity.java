@@ -90,6 +90,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 if (type==ConstantsAPI.COMMAND_SENDAUTH){
                     status=wxRespBean.getState();
                 }
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 finish();

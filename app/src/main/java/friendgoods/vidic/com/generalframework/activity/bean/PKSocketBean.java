@@ -5,26 +5,18 @@ import java.util.List;
 public class PKSocketBean {
     private int type;
     private int roomId;
-    private int userId;
+    private String userId;
 
     private int ready;
     private int master;//房主master:1 组员 0
     private int num;
-    private int status;
+    private String status;
     private int isUse;
 
     private String message;//错误信息
     private String time;
 
     private List<GamerBean> user;
-
-    public List<GamerBean> getUser() {
-        return user;
-    }
-
-    public void setUser(List<GamerBean> user) {
-        this.user = user;
-    }
 
     public int getType() {
         return type;
@@ -42,11 +34,11 @@ public class PKSocketBean {
         this.roomId = roomId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -74,11 +66,11 @@ public class PKSocketBean {
         this.num = num;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -104,5 +96,13 @@ public class PKSocketBean {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public List<GamerBean> getUser() {
+        return user;
+    }
+
+    public void setUser(List<GamerBean> user) {
+        this.user = user;
     }
 }
