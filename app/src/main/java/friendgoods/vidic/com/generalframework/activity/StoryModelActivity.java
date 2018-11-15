@@ -46,7 +46,9 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_number;
     private long gametime;
     private ScaleAnimation animation;
-//    private Handler handler=new Handler()
+    private ImageView iv_click;
+
+    //    private Handler handler=new Handler()
 //    {
 //        @Override
 //        public void handleMessage(Message msg) {
@@ -126,7 +128,8 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
 
     private void initView() {
         findViewById(R.id.iv_exit_storymodel).setOnClickListener(this);
-        findViewById(R.id.iv_click_storymodel).setOnClickListener(this);
+        iv_click = findViewById(R.id.iv_click_storymodel);
+        iv_click.setOnClickListener(this);
     }
 
     @Override
@@ -144,14 +147,12 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 }
                 gametime=System.currentTimeMillis();
                 if (count==numbers.get(flag)){
-//                    requestImage(flag);
                     int i = new Random().nextInt(5);
                     iv_net.setVisibility(View.VISIBLE);
                     iv_close.setVisibility(View.VISIBLE);
                     Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+images.get(i)).into(iv_net);
-
+                    iv_click.setClickable(false);
                     flag++;
-//                    xthread.start();
                 }
                 if (flag==numbers.size()){
                     gametime=System.currentTimeMillis()-gametime;
@@ -165,22 +166,11 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
             case R.id.iv_close_story:
                 iv_net.setVisibility(View.INVISIBLE);
                 iv_close.setVisibility(View.INVISIBLE);
+                iv_click.setClickable(true);
                 break;
         }
     }
-//    Thread xthread=new Thread(){
-//        @Override
-//        public void run() {
-//            super.run();
-//            try {
-//                sleep(1000);
-//                Message message = handler.obtainMessage(1000);
-//                handler.sendMessage(message);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
+
     private void addrecord() {
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//

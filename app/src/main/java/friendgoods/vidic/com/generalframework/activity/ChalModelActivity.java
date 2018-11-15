@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -110,7 +111,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
 //
         requestTime();
     }
-    private Thread thread=new Thread(new Runnable() {
+    Runnable runnable=new Runnable() {
         @Override
         public void run() {
             while (havetime){
@@ -124,7 +125,8 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         }
-    });
+    };
+    private Thread thread=new Thread(runnable);
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -135,6 +137,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
                 if (!thread.isAlive()){
+                    thread=new Thread(runnable);
                     thread.start();
                     gametime=System.currentTimeMillis();
                 }
@@ -178,6 +181,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                         time = bean.getData().getTime();
                         tv_time.setText(time);
                         if (time!=null){
+                            iv_click.setClickable(true);
                             String[] split = time.split(":");
                             seconds=Integer.parseInt(split[split.length-1]);
                             minites=Integer.parseInt(split[split.length-2]);
@@ -212,7 +216,16 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         if (s!=null&&s.length()>0){
             Picasso.with(ChalModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+s).into(iv_gift);
         }
-
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                number=0;
+                lock=false;
+                havetime=true;
+                tv_number.setText("0");
+                requestTime();
+            }
+        });
         window.findViewById(R.id.iv_gotomall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,6 +238,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v) {
                 addgift(i);
                 alertDialog.dismiss();
+
             }
         });
     }

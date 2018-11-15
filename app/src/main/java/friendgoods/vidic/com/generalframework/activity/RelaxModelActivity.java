@@ -69,7 +69,6 @@ public class RelaxModelActivity extends AppCompatActivity implements View.OnClic
             case R.id.tv_gotomall_relaxmodel:
 //                跳转
                 gametime=System.currentTimeMillis()-gametime;
-                addrecord();
                 startActivity(new Intent(RelaxModelActivity.this,MallActivity.class));
                 finish();
                 break;
