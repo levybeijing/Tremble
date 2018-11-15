@@ -45,6 +45,7 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.AddRoomBean;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ListGamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
@@ -312,7 +313,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //            String friendId = data.getQueryParameter("friendId");
 //            toBeFriend(friendId);
             Log.e("===========roomId", ""+roomId);
-//            Log.e("===========被邀进来", ""+friendId);
             isHost=false;
             ll.setClickable(false);
             readyyes.setVisibility(View.VISIBLE);
@@ -663,18 +663,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 //        Log.e("==============addroom", "");
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", currentId)
                 .params("status", "0")//0  手动  1脚动
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("==============addroom", s);
                         if (null!=s){
                             JSONObject jo= null;
                             try {
                                 jo = new JSONObject(s);
                                 JSONObject data = jo.getJSONObject("data");
                                 roomId=data.getInt("roomId");
-                                Log.e("===========", "id: "+roomId);
                                 connect();
                             } catch (JSONException e) {
                                 e.printStackTrace();
