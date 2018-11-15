@@ -2,9 +2,10 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:padding="5dp"
     >
 
     <ImageView
@@ -15,7 +16,7 @@
         android:background="@mipmap/temp_icon"
         />
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1"
@@ -24,7 +25,7 @@
             android:id="@+id/tv_name_gifts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="爱你一万年"
+            android:text="商品名称"
             android:layout_margin="5dp"
             />
         <LinearLayout
@@ -41,7 +42,7 @@
                 android:id="@+id/tv_energy_gifts"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="10000" />
+                android:text="0" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="1133"
+                android:text="0"
                 android:textColor="#FFC849" />
         </LinearLayout>
     </LinearLayout>
@@ -73,8 +74,6 @@
         android:id="@+id/et_number_gifts"
         android:layout_width="40dp"
         android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_margin="5dp"
         android:background="@mipmap/blue_bound_3x"
         android:gravity="center"
@@ -91,8 +90,6 @@
         android:id="@+id/btn_buy_gifts"
         android:layout_width="40dp"
         android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/et_number_gifts"
         android:layout_margin="5dp"
         android:background="@mipmap/bg_buy_3x"
         android:text="购买"

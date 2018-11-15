@@ -4,14 +4,6 @@
     android:layout_height="368dp"
     android:background="@mipmap/bg_dialog_chall"
     >
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_close"-->
-        <!--android:layout_width="20dp"-->
-        <!--android:layout_height="20dp"-->
-        <!--android:layout_marginLeft="313dp"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:background="@mipmap/black_close_3x"-->
-        <!--/>-->
     <ImageView
         android:id="@+id/iv_gift"
         android:layout_width="wrap_content"

@@ -227,13 +227,6 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 alertDialog.dismiss();
             }
         });
-
-//        window.findViewById(R.id.iv_close_story).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                alertDialog.dismiss();
-//            }
-//        });
     }
     private void addgift(int id){
         OkGo.post(UrlCollect.getChallengeModeGift)//

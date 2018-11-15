@@ -455,9 +455,10 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
     //接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
-    private static final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+MyApplication.USERID;
+
     private List<Integer> idlist=new ArrayList<>();
     private void connect() {
+        final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+currentId;
         try {
             mConnect.connect(socketUrl, new WebSocketHandler() {
 
@@ -467,6 +468,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 public void onOpen() {
                     idlist.add(0);
                     idlist.add(0);
+                    Log.e("===========socketUrl", ""+socketUrl);
                     //            send socket
                     if (!isHost){
                         PKSocketBean join=new PKSocketBean();
@@ -476,7 +478,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                         join.setUserId(currentId);
                         Log.e("===========currentId", ""+currentId);
                         sendMessage(new Gson().toJson(join));
-                        Log.e("===========currentId", ""+new Gson().toJson(join));
+                        Log.e("===========join", ""+new Gson().toJson(join));
                     }else{
                         PKSocketBean add=new PKSocketBean();
                         add.setRoomId(roomId);
@@ -484,6 +486,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                         add.setUserId(currentId);
                         add.setMaster(1);
                         sendMessage(new Gson().toJson(add));
+                        Log.e("===========currentId", ""+currentId);
+                        Log.e("===========add", ""+new Gson().toJson(add));
+
                     }
                     Log.e("==============", "Status:Connect to " + socketUrl);
                 }
@@ -508,7 +513,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                     list1.remove(i);
                                 }
                             }
-                            Log.e("==============idlist", idlist.get(0)+""+idlist.get(1));
+//                            Log.e("==============idlist", idlist.get(0)+""+idlist.get(1));
                             if (list1.size()==0){
                                 break;
                             }
@@ -622,8 +627,9 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             break;
                         case "10":
 // hoster exit before game
-                            if (!isHost)
+                            if (!isHost){
                                 finish();
+                            }
                             break;
                         case "11":
 // hoster exit when gaming

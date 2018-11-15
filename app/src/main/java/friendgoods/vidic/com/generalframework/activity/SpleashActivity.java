@@ -20,10 +20,6 @@ public class SpleashActivity extends Activity {
 //    private static final long SPLASH_DELAY_MILLIS = 2000;
     private static final long ANIMATION_TIME = 1000;
     public SharedPreferences sp;
-//    private String myVersion;
-//    private boolean islog = true;
-//    private ImageView mSpleashBg;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +66,11 @@ public class SpleashActivity extends Activity {
             public void onAnimationEnd(Animation animation) {
                 SharedPreferences userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
                 int sex = userinfo.getInt("sex", 0);
-                String userId = userinfo.getInt("userId", 0)+"";
-                boolean bindwx = userinfo.getBoolean("bindwx", false);
-                boolean bindphone = userinfo.getBoolean("bindphone", false);
+                int userId = userinfo.getInt("userId", 0);
                 //两条线路 一个是先手机后微信 一个是先微信后手机
-                if(userId.equals("")){
+                if(userId==0){
                     startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
-                }else if(!bindwx||!bindphone){
-                    startActivity(new Intent(SpleashActivity.this,LoginCodeActivity.class));
-                }
-//                else if (){
-//                    startActivity(new Intent(SpleashActivity.this,PhoneBindActivity.class));
-//                }
-                else if (sex==0){
+                } else if (sex==0){
                     startActivity(new Intent(SpleashActivity.this,IntroduceActivity.class));
                 }else{
                     startActivity(new Intent(SpleashActivity.this,MainActivity.class));

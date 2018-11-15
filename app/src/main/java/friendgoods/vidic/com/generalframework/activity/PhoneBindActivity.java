@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,9 @@ import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +29,10 @@ import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class PhoneBindActivity extends AppCompatActivity implements View.OnClickListener {
+import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
+public class PhoneBindActivity extends AppCompatActivity implements View.OnClickListener {
+    private IWXAPI api;
     private EditText et_phone;
     private EditText et_code;
     private TextView btn_code;
@@ -37,6 +43,8 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phonebind);
         time = new TimeCount(60000, 1000);
+        api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
+        api.registerApp(WXAppID);
         initView();
     }
 
@@ -88,19 +96,24 @@ public class PhoneBindActivity extends AppCompatActivity implements View.OnClick
     private void bind(String number, String code) {
         OkGo.post(UrlCollect.register)//
                 .tag(this)//
-                .params("weChat", (String) SharedPFUtils.getParam(this,"wx",""))
+                .params("weChat", getIntent().getStringExtra("openid"))
                 .params("mobile", number)
                 .params("smsCode", code)
                 .params("type", "3")
-                .params("type", "")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("===============", "getUserByWeChatA: "+s);
+
                         try {
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
                                 Toast.makeText(PhoneBindActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(PhoneBindActivity.this,IntroduceActivity.class));
+                                SendAuth.Req req = new SendAuth.Req();
+                                req.scope = "snsapi_userinfo";
+                                req.state = "bind";
+                                api.sendReq(req);
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
