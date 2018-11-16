@@ -53,7 +53,7 @@ public class AdapterRecommendMall extends RecyclerView.Adapter<RecyclerView.View
         });
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
         ((MyViewHolder)holder).tv_sub.setText(list.get(position).getIntro());
-        ((MyViewHolder)holder).tv_price.setText(list.get(position).getMoney()+"");
+        ((MyViewHolder)holder).tv_price.setText(list.get(position).getMoney()+"元");
         Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getPhoto()).into(((MyViewHolder)holder).iv_goods);
     }
 

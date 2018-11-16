@@ -39,7 +39,7 @@ public class MallActivity extends AppCompatActivity{
         });
         //通过网络访问设置金币数量
         TextView tv_number = findViewById(R.id.tv_numberofcoin);
-        tv_number.setText((String)SharedPFUtils.getParam(this,"integral",""));
+        tv_number.setText(""+(double)SharedPFUtils.getParam(this,"integral",0.0));
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override

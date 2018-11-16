@@ -94,8 +94,8 @@ public class FriendNameActivity extends AppCompatActivity implements View.OnClic
                         wallId=myWallBean.getData().getId()+"";
                         for (int i = 0; i < axle.size(); i++) {
                             MyWallBean.DataBean.AxleBean bean = axle.get(i);
-                            int realx=Integer.parseInt(bean.getXaxle())*scale;
-                            int realy=Integer.parseInt(bean.getYaxle())*scale;
+                            int realx= (int) (Double.parseDouble(bean.getXaxle())*scale);
+                            int realy= (int) (Double.parseDouble(bean.getYaxle())*scale);
                             int realhight=Integer.parseInt(bean.getHigh())*scale;
                             int realweith=Integer.parseInt(bean.getWide())*scale;
                             //传入自己的真实像素

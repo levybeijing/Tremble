@@ -91,10 +91,6 @@ public class MyRecordActivity extends Activity {
         requestInfo();
 //
         requestRecord();
-        //下拉呈现
-//        rv.addRefreshViewCreator(new DefaultRefreshCreator());
-        //上拉呈现
-//        rv.addLoadViewCreator(new DefaultLoadMoreCreator());
     }
 
     private void requestRecord() {
@@ -120,7 +116,7 @@ public class MyRecordActivity extends Activity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         RecordDetailBean record = new Gson().fromJson(s, RecordDetailBean.class);
-                        tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+record.getData().getRownum());
+                        tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+(int)record.getData().getRownum());
                         hand.setText(record.getData().getSShakeNum()+"");
                         foot.setText(record.getData().getJShakeNum()+"");
                         jifen.setText(record.getData().getIntegral()+"");

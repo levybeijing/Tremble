@@ -23,6 +23,7 @@ import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.activity.FriendNameActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import okhttp3.Call;
@@ -61,7 +62,7 @@ public class WeekRankFragment extends Fragment {
         adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
             @Override
             public void onItemClick(int i) {
-                Intent intent=new Intent(getContext(),MyRecordActivity.class);
+                Intent intent=new Intent(getContext(),FriendNameActivity.class);
                 intent.putExtra("userId",i+"");
                 startActivity(intent);
             }

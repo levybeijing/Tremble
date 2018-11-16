@@ -72,7 +72,7 @@
             android:id="@+id/tv_numberofcoin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1314"
+            android:text="0"
             android:textColor="#FFC849"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"

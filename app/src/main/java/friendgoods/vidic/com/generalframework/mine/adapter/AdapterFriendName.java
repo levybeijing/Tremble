@@ -41,24 +41,33 @@ public class AdapterFriendName extends RecyclerView.Adapter<AdapterFriendName.My
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         switch (position){
             case 0:
-                Picasso.with(context).load(list.get(position+1).getPhoto()).into(holder.iv_small);
+                if (list.size()<=1){
+                    break;
+                }
+                Picasso.with(context).load(list.get(1).getPhoto()).into(holder.iv_small);
                 Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
-                holder.tv_name.setText(list.get(position+1).getName());
-                holder.tv_energy.setText(list.get(position+1).getScore()+"");
+                holder.tv_name.setText(list.get(1).getName());
+                holder.tv_energy.setText(list.get(1).getScore()+"");
                 break;
             case 1:
+                if (list.size()<1){
+                    break;
+                }
                 holder.iv_small.setVisibility(View.INVISIBLE);
                 holder.iv_big.setVisibility(View.VISIBLE);
-                Picasso.with(context).load(list.get(position-1).getPhoto()).into(holder.iv_big);
+                Picasso.with(context).load(list.get(0).getPhoto()).into(holder.iv_big);
                 Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
-                holder.tv_name.setText(list.get(position-1).getName());
-                holder.tv_energy.setText(list.get(position-1).getScore()+"");
+                holder.tv_name.setText(list.get(0).getName());
+                holder.tv_energy.setText(list.get(0).getScore()+"");
                 break;
             case 2:
+                if (list.size()<=2){
+                    break;
+                }
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
-                holder.tv_name.setText(list.get(position).getName());
-                holder.tv_energy.setText(list.get(position).getScore()+"");
-                Picasso.with(context).load(list.get(position+1).getPhoto()).into(holder.iv_small);
+                holder.tv_name.setText(list.get(2).getName());
+                holder.tv_energy.setText(list.get(2).getScore()+"");
+                Picasso.with(context).load(list.get(2).getPhoto()).into(holder.iv_small);
                 break;
         }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,6 +21,7 @@ import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyAddresses;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -59,10 +61,11 @@ public class MyAddressesActivity extends Activity {
     private void request() {
         OkGo.post(UrlCollect.addresses)
                 .tag(this)
-                .params("userId","27")
+                .params("userId",(int)SharedPFUtils.getParam(this,"userId",0))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("======================", "onSuccess: "+s);
                         AddressesBean addressesBean = new Gson().fromJson(s, AddressesBean.class);
                         List<AddressesBean.DataBean> data = addressesBean.getData();
                         adapter.setData(data);
@@ -83,12 +86,6 @@ public class MyAddressesActivity extends Activity {
         iv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ///跳转
-//                if (retun){
-//                    retun=!retun;
-//                    finish();
-//                }else{
-//                }
                 startActivity(new Intent(MyAddressesActivity.this,AddAddressActivity.class));
             }
         });
@@ -100,6 +97,4 @@ public class MyAddressesActivity extends Activity {
         adapter = new AdapterMyAddresses(MyAddressesActivity.this);
         rv.setAdapter(adapter);
     }
-
-
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -89,13 +91,14 @@ public class AddAddressActivity extends Activity implements View.OnClickListener
     }
 
     private void requestAdd(String consigee,String mobile,String district){
+        Log.e("======================", "onSuccess: "+consigee+mobile+district);
         OkGo.post(UrlCollect.addAddress)
                 .tag(this)
                 .params("site",district)
                 .params("consignee",consigee)
                 .params("mobile",mobile)
                 .params("status",isDefault+"")
-                .params("userId", MyApplication.USERID)
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -106,7 +109,6 @@ public class AddAddressActivity extends Activity implements View.OnClickListener
                         dis.setText("");
                         swi.setChecked(false);
                     }
-
                 });
     }
 }
