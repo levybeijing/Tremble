@@ -82,6 +82,7 @@ public class PKRankActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("================", "排名数据: "+s);
+
 //                        MyRecordBean recordBean = new Gson().fromJson(s, MyRecordBean.class);
 //                        char_one.setImageDrawable();
 //                        char_two.setImageDrawable();
