@@ -9,10 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
+import java.io.File;
+import java.util.List;
+
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.bean.PKRecordBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
 import okhttp3.Call;
@@ -82,17 +87,22 @@ public class PKRankActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("================", "排名数据: "+s);
+                        PKRecordBean pkRecordBean = new Gson().fromJson(s, PKRecordBean.class);
+                        List<PKRecordBean.DataBean> data = pkRecordBean.getData();
+                        name_one.setText(data.get(0).getName());
+                        name_two.setText(data.get(1).getName());
 
-//                        MyRecordBean recordBean = new Gson().fromJson(s, MyRecordBean.class);
-//                        char_one.setImageDrawable();
-//                        char_two.setImageDrawable();
-//                        char_three.setImageDrawable();
-//                        Glide.with(PKRankActivity.this).load(R.drawable.fireworks).into(icon_one);
-//                        Glide.with(PKRankActivity.this).load(R.drawable.fireworks).into(icon_two);
-//                        Glide.with(PKRankActivity.this).load(R.drawable.fireworks).into(icon_three);
-//                        name_one.setText();
-//                        name_two.setText();
-//                        name_three.setText();
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(icon_one);
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(icon_two);
+
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(char_one);
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(char_two);
+                        if (data.size()<=2){
+                            return;
+                        }
+                        name_three.setText(data.get(2).getName());
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(icon_three);
+                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(char_three);
                     }
                 });
     }
