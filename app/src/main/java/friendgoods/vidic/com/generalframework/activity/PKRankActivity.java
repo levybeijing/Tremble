@@ -20,7 +20,7 @@ import okhttp3.Response;
 
 public class PKRankActivity extends AppCompatActivity {
 
-    private String roomId;
+    private int roomId;
     private ImageView char_one;
     private ImageView char_two;
     private ImageView char_three;
@@ -36,7 +36,9 @@ public class PKRankActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkrank);
 //
-        roomId = getIntent().getStringExtra("roomId");
+        roomId = getIntent().getIntExtra("roomId",0);
+        Log.e("================", "PKRankActivity: "+roomId);
+
 //加载背景图片
         ImageView iv_bg = findViewById(R.id.iv_bg_pkrank);
         Glide.with(this).asGif().load(R.drawable.fireworks).into(iv_bg);
@@ -67,9 +69,15 @@ public class PKRankActivity extends AppCompatActivity {
     }
 
     private void requestRank() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         OkGo.post(UrlCollect.getUserPKRanking)//
                 .tag(this)//
-                .params("roomId", roomId)
+                .params("roomId", roomId+"")
+                .params("degree", "1")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

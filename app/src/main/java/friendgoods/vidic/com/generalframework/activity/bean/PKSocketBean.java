@@ -3,34 +3,33 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 import java.util.List;
 
 public class PKSocketBean {
-    private int type;
-    private int roomId;
+    private String type;
+    private String roomId;
     private String userId;
 
-    private int ready;
-    private int master;//房主master:1 组员 0
-    private int num;
+    private String master;//房主master:1 组员 0
+    private String num;
     private String status;
-    private int isUse;
+    private String isUse;
 
     private String message;//错误信息
     private String time;
 
     private List<GamerBean> user;
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getRoomId() {
+    public String getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
@@ -42,27 +41,19 @@ public class PKSocketBean {
         this.userId = userId;
     }
 
-    public int getReady() {
-        return ready;
-    }
-
-    public void setReady(int ready) {
-        this.ready = ready;
-    }
-
-    public int getMaster() {
+    public String getMaster() {
         return master;
     }
 
-    public void setMaster(int master) {
+    public void setMaster(String master) {
         this.master = master;
     }
 
-    public int getNum() {
+    public String getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
@@ -74,11 +65,11 @@ public class PKSocketBean {
         this.status = status;
     }
 
-    public int getIsUse() {
+    public String getIsUse() {
         return isUse;
     }
 
-    public void setIsUse(int isUse) {
+    public void setIsUse(String isUse) {
         this.isUse = isUse;
     }
 

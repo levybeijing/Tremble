@@ -108,7 +108,9 @@
         <!--音乐播放-->
         <service android:name=".musicplay.MusicService" android:exported="false"></service>
 
-        <activity android:name=".activity.PKRankActivity">
+        <activity android:name=".activity.PKRankActivity"
+            android:launchMode="singleTop"
+            >
 
         </activity>
     </application>
