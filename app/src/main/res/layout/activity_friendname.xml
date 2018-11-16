@@ -114,24 +114,30 @@
         </LinearLayout>
 
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/container_friendname"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/white_friendname"
-        android:layout_margin="10dp"
-        >
-        <TextView
-            android:id="@+id/tv_pubsend_friendname"
-            android:background="@drawable/orange_friendname"
-            android:text="送礼"
-            android:textSize="14dp"
-            android:layout_width="72dp"
-            android:layout_height="28dp"
-            android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="30dp"
-            />
-    </RelativeLayout>
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <RelativeLayout
+            android:id="@+id/container_friendname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/white_friendname"
+            android:layout_margin="10dp"
+            >
+            <TextView
+                android:id="@+id/tv_pubsend_friendname"
+                android:background="@drawable/orange_friendname"
+                android:text="送礼"
+                android:textSize="14dp"
+                android:layout_width="72dp"
+                android:layout_height="28dp"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="30dp"
+                />
+        </RelativeLayout>
+
+    <!--</FrameLayout>-->
+
 </LinearLayout>

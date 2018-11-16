@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -7,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -62,6 +66,14 @@ public class FriendNameActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.tv_pubsend_friendname).setOnClickListener(this);
 
         container = findViewById(R.id.container_friendname);
+//
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;         // 屏幕宽度（像素）
+        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+        int wid = (int) (width-density*20);
+        scale = wid/325;
 
         rv = findViewById(R.id.rv_friendname);
         GridLayoutManager  manager=new GridLayoutManager(this,3);

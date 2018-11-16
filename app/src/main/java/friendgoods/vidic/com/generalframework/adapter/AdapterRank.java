@@ -43,6 +43,7 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.iv_rank.setVisibility(View.GONE);
+        holder.tv_rank.setText(1+position+"");
         holder.tv_name.setText(list.get(position).getName());
         holder.tv_time.setText(list.get(position).getTime());
         holder.tv_count.setText(list.get(position).getShakeNum()+"");

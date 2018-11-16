@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="80dp"
-    android:layout_height="113dp"
+    android:layout_height="120dp"
     android:gravity="center"
     android:padding="5dp"
     android:background="@drawable/bg_yellow_option"
+    android:layout_margin="5dp"
     >
     <ImageView
         android:id="@+id/iv_icon_mygifts"
@@ -28,24 +29,23 @@
         android:gravity="center_vertical"
         >
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="11dp"
+            android:layout_height="13dp"
             android:background="@mipmap/energy_mygifts_3x"
             />
         <TextView
             android:id="@+id/tv_energy_mygifts"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="10000"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            />
+            android:text="10000" />
         <TextView
             android:id="@+id/tv_price_mygifts"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="#FFC849"
             android:text="12"
+            android:layout_marginLeft="5dp"
             />
     </LinearLayout>
 </LinearLayout>

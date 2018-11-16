@@ -34,22 +34,9 @@ public class AdapterMyRecord  extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(position==0){
-            ((MyViewHolder)holder).tv_count.setText("次数");
-            ((MyViewHolder)holder).tv_time.setText("时长");
-            ((MyViewHolder)holder).tv_rank.setText("总排名");
-            ((MyViewHolder)holder).tv_type.setText("类型");
-        }else {
-            ((MyViewHolder)holder).tv_count.setText(list.get(position-1).getShakeNum()+"");
-            ((MyViewHolder)holder).tv_time.setText(list.get(position-1).getTime());
-            ((MyViewHolder)holder).tv_rank.setText(list.get(position-1).getStatus()+"");
-            ((MyViewHolder)holder).tv_type.setText("手抖");
-//            if (list.get(position-1).getType()==1){
-//                ((MyViewHolder)holder).tv_type.setText("手抖");
-//            }else{
-//                ((MyViewHolder)holder).tv_type.setText("脚抖");
-//            }
-        }
+        ((MyViewHolder)holder).tv_count.setText(list.get(position-1).getShakeNum()+"");
+        ((MyViewHolder)holder).tv_time.setText(list.get(position-1).getTime());
+        ((MyViewHolder)holder).tv_type.setText("手抖");
         if (list!=null&&position==list.size()-1){
             ((MyViewHolder)holder).iv_line.setVisibility(View.INVISIBLE);
         }
@@ -58,21 +45,20 @@ public class AdapterMyRecord  extends RecyclerView.Adapter{
     @Override
     public int getItemCount() {
         if (list==null){
-            return 1;
+            return 0;
         }
-        return list.size()+1;
+        return list.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView tv_count,tv_time,tv_rank,tv_type;
+        TextView tv_count,tv_time,tv_type;
         ImageView iv_line;
         public MyViewHolder(View view)
         {
             super(view);
             tv_count= view.findViewById(R.id.tv_count_rv_myrecord);
             tv_time = view.findViewById(R.id.tv_time_rv_myrcord);
-            tv_rank= view.findViewById(R.id.tv_rank_rv_myrcord);
             tv_type = view.findViewById(R.id.tv_type_rv_myrcord);
             iv_line = view.findViewById(R.id.iv_line_myrecord);
 

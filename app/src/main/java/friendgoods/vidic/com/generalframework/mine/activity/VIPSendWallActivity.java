@@ -86,9 +86,10 @@ public class VIPSendWallActivity extends AppCompatActivity implements View.OnCli
                 DisplayMetrics dm = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
                 //获取
-//                int dpi = dm.densityDpi;
-                //图片尺寸放大缩小比率
-                scale = view.getWidth()/325;
+                int width = dm.widthPixels;         // 屏幕宽度（像素）
+                float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+                int wid = (int) (width-density*20);
+                scale = wid/325;
                 //实际图片尺寸
                 int realwidth= x* scale;
                 int realheight= y* scale;

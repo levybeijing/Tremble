@@ -5,12 +5,11 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@drawable/list_fans"
-    android:layout_marginBottom="10dp"
+    android:layout_margin="10dp"
     >
     <FrameLayout
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_weight="2"
         >
         <ImageView
             android:id="@+id/iv_item1_myfriends"
@@ -32,32 +31,31 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@mipmap/temp_icon"
-        android:layout_weight="2"
+        android:layout_margin="10dp"
         />
     <TextView
         android:id="@+id/tv_name_myfriends"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="董桑"
-        android:layout_weight="8"
-        android:gravity="center"
-        android:maxEms="5"
-        />
-    <TextView
-        android:id="@+id/tv_time_myfriends"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_weight="6"
-        android:text="hms"
         android:gravity="center"
         android:singleLine="true"
         />
     <TextView
+        android:id="@+id/tv_time_myfriends"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="hms"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#B30CDD"
+        />
+    <TextView
         android:id="@+id/tv_count_myfriends"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="1231223"
         android:gravity="center"
-        android:layout_weight="20"
+        android:textColor="#FF145C"
         />
 </LinearLayout>

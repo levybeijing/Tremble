@@ -199,17 +199,19 @@
         android:layout_weight="1"
         android:layout_margin="10dp"
         >
-        <!--<android.support.v4.widget.SwipeRefreshLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/srl_myrecord"-->
-            <!--&gt;-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_myrecord"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
-        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
-        <!--android:overScrollMode="never"-->
+            android:orientation="vertical"
+            >
+            <include
+                android:id="@+id/top_rx_myrecord"
+                layout="@layout/item_rv_myrecord"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_myrecord"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
