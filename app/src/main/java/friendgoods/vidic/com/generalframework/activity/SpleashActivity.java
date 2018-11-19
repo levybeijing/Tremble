@@ -11,12 +11,10 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import friendgoods.vidic.com.generalframework.PermissionsUtils;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
-
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
-public class SpleashActivity extends BaseActivity {
+public class SpleashActivity extends Activity {
 
     //延迟3秒
 //    private static final long SPLASH_DELAY_MILLIS = 2000;

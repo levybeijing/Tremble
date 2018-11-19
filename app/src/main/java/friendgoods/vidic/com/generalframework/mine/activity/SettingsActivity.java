@@ -135,6 +135,6 @@ public class SettingsActivity extends BaseActivity {
         edit.commit();
 //        System.exit(0);
         startActivity(new Intent(this,LoginCodeActivity.class));
-        finish();
+        finishAll();
     }
 }

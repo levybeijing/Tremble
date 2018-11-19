@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -23,9 +24,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addActivity(this);
     }
 
-
+    /**
+     * onCreate()时添加
+     * @param activity
+     */
+    public static void addActivity(BaseActivity activity){
+        //判断集合中是否已经添加，添加过的则不再添加
+        if (!mActivities.contains(activity)){
+            mActivities.add(activity);
+        }
+    }
     @Override
     protected void onResume() {
         mForegroundActivity = this;
