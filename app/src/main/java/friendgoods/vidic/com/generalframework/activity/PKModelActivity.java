@@ -389,6 +389,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                         +(y>9?y+"":"0"+y)+":"
                         +(z>9?z+"":"0"+z);
 //settime
+
                 PKSocketBean settime=new PKSocketBean();
                 settime.setType("3");
                 settime.setRoomId(roomId+"");
@@ -527,7 +528,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
 
                 @Override
                 public void onTextMessage(String payload) {
-                    //不停地接受信息
+//keeping receive message
                     Log.e("==============", payload);
 
                     Map map =(Map) JSON.parse(payload);
@@ -540,7 +541,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     switch (type){
                         case "1":
                             List<GamerBean> list1 = pkbean.getUser();
-//                            过滤当前用户
+//  remove current user
                             for (int i = 0; i <list1.size() ; i++) {
                                 int userId = (int) SharedPFUtils.getParam(PKModelActivity.this, "userId", 0);
                                 if (userId==list1.get(i).getUserId()){
@@ -606,22 +607,22 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
  // settime
                             if (isHost)
                                 break;
-                            String time = pkbean.getTime();
-                            Log.e("=============", time);
-                            tv1_timer.setText(time.charAt(0)+"");
-                            tv2_timer.setText(time.charAt(1)+"");
-                            tv3_timer.setText(time.charAt(3)+"");
-                            tv4_timer.setText(time.charAt(4)+"");
-                            tv5_timer.setText(time.charAt(6)+"");
-                            tv6_timer.setText(time.charAt(7)+"");
-                            x=Integer.parseInt(time.charAt(0)+"")*10+Integer.parseInt(time.charAt(1)+"");
-                            y=Integer.parseInt(time.charAt(3)+"")*10+Integer.parseInt(time.charAt(4)+"");
-                            z=Integer.parseInt(time.charAt(6)+"")*10+Integer.parseInt(time.charAt(7)+"");
-                            Log.e("=============", "onTextMessage: "+x+y+z);
+                            String time1 = pkbean.getTime();
+                            Log.e("=============", time1);
+                            tv1_timer.setText(time1.charAt(0)+"");
+                            tv2_timer.setText(time1.charAt(1)+"");
+                            tv3_timer.setText(time1.charAt(3)+"");
+                            tv4_timer.setText(time1.charAt(4)+"");
+                            tv5_timer.setText(time1.charAt(6)+"");
+                            tv6_timer.setText(time1.charAt(7)+"");
+                            x=Integer.parseInt(time1.charAt(0)+"")*10+Integer.parseInt(time1.charAt(1)+"");
+                            y=Integer.parseInt(time1.charAt(3)+"")*10+Integer.parseInt(time1.charAt(4)+"");
+                            z=Integer.parseInt(time1.charAt(6)+"")*10+Integer.parseInt(time1.charAt(7)+"");
+                            time=time1;
+//                            Log.e("=============", "onTextMessage: "+x+y+z);
                             break;
                         case "4":
 // start game
-//                      Log.e("=============", list2.toString());
                             if (!isHost){
                                 isGaming=true;
                                 three.setVisibility(View.VISIBLE);
@@ -743,7 +744,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 //增加游戏记录
     private void addrecord() {
-        Log.e("==============addrecord", "");
+//        Log.e("==============addrecord", "");
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
                 .params("userId", currentId+"")
@@ -757,7 +758,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=============", "addrecord: "+s);
+//                        Log.e("=============", "addrecord: "+s);
 
                     }
                 });

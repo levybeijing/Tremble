@@ -62,28 +62,6 @@
             android:layout_marginLeft="243dp"
             android:layout_marginTop="393dp"
             />
-<!--头像-->
-    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
-        android:id="@+id/icon_two_pkrank"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="480dp"
-        />
-    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
-        android:id="@+id/icon_one_pkrank"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginLeft="137dp"
-        android:layout_marginTop="479dp"
-        />
-    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
-        android:id="@+id/icon_three_pkrank"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="274dp"
-        android:layout_marginTop="479dp"
-        />
 <!--名字-->
     <TextView
         android:id="@+id/name_two_pkrank"
@@ -111,5 +89,27 @@
         android:layout_marginTop="487dp"
         android:gravity="center"
         android:background="@mipmap/name_story_3x"
+        />
+    <!--头像-->
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_two_pkrank"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="480dp"
+        />
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_one_pkrank"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="137dp"
+        android:layout_marginTop="479dp"
+        />
+    <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+        android:id="@+id/icon_three_pkrank"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="274dp"
+        android:layout_marginTop="479dp"
         />
 </RelativeLayout>

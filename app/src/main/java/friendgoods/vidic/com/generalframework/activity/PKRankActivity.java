@@ -87,23 +87,23 @@ public class PKRankActivity extends AppCompatActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("================", "排名数据: "+s);
+//                        Log.e("================", "排名数据: "+s);
                         PKRecordBean pkRecordBean = new Gson().fromJson(s, PKRecordBean.class);
                         List<PKRecordBean.DataBean> data = pkRecordBean.getData();
+
                         name_one.setText(data.get(0).getName());
+                        Picasso.with(PKRankActivity.this).load(data.get(0).getPhoto()).into(icon_one);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(0).getLogo()).into(char_one);
+
                         name_two.setText(data.get(1).getName());
-
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(icon_one);
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(char_one);
-
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(icon_two);
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(char_two);
+                        Picasso.with(PKRankActivity.this).load(data.get(1).getPhoto()).into(icon_two);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(1).getLogo()).into(char_two);
                         if (data.size()<=2){
                             return;
                         }
                         name_three.setText(data.get(2).getName());
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(icon_three);
-                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(char_three);
+                        Picasso.with(PKRankActivity.this).load(data.get(2).getPhoto()).into(icon_three);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(2).getLogo()).into(char_three);
                     }
                 });
     }
