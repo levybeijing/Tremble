@@ -69,7 +69,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         super.onNewIntent(intent);
         setIntent(intent);
         api.handleIntent(intent, this);
-        finish();
     }
 
     @Override
@@ -79,6 +78,22 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     @Override
     public void onResp(BaseResp baseResp) {
+////        支付回调
+//        if(baseResp.getType()==ConstantsAPI.COMMAND_PAY_BY_WX){
+////            0	成功	展示成功页面
+////            baseResp.errCode
+//            switch (baseResp.errCode){
+//                case 0://            成功	展示成功页面
+//
+//                    break;
+//                case -1://            错误
+//
+//                    break;
+//                case -2://            用户取消
+//
+//                    break;
+//            }
+//        }
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
         switch(baseResp.errCode) {
@@ -157,9 +172,9 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void requestBind(final String openid) {
-        Log.e("===============", MyApplication.USERID+"");
-        Log.e("===============", MyApplication.NAME);
-        Log.e("===============", MyApplication.USERICON);
+//        Log.e("===============", MyApplication.USERID+"");
+//        Log.e("===============", MyApplication.NAME);
+//        Log.e("===============", MyApplication.USERICON);
 
         OkGo.post(UrlCollect.updateWeChat)//
                 .tag(this)//

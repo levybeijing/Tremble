@@ -51,8 +51,6 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
         number_ = intent.getStringExtra("number");
         goodsId_ = bean.getGoodsId()+"";
         integral_ = bean.getIntegral();
-//        Log.e("$$$$$$$$$$", "onCreate: "+goodsId_);
-//        Log.e("$$$$$$$$$$", "onCreate: "+integral_);
 
         initView();
     }
@@ -125,7 +123,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                 .params("goodsId",goodsId_)
                 .params("userId", MyApplication.USERID)
                 .params("num",number_)
-                .params("status","0")//先是未付款
+                .params("status","0")//是未付款
                 .params("consignee",addre.getConsignee())
                 .params("mobile",addre.getMobile())
                 .params("site",addre.getSite())

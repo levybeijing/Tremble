@@ -17,7 +17,9 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -54,15 +56,23 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
 //                进入购买流程 直接出现支付界面
                 api = WXAPIFactory.createWXAPI(context, UrlCollect.WXAppID);
                 api.registerApp(WXAppID);
-//                PayReq request = new PayReq();
-//                request.appId = WXAppID;
-//                request.partnerId = "1900000109";
-//                request.prepayId= "1101000000140415649af9fc314aa427";
-//                request.packageValue = "Sign=WXPay";
-//                request.nonceStr= "1101000000140429eb40476f8896f4c9";
-//                request.timeStamp= "1398746574";
-//                request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-//                api.sendReq(request);
+
+                PayReq request = new PayReq();
+//
+                request.appId = WXAppID;//
+//商户号
+                request.partnerId = UrlCollect.mch_id;
+//订单号
+                request.prepayId= "1101000000140415649af9fc314aa427";
+//固定值
+                request.packageValue = "Sign=WXPay";
+//随机数
+                request.nonceStr= new Random().nextInt(10000)+"";
+//时间戳
+                request.timeStamp= new Date().getTime()/10+"";
+//签名
+                request.sign= "496F2F2982786AE44920E262B550DAA4";
+                api.sendReq(request);
             }
         });
         holder.tv_name.setText(list.get(position).getName());

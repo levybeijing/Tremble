@@ -61,7 +61,7 @@ public class DetailGoodsActivity extends BaseActivity {
                         DetailGoodsBean bean = new Gson().fromJson(s, DetailGoodsBean.class);
                         data = bean.getData();
                         Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+ data.getPhoto()).into(iv_top);
-//                        TODO:图片加载
+//                      图片加载
 //                          String photo1 = bean.getData().getPhoto1();
 //                        Log.e("$$$$$$$$$$$$$$$$$$$$$", "onSuccess: "+photo1);
 //                        Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+bean.getData().getPhoto1()[0]).into(iv_bottom1);

@@ -67,13 +67,13 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //    时间选择器
     private TimePickerView pvCustomTime;
 //   是否正在游戏
-    private static boolean isGaming=false;
+    private boolean isGaming=false;
 //   是否是房主
-    private static boolean isHost=true;
+    private boolean isHost=true;
 //
-    private static boolean havetime=false;
+    private boolean havetime=false;
 
-    private static boolean haveready=false;
+    private boolean haveready=false;
 
     private LinearLayout ll;
     private ImageView readyno;
@@ -81,9 +81,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private ImageView startyes;
     private ImageView startno;
 //  点击数
-    private static int pkCount=0;
+    private int pkCount=0;
 //  倒数计时开始
-    private static int lastTime=2;
+    private int lastTime=2;
 
     private ImageView three;
     private ImageView two;
@@ -186,7 +186,11 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private String time;
     private ImageView iv_note,iv_detail;
     private boolean note=true;
+    private boolean lock=false;
     private void setTime() {
+        if (lock){
+            return;
+        }
         if (x>0||y>0||z>0){
             if (z==0){
                 if (y==0){
@@ -207,6 +211,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             tv5_timer.setText(z/10+"");
             tv6_timer.setText(z%10+"");
         }else{
+            lock=true;
 //           发送游戏结束衔接
             click.setClickable(false);
             isGaming=false;
@@ -220,12 +225,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             end.setRoomId(roomId+"");
             end.setUserId(currentId+"");
             sendMessage(new Gson().toJson(end));
+            addrecord();
 //            jump
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("roomId",roomId);
             startActivity(intent);
             finish();
-            addrecord();
         }
     }
 
@@ -805,7 +810,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isHost=true;
 //exit
         PKSocketBean exit=new PKSocketBean();
         if (isHost){
@@ -819,6 +823,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         exit.setUserId(currentId+"");
         sendMessage(new Gson().toJson(exit));
         mConnect.disconnect();
+        sHandler=null;
+        Threetoone=null;
     }
 
 //控件操作

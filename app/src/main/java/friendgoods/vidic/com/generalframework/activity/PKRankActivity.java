@@ -94,19 +94,19 @@ public class PKRankActivity extends BaseActivity {
                         if (data==null||data.size()==0){
                             return;
                         }
-                        name_one.setText(data.get(0).getName());
+                        name_one.setText(data.get(0).getShakeNum()+"");
                         Picasso.with(PKRankActivity.this).load(data.get(0).getPhoto()).into(icon_one);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(0).getLogo()).into(char_one);
                         if (data.size()<=1){
                             return;
                         }
-                        name_two.setText(data.get(1).getName());
+                        name_two.setText(data.get(1).getShakeNum()+"");
                         Picasso.with(PKRankActivity.this).load(data.get(1).getPhoto()).into(icon_two);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(1).getLogo()).into(char_two);
                         if (data.size()<=2){
                             return;
                         }
-                        name_three.setText(data.get(2).getName());
+                        name_three.setText(data.get(2).getShakeNum()+"");
                         Picasso.with(PKRankActivity.this).load(data.get(2).getPhoto()).into(icon_three);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(2).getLogo()).into(char_three);
                     }
