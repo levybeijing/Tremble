@@ -16,13 +16,14 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyGifts;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyGiftsActivity extends Activity {
+public class MyGiftsActivity extends BaseActivity {
 
     private RecyclerView rv;
     private AdapterMyGifts adapter;

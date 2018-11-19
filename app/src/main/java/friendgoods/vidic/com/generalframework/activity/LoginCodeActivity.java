@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.musicplay.MusicService;
@@ -38,7 +39,7 @@ import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 /**
  * Created by Administrator on 2016/10/17 0017.
  */
-public class LoginCodeActivity extends Activity implements View.OnClickListener {
+public class LoginCodeActivity extends BaseActivity implements View.OnClickListener {
     private EditText et_phone;
     private EditText et_code;
     private TextView btn_code;
@@ -132,7 +133,6 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                             SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
                             MyApplication.USERICON=bean.getData().getPhoto();
                             SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
-
                             SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
                             MyApplication.USERID=bean.getData().getId();
 //                            设置全局请求头

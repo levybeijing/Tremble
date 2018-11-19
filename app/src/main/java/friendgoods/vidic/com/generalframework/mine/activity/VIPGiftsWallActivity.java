@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipWall;
 import friendgoods.vidic.com.generalframework.mine.frag.FragVipGiftReceive;
 import friendgoods.vidic.com.generalframework.mine.frag.FragVipGiftSend;
 
-public class VIPGiftsWallActivity extends AppCompatActivity {
+public class VIPGiftsWallActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

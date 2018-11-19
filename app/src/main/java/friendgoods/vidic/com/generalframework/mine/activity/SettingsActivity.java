@@ -25,12 +25,13 @@ import org.json.JSONObject;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends BaseActivity {
     private static int SHAKE=1;
     private static int VOICE=1;
     private int volume;

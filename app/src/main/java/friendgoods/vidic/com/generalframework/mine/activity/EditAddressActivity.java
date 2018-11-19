@@ -14,12 +14,13 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditAddressActivity extends Activity implements View.OnClickListener {
+public class EditAddressActivity extends BaseActivity implements View.OnClickListener {
 
     private AddressesBean.DataBean bean;
     private EditText name;

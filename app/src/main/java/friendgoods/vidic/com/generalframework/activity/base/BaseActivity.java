@@ -1,23 +1,16 @@
 package friendgoods.vidic.com.generalframework.activity.base;
 
-import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-
+import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import friendgoods.vidic.com.generalframework.PermissionListener;
 
 /**
  * Created by wh on 2017/7/10.
  */
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 记录处于前台的Activity
      */

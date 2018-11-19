@@ -26,6 +26,7 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
@@ -34,7 +35,7 @@ import friendgoods.vidic.com.generalframework.bean.FansBangBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class FriendNameActivity extends AppCompatActivity implements View.OnClickListener {
+public class FriendNameActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView rv;
     private AdapterFriendName adapter;

@@ -8,10 +8,12 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 
-public class WXBindActivity extends AppCompatActivity implements View.OnClickListener {
+public class WXBindActivity extends BaseActivity implements View.OnClickListener {
     private  IWXAPI api;
 
     @Override

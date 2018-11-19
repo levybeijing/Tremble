@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyOrders;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders1;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders2;
@@ -17,7 +18,7 @@ import friendgoods.vidic.com.generalframework.mine.frag.FragOrders3;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders4;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders5;
 
-public class MyOrdersActivity extends AppCompatActivity {
+public class MyOrdersActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -16,6 +16,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerAddress;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -25,7 +26,7 @@ import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyAddressesActivity extends Activity {
+public class MyAddressesActivity extends BaseActivity {
     private RecyclerView rv;
     private AdapterMyAddresses adapter;
     //是否是回传数据

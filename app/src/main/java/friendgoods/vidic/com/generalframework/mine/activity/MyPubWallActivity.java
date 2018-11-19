@@ -23,6 +23,7 @@ import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyPubWall;
@@ -30,7 +31,7 @@ import friendgoods.vidic.com.generalframework.bean.IconSetBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyPubWallActivity extends Activity{
+public class MyPubWallActivity extends BaseActivity {
 
     private TextView date;
     private TextView energy;

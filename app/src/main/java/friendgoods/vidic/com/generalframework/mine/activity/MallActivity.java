@@ -17,12 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMall;
 import friendgoods.vidic.com.generalframework.mine.frag.FragGifts;
 import friendgoods.vidic.com.generalframework.mine.frag.FragRecommend;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 
-public class MallActivity extends AppCompatActivity{
+public class MallActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterFansBangBottom;
@@ -25,7 +26,7 @@ import friendgoods.vidic.com.generalframework.bean.FansBangBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class FansBangActivity extends AppCompatActivity {
+public class FansBangActivity extends BaseActivity {
 
     private RecyclerView rv_top;
     private RecyclerView rv_bottom;

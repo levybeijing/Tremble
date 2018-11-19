@@ -16,13 +16,14 @@ import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class CommitOrderActivity extends AppCompatActivity implements View.OnClickListener {
+public class CommitOrderActivity extends BaseActivity implements View.OnClickListener {
 
     private String number_;
     private double price_;

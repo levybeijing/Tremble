@@ -18,12 +18,13 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class SexChooseActivity extends AppCompatActivity implements View.OnClickListener {
+public class SexChooseActivity extends BaseActivity implements View.OnClickListener {
     private  final int MANMARS =11;
     private  final int MANEARTH =12;
     private  final int WOMANMARS =21;

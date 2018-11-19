@@ -20,6 +20,7 @@ import java.util.TimerTask;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
@@ -32,7 +33,7 @@ import friendgoods.vidic.com.generalframework.util.ToastUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static boolean mBackKeyPressed = false;
     private RadioButton  model_rg;
     private static int preFt;

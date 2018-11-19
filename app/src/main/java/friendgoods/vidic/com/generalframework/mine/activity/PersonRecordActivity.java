@@ -14,13 +14,14 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPersonRecord;
 import friendgoods.vidic.com.generalframework.bean.MyRecordBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class PersonRecordActivity extends Activity {
+public class PersonRecordActivity extends BaseActivity {
 
     private TextView tv_name;
     private RecyclerView rv;

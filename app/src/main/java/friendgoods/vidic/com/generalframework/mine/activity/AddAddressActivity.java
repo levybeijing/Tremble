@@ -11,18 +11,23 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class AddAddressActivity extends Activity implements View.OnClickListener {
+public class AddAddressActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText name;
     private EditText phone;
@@ -102,7 +107,13 @@ public class AddAddressActivity extends Activity implements View.OnClickListener
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Toast.makeText(AddAddressActivity.this, s, Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            Toast.makeText(AddAddressActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         name.setText("");
                         phone.setText("");
                         detail.setText("");

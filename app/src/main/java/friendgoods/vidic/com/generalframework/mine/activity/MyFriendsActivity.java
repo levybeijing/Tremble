@@ -15,6 +15,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFriends;
@@ -22,7 +23,7 @@ import friendgoods.vidic.com.generalframework.bean.MyFriendsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyFriendsActivity extends Activity{
+public class MyFriendsActivity extends BaseActivity {
 
     private RecyclerView rv;
     private AdapterMyFriends adapter;

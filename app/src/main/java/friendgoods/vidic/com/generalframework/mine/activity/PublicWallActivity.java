@@ -28,6 +28,7 @@ import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
@@ -40,7 +41,7 @@ import friendgoods.vidic.com.generalframework.mine.customview.customiconset.Pile
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class PublicWallActivity extends AppCompatActivity implements View.OnClickListener{
+public class PublicWallActivity extends BaseActivity implements View.OnClickListener{
 
     private RecyclerView rv;
     private AdapterPubWall adapter;

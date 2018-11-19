@@ -45,7 +45,7 @@ public class AdapterMyAddresses extends RecyclerView.Adapter {
         if (position==0){
             ((MyViewHolder)holder).tv_default.setVisibility(View.VISIBLE);
         }
-        ((MyViewHolder)holder).tv_name.setText(list.get(position).getUserId()+"");
+        ((MyViewHolder)holder).tv_name.setText(list.get(position).getConsignee());
         ((MyViewHolder)holder).tv_phone.setText(list.get(position).getMobile());
         ((MyViewHolder)holder).tv_detail.setText(list.get(position).getSite());
 

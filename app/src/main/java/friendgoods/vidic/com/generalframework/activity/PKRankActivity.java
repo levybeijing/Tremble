@@ -18,13 +18,14 @@ import java.io.File;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.PKRecordBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class PKRankActivity extends AppCompatActivity {
+public class PKRankActivity extends BaseActivity {
 
     private int roomId;
     private ImageView char_one;
@@ -90,11 +91,15 @@ public class PKRankActivity extends AppCompatActivity {
 //                        Log.e("================", "排名数据: "+s);
                         PKRecordBean pkRecordBean = new Gson().fromJson(s, PKRecordBean.class);
                         List<PKRecordBean.DataBean> data = pkRecordBean.getData();
-
+                        if (data==null||data.size()==0){
+                            return;
+                        }
                         name_one.setText(data.get(0).getName());
                         Picasso.with(PKRankActivity.this).load(data.get(0).getPhoto()).into(icon_one);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(0).getLogo()).into(char_one);
-
+                        if (data.size()<=1){
+                            return;
+                        }
                         name_two.setText(data.get(1).getName());
                         Picasso.with(PKRankActivity.this).load(data.get(1).getPhoto()).into(icon_two);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(1).getLogo()).into(char_two);

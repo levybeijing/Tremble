@@ -45,6 +45,7 @@ import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.AddRoomBean;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ListGamerBean;
@@ -61,7 +62,7 @@ import okhttp3.Response;
 
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
-public class PKModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class PKModelActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -219,12 +220,12 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             end.setRoomId(roomId+"");
             end.setUserId(currentId+"");
             sendMessage(new Gson().toJson(end));
-            addrecord();
 //            jump
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("roomId",roomId);
             startActivity(intent);
             finish();
+            addrecord();
         }
     }
 
@@ -389,7 +390,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                         +(y>9?y+"":"0"+y)+":"
                         +(z>9?z+"":"0"+z);
 //settime
-
                 PKSocketBean settime=new PKSocketBean();
                 settime.setType("3");
                 settime.setRoomId(roomId+"");
@@ -754,7 +754,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 .params("roomId", roomId+"")
                 .params("status", "0")//0（手动）1（脚动）
                 .params("mode", "3")//1（挑战）2（故事）3（pk）4（休闲）
-                .params("degree", "1")//1（挑战）2（故事）3（pk）4（休闲）
+                .params("degree", "1")//
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

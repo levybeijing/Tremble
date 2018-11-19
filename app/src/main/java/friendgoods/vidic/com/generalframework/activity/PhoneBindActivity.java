@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
@@ -31,7 +32,7 @@ import okhttp3.Response;
 
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
-public class PhoneBindActivity extends AppCompatActivity implements View.OnClickListener {
+public class PhoneBindActivity extends BaseActivity implements View.OnClickListener {
     private IWXAPI api;
     private EditText et_phone;
     private EditText et_code;

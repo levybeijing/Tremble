@@ -15,13 +15,14 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.CustomDialogBottom;
 import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class DetailGoodsActivity extends AppCompatActivity {
+public class DetailGoodsActivity extends BaseActivity {
 
     private String goodsId;
     private ImageView iv_top;

@@ -33,6 +33,7 @@ import java.io.File;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.ChalGiftBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ChallengeModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -41,7 +42,7 @@ import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class ChalModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChalModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number,tv_time;
     private ScaleAnimation animation;

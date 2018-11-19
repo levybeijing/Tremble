@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.adapter.IntroduceVPAdapter;
 
-public class IntroduceActivity extends AppCompatActivity {
+public class IntroduceActivity extends BaseActivity {
     private int number=0;
     private ViewPager vp;
     private IntroduceVPAdapter adapter;

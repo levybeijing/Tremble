@@ -17,12 +17,13 @@ import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class RelaxModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class RelaxModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number;
     private ScaleAnimation animation;

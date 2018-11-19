@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.RecordDetailBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyRecord;
@@ -28,7 +29,7 @@ import friendgoods.vidic.com.generalframework.mine.customview.ColorTextView;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyRecordActivity extends Activity {
+public class MyRecordActivity extends BaseActivity {
 
     private ColorTextView tv_name,tv_chenghu,tv_history;
     private TextView tv_detailrecord;

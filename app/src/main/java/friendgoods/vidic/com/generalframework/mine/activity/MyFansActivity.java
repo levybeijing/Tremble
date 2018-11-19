@@ -14,13 +14,14 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFans;
 import friendgoods.vidic.com.generalframework.bean.MyFansBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class MyFansActivity extends Activity {
+public class MyFansActivity extends BaseActivity {
 
     private RecyclerView rv;
     private AdapterMyFans adapter;

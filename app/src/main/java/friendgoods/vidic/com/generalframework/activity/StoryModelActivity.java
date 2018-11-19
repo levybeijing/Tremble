@@ -30,13 +30,14 @@ import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class StoryModelActivity extends AppCompatActivity implements View.OnClickListener {
+public class StoryModelActivity extends BaseActivity implements View.OnClickListener {
 
     private int count=0;
     private ImageView iv_net,iv_close;

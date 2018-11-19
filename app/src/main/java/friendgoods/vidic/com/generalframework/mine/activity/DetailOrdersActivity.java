@@ -22,12 +22,13 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.DetailOrderBean;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class DetailOrdersActivity  extends Activity{
+public class DetailOrdersActivity  extends BaseActivity {
     private String orderId;
     private TextView userName;
     private TextView phone;
