@@ -3,7 +3,7 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 public class LoginBean {
 
     /**
-     * data : {"voice":1,"spNum":0,"shake":1,"weChatA":"o-CJL1IxT1aYtdIpxBggH1I727Hg","mobile":"15210903179","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","updateTime":"2018-11-05 14:59:06","signDays":1,"createTime":"2018-11-05 14:53:39","integral":0,"name":"levy","logo":"man1.png","id":181,"is_use":1,"status":0}
+     * data : {"voice":1,"spNum":0,"shake":1,"weChatA":"o-CJL1IxT1aYtdIpxBggH1I727Hg","mobile":"15210903179","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","updateTime":"2018-11-15 13:33:26","token":"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTUifQ._xmm6A5v1zL-fvmIPSQJ78h21Tq8crHk_heUeONVGNg","signDays":1,"createTime":"2018-11-15 11:48:33","integral":0.19,"name":"levy","logo":"man1.png","id":215,"is_use":1,"status":0}
      * message : 请求成功
      * state : 1
      */
@@ -44,13 +44,14 @@ public class LoginBean {
          * weChatA : o-CJL1IxT1aYtdIpxBggH1I727Hg
          * mobile : 15210903179
          * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
-         * updateTime : 2018-11-05 14:59:06
+         * updateTime : 2018-11-15 13:33:26
+         * token : eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMTUifQ._xmm6A5v1zL-fvmIPSQJ78h21Tq8crHk_heUeONVGNg
          * signDays : 1
-         * createTime : 2018-11-05 14:53:39
-         * integral : 0.0
+         * createTime : 2018-11-15 11:48:33
+         * integral : 0.19
          * name : levy
          * logo : man1.png
-         * id : 181
+         * id : 215
          * is_use : 1
          * status : 0
          */
@@ -62,6 +63,7 @@ public class LoginBean {
         private String mobile;
         private String photo;
         private String updateTime;
+        private String token;
         private int signDays;
         private String createTime;
         private double integral;
@@ -125,6 +127,14 @@ public class LoginBean {
 
         public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
         }
 
         public int getSignDays() {

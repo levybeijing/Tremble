@@ -150,8 +150,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     click.setVisibility(View.VISIBLE);
                     click_left.setVisibility(View.VISIBLE);
                     click_righr.setVisibility(View.VISIBLE);
-                    name1.setText("0");
-                    name3.setText("0");
+                    if (!idlist.get(0).equals("0"))
+                        name1.setText("0");
+                    if (!idlist.get(1).equals("0"))
+                        name3.setText("0");
+                    name2.setText("0");
                     //                    开始游戏
 //                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
                     isGaming=true;
@@ -180,7 +183,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView click_left;
     private ImageView click_righr;
     private String time;
-
+    private ImageView iv_note,iv_detail;
+    private boolean note=true;
     private void setTime() {
         if (x>0||y>0||z>0){
             if (z==0){
@@ -203,7 +207,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             tv6_timer.setText(z%10+"");
         }else{
 //           发送游戏结束衔接
-
             click.setClickable(false);
             isGaming=false;
             havetime=false;
@@ -226,8 +229,8 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     //   通过软应用来实现 避免内存泄漏
-    WeakReference soft=new WeakReference(sHandler);
-    Handler handler= (Handler) soft.get();
+//    WeakReference soft=new WeakReference(sHandler);
+//    Handler handler= (Handler) soft.get();
 
     private IWXAPI api;
     private String currentId;
@@ -347,6 +350,11 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
         animation1.setDuration(100);
         click_left = findViewById(R.id.iv_click_left);
         click_righr = findViewById(R.id.iv_click_right);
+//
+        iv_note = findViewById(R.id.iv_note_pkmodel);
+        iv_note.setOnClickListener(this);
+        iv_detail = findViewById(R.id.iv_notedetail_pkmodel);
+
     }
     //获取当前时间值
     public void getListOfTime() {
@@ -469,11 +477,18 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                 req.scene=SendMessageToWX.Req.WXSceneSession;
                 api.sendReq(req);
                 break;
+            case R.id.iv_note_pkmodel:
+                if (note){
+                    iv_detail.setVisibility(View.VISIBLE);
+                }else{
+                    iv_detail.setVisibility(View.INVISIBLE);
+                }
+                note=!note;
+                break;
         }
     }
     //接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
-
     private List<String> idlist=new ArrayList<>();
     private void connect() {
         final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+currentId;
@@ -487,7 +502,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                     idlist.add("0");
                     idlist.add("0");
 //                    Log.e("===========socketUrl", ""+socketUrl);
-                    //            send socket
+//            send socket
                     if (!isHost){
                         PKSocketBean join=new PKSocketBean();
                         join.setType("1");
@@ -562,7 +577,6 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                                 idlist.add(1,list1.get(1).getUserId()+"");
                                 break;
                             }
-
                             break;
                         case "2":
 //  ready
@@ -589,7 +603,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
                             }
                             break;
                         case "3":
-                            // settime
+ // settime
                             if (isHost)
                                 break;
                             String time = pkbean.getTime();
@@ -801,7 +815,7 @@ public class PKModelActivity extends AppCompatActivity implements View.OnClickLi
             exit.setType("8");
         }
         exit.setRoomId(roomId+"");
-        exit.setUserId(currentId);
+        exit.setUserId(currentId+"");
         sendMessage(new Gson().toJson(exit));
         mConnect.disconnect();
     }

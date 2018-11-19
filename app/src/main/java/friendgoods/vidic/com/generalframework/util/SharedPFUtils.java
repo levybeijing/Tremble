@@ -41,7 +41,6 @@ public class SharedPFUtils {
         else if("Long".equals(type)){
             editor.putLong(key, (Long)object);
         }
-
         editor.commit();
     }
 
@@ -72,7 +71,6 @@ public class SharedPFUtils {
         else if("Long".equals(type)){
             return sp.getLong(key, (Long)defaultObject);
         }
-
         return null;
     }
 }

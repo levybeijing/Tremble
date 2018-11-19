@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,9 @@ public class MallActivity extends AppCompatActivity{
         });
         //通过网络访问设置金币数量
         TextView tv_number = findViewById(R.id.tv_numberofcoin);
-        tv_number.setText(""+(double)SharedPFUtils.getParam(this,"integral",0.0));
+        Log.e("===========", "integral: "+SharedPFUtils.getParam(MallActivity.this, "integral", 0.0f));
+        float integral =(float) SharedPFUtils.getParam(MallActivity.this, "integral", 0.0f);
+        tv_number.setText(""+integral);
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override

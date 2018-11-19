@@ -91,6 +91,7 @@
         android:layout_height="34dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="486dp"
+        android:background="@mipmap/name_story_3x"
         android:gravity="center"
         />
     <TextView
@@ -100,6 +101,7 @@
         android:layout_marginLeft="151dp"
         android:layout_marginTop="498dp"
         android:gravity="center"
+        android:background="@mipmap/name_story_3x"
         />
     <TextView
         android:id="@+id/name_three_pkrank"
@@ -108,5 +110,6 @@
         android:layout_marginLeft="281dp"
         android:layout_marginTop="487dp"
         android:gravity="center"
+        android:background="@mipmap/name_story_3x"
         />
 </RelativeLayout>

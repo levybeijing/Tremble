@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpHeaders;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -113,15 +114,12 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        记录用户信息
-//                        Log.e("===========roomId", ""+s);
-
+                        Log.e("===========roomId", ""+s);
                         LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                         if (!bean.getMessage().equals("请求成功")){
                             Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
                             return;
                         }
-//                        MyApplication.USERID=bean.getData().getId();
-//                        SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
                         if (bean.getData().getWeChatA()==null){
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
@@ -137,7 +135,11 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
 
                             SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
                             MyApplication.USERID=bean.getData().getId();
-                            Log.e("===========Id", ""+MyApplication.USERID);
+//                            设置全局请求头
+                            SharedPFUtils.setParam(LoginCodeActivity.this,"token",bean.getData().getToken());
+                            HttpHeaders headers = new HttpHeaders();
+                            headers.put("token",bean.getData().getToken() );
+                            OkGo.getInstance().addCommonHeaders(headers);
 
                             String logo = bean.getData().getLogo();
                             if (logo !=null) {
@@ -203,6 +205,5 @@ public class LoginCodeActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        MusicService.getInstance().onDestroy();
     }
 }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -75,7 +76,7 @@ public class PKRankActivity extends AppCompatActivity {
 
     private void requestRank() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -92,17 +93,17 @@ public class PKRankActivity extends AppCompatActivity {
                         name_one.setText(data.get(0).getName());
                         name_two.setText(data.get(1).getName());
 
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(icon_one);
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(icon_two);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(icon_one);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(char_one);
 
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(0).getPhoto()).into(char_one);
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(char_two);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(icon_two);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(1).getPhoto()).into(char_two);
                         if (data.size()<=2){
                             return;
                         }
                         name_three.setText(data.get(2).getName());
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(icon_three);
-                        Glide.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(char_three);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(icon_three);
+                        Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+data.get(2).getPhoto()).into(char_three);
                     }
                 });
     }

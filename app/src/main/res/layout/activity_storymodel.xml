@@ -11,14 +11,6 @@
         <!---->
     <!--</FrameLayout>-->
 
-    <ImageView
-        android:id="@+id/iv_exit_storymodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/game_exit"
-        android:layout_margin="20dp"
-        android:layout_alignParentRight="true"
-        />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,5 +99,36 @@
             android:background="#8aaa"
             />
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        android:id="@+id/ll_note_story"
+        >
+        <ImageView
+            android:id="@+id/iv_exit_storymodel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/game_exit"
+            />
+        <ImageView
+            android:id="@+id/iv_note_storymodel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/note_game_3x"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_notedetail_storymodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/note_story_3x"
+        android:layout_toLeftOf="@id/ll_note_story"
+        android:layout_below="@+id/ll_note_story"
+        android:visibility="invisible"
+        />
 </RelativeLayout>

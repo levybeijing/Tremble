@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
-    android:orientation="vertical"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         >
-        <ImageView
-            android:id="@+id/iv_exit_pkmodel"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@mipmap/game_exit"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="20dp"
-            />
         <!--准备-->
             <ImageView
                 android:id="@+id/iv_readyyes_pkmodel"
@@ -338,5 +335,38 @@
             android:focusable="true"
             />
     </LinearLayout>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="20dp"
+        android:id="@+id/ll_note_pk"
+        >
+        <ImageView
+            android:id="@+id/iv_exit_pkmodel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/game_exit"
+            />
+        <ImageView
+            android:id="@+id/iv_note_pkmodel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/note_game_3x"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_notedetail_pkmodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/note_pk_3x"
+        android:layout_toLeftOf="@id/ll_note_pk"
+        android:layout_below="@+id/ll_note_pk"
+        android:visibility="invisible"
+        />
+</RelativeLayout>

@@ -46,19 +46,8 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_number;
     private long gametime;
     private ScaleAnimation animation;
-    private ImageView iv_click;
-
-    //    private Handler handler=new Handler()
-//    {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what==100){
-//                Toast.makeText(StoryModelActivity.this, "点击消失", Toast.LENGTH_SHORT).show();
-//                iv_net.setClickable(true);
-//            }
-//        }
-//    };
+    private ImageView iv_click,iv_note,iv_detail;
+    private boolean note=true;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +56,13 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
 
         iv_net = findViewById(R.id.iv_net_story);
         iv_close = findViewById(R.id.iv_close_story);
-
+        iv_note= findViewById(R.id.iv_note_storymodel);
+        iv_note.setOnClickListener(this);
         iv_close.setOnClickListener(this);
+
+        iv_detail= findViewById(R.id.iv_notedetail_storymodel);
+
+
         request();
 
         //设置形象
@@ -167,6 +161,14 @@ public class StoryModelActivity extends AppCompatActivity implements View.OnClic
                 iv_net.setVisibility(View.INVISIBLE);
                 iv_close.setVisibility(View.INVISIBLE);
                 iv_click.setClickable(true);
+                break;
+            case R.id.iv_note_storymodel:
+                if (note){
+                    iv_detail.setVisibility(View.VISIBLE);
+                }else{
+                    iv_detail.setVisibility(View.INVISIBLE);
+                }
+                note=!note;
                 break;
         }
     }

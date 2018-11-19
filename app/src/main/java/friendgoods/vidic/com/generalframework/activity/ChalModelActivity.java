@@ -53,6 +53,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
     private long gametime;
     private boolean requsetOk=true;
     private boolean lock=false;
+    private boolean note=true;
     private Handler handlerhcal=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -78,6 +79,7 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
 
         }
     };
+    private ImageView iv_note,iv_detail;
 
 
     @Override
@@ -108,7 +110,10 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
         iv_click.setOnClickListener(this);
         findViewById(R.id.iv_exit_challengemodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_challengemodel).setOnClickListener(this);
-//
+        iv_note = findViewById(R.id.iv_note_challengemodel);
+        iv_note.setOnClickListener(this);
+        iv_detail = findViewById(R.id.iv_notedetail_chal);
+
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -150,6 +155,14 @@ public class ChalModelActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(ChalModelActivity.this,MallActivity.class));
                 havetime=false;
                 finish();
+                break;
+            case R.id.iv_note_challengemodel:
+                if (note){
+                    iv_detail.setVisibility(View.VISIBLE);
+                }else{
+                    iv_detail.setVisibility(View.INVISIBLE);
+                }
+                note=!note;
                 break;
         }
     }

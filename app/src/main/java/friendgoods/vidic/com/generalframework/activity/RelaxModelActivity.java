@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lzy.okgo.OkGo;
@@ -26,6 +27,8 @@ public class RelaxModelActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_number;
     private ScaleAnimation animation;
     private long gametime;
+    private boolean note=true;
+    private ImageView iv_note,iv_detail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +55,10 @@ public class RelaxModelActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
         findViewById(R.id.iv_exit_relaxmodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_relaxmodel).setOnClickListener(this);
+
+        iv_note = findViewById(R.id.iv_note_relaxmodell);
+        iv_note.setOnClickListener(this);
+        iv_detail = findViewById(R.id.iv_notedetail_relaxmodel);
     }
 
     @Override
@@ -71,6 +78,14 @@ public class RelaxModelActivity extends AppCompatActivity implements View.OnClic
                 gametime=System.currentTimeMillis()-gametime;
                 startActivity(new Intent(RelaxModelActivity.this,MallActivity.class));
                 finish();
+                break;
+            case R.id.iv_note_relaxmodell:
+                if (note){
+                    iv_detail.setVisibility(View.VISIBLE);
+                }else{
+                    iv_detail.setVisibility(View.INVISIBLE);
+                }
+                note=!note;
                 break;
         }
     }
