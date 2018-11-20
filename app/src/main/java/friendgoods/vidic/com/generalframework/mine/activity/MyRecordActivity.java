@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyRecord;
 import friendgoods.vidic.com.generalframework.bean.MyRecordBean;
 import friendgoods.vidic.com.generalframework.mine.customview.ColorTextView;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -42,7 +44,7 @@ public class MyRecordActivity extends BaseActivity {
 
         String userId = getIntent().getStringExtra("userId");
         if (userId==null){
-            currentId=MyApplication.USERID+"";
+            currentId=(int)SharedPFUtils.getParam(this,"userId",0) +"";
         }else{
             currentId=userId;
         }
@@ -97,6 +99,7 @@ public class MyRecordActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("==========requestRecord", "onSuccess: "+s);
                         MyRecordBean recordBean = new Gson().fromJson(s, MyRecordBean.class);
                         adapter.setData(recordBean.getData().getPageInfo().getList());
                     }
@@ -110,6 +113,7 @@ public class MyRecordActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("===========requestInfo=", "onSuccess: "+s);
                         RecordDetailBean record = new Gson().fromJson(s, RecordDetailBean.class);
                         tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+(int)record.getData().getRownum());
                         hand.setText(record.getData().getSShakeNum()+"");

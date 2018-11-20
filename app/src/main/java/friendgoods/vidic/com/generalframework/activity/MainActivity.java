@@ -1,37 +1,22 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-
-import com.google.gson.Gson;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
-import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
-import friendgoods.vidic.com.generalframework._idle.DouFragment;
-import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
-import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static boolean mBackKeyPressed = false;

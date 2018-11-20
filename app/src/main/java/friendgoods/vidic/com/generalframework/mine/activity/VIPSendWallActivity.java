@@ -31,6 +31,7 @@ import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerP
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVIPSendWall;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -46,6 +47,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private StringBuffer yaxle;
     private StringBuffer xaxle;
     private StringBuffer gift;
+    private String userId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         Intent intent = getIntent();
         receiveId = intent.getStringExtra("userId");
         wallId = intent.getStringExtra("wallId");
-
+        userId = (int)SharedPFUtils.getParam(this, "userId", 0)+"";
         gift = new StringBuffer();
         xaxle = new StringBuffer();
         yaxle = new StringBuffer();
@@ -77,7 +80,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         rv.setAdapter(adapter);
 //        获取礼物集合
         requestGift();
-//        TODO:点击事件后  数量的变化  非零判断
+//
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
             @Override
             public void onItemClick(String sx,String sy,String surl,String id) {
@@ -149,7 +152,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         //底部礼物集合
         OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -164,7 +167,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//
                 .params("userId",receiveId)//接收人ID
-                .params("fansId", MyApplication.USERID)
+                .params("fansId", userId)
                 .params("xaxle", String.valueOf(xaxle))//
                 .params("yaxle", String.valueOf(yaxle))//
                 .params("presentsWallId",wallId)//墙的ID

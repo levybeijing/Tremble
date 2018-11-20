@@ -234,10 +234,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    //   通过软应用来实现 避免内存泄漏
-//    WeakReference soft=new WeakReference(sHandler);
-//    Handler handler= (Handler) soft.get();
-
     private IWXAPI api;
     private String currentId;
     @Override
@@ -885,7 +881,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private void toBeFriend(String hostid) {
         OkGo.post(UrlCollect.inviteFriend)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0)+"")
                 .params("weChat", hostid)
                 .execute(new StringCallback() {
                     @Override

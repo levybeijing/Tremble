@@ -1,6 +1,5 @@
 package friendgoods.vidic.com.generalframework.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,16 +18,10 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.musicplay.MusicService;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
@@ -125,7 +118,6 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                         SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
                         SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
                         SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
-                        MyApplication.USERID=bean.getData().getId();
 //                            设置全局请求头
                         SharedPFUtils.setParam(LoginCodeActivity.this,"token",bean.getData().getToken());
                         HttpHeaders headers = new HttpHeaders();
@@ -136,9 +128,7 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
                             SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());
-                            MyApplication.NAME=bean.getData().getName();
                             SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
-                            MyApplication.USERICON=bean.getData().getPhoto();
                             SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
 
                             String logo = bean.getData().getLogo();

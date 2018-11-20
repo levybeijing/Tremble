@@ -28,6 +28,7 @@ import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyPubWall;
 import friendgoods.vidic.com.generalframework.bean.IconSetBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -74,7 +75,7 @@ public class MyPubWallActivity extends BaseActivity {
     private void requestWall() {
         OkGo.post(UrlCollect.getPresentsWall)
                 .tag(this)
-                .params("userId",MyApplication.USERID)
+                .params("userId",(int)SharedPFUtils.getParam(this,"userId",0)+"")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

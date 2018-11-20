@@ -39,6 +39,7 @@ import friendgoods.vidic.com.generalframework.activity.bean.ChallengeModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -80,13 +81,14 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         }
     };
     private ImageView iv_note,iv_detail;
+    private String userId;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_challengemodel);
-
+        userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
         initView();
     }
 
@@ -169,10 +171,10 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private void addrecord() {
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .params("time", time)
                 .params("shakeNum", number)
-                .params("type", "0")
+                .params("type", "3")
                 .params("roomId", "0")
                 .params("status", "0")//0（手动）1（脚动）
                 .params("mode", "1")//1（挑战）2（故事）3（pk）4（休闲）
@@ -260,7 +262,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private void addgift(int id){
         OkGo.post(UrlCollect.getChallengeModeGift)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId",userId)
                 .params("giftId", id+"")
                 .params("num", "1")
                 .execute(new StringCallback() {

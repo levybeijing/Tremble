@@ -20,6 +20,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -121,7 +122,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
         OkGo.post(UrlCollect.addOrder)//
                 .tag(this)
                 .params("goodsId",goodsId_)
-                .params("userId", MyApplication.USERID)
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0)+"")
                 .params("num",number_)
                 .params("status","0")//是未付款
                 .params("consignee",addre.getConsignee())

@@ -1,19 +1,15 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
@@ -22,12 +18,11 @@ import com.lzy.okgo.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.musicplay.MusicService;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -40,12 +35,14 @@ public class SettingsActivity extends BaseActivity {
     private SharedPreferences sharedPreferences;
     private boolean requestIsOk=true;
     private SwitchCompat voice;
+    private String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         //
+        userId = (int) SharedPFUtils.getParam(this, "userId", 0)+"";
         initView();
     }
     private void initView() {
@@ -110,7 +107,7 @@ public class SettingsActivity extends BaseActivity {
     public boolean request(int i,int j){
         OkGo.post(UrlCollect.modifySettings)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .params("shake",""+i)
                 .params("voice",""+j)
                 .execute(new StringCallback() {

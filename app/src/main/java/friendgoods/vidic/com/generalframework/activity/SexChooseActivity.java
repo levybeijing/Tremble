@@ -34,6 +34,8 @@ public class SexChooseActivity extends BaseActivity implements View.OnClickListe
     private ImageView man_mars,woman_mars,man_earth,woman_earth,bg_man,bg_woman;
     private SharedPreferences userinfo;
     private SharedPreferences.Editor edit;
+    private String userId;
+    private String icon,name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class SexChooseActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_sexchoose);
         userinfo = getSharedPreferences("userinfo", MODE_PRIVATE);
         edit = userinfo.edit();
+        userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
+        icon = (String)SharedPFUtils.getParam(this,"icon","");
+        name = (String)SharedPFUtils.getParam(this,"name","");
 
         if (!isUpdateOk){
             requset(userinfo.getInt("sex",0));
@@ -133,11 +138,11 @@ public class SexChooseActivity extends BaseActivity implements View.OnClickListe
         }
         OkGo.post(UrlCollect.updateSex)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .params("sex", sex)//0  man  1  woman
                 .params("logo", logo)//man1.png  woman1.png
-                .params("name", MyApplication.NAME)
-                .params("photo", MyApplication.USERICON)
+                .params("name", name)
+                .params("photo", icon)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

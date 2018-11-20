@@ -32,6 +32,7 @@ import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterFriendName;
 import friendgoods.vidic.com.generalframework.bean.FansBangBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -131,7 +132,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
     private void request() {
         OkGo.post(UrlCollect.wallOfFriend)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .params("page", "0")
                 .params("pageSize", "10")
                 .execute(new StringCallback() {

@@ -1,12 +1,10 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,18 +15,12 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework._idle.LoginPWDActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.RegisterBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.StringUtil;
-import friendgoods.vidic.com.generalframework.wxapi.WXEntryActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 

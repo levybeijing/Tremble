@@ -49,6 +49,8 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     private ScaleAnimation animation;
     private ImageView iv_click,iv_note,iv_detail;
     private boolean note=true;
+    private String userId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
         iv_close.setOnClickListener(this);
 
         iv_detail= findViewById(R.id.iv_notedetail_storymodel);
+        userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
 
 
         request();
@@ -177,10 +180,10 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     private void addrecord() {
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", userId)
                 .params("time", gametime+"")
                 .params("shakeNum", count+"")
-                .params("type", "0")
+                .params("type", "3")
                 .params("roomId", "0")
                 .params("status", "0")//0（手动）1（脚动）
                 .params("mode", "2")//1（挑战）2（故事）3（pk）4（休闲）

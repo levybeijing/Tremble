@@ -20,6 +20,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyGifts;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -56,7 +57,7 @@ public class MyGiftsActivity extends BaseActivity {
 
         OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0)+"")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

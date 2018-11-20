@@ -38,6 +38,7 @@ import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.PileLayout;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -58,6 +59,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     private StringBuffer gift;
     //用于网络访问请求收集参数
     private List<MoveImageView> imageList=new ArrayList<>();
+    private int userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,9 +82,10 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         name = findViewById(R.id.tv_name_pubwall);
         energy = findViewById(R.id.tv_energy_pubwall);
         icon = findViewById(R.id.iv_icon_pubwall);
-        name.setText(MyApplication.NAME);
-        Picasso.with(PublicWallActivity.this).load(MyApplication.USERICON).into(icon);
-        energy.setText(MyApplication.USERINTEGRAL+"");
+        userId = (int) SharedPFUtils.getParam(this, "userId", 0);
+        name.setText(userId +"");
+        Picasso.with(PublicWallActivity.this).load((String)SharedPFUtils.getParam(this,"icon","")).into(icon);
+        energy.setText((float)SharedPFUtils.getParam(this,"integral",0.0f)+"");
 //
         findViewById(R.id.iv_makesure_pubwall).setOnClickListener(this);
         findViewById(R.id.iv_mall_pubwall).setOnClickListener(this);
@@ -195,7 +198,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         //底部礼物集合
         OkGo.post(UrlCollect.myGifts)//
                 .tag(this)//
-                .params("userId", MyApplication.USERID)
+                .params("userId",userId+"")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -210,7 +213,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//
                 .params("userId",receiveId)//接收人ID
-                .params("fansId", MyApplication.USERID)
+                .params("fansId", userId)
                 .params("xaxle", String.valueOf(xaxle))//
                 .params("yaxle", String.valueOf(yaxle))//
                 .params("presentsWallId",wallId)//墙的ID

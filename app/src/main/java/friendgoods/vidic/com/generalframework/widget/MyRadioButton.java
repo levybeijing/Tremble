@@ -27,7 +27,6 @@ public class MyRadioButton extends android.support.v7.widget.AppCompatRadioButto
 
     public MyRadioButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        // TODO Auto-generated constructor stub
         Drawable drawableLeft = null, drawableTop = null, drawableRight = null, drawableBottom = null;
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.MyRadioButton);
@@ -58,25 +57,24 @@ public class MyRadioButton extends android.support.v7.widget.AppCompatRadioButto
             }
         }
         a.recycle();
-
         setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
-
     }
 
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable left,
                                                         Drawable top, Drawable right, Drawable bottom) {
 
+        float width=(float)mDrawableSize*1.4f;
         if (left != null) {
-            left.setBounds(0, 0, mDrawableSize, mDrawableSize);
+            left.setBounds(0, 0, (int) width, mDrawableSize);
         }
         if (right != null) {
-            right.setBounds(0, 0, mDrawableSize, mDrawableSize);
+            right.setBounds(0, 0, (int) width, mDrawableSize);
         }
         if (top != null) {
-            top.setBounds(0, 0, mDrawableSize, mDrawableSize);
+            top.setBounds(0, 0, (int) width, mDrawableSize);
         }
         if (bottom != null) {
-            bottom.setBounds(0, 0, mDrawableSize, mDrawableSize);
+            bottom.setBounds(0, 0, (int) width, mDrawableSize);
         }
         setCompoundDrawables(left, top, right, bottom);
     }

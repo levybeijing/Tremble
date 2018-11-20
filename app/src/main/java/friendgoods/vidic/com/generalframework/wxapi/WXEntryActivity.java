@@ -146,10 +146,9 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
-
-                        MyApplication.NAME = bean.getNickname();
-                        MyApplication.USERICON = bean.getHeadimgurl();
-                        MyApplication.WX=openid;
+                        SharedPFUtils.setParam(WXEntryActivity.this,"name",bean.getNickname());
+                        SharedPFUtils.setParam(WXEntryActivity.this,"icon",bean.getHeadimgurl());
+                        SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
                         if (status!=null){
                             switch (status){//??????NullPointerException
                                 case "bind":
@@ -165,8 +164,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void requestBind(final String openid) {
-        Log.e("============requestBind", MyApplication.NAME);
-        Log.e("============requestBind", MyApplication.USERICON);
+//        Log.e("============requestBind", MyApplication.NAME);
+//        Log.e("============requestBind", MyApplication.USERICON);
         int userId =(int) SharedPFUtils.getParam(this, "userId", 0);
         Log.e("============requestBind", userId+"");
         Log.e("============requestBind", openid);
@@ -175,8 +174,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .tag(this)//
                 .params("type", "3")
                 .params("userId", userId+"")
-                .params("name", MyApplication.NAME)
-                .params("photo", MyApplication.USERICON)
+                .params("name", (String)SharedPFUtils.getParam(this,"name",""))
+                .params("photo", (String)SharedPFUtils.getParam(this,"icon",""))
                 .params("weChat", openid)
                 .execute(new StringCallback() {
                     @Override
@@ -220,9 +219,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             SharedPFUtils.setParam(WXEntryActivity.this,"userId",data.getId());
                             SharedPFUtils.setParam(WXEntryActivity.this,"name",data.getName());
                             SharedPFUtils.setParam(WXEntryActivity.this,"icon",data.getPhoto());
-                            MyApplication.USERID=wxLoginBean.getData().getId();
-                            MyApplication.NAME=wxLoginBean.getData().getName();
-                            MyApplication.USERICON=wxLoginBean.getData().getPhoto();
 
                             if (wxLoginBean.getData().getLogo()!=null){
                                 switch (wxLoginBean.getData().getLogo()) {
