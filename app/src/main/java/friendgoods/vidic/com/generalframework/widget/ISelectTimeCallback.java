@@ -6,5 +6,5 @@ package friendgoods.vidic.com.generalframework.widget;
 
 public interface ISelectTimeCallback {
 
-    public void onTimeSelectChanged();
+    void onTimeSelectChanged();
 }

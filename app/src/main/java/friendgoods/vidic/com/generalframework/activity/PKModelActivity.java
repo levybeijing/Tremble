@@ -769,11 +769,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     }
 //    private boolean first=true;
     private void initCustomTimePicker() {
-        Calendar selectedDate = Calendar.getInstance();//系统当前时间
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(2014, 1, 23);
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(2027, 2, 28);
         //时间选择器 ，自定义布局
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
@@ -787,8 +782,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 tv6_timer.setText(String.valueOf(datetime.charAt(7)));
             }
         })
-                .setDate(selectedDate)
-                .setRangDate(startDate, endDate)
+                .setDate(null)
                 .setContentTextSize(18)
                 .setType(new boolean[]{false, false, false, true, true, true})
                 .setLabel("年", "月", "日", "", "", "")

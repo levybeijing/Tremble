@@ -95,10 +95,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 Log.e("===============", "baseResp.getType(): "+type);
                 Log.e("===============", "wxRespBean.getState(): "+wxRespBean.getState());
                 status=wxRespBean.getState();
-//                if (register !=null&&register !=""){
-//                    status=register;
-//                }
-//                Log.e("===============", "wxRespBean.getState(): "+status);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -146,10 +142,10 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
-                        SharedPFUtils.setParam(WXEntryActivity.this,"name",bean.getNickname());
-                        SharedPFUtils.setParam(WXEntryActivity.this,"icon",bean.getHeadimgurl());
-                        SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
                         if (status!=null){
+                            SharedPFUtils.setParam(WXEntryActivity.this,"name",bean.getNickname());
+                            SharedPFUtils.setParam(WXEntryActivity.this,"icon",bean.getHeadimgurl());
+                            SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
                             switch (status){//??????NullPointerException
                                 case "bind":
                                     requestBind(openid);
@@ -164,8 +160,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void requestBind(final String openid) {
-//        Log.e("============requestBind", MyApplication.NAME);
-//        Log.e("============requestBind", MyApplication.USERICON);
         int userId =(int) SharedPFUtils.getParam(this, "userId", 0);
         Log.e("============requestBind", userId+"");
         Log.e("============requestBind", openid);
