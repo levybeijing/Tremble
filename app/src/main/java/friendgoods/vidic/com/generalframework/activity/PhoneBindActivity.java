@@ -97,7 +97,7 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
     private void bind(String number, String code) {
         OkGo.post(UrlCollect.register)//
                 .tag(this)//
-                .params("weChat", getIntent().getStringExtra("openid"))
+                .params("weChat", (String)SharedPFUtils.getParam(PhoneBindActivity.this,"wx",""))
                 .params("mobile", number)
                 .params("smsCode", code)
                 .params("type", "3")
@@ -105,20 +105,7 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("===============", "getUserByWeChatA: "+s);
-
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            if ("请求成功".equals(jo.getString("message"))){
-                                Toast.makeText(PhoneBindActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
-                                SendAuth.Req req = new SendAuth.Req();
-                                req.scope = "snsapi_userinfo";
-                                req.state = "bind";
-                                api.sendReq(req);
-                                finish();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        startActivity(new Intent(PhoneBindActivity.this,LoginCodeActivity.class));
                     }
                     @Override
                     public void onError(Call call, Response response, Exception e) {

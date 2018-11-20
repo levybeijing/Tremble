@@ -42,6 +42,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      */
     private IWXAPI api;
     private String status;
+    private String register;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         } catch (Exception e) {
             e.printStackTrace();
         }
+        register = getIntent().getStringExtra("register");
+
     }
 
     @Override
@@ -78,22 +82,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
     @Override
     public void onResp(BaseResp baseResp) {
-////        支付回调
-//        if(baseResp.getType()==ConstantsAPI.COMMAND_PAY_BY_WX){
-////            0	成功	展示成功页面
-////            baseResp.errCode
-//            switch (baseResp.errCode){
-//                case 0://            成功	展示成功页面
-//
-//                    break;
-//                case -1://            错误
-//
-//                    break;
-//                case -2://            用户取消
-//
-//                    break;
-//            }
-//        }
+        int type1 = baseResp.getType();
+        Log.e("===============", "baseResp.getType(): "+type1);
         Gson gson = new Gson();
         WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
         switch(baseResp.errCode) {
@@ -102,9 +92,13 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 requestLogin(wxRespBean.getCode());
 //                判断对话类型
                 int type = wxRespBean.getType();
-                if (type==ConstantsAPI.COMMAND_SENDAUTH){
-                    status=wxRespBean.getState();
-                }
+                Log.e("===============", "baseResp.getType(): "+type);
+                Log.e("===============", "wxRespBean.getState(): "+wxRespBean.getState());
+                status=wxRespBean.getState();
+//                if (register !=null&&register !=""){
+//                    status=register;
+//                }
+//                Log.e("===============", "wxRespBean.getState(): "+status);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -152,18 +146,17 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         WXUserInfoBean bean = new Gson().fromJson(s, WXUserInfoBean.class);
+
                         MyApplication.NAME = bean.getNickname();
                         MyApplication.USERICON = bean.getHeadimgurl();
-
                         MyApplication.WX=openid;
                         if (status!=null){
-                            switch (status){//???????????????????????????NullPointerException
+                            switch (status){//??????NullPointerException
                                 case "bind":
                                     requestBind(openid);
                                     break;
                                 case "login":
                                     requestWX(openid);
-                                    SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
                                     break;
                             }
                         }
@@ -172,14 +165,16 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void requestBind(final String openid) {
-//        Log.e("===============", MyApplication.USERID+"");
-//        Log.e("===============", MyApplication.NAME);
-//        Log.e("===============", MyApplication.USERICON);
+        Log.e("============requestBind", MyApplication.NAME);
+        Log.e("============requestBind", MyApplication.USERICON);
+        int userId =(int) SharedPFUtils.getParam(this, "userId", 0);
+        Log.e("============requestBind", userId+"");
+        Log.e("============requestBind", openid);
 
         OkGo.post(UrlCollect.updateWeChat)//
                 .tag(this)//
-                .params("type", "1")
-                .params("userId", MyApplication.USERID)
+                .params("type", "3")
+                .params("userId", userId+"")
                 .params("name", MyApplication.NAME)
                 .params("photo", MyApplication.USERICON)
                 .params("weChat", openid)
@@ -190,6 +185,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         try {
                             JSONObject jo=new JSONObject(s);
                             if ("请求成功".equals(jo.getString("message"))){
+                                SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
                                 Toast.makeText(WXEntryActivity.this, "绑定成功", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(WXEntryActivity.this,LoginCodeActivity.class));
                             }else {
@@ -216,7 +212,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         WXLoginBean.DataBean data = wxLoginBean.getData();
                         if (data!=null){
                             Log.e("===============", "data!=null: "+data);
-
+                            SharedPFUtils.setParam(WXEntryActivity.this,"wx",data.getWeChatA());
                             SharedPFUtils.setParam(WXEntryActivity.this,"voice",data.getVoice()==1?true:false);
                             SharedPFUtils.setParam(WXEntryActivity.this,"signDays",data.getSignDays());
                             SharedPFUtils.setParam(WXEntryActivity.this,"integral",data.getIntegral());//

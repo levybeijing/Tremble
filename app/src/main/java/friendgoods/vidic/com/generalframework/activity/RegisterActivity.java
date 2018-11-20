@@ -122,9 +122,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         RegisterBean bean = new Gson().fromJson(s, RegisterBean.class);
                         if ("请求成功".equals(bean.getMessage())){
                             Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                            SharedPFUtils.setParam(RegisterActivity.this,"bindphone",true);
-                            MyApplication.USERID=bean.getData().getId();
-                            startActivity(new Intent(RegisterActivity.this,WXBindActivity.class));
+                            SharedPFUtils.setParam(RegisterActivity.this,"phone",bean.getData().getMobile());
+                            SharedPFUtils.setParam(RegisterActivity.this,"userId",bean.getData().getId());
+                            Intent intent = new Intent(RegisterActivity.this, LoginCodeActivity.class);
+                            startActivity(intent);
                         }else {
                             Toast.makeText(RegisterActivity.this, bean.getMessage(), Toast.LENGTH_SHORT).show();
                         }

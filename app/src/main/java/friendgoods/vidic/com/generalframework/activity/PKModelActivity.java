@@ -283,22 +283,22 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         name2 = findViewById(R.id.tv_name_two_pkmodel);
         name2.setText((String)SharedPFUtils.getParam(PKModelActivity.this,"name",""));
         String icon = (String) SharedPFUtils.getParam(PKModelActivity.this, "icon", "");
-        if (icon!=null) {
+        if (icon!=null&&!icon.equals("")) {
             Picasso.with(this).load(icon).into(icon2);
         }
 //        to do better
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
-            case 11:
+            case 12:
                 person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_one));
                 break;
-            case 12:
+            case 11:
                 person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_two));
                 break;
-            case 21:
+            case 22:
                 person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_one));
                 break;
-            case 22:
+            case 21:
                 person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_two));
                 break;
         }
@@ -329,8 +329,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         Uri data = getIntent().getData();
         if (data!=null){
             roomId = Integer.parseInt(data.getQueryParameter("id"));
-//            String friendId = data.getQueryParameter("friendId");
-//            toBeFriend(friendId);
+            String friendId = data.getQueryParameter("friendId");
+            Log.e("===========roomId", ""+friendId);
+            toBeFriend(friendId);
             Log.e("===========roomId", ""+roomId);
             isHost=false;
             ll.setClickable(false);
@@ -474,7 +475,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     return;
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
-                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId+"&friendId"+MyApplication.USERID;
+                int userId = (int)SharedPFUtils.getParam(this, "userId", 0);
+                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId+"&friendId="+userId;
+                Log.e("===========webpageUrl", webpaget.webpageUrl);
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";
                 msg.description="一玩就上瘾的游戏!";
@@ -768,7 +771,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     }
                 });
     }
-
+//    private boolean first=true;
     private void initCustomTimePicker() {
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
@@ -779,9 +782,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                ToastUtils.shortToast(getTime(date));
+//                ToastUtils.shortToast(getTime(date));
                 String datetime = getTime(date);
-// 在这里定义规则 通过的 设置haveTime 为true
+//                if (first){
+//                    first=false;
+//                    return;
+//                }
                 tv1_timer.setText(String.valueOf(datetime.charAt(0)));
                 tv2_timer.setText(String.valueOf(datetime.charAt(1)));
                 tv3_timer.setText(String.valueOf(datetime.charAt(3)));

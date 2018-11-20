@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,16 +42,16 @@ public class FragGifts extends Fragment {
         rv.setLayoutManager(manager);
         adapter = new AdapterGiftMall(getContext());
         rv.setAdapter(adapter);
-
+//        Log.e("=================", "onSuccess: "+UrlCollect.giftsListGift);
         OkGo.post(UrlCollect.giftsListGift)//
                 .tag(this)//
-                .params("isUse", "0")
+                .params("isUse", "1")
                 .params("page", "1")
-                .params("pageSize", "7")
+                .params("pageSize", "12")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("*************", "onSuccess: "+s);
+//                        Log.e("=================", "onSuccess: "+s);
                         GiftsMallBean giftsMallBean = new Gson().fromJson(s, GiftsMallBean.class);
                         List<GiftsMallBean.DataBean.PageInfoBean.ListBean> list = giftsMallBean.getData().getPageInfo().getList();
                         adapter.setData(list);

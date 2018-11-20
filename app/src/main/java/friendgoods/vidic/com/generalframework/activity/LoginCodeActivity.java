@@ -115,31 +115,31 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        记录用户信息
-                        Log.e("===========roomId", ""+s);
+                        Log.e("===========login", ""+s);
                         LoginBean bean = new Gson().fromJson(s, LoginBean.class);
                         if (!bean.getMessage().equals("请求成功")){
-                            Toast.makeText(LoginCodeActivity.this, "请先注册", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginCodeActivity.this, bean.getMessage(), Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if (bean.getData().getWeChatA()==null){
+                        SharedPFUtils.setParam(LoginCodeActivity.this,"phone",bean.getData().getMobile());
+                        SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
+                        SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
+                        SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
+                        MyApplication.USERID=bean.getData().getId();
+//                            设置全局请求头
+                        SharedPFUtils.setParam(LoginCodeActivity.this,"token",bean.getData().getToken());
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.put("token",bean.getData().getToken());
+                        OkGo.getInstance().addCommonHeaders(headers);
+//
+                        if (bean.getData().getWeChatA().equals("null")){
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"voice",bean.getData().getVoice()==1?true:false);
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"integral",bean.getData().getIntegral());//
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"bindphone",true);
                             SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"bindwx",true);
                             MyApplication.NAME=bean.getData().getName();
                             SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
                             MyApplication.USERICON=bean.getData().getPhoto();
                             SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"userId",bean.getData().getId());
-                            MyApplication.USERID=bean.getData().getId();
-//                            设置全局请求头
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"token",bean.getData().getToken());
-                            HttpHeaders headers = new HttpHeaders();
-                            headers.put("token",bean.getData().getToken() );
-                            OkGo.getInstance().addCommonHeaders(headers);
 
                             String logo = bean.getData().getLogo();
                             if (logo !=null) {
@@ -200,10 +200,5 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
             btn_code.setBackgroundColor(Color.parseColor("#4EB84A"));
 
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

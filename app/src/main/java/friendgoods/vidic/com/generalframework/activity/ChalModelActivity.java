@@ -51,7 +51,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private int minites;
     private int seconds;
     private boolean havetime=true;
-    private long gametime;
     private boolean requsetOk=true;
     private boolean lock=false;
     private boolean note=true;
@@ -145,7 +144,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 if (!thread.isAlive()){
                     thread=new Thread(runnable);
                     thread.start();
-                    gametime=System.currentTimeMillis();
+//                    gametime=System.currentTimeMillis();
                 }
                 break;
             case R.id.iv_exit_challengemodel:
@@ -184,7 +183,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
     }
-
+//请求时间
     private void requestTime() {
         OkGo.post(UrlCollect.getChallengeMode)//
                 .tag(this)//
@@ -203,7 +202,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
     }
-
+//  请求礼物
     private void requestGift() {
         OkGo.post(UrlCollect.getChallengeModeGift)//
                 .tag(this)//
@@ -240,6 +239,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 requestTime();
             }
         });
+
         window.findViewById(R.id.iv_gotomall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +256,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
+//    添加礼物
     private void addgift(int id){
         OkGo.post(UrlCollect.getChallengeModeGift)//
                 .tag(this)//

@@ -1,22 +1,17 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
@@ -35,7 +30,6 @@ public class MyRecordActivity extends BaseActivity {
     private TextView tv_detailrecord;
     private RecyclerView rv;
     private AdapterMyRecord adapter;
-//    private ImageView iv_icon;
     private String currentId;
     private TextView hand;
     private TextView foot;
