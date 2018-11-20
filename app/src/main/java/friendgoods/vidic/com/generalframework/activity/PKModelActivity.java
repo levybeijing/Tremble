@@ -778,12 +778,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-//                ToastUtils.shortToast(getTime(date));
                 String datetime = getTime(date);
-//                if (first){
-//                    first=false;
-//                    return;
-//                }
                 tv1_timer.setText(String.valueOf(datetime.charAt(0)));
                 tv2_timer.setText(String.valueOf(datetime.charAt(1)));
                 tv3_timer.setText(String.valueOf(datetime.charAt(3)));
@@ -796,7 +791,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 .setRangDate(startDate, endDate)
                 .setContentTextSize(18)
                 .setType(new boolean[]{false, false, false, true, true, true})
-                .setLabel("年", "月", "日", "时", "分", "秒")
+                .setLabel("年", "月", "日", "", "", "")
                 .setLineSpacingMultiplier(1.2f)
                 .setTextXOffset(0, 0, 0, 40, 0, -40)
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。

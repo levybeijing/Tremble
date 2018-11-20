@@ -26,8 +26,6 @@ public class SpleashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-//        mSpleashBg = findViewById(R.id.spleash_iv_bg);
-
         String[] permession =new String[]{
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE

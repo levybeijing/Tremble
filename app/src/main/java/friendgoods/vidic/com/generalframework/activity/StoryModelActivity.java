@@ -34,6 +34,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
+import friendgoods.vidic.com.generalframework.util.TimeUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -50,6 +51,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     private ImageView iv_click,iv_note,iv_detail;
     private boolean note=true;
     private String userId;
+    private String time;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -181,7 +183,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
                 .params("userId", userId)
-                .params("time", gametime+"")
+                .params("time", time)
                 .params("shakeNum", count+"")
                 .params("type", "3")
                 .params("roomId", "0")
@@ -199,6 +201,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         gametime=System.currentTimeMillis()-gametime;
+        time = TimeUtil.FormatForMS(gametime);
         addrecord();
 //        count=0;
     }

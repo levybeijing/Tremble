@@ -21,6 +21,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
+import friendgoods.vidic.com.generalframework.util.TimeUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -32,13 +33,13 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
     private boolean note=true;
     private ImageView iv_note,iv_detail;
     private String userId;
+    private String time;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relaxmodel);
         gametime=System.currentTimeMillis();
-
 
         userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
 
@@ -77,7 +78,6 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.iv_exit_relaxmodel:
                 gametime=System.currentTimeMillis()-gametime;
-                addrecord();
                 finish();
                 break;
             case R.id.tv_gotomall_relaxmodel:
@@ -100,7 +100,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         OkGo.post(UrlCollect.addRecord)//
             .tag(this)//
                 .params("userId",userId)
-                .params("time", gametime+"")
+                .params("time", time)
                 .params("shakeNum", number+"")
                 .params("type", "0")
                 .params("roomId", "0")
@@ -118,6 +118,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         gametime=System.currentTimeMillis()-gametime;
+        time = TimeUtil.FormatForMS(gametime);
         addrecord();
     }
 }

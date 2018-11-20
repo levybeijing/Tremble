@@ -82,6 +82,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     };
     private ImageView iv_note,iv_detail;
     private String userId;
+    private ImageView iv_niu;
 
 
     @Override
@@ -116,6 +117,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_chal);
 
+        iv_niu = findViewById(R.id.iv_niu_challengemodel);
+
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -143,11 +146,13 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 }
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
+                iv_niu.setAnimation(animation);
                 if (!thread.isAlive()){
                     thread=new Thread(runnable);
                     thread.start();
 //                    gametime=System.currentTimeMillis();
                 }
+
                 break;
             case R.id.iv_exit_challengemodel:
                 havetime=false;

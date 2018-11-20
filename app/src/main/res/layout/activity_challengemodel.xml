@@ -30,11 +30,16 @@
         android:id="@+id/rl_challengemodel"
         android:layout_width="358dp"
         android:layout_height="380dp"
-        android:background="@mipmap/niu_game_3x"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="60dp"
         >
+        <ImageView
+            android:id="@+id/iv_niu_challengemodel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/niu_game_3x"
+            />
         <ImageView
             android:id="@+id/iv_click_challengemodel"
             android:layout_width="120dp"
