@@ -6,39 +6,35 @@
     android:background="@mipmap/bg_game_3x"
     android:id="@+id/root_challege"
     >
-    <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
-        android:id="@+id/tv_time_challengemodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#f00"
-        android:text="00:00"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:layout_above="@+id/tv_number_challengemodel"
-        />
-    <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
-        android:id="@+id/tv_number_challengemodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/rl_challengemodel"
-        />
-
     <RelativeLayout
         android:id="@+id/rl_challengemodel"
-        android:layout_width="358dp"
-        android:layout_height="380dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         >
+        <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+            android:id="@+id/tv_time_challengemodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f00"
+            android:text="00:00"
+            android:layout_centerHorizontal="true"
+            android:textSize="20dp"
+            android:layout_above="@+id/tv_number_challengemodel"
+            />
+        <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+            android:id="@+id/tv_number_challengemodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="60dp"
+            android:layout_centerHorizontal="true"
+            />
         <ImageView
             android:id="@+id/iv_niu_challengemodel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="358dp"
+            android:layout_height="380dp"
             android:background="@mipmap/niu_game_3x"
+            android:layout_centerInParent="true"
             />
         <ImageView
             android:id="@+id/iv_click_challengemodel"

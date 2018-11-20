@@ -3,6 +3,7 @@ package friendgoods.vidic.com.generalframework.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +47,7 @@ import okhttp3.Response;
 public class ChalModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number,tv_time;
-    private ScaleAnimation animation;
+    private ScaleAnimation animation,animation1;
     private ImageView iv_click;
     private String time;
     private int minites;
@@ -83,6 +84,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private ImageView iv_note,iv_detail;
     private String userId;
     private ImageView iv_niu;
+    private Drawable drawable;
 
 
     @Override
@@ -102,12 +104,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             font = getResources().getFont(R.font.edo);
             tv_number.setTypeface(font);
         }
-        //        缩放动画
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        animation.setDuration(500);
+
+
 
         iv_click = findViewById(R.id.iv_click_challengemodel);
         iv_click.setOnClickListener(this);
@@ -116,9 +114,16 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_note = findViewById(R.id.iv_note_challengemodel);
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_chal);
-
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
-
+        drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        );
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -144,13 +149,19 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 if (!requsetOk){
                     Toast.makeText(this, "网络延迟,请重新进入", Toast.LENGTH_SHORT).show();
                 }
+                //        缩放动画
+                animation.setDuration(200);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
-                iv_niu.setAnimation(animation);
+
+                animation1.setDuration(200);
+                iv_niu.setImageDrawable(null);
+                iv_niu.setImageDrawable(drawable);
+                iv_niu.setAnimation(animation1);
+
                 if (!thread.isAlive()){
                     thread=new Thread(runnable);
                     thread.start();
-//                    gametime=System.currentTimeMillis();
                 }
 
                 break;
