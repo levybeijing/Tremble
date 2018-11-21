@@ -119,6 +119,7 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                         detail.setText("");
                         dis.setText("");
                         swi.setChecked(false);
+                        finish();
                     }
                 });
     }

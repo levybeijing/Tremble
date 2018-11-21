@@ -1,126 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FF"
     >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/commen_top"
-        android:gravity="center"
-        >
-        <ImageView
-            android:id="@+id/iv_back_friendname"
-            android:layout_width="14dp"
-            android:layout_height="24dp"
-            android:background="@mipmap/back_top_3x"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="好友名称"
-            android:textColor="@color/white"
-            android:textSize="26dp"
-            android:layout_weight="1"
-            />
-    </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_friendname"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
         android:background="#F7F8FF"
-        />
-
-    <!--按钮-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/white_friendname"
-        android:layout_marginTop="10dp"
-        >
-        <TextView
-            android:id="@+id/tv_info_friendname"
-            android:layout_width="90dp"
-            android:layout_height="35dp"
-            android:text="好友信息"
-            android:textSize="14dp"
-            android:background="@drawable/blue_friendname"
-            android:padding="5dp"
-            android:layout_toLeftOf="@+id/tv_vipwall_friendname"
-            android:layout_alignTop="@+id/tv_vipwall_friendname"
-            android:gravity="center"
-            android:textColor="#fff"
-            />
-        <TextView
-            android:id="@+id/tv_vipwall_friendname"
-            android:layout_width="90dp"
-            android:layout_height="35dp"
-            android:text="送VIP墙"
-            android:textSize="14dp"
-            android:background="@drawable/orange_friendname"
-            android:padding="5dp"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:gravity="center"
-            android:textColor="#fff"
-            />
-        <TextView
-            android:id="@+id/tv_fans_friendname"
-            android:layout_width="90dp"
-            android:layout_height="35dp"
-            android:text="粉丝霸榜"
-            android:textSize="14dp"
-            android:background="@drawable/gray_friendname"
-            android:padding="5dp"
-            android:layout_alignTop="@+id/tv_vipwall_friendname"
-            android:layout_toRightOf="@+id/tv_vipwall_friendname"
-            android:gravity="center"
-            android:textColor="#fff"
-            />
-    </RelativeLayout>
-    <!--墙-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:background="@color/commen_top"
+            android:gravity="center"
             >
-            <TextView
-                android:id="@+id/tv_history_friendname"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="历史记录"
-                android:layout_marginRight="10dp"
-                />
             <ImageView
-                android:id="@+id/iv_history_friendname"
-                android:layout_width="8dp"
-                android:layout_height="12dp"
-                android:background="@mipmap/history_friendname_3x"
-                android:layout_marginRight="10dp"
+                android:id="@+id/iv_back_friendname"
+                android:layout_width="14dp"
+                android:layout_height="24dp"
+                android:background="@mipmap/back_top_3x"
+                android:layout_margin="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="好友名称"
+                android:textColor="@color/white"
+                android:textSize="26dp"
+                android:layout_weight="1"
                 />
         </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_friendname"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:orientation="horizontal"
+            android:background="#F7F8FF"
+            />
 
-    </RelativeLayout>
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+        <!--按钮-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/white_friendname"
+            android:layout_marginTop="10dp"
+            >
+            <TextView
+                android:id="@+id/tv_info_friendname"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:text="好友信息"
+                android:textSize="14dp"
+                android:background="@drawable/blue_friendname"
+                android:padding="5dp"
+                android:layout_toLeftOf="@+id/tv_vipwall_friendname"
+                android:layout_alignTop="@+id/tv_vipwall_friendname"
+                android:gravity="center"
+                android:textColor="#fff"
+                />
+            <TextView
+                android:id="@+id/tv_vipwall_friendname"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:text="送VIP墙"
+                android:textSize="14dp"
+                android:background="@drawable/orange_friendname"
+                android:padding="5dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:textColor="#fff"
+                />
+            <TextView
+                android:id="@+id/tv_fans_friendname"
+                android:layout_width="90dp"
+                android:layout_height="35dp"
+                android:text="粉丝霸榜"
+                android:textSize="14dp"
+                android:background="@drawable/gray_friendname"
+                android:padding="5dp"
+                android:layout_alignTop="@+id/tv_vipwall_friendname"
+                android:layout_toRightOf="@+id/tv_vipwall_friendname"
+                android:gravity="center"
+                android:textColor="#fff"
+                />
+        </RelativeLayout>
+        <!--墙-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                >
+                <TextView
+                    android:id="@+id/tv_history_friendname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="历史记录"
+                    android:layout_marginRight="10dp"
+                    />
+                <ImageView
+                    android:id="@+id/iv_history_friendname"
+                    android:layout_width="8dp"
+                    android:layout_height="12dp"
+                    android:background="@mipmap/history_friendname_3x"
+                    android:layout_marginRight="10dp"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/container_friendname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/rl_giftwall"
             android:background="@drawable/white_friendname"
             android:layout_margin="10dp"
             >
@@ -137,7 +138,6 @@
                 android:layout_margin="30dp"
                 />
         </RelativeLayout>
+    </LinearLayout>
 
-    <!--</FrameLayout>-->
-
-</LinearLayout>
+</ScrollView>

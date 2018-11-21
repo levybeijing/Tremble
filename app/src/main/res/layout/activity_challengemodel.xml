@@ -11,30 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+        <TextView
             android:id="@+id/tv_time_challengemodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#f00"
             android:text="00:00"
             android:layout_centerHorizontal="true"
             android:textSize="20dp"
+            android:textColor="@color/color_count"
             android:layout_above="@+id/tv_number_challengemodel"
             />
-        <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+        <ImageView
+            android:id="@+id/iv_niu_challengemodel"
+            android:layout_width="322dp"
+            android:layout_height="342dp"
+            android:background="@mipmap/niu_game_3x"
+            android:layout_centerInParent="true"
+            />
+        <TextView
             android:id="@+id/tv_number_challengemodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textSize="60dp"
+            android:textColor="@color/color_count"
             android:layout_centerHorizontal="true"
-            />
-        <ImageView
-            android:id="@+id/iv_niu_challengemodel"
-            android:layout_width="358dp"
-            android:layout_height="380dp"
-            android:background="@mipmap/niu_game_3x"
-            android:layout_centerInParent="true"
+            android:layout_above="@+id/iv_niu_challengemodel"
             />
         <ImageView
             android:id="@+id/iv_click_challengemodel"
@@ -43,7 +45,7 @@
             android:background="@mipmap/button_game_3x"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="100dp"
             />
     </RelativeLayout>
     <LinearLayout

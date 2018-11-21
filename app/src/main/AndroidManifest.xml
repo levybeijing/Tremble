@@ -27,9 +27,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <!--欢迎页面-->
-        <activity android:name="._idle.Test">
-
-        </activity>
         <activity android:name=".activity.SpleashActivity"
             android:theme="@style/Theme.Splash"
             >

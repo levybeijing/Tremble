@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="80dp"
-    android:layout_height="120dp"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="5dp"
     android:background="@drawable/bg_yellow_option"
@@ -36,13 +36,13 @@
         <TextView
             android:id="@+id/tv_energy_mygifts"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="10000" />
+            android:text="0" />
         <TextView
             android:id="@+id/tv_price_mygifts"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="#FFC849"
             android:text="12"
             android:layout_marginLeft="5dp"

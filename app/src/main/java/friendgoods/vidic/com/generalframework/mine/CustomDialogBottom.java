@@ -29,7 +29,6 @@ public class CustomDialogBottom extends PopupWindow{
     private Button next;
     public CustomDialogBottom(final Activity context, final DetailGoodsBean.DataBean data) {
         super(context);
-        //LayoutInflater inflater = LayoutInflater.from(context);
         final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         dialogView = inflater.inflate(R.layout.customdialog, null);
         //商品图片
@@ -122,7 +121,7 @@ public class CustomDialogBottom extends PopupWindow{
                 int y = (int) event.getY();
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (y < height) { //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-//                        dismiss();
+                        dismiss();
                     }
                 }
                 return true;

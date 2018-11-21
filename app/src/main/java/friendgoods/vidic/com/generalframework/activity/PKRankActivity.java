@@ -88,7 +88,7 @@ public class PKRankActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("================", "排名数据: "+s);
+                        Log.e("================", "排名数据: "+s);
                         PKRecordBean pkRecordBean = new Gson().fromJson(s, PKRecordBean.class);
                         List<PKRecordBean.DataBean> data = pkRecordBean.getData();
                         if (data==null||data.size()==0){

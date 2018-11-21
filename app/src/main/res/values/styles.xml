@@ -63,4 +63,9 @@
         <item name="android:activityOpenExitAnimation">@anim/activity_close_exit</item>
         <!--<item name="android:background">@color/color_transparent_9000</item>-->
     </style>
+    <!--礼物墙长宽-->
+    <style name="rl_giftwall">
+        <item name="android:layout_width">325dp</item>
+        <item name="android:layout_height">400dp</item>
+    </style>
 </resources>

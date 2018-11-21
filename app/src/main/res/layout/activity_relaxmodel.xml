@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
     >
-    <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+    <TextView
         android:id="@+id/tv_number_relaxmodel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,6 +12,7 @@
         android:textSize="54dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/rl_relaxmodel"
+        android:textColor="@color/color_count"
         />
 
     <RelativeLayout

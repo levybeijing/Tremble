@@ -42,7 +42,6 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         gametime=System.currentTimeMillis();
 
         userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
-
         initView();
     }
 

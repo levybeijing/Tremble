@@ -104,9 +104,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             font = getResources().getFont(R.font.edo);
             tv_number.setTypeface(font);
         }
-
-
-
         iv_click = findViewById(R.id.iv_click_challengemodel);
         iv_click.setOnClickListener(this);
         findViewById(R.id.iv_exit_challengemodel).setOnClickListener(this);
@@ -150,11 +147,11 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     Toast.makeText(this, "网络延迟,请重新进入", Toast.LENGTH_SHORT).show();
                 }
                 //        缩放动画
-                animation.setDuration(200);
+                animation.setDuration(1000);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
 
-                animation1.setDuration(200);
+                animation1.setDuration(1000);
                 iv_niu.setImageDrawable(null);
                 iv_niu.setImageDrawable(drawable);
                 iv_niu.setAnimation(animation1);

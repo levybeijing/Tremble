@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/back_root_mywall_2x"
+    android:gravity="center_horizontal"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,11 +31,9 @@
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/container_mygiftwall"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        style="@style/rl_giftwall"
         android:layout_margin="15dp"
         android:background="#fff"
-        android:layout_weight="1"
         >
         <TextView
             android:id="@+id/tv_date_mygiftwall"
@@ -64,8 +63,16 @@
                 />
         </LinearLayout>
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_mygiftwall"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mygiftwall"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
 </LinearLayout>

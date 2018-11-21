@@ -762,7 +762,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("=============", "addrecord: "+s);
+                        Log.e("=============", "addrecord: "+s);
 
                     }
                 });
