@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
@@ -21,6 +22,7 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
     private Context context;
     private List<MyGiftsListBean.DataBean> list;
     private OnItemClickListenerPubWall itemClickListener;
+    private List<Integer> remain=new ArrayList<>();
 
     public AdapterVIPSendWall(Context context_){
         context=context_;
@@ -50,6 +52,7 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
         ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()+"");
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
         Picasso.with(context).load(photo).into(((MyViewHolder)holder).iv_goods);
+        remain.add(list.get(position).getNum());
 
         View itemView = holder.itemView;
 //        final int top = itemView.getTop();
@@ -58,7 +61,15 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     int position = holder.getLayoutPosition();
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"");
+                    int remove = remain.remove(position);
+                    remove-=remove;
+                    remain.add(position,--remove);
+                    String giftId = list.get(position).getGiftId()+"";
+                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,giftId,remove);
+                    if (remove<0){
+                        return;
+                    }
+                    ((AdapterPubWall.MyViewHolder)holder).tv_number.setText(remain.get(position)+"");
                 }
             });
         }

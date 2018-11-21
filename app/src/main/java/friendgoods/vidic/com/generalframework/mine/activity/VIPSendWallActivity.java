@@ -3,7 +3,6 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -91,7 +89,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
 //
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
             @Override
-            public void onItemClick(String sx,String sy,String surl,String id) {
+            public void onItemClick(String sx, String sy, String surl, String id, int remove) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
 

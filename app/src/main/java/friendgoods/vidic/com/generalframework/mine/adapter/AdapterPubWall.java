@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
@@ -21,7 +22,7 @@ public class AdapterPubWall extends RecyclerView.Adapter {
     private Context context;
     private List<MyGiftsListBean.DataBean> list;
     private OnItemClickListenerPubWall itemClickListener;
-
+    private List<Integer> remain=new ArrayList<>();
     public AdapterPubWall(Context context_){
         context=context_;
 
@@ -43,23 +44,25 @@ public class AdapterPubWall extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final String photo = UrlCollect.baseIamgeUrl+list.get(position).getPhoto();
-
         ((MyViewHolder)holder).tv_energy.setText(list.get(position).getScore()+"能量");
         ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()+"");
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
-
+        remain.add(list.get(position).getNum());
         Picasso.with(context).load(photo).into(((MyViewHolder)holder).iv_goods);
-
+        final int remove=0;
         View itemView =  holder.itemView;
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    String giftId = list.get(position).getGiftId()+"";
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,giftId);
+                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
+
+                    if (list.get(position).getNum()==remove){
+                        return;
+                    }
+//                    ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()-(++remove)+"");
                 }
             });
         }

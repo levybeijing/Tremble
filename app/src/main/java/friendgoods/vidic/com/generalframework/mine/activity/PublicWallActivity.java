@@ -3,7 +3,6 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -35,7 +33,6 @@ import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerP
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
 import friendgoods.vidic.com.generalframework.bean.IconSetBean;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
-import friendgoods.vidic.com.generalframework.bean.UserInfoBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.PileLayout;
@@ -86,11 +83,12 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
     private void initView() {
 //
+        findViewById(R.id.iv_back_pubwall).setOnClickListener(this);
         name = findViewById(R.id.tv_name_pubwall);
         energy = findViewById(R.id.tv_energy_pubwall);
         icon = findViewById(R.id.iv_icon_pubwall);
         userId = (int) SharedPFUtils.getParam(this, "userId", 0);
-        name.setText(userId +"");
+        name.setText((String)SharedPFUtils.getParam(this,"name",""));
         Picasso.with(PublicWallActivity.this).load((String)SharedPFUtils.getParam(this,"icon","")).into(icon);
         energy.setText((float)SharedPFUtils.getParam(this,"integral",0.0f)+"");
 //
@@ -128,10 +126,12 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
 
             @Override
-            public void onItemClick(String sx,String sy,String surl,String id) {
+            public void onItemClick(String sx, String sy, String surl, String id, int remove) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
-
+                if (remove==0){
+                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
+                }
                 //实际图片尺寸
                 int realwid= (int) (x* scale);
                 int realhei= (int) (y* scale);
@@ -178,6 +178,9 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 //保存未完成?
                 startActivity(new Intent(PublicWallActivity.this,MallActivity.class));
                 view.removeAllViews();
+                break;
+            case R.id.iv_back_pubwall:
+                finish();
                 break;
         }
 
