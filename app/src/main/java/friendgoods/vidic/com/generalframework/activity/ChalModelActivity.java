@@ -227,10 +227,20 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         ChalGiftBean giftBean = new Gson().fromJson(s, ChalGiftBean.class);
-                        showdialog(giftBean.getData().getPhoto(),giftBean.getData().getGiftId());
+                        ChalGiftBean.DataBean data = giftBean.getData();
+                        if (data==null){
+                            showNote();
+                            return;
+                        }
+                        showdialog(data.getPhoto(),data.getGiftId());
                         Log.e("=======", "onSuccess: "+giftBean.getData().getPhoto());
                     }
                 });
+    }
+
+    private void showNote() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(ChalModelActivity.this).create();
+        alertDialog.show();
     }
 
     private void showdialog(String s, final int i) {

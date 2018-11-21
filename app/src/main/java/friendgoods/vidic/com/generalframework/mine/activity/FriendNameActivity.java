@@ -44,7 +44,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
     private String userId;
     private String wallId;
     private RelativeLayout container;
-    private int scale;
+    private float scale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +72,10 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;         // 屏幕宽度（像素）
         float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
-        int wid = (int) (width-density*20);
-        scale = wid/325;
+        int wid = (int) (density*343);
+        scale = wid/325.0f;
+        Log.e("=============", "zhanshi: "+scale);
 
         rv = findViewById(R.id.rv_friendname);
         GridLayoutManager  manager=new GridLayoutManager(this,3);
@@ -84,8 +84,6 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         rv.setAdapter(adapter);
 
         request();
-
-        requestWall();
 
         adapter.setOnItemClickListener(new OnItemClickListenerMine() {
             @Override
@@ -96,6 +94,12 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestWall();
+    }
+
     private void requestWall() {
         OkGo.post(UrlCollect.getPresentsWall)//
                 .tag(this)//
@@ -103,15 +107,17 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "onSuccess: "+s);
+
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
                         wallId=myWallBean.getData().getId()+"";
                         for (int i = 0; i < axle.size(); i++) {
                             MyWallBean.DataBean.AxleBean bean = axle.get(i);
-                            int realx= (int) (Double.parseDouble(bean.getXaxle())*scale);
-                            int realy= (int) (Double.parseDouble(bean.getYaxle())*scale);
-                            int realhight=Integer.parseInt(bean.getHigh())*scale;
-                            int realweith=Integer.parseInt(bean.getWide())*scale;
+                            int realx= (int) (Float.parseFloat(bean.getXaxle())*scale);
+                            int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
+                            int realhight= (int) (Integer.parseInt(bean.getHigh())*scale);
+                            int realweith= (int) (Integer.parseInt(bean.getWide())*scale);
                             //传入自己的真实像素
                             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                                     realweith, realhight);

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,7 +52,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     private TextView name;
     private TextView energy;
     private ImageView icon;
-    private static int scale;
+    private float scale;
     private String receiveId;
     private String wallId;
     private StringBuffer yaxle;
@@ -65,6 +66,12 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publicwall);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+        int wid = (int) (density*343);
+        scale = wid/325.0f;
 
         Intent intent = getIntent();
         //跳转
@@ -125,15 +132,9 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
 
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                int width = dm.widthPixels;         // 屏幕宽度（像素）
-                float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
-                int wid = (int) (width-density*20);
-                scale = wid/325;
                 //实际图片尺寸
-                int realwid= x* scale;
-                int realhei= y* scale;
+                int realwid= (int) (x* scale);
+                int realhei= (int) (y* scale);
                 //获取限定范围 以父控件为参照
                 int left = view.getLeft();
                 int top = view.getTop();
@@ -149,24 +150,17 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
-                int xx=new Random().nextInt(right-left-360);
+                int xx=new Random().nextInt(right-left-realwid);
                 lp.leftMargin=xx;
-                int yy = new Random().nextInt(bottom - top - 360);
+                int yy = new Random().nextInt(bottom-top-realhei);
                 lp.topMargin= yy;
-                //设置布局参数
                 iv.setLayoutParams(lp);
-                //加载控件
                 view.addView(iv);
-                //?????网络访问的集合
                 imageList.add(iv);
                 //获取容器内所有控件 获取位置
                 if (gift.length()==0){
-                    yaxle.append(iv.getTop()/scale);
-                    xaxle.append(iv.getLeft()/scale);
                     gift.append(id);
                 }else{
-                    yaxle.append(","+iv.getTop()/scale);
-                    xaxle.append(","+iv.getLeft()/scale);
                     gift.append(","+id);
                 }
             }
@@ -209,6 +203,24 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 });
     }
     private void sendGift(String status){
+        if (imageList.size()==0){
+            return;
+        }
+        for (int i = 0; i < imageList.size(); i++) {
+            if (i==0){
+                yaxle.append(imageList.get(i).getTop()/scale);
+                xaxle.append(imageList.get(i).getLeft()/scale);
+            }else{
+                yaxle.append(","+imageList.get(i).getTop()/scale);
+                xaxle.append(","+imageList.get(i).getLeft()/scale);
+            }
+        }
+
+        Log.e("=============", "onSuccess: "+String.valueOf(gift));
+        Log.e("=============", "onSuccess: "+String.valueOf(xaxle));
+        Log.e("=============", "onSuccess: "+String.valueOf(yaxle));
+        Log.e("=============", "onSuccess: "+scale);
+
         OkGo.post(UrlCollect.sendGift)//
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//

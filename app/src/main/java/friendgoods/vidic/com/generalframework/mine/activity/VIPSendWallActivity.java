@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class VIPSendWallActivity extends BaseActivity implements View.OnClickListener {
+    private List<MoveImageView> imageList=new ArrayList<>();
 
     private RecyclerView rv;
     private AdapterVIPSendWall adapter;
@@ -53,6 +55,12 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vipsendwall);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+        int wid = (int) (density*343);
+        scale = wid/325;
 
         Intent intent = getIntent();
         receiveId = intent.getStringExtra("userId");
@@ -87,13 +95,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
 
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                //获取
-                int width = dm.widthPixels;         // 屏幕宽度（像素）
-                float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
-                int wid = (int) (width-density*20);
-                scale = wid/325;
                 //实际图片尺寸
                 int realwidth= x* scale;
                 int realheight= y* scale;
@@ -118,6 +119,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 lp.topMargin= yy;
                 iv.setLayoutParams(lp);//设置布局参数
                 view.addView(iv);//加载图片
+                imageList.add(iv);
                 //获取容器内所有控件 获取位置
                 if (gift.length()==0){
                     yaxle.append(iv.getTop()/scale);
@@ -176,6 +178,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "onSuccess: "+s);
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");

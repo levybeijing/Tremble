@@ -122,7 +122,6 @@
         <RelativeLayout
             android:id="@+id/container_friendname"
             style="@style/rl_giftwall"
-            android:background="@drawable/white_friendname"
             android:layout_margin="10dp"
             >
             <TextView

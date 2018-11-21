@@ -99,7 +99,7 @@ public class AllRankFragment extends Fragment {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
                 .params("page", page+"")
-                .params("pageSize", "10")
+                .params("pageSize", "20")
                 .params("type", "0")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
                 .execute(new StringCallback() {
@@ -114,7 +114,7 @@ public class AllRankFragment extends Fragment {
         OkGo.post(UrlCollect.getFriendp)//
                 .tag(this)//
                 .params("page", page+"")
-                .params("pageSize", "10")
+                .params("pageSize", "20")
                 .params("type", "0")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
                 .execute(new StringCallback() {

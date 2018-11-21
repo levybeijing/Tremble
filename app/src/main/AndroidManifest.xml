@@ -102,7 +102,7 @@
             ></activity>
         <activity android:name=".activity.PhoneBindActivity"></activity>
         <!--音乐播放-->
-        <service android:name=".musicplay.MusicService" android:exported="false"></service>
+        <service android:name=".activity.MusicService"></service>
 
         <activity android:name=".activity.PKRankActivity"
             android:launchMode="singleTop"
