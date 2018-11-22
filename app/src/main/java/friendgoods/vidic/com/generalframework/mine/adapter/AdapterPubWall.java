@@ -25,7 +25,6 @@ public class AdapterPubWall extends RecyclerView.Adapter {
     private List<Integer> remain=new ArrayList<>();
     public AdapterPubWall(Context context_){
         context=context_;
-
     }
 
     public void setOnItemClickListener(OnItemClickListenerPubWall itemClickListene_){
@@ -51,18 +50,14 @@ public class AdapterPubWall extends RecyclerView.Adapter {
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
         remain.add(list.get(position).getNum());
         Picasso.with(context).load(photo).into(((MyViewHolder)holder).iv_goods);
-        final int remove=0;
         View itemView =  holder.itemView;
+        final int remove=0;
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
 
-                    if (list.get(position).getNum()==remove){
-                        return;
-                    }
-//                    ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()-(++remove)+"");
                 }
             });
         }

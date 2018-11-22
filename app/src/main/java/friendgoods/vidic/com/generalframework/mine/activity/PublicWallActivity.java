@@ -150,7 +150,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
                 //加载图片
-                Picasso.with(PublicWallActivity.this).load(surl).into(iv);
+
                 //传入自己的真实像素
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                         realwid, realhei);
@@ -170,6 +170,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                     lp.topMargin=new Random().nextInt(ry);
                 }
                 iv.setLayoutParams(lp);
+                Picasso.with(PublicWallActivity.this).load(surl).into(iv);
                 view.addView(iv);
                 imageList.add(iv);
                 //获取容器内所有控件 获取位置
