@@ -13,22 +13,58 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+import friendgoods.vidic.com.generalframework.bean.FansBangBean;
+import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMall;
 import friendgoods.vidic.com.generalframework.mine.frag.FragGifts;
 import friendgoods.vidic.com.generalframework.mine.frag.FragRecommend;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class MallActivity extends BaseActivity {
+
+    private TextView tv_number;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mall);
         initView();
+        requsetIntegral();
+    }
+
+    private void requsetIntegral() {
+        OkGo.post(UrlCollect.getIntegral)//
+                .tag(this)//
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0)+"")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        try {
+                            JSONObject jo=new JSONObject(s);
+                            String message = jo.getString("message");
+                            if ("请求成功".equals(message)){
+                                JSONObject data = jo.getJSONObject("data");
+                                tv_number.setText(data.getInt("integral"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void initView() {
@@ -40,10 +76,7 @@ public class MallActivity extends BaseActivity {
             }
         });
         //通过网络访问设置金币数量
-        TextView tv_number = findViewById(R.id.tv_numberofcoin);
-        Log.e("===========", "integral: "+SharedPFUtils.getParam(MallActivity.this, "integral", 0.0f));
-        float integral =(float) SharedPFUtils.getParam(MallActivity.this, "integral", 0.0f);
-        tv_number.setText(""+integral);
+        tv_number = findViewById(R.id.tv_numberofcoin);
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override

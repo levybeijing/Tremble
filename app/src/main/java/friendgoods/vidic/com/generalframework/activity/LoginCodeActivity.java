@@ -124,7 +124,7 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                         headers.put("token",bean.getData().getToken());
                         OkGo.getInstance().addCommonHeaders(headers);
 //
-                        if (bean.getData().getWeChatA().equals("null")){
+                        if (bean.getData().getWeChatA()==null){
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
                             SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());

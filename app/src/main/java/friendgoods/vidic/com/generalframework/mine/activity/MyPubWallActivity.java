@@ -99,11 +99,18 @@ public class MyPubWallActivity extends BaseActivity {
                 .tag(this)
                 .params("userId",(int)SharedPFUtils.getParam(this,"userId",0)+"")
                 .execute(new StringCallback() {
+
+                    private int score;
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=============", "onSuccess: "+s);
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
-                        adapter.setData(myWallBean.getData().getUserPhoto());
+                        List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
+                        adapter.setData(userPhoto);
+                        for (int i = 0; i <userPhoto.size(); i++) {
+                            score += userPhoto.get(i).getScore();
+                        }
+                        energy.setText(""+score);
                         List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
                         for (int i = 0; i < axle.size(); i++) {
                             MyWallBean.DataBean.AxleBean bean = axle.get(i);
