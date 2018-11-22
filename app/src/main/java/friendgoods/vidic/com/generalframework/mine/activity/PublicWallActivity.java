@@ -127,19 +127,26 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
             @Override
             public void onItemClick(String sx, String sy, String surl, String id, int remove) {
-                int x=Integer.parseInt(sx);
-                int y=Integer.parseInt(sy);
-                if (remove==0){
-                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
-                }
+                float x=Float.parseFloat(sx);
+                float y=Float.parseFloat(sy);
+//                if (remove==0){
+//                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
+//                }
                 //实际图片尺寸
-                int realwid= (int) (x* scale);
-                int realhei= (int) (y* scale);
+                int realwid= (int) (x* scale)-1;
+                int realhei= (int) (y* scale)-1;
                 //获取限定范围 以父控件为参照
                 int left = view.getLeft();
                 int top = view.getTop();
                 int right = view.getRight();
                 int bottom = view.getBottom();
+                Log.e("=============", "onSuccess: "+realwid);
+                Log.e("=============", "onSuccess: "+realhei);
+                Log.e("=============", "onSuccess: "+left);
+                Log.e("=============", "onSuccess: "+top);
+                Log.e("=============", "onSuccess: "+right);
+                Log.e("=============", "onSuccess: "+bottom);
+
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
                 //加载图片
@@ -150,10 +157,18 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
-                int xx=new Random().nextInt(right-left-realwid);
-                lp.leftMargin=xx;
-                int yy = new Random().nextInt(bottom-top-realhei);
-                lp.topMargin= yy;
+                int rx=right-left-realwid;
+                if (rx==0){
+                    lp.leftMargin=0;
+                }else{
+                    lp.leftMargin=new Random().nextInt(rx);
+                }
+                int ry=bottom-top-realhei;
+                if (ry==0){
+                    lp.topMargin= 0;
+                }else{
+                    lp.topMargin=new Random().nextInt(ry);
+                }
                 iv.setLayoutParams(lp);
                 view.addView(iv);
                 imageList.add(iv);

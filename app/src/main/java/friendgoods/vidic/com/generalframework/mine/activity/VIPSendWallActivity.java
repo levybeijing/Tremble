@@ -1,6 +1,8 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -19,10 +22,15 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -31,6 +39,7 @@ import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVIPSendWall;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
+import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -40,7 +49,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView rv;
     private AdapterVIPSendWall adapter;
     private RelativeLayout view;
-    private int scale;
+    private float scale;
 
     private String receiveId;
     private String wallId;
@@ -48,6 +57,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private StringBuffer xaxle;
     private StringBuffer gift;
     private String userId;
+    private ImageView iv_char;
+    private String randomName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +69,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
         int wid = (int) (density*343);
-        scale = wid/325;
+        scale = wid/325.0f;
 
         Intent intent = getIntent();
         receiveId = intent.getStringExtra("userId");
@@ -76,7 +87,10 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.iv_mall_vipwall).setOnClickListener(this);
         //设置头像集合  获取好友ID  网络访问
         view = findViewById(R.id.container_vipwall);
-
+//        对手
+        iv_char = findViewById(R.id.xingxiang_vipwall);
+        requestChar();
+//        Picasso.with(this).load((String)SharedPFUtils.getParam(this,"logo","")).into(iv_char);
         rv = findViewById(R.id.rv_vipwall);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -94,13 +108,20 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 int y=Integer.parseInt(sy);
 
                 //实际图片尺寸
-                int realwidth= x* scale;
-                int realheight= y* scale;
+                int realwidth= (int) (x* scale)-1;
+                int realheight= (int) (y* scale)-1;
                 //获取限定范围 以父控件为参照
                 int left = view.getLeft();
                 int top = view.getTop();
                 int right = view.getRight();
                 int bottom = view.getBottom();
+                Log.e("=============", "onSuccess: "+realwidth);
+                Log.e("=============", "onSuccess: "+realheight);
+                Log.e("=============", "onSuccess: "+left);
+                Log.e("=============", "onSuccess: "+top);
+                Log.e("=============", "onSuccess: "+right);
+                Log.e("=============", "onSuccess: "+bottom);
+
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
                 //加载图片
@@ -111,9 +132,10 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高
+//                宽度大于控件!!!!!!!!!
                 int xx=new Random().nextInt(right-left-realwidth);
                 lp.leftMargin=xx;
-                int yy = new Random().nextInt(bottom - top - realheight);
+                int yy = new Random().nextInt(bottom-top-realheight);
                 lp.topMargin= yy;
                 iv.setLayoutParams(lp);//设置布局参数
                 view.addView(iv);//加载图片
@@ -132,6 +154,18 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void requestChar() {
+        OkGo.post(UrlCollect.getUsers)//
+                .tag(this)//
+                .params("userId", receiveId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+//                        Log.e("=============", "onSuccess: "+s);
+                    }
+                });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -140,6 +174,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_makesure_vipwall:
                 sendGift("1");
+                randomName=StringUtil.getRandomName(16);
+                saveBitmap(view, randomName);
                 view.removeAllViews();
                 break;
             case R.id.iv_mall_vipwall:
@@ -176,7 +212,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=============", "onSuccess: "+s);
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
@@ -187,6 +222,58 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                });
+    }
+    //    保存图片
+    public void saveBitmap(View v, String name) {
+        String fileName = name + ".png";
+        Bitmap bm = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bm);
+        v.draw(canvas);
+        File f = new File(MyApplication.MUSICPATH, fileName);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //    上传图片到服务器
+//        uploadToService();
+    }
+
+    private void uploadToService() {
+        OkGo.post(UrlCollect.baseIamgeUrl)//
+                .tag(this)//
+                .params("***", "")//文件
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "上传到图片服务器: "+s);
+                        uploadPng();
+                    }
+                });
+    }
+
+    //    上传VIP墙图片
+    private void uploadPng() {
+        OkGo.post(UrlCollect.updatePresentsWall)//
+                .tag(this)//
+                .params("url", randomName)//文件名
+                .params("presentsWallId", wallId)//墙的ID
+                .params("slt", "")//缩略图 省略>?
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "上传VIP墙图片: "+s);
                     }
                 });
     }

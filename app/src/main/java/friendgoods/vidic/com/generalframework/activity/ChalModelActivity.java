@@ -295,4 +295,12 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        havetime=false;
+        handlerhcal=null;
+        lock=true;
+    }
 }

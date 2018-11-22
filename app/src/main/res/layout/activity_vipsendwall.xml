@@ -35,6 +35,13 @@
         style="@style/rl_giftwall"
         android:layout_margin="5dp"
         >
+        <ImageView
+            android:id="@+id/xingxiang_vipwall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

@@ -35,6 +35,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+
         RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) this.getLayoutParams();
         switch (event.getAction())
         {

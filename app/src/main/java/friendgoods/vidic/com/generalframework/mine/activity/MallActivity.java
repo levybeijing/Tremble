@@ -28,6 +28,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.FansBangBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMall;
+import friendgoods.vidic.com.generalframework.mine.bean.JifenBean;
 import friendgoods.vidic.com.generalframework.mine.frag.FragGifts;
 import friendgoods.vidic.com.generalframework.mine.frag.FragRecommend;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -43,7 +44,7 @@ public class MallActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mall);
         initView();
-        requsetIntegral();
+
     }
 
     private void requsetIntegral() {
@@ -53,16 +54,10 @@ public class MallActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        try {
-                            JSONObject jo=new JSONObject(s);
-                            String message = jo.getString("message");
-                            if ("请求成功".equals(message)){
-                                JSONObject data = jo.getJSONObject("data");
-                                tv_number.setText(data.getInt("integral"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                      Log.e("=============", "onSuccess: "+s);
+                        JifenBean jifenBean = new Gson().fromJson(s, JifenBean.class);
+                        double integral = jifenBean.getData().getIntegral();
+                        tv_number.setText(integral+"");
                     }
                 });
     }
@@ -77,6 +72,7 @@ public class MallActivity extends BaseActivity {
         });
         //通过网络访问设置金币数量
         tv_number = findViewById(R.id.tv_numberofcoin);
+        requsetIntegral();
         TextView tv_toGifts = findViewById(R.id.tv_mygifts_mall);
         tv_toGifts.setOnClickListener(new View.OnClickListener() {
             @Override
