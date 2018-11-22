@@ -87,6 +87,11 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
 ////签名
 //                request.sign= "496F2F2982786AE44920E262B550DAA4";
 //                api.sendReq(request);
+                float integral = (Float)SharedPFUtils.getParam(context, "integral", 0.0f);
+                if (jifen>integral){
+                    Toast.makeText(context, "您的积分不足", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 buyGift(giftid,number,jifen);
             }
         });
@@ -127,7 +132,7 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
 //                            if (message.equals("请求成功")){
-                                Toast.makeText(context, "购买成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 //                            }
                         } catch (JSONException e) {
                             e.printStackTrace();

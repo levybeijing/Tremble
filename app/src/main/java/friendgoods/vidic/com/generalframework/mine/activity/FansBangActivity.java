@@ -97,15 +97,10 @@ public class FansBangActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("******************", "onSuccess: "+s);
                         FansBangBean fansBangBean = new Gson().fromJson(s, FansBangBean.class);
                         list = fansBangBean.getData().getPageInfo().getList();
                         adapter.setData(list);
                         adapter2.setData(list);
-                    }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
                     }
                 });
     }

@@ -106,9 +106,7 @@
 
         <activity android:name=".activity.PKRankActivity"
             android:launchMode="singleTop"
-            >
-
-        </activity>
+            ></activity>
         <activity android:name=".wxapi.WXPayEntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

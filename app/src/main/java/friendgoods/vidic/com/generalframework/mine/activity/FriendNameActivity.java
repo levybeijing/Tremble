@@ -139,7 +139,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         OkGo.post(UrlCollect.wallOfFriend)//
                 .tag(this)//
                 .params("userId", userId)
-                .params("page", "0")
+                .params("page", "1")
                 .params("pageSize", "10")
                 .execute(new StringCallback() {
                     @Override
@@ -179,6 +179,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
             case R.id.iv_history_friendname:
                 //
                 Intent intent3=new Intent(FriendNameActivity.this,PersonRecordActivity.class);
+                intent3.putExtra("wallId",wallId);
                 startActivity(intent3);
                 break;
             case R.id.tv_pubsend_friendname:

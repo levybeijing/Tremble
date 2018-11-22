@@ -26,13 +26,14 @@ public class AdapterMyPubWall extends RecyclerView.Adapter<AdapterMyPubWall.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_rv_bottom_fansbang, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_rv_mywall, parent, false);
         MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+//        iv_icon
         Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
     }
 

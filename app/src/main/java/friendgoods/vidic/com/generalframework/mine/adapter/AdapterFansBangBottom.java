@@ -67,7 +67,7 @@ public class AdapterFansBangBottom extends RecyclerView.Adapter<AdapterFansBangB
 
     @Override
     public int getItemCount() {
-        if (list==null) {
+        if (list==null||list.size()<3) {
             return 0;
         }
         return list.size()-3;

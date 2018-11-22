@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,7 +20,10 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
@@ -39,18 +44,38 @@ public class MyPubWallActivity extends BaseActivity {
     private RelativeLayout rl;
     private RecyclerView rv;
     private AdapterMyPubWall adapter;
-    private int testWallId;
-    private int scale;
+//    private float scale;
+//    private int testWallId;
+    private float scale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mygiftswall);
         Intent intent = getIntent();
-        testWallId = intent.getIntExtra("testWallId", -1);
+//        testWallId = intent.getIntExtra("testWallId", -1);
         initView();
     }
 
     private void initView() {
+//
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
+        int wid = (int) (density*343);
+        scale = wid/325.0f;
+ //日期能量值
+        date = findViewById(R.id.tv_date_mygiftwall);
+        energy = findViewById(R.id.tv_energy_mygiftwall);
+//
+        Calendar calendar = Calendar.getInstance(Locale.CHINESE);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String strat = new SimpleDateFormat("MM-dd").format(calendar.getTime());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        String end = new SimpleDateFormat("MM-dd").format(calendar.getTime());
+        date.setText(strat+"~"+end);
+//
         findViewById(R.id.iv_back_mygiftwall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,10 +83,7 @@ public class MyPubWallActivity extends BaseActivity {
             }
         });
         rl = findViewById(R.id.container_mygiftwall);
-        scale=rl.getWidth()/325;
-        //日期能量值
-        date = findViewById(R.id.tv_date_mygiftwall);
-        energy = findViewById(R.id.tv_energy_mygiftwall);
+//        scale=rl.getWidth()/325;
         //
         rv = findViewById(R.id.rv_mygiftwall);
         GridLayoutManager manager=new GridLayoutManager(this,10);
@@ -79,15 +101,16 @@ public class MyPubWallActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "onSuccess: "+s);
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         adapter.setData(myWallBean.getData().getUserPhoto());
                         List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
                         for (int i = 0; i < axle.size(); i++) {
                             MyWallBean.DataBean.AxleBean bean = axle.get(i);
-                            int realx=Integer.parseInt(bean.getXaxle())*scale;
-                            int realy=Integer.parseInt(bean.getYaxle())*scale;
-                            int realhight=Integer.parseInt(bean.getHigh())*scale;
-                            int realweith=Integer.parseInt(bean.getWide())*scale;
+                            int realx= (int) (Float.parseFloat(bean.getXaxle())*scale);
+                            int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
+                            int realhight= (int) (Float.parseFloat(bean.getHigh())*scale);
+                            int realweith= (int) (Float.parseFloat(bean.getWide())*scale);
                             //传入自己的真实像素
                             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                                     realweith, realhight);

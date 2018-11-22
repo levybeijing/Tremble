@@ -41,6 +41,9 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         switch (position){
             case 0:
+                if (list.size()<2){
+                    return;
+                }
                 Picasso.with(context).load(list.get(position+1).getPhoto()).into(holder.iv_small);
                 Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position+1).getName());
@@ -49,12 +52,25 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
             case 1:
                 holder.iv_small.setVisibility(View.INVISIBLE);
                 holder.iv_big.setVisibility(View.VISIBLE);
+                if (list.size()==1){
+                    Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_big);
+                    Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
+                    holder.tv_name.setText(list.get(position).getName());
+                    holder.tv_energy.setText(list.get(position).getScore()+"");
+                    break;
+                }
+                if (list.size()==0){
+                    return;
+                }
                 Picasso.with(context).load(list.get(position-1).getPhoto()).into(holder.iv_big);
                 Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position-1).getName());
                 holder.tv_energy.setText(list.get(position-1).getScore()+"");
                 break;
             case 2:
+                if (list.size()<3){
+                    return;
+                }
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position).getName());
                 holder.tv_energy.setText(list.get(position).getScore()+"");
