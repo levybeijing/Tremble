@@ -2,6 +2,8 @@ package friendgoods.vidic.com.generalframework.activity;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -27,7 +29,8 @@ import okhttp3.Response;
 public class MusicService extends Service {
 
     private List<String> list=new ArrayList<>();
-
+//    private boolean waiting=true;
+//    private boolean havemusic=false;
     private static MusicService service;
     public static MusicService getInstance(){
         if (service==null){
@@ -35,15 +38,48 @@ public class MusicService extends Service {
         }
         return service;
     }
-
+    private int currentIndex=0;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        获取列表
         requestList();
 //        下载列表文件
-
 //        播放音乐
-
+        MediaPlayer player=new MediaPlayer();
+        try {
+            player.setDataSource(UrlCollect.baseIamgeUrl+File.separator+list.get(0));
+//            监听
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    currentIndex++;
+                    try {
+                        mp.setDataSource(MyApplication.MUSICPATH+File.separator+list.get(currentIndex%list.size()));
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+//
+            player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    try {
+                        mp.setDataSource(MusicService.this,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+                        mp.prepare();
+                        mp.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//
+        player.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -51,20 +87,19 @@ public class MusicService extends Service {
         OkGo.post(UrlCollect.getMusic)//
                 .tag(this)//
                 .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
+                        @Override
+                        public void onSuccess(String s, Call call, Response response) {
                         Log.e("=================", "onSuccess: "+s);
                         MusicListBean listBean = new Gson().fromJson(s, MusicListBean.class);
                         List<MusicListBean.DataBean> data = listBean.getData();
                         if (data==null){
                             return;
                         }
+    //                        获取列表  和下载
                         for (int i = 0; i < data.size(); i++) {
                             list.add(data.get(i).getUrl());
                             download(data.get(i).getUrl());
                         }
-//                        列表
-
                     }
                 });
     }
