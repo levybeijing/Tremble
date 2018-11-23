@@ -8,12 +8,17 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.activity.bean.MusicListBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import okhttp3.Call;
@@ -55,10 +60,29 @@ public class MusicService extends Service {
                             return;
                         }
                         for (int i = 0; i < data.size(); i++) {
-                            list.add(UrlCollect.baseIamgeUrl+File.separator+data.get(i).getUrl());
+                            list.add(data.get(i).getUrl());
+                            download(data.get(i).getUrl());
                         }
 //                        列表
+
                     }
+                });
+    }
+
+    private void download(final String name){
+        OkGo.<File>get(UrlCollect.baseIamgeUrl+File.separator+name)//
+                .tag(this)//
+                .execute(
+                    new FileCallback() {
+                        @Override
+                        public void onSuccess(File file, Call call, Response response) {
+                            try {
+                                File f=new File(MyApplication.MUSICPATH+File.separator+name);
+                                file.renameTo(f);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                 });
     }
 

@@ -43,11 +43,13 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
         View view = LayoutInflater.from(context).inflate(R.layout.item_rv_pubwall, parent, false);
         return new MyViewHolder(view);
     }
+    private List<Integer> numlist=new ArrayList<>();
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        final String photo = UrlCollect.baseIamgeUrl+list.get(position).getPhoto();
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        numlist.add(list.get(position).getNum());
 
+        final String photo = UrlCollect.baseIamgeUrl+list.get(position).getPhoto();
         ((MyViewHolder)holder).tv_energy.setText(list.get(position).getScore()+"能量");
         ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()+"");
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
@@ -55,21 +57,14 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
         remain.add(list.get(position).getNum());
 
         View itemView = holder.itemView;
-//        final int top = itemView.getTop();
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    int remove = remain.remove(position);
-                    remove-=remove;
-                    remain.add(position,--remove);
-                    String giftId = list.get(position).getGiftId()+"";
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,giftId,remove);
-                    if (remove<0){
-                        return;
-                    }
-                    ((AdapterPubWall.MyViewHolder)holder).tv_number.setText(remain.get(position)+"");
+                    Integer remove = numlist.remove(position);
+                    numlist.add(position,--remove);
+                    ((AdapterPubWall.MyViewHolder) holder).tv_number.setText(remove+"");
+                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
                 }
             });
         }

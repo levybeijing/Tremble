@@ -96,7 +96,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 //
         ImageView iv_logo = findViewById(R.id.xingxiang_pubwall);
         Picasso.with(PublicWallActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+logo).into(iv_logo);
-//        Log.e("=============", "logo: "+logo);
 
         findViewById(R.id.iv_makesure_pubwall).setOnClickListener(this);
         findViewById(R.id.iv_mall_pubwall).setOnClickListener(this);
@@ -135,9 +134,10 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(String sx, String sy, String surl, String id, int remove) {
                 float x=Float.parseFloat(sx);
                 float y=Float.parseFloat(sy);
-//                if (remove==0){
-//                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
-//                }
+                if (remove==0){
+                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //实际图片尺寸
                 int realwid= (int) (x* scale)-1;
                 int realhei= (int) (y* scale)-1;

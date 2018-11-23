@@ -63,6 +63,10 @@ public class PersonRecordActivity extends BaseActivity {
                         Log.e("================", "onSuccess: "+s);
                         WallRecordBean wallRecordBean = new Gson().fromJson(s, WallRecordBean.class);
                         List<WallRecordBean.DataBean.PageInfoBean.ListBean> list = wallRecordBean.getData().getPageInfo().getList();
+                        if (list==null||list.size()==0){
+                            setContentView(R.layout.emptylist);
+                            return;
+                        }
                         adapter.setData(list);
                     }
                 });
