@@ -57,6 +57,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storymodel);
+        gametime=System.currentTimeMillis();
         initView();
 
         iv_net = findViewById(R.id.iv_net_story);
@@ -145,7 +146,6 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     request();
                     return;
                 }
-                gametime=System.currentTimeMillis();
                 if (count==numbers.get(flag)){
                     int i = new Random().nextInt(5);
                     iv_net.setVisibility(View.VISIBLE);

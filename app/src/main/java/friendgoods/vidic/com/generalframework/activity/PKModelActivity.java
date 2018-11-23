@@ -187,6 +187,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private ImageView iv_note,iv_detail;
     private boolean note=true;
     private boolean lock=false;
+    private String friendId;
+
     private void setTime() {
         if (lock){
             return;
@@ -242,7 +244,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_pkmodel);
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
-        gametime=System.currentTimeMillis();
+//        gametime=System.currentTimeMillis();
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
 //        connect();
         initView();
@@ -325,8 +327,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         Uri data = getIntent().getData();
         if (data!=null){
             roomId = Integer.parseInt(data.getQueryParameter("id"));
-            String friendId = data.getQueryParameter("friendId");
-            Log.e("===========roomId", ""+friendId);
+            friendId = data.getQueryParameter("friendId");
+            Log.e("===========roomId", ""+ friendId);
             toBeFriend(friendId);
             Log.e("===========roomId", ""+roomId);
             isHost=false;
@@ -495,6 +497,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     //接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
     private List<String> idlist=new ArrayList<>();
+    private List<Boolean> readyList=new ArrayList<>();
     private void connect() {
         final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+currentId;
         try {
@@ -506,6 +509,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 public void onOpen() {
                     idlist.add("0");
                     idlist.add("0");
+                    readyList.add(false);
+                    readyList.add(false);
 //                    Log.e("===========socketUrl", ""+socketUrl);
 //            send socket
                     if (!isHost){
@@ -552,21 +557,23 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                     list1.remove(i);
                                 }
                             }
+
+//                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
                             if (list1.size()==0){
                                 break;
                             }
+//                            GamerBean current=list1.get(0);
                             if (idlist.get(0).equals(list1.get(0).getUserId()+"")||idlist.get(0).equals("0")){
                                 setOne(list1.get(0));
                                 idlist.remove(0);
                                 idlist.add(0,list1.get(0).getUserId()+"");
-                                break;
                             }
-                            if (idlist.get(1).equals(list1.get(0).getUserId()+"")||idlist.get(1).equals("0")){
+                            if (!idlist.get(0).equals(list1.get(0).getUserId()+"")&&(idlist.get(1).equals(list1.get(0).getUserId()+"")||idlist.get(1).equals("0"))){
                                 setThree(list1.get(0));
                                 idlist.remove(1);
                                 idlist.add(1,list1.get(0).getUserId()+"");
-                                break;
                             }
+//                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
                             if (list1.size()==1){
                                 break;
                             }
@@ -574,38 +581,45 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 setOne(list1.get(1));
                                 idlist.remove(0);
                                 idlist.add(0,list1.get(1).getUserId()+"");
-                                break;
                             }
-                            if (idlist.get(1).equals(list1.get(1).getUserId()+"")||idlist.get(1).equals("0")) {
+                            if (!idlist.get(1).equals(list1.get(0).getUserId()+"")&&(idlist.get(1).equals(list1.get(1).getUserId()+"")||idlist.get(1).equals("0"))) {
                                 setThree(list1.get(1));
                                 idlist.remove(1);
                                 idlist.add(1,list1.get(1).getUserId()+"");
-                                break;
                             }
+//                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
                             break;
                         case "2":
 //  ready
                             String userId = pkbean.getUserId();
                             if (idlist.get(0).equals(userId)&& pkbean.getStatus().equals("2")){
                                 light1.setVisibility(View.VISIBLE);
-                                haveready=true;
-                                if (isHost&&havetime){
-                                    startyes.setVisibility(View.VISIBLE);
-                                    startno.setVisibility(View.INVISIBLE);
-                                }
+                                readyList.remove(0);
+                                readyList.add(0,true);
                             }else{
                                 light1.setVisibility(View.INVISIBLE);
+                                haveready=false;
                             }
+                            Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             if (idlist.get(1).equals(userId)&& pkbean.getStatus().equals("2")){
                                 light3.setVisibility(View.VISIBLE);
-                                haveready=true;
-                                if (isHost&&havetime){
-                                    startyes.setVisibility(View.VISIBLE);
-                                    startno.setVisibility(View.INVISIBLE);
-                                }
+                                readyList.remove(1);
+                                readyList.add(1,true);
                             }else{
                                 light3.setVisibility(View.INVISIBLE);
+                                haveready=false;
                             }
+                            Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
+                            if (!idlist.get(0).equals("0")&&readyList.get(0).booleanValue()){
+                                if (idlist.get(1).equals("0")){
+                                    haveready=true;
+                                }else if (readyList.get(1).booleanValue()){
+                                    haveready=true;
+                                }else{
+                                    haveready=false;
+                                }
+                            }
+                            Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             break;
                         case "3":
  // settime
@@ -875,6 +889,13 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        Log.i("===========toBeFriend", s);
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        Log.i("===========toBeFriend", response.toString());
 
                     }
                 });

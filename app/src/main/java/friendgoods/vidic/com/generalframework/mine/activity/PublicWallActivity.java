@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     private ImageView icon;
     private float scale;
     private String receiveId;
-    private String wallId;
+    private String wallId,logo;
     private StringBuffer yaxle;
     private StringBuffer xaxle;
     private StringBuffer gift;
@@ -78,6 +79,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
         receiveId = intent.getStringExtra("userId");
         wallId = intent.getStringExtra("wallId");
+        logo = intent.getStringExtra("logo");
         initView();
     }
 
@@ -92,6 +94,10 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         Picasso.with(PublicWallActivity.this).load((String)SharedPFUtils.getParam(this,"icon","")).into(icon);
         energy.setText((float)SharedPFUtils.getParam(this,"integral",0.0f)+"");
 //
+        ImageView iv_logo = findViewById(R.id.xingxiang_pubwall);
+        Picasso.with(PublicWallActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+logo).into(iv_logo);
+//        Log.e("=============", "logo: "+logo);
+
         findViewById(R.id.iv_makesure_pubwall).setOnClickListener(this);
         findViewById(R.id.iv_mall_pubwall).setOnClickListener(this);
         //头像集
@@ -140,7 +146,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 int top = view.getTop();
                 int right = view.getRight();
                 int bottom = view.getBottom();
-                Log.e("=============", "onSuccess: "+realwid);
                 Log.e("=============", "onSuccess: "+realhei);
                 Log.e("=============", "onSuccess: "+left);
                 Log.e("=============", "onSuccess: "+top);

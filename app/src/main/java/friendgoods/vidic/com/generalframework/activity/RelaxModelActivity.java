@@ -76,7 +76,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                 tv_number.setAnimation(animation);
                 break;
             case R.id.iv_exit_relaxmodel:
-                gametime=System.currentTimeMillis()-gametime;
+//                gametime=System.currentTimeMillis()-gametime;
                 finish();
                 break;
             case R.id.tv_gotomall_relaxmodel:

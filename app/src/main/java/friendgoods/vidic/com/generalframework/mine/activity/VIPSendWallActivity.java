@@ -52,7 +52,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private float scale;
 
     private String receiveId;
-    private String wallId;
+    private String wallId,logo;
     private StringBuffer yaxle;
     private StringBuffer xaxle;
     private StringBuffer gift;
@@ -74,6 +74,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         Intent intent = getIntent();
         receiveId = intent.getStringExtra("userId");
         wallId = intent.getStringExtra("wallId");
+        logo = intent.getStringExtra("logo");
         userId = (int)SharedPFUtils.getParam(this, "userId", 0)+"";
         gift = new StringBuffer();
         xaxle = new StringBuffer();
@@ -89,8 +90,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         view = findViewById(R.id.container_vipwall);
 //        对手
         iv_char = findViewById(R.id.xingxiang_vipwall);
-        requestChar();
-//        Picasso.with(this).load((String)SharedPFUtils.getParam(this,"logo","")).into(iv_char);
+//        requestChar();
+        Picasso.with(this).load(UrlCollect.baseIamgeUrl+File.separator+logo).into(iv_char);
         rv = findViewById(R.id.rv_vipwall);
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -133,10 +134,18 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高
 //                宽度大于控件!!!!!!!!!
-                int xx=new Random().nextInt(right-left-realwidth);
-                lp.leftMargin=xx;
-                int yy = new Random().nextInt(bottom-top-realheight);
-                lp.topMargin= yy;
+                int rx=right-left-realwidth;
+                if (rx==0){
+                    lp.leftMargin=0;
+                }else{
+                    lp.leftMargin=new Random().nextInt(rx);
+                }
+                int ry=bottom-top-realheight;
+                if (ry==0){
+                    lp.topMargin= 0;
+                }else{
+                    lp.topMargin=new Random().nextInt(ry);
+                }
                 iv.setLayoutParams(lp);//设置布局参数
                 view.addView(iv);//加载图片
                 imageList.add(iv);
@@ -154,18 +163,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    private void requestChar() {
-        OkGo.post(UrlCollect.getUsers)//
-                .tag(this)//
-                .params("userId", receiveId)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("=============", "onSuccess: "+s);
-                    }
-                });
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -176,7 +173,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 sendGift("1");
                 randomName=StringUtil.getRandomName(16);
                 saveBitmap(view, randomName);
-                view.removeAllViews();
+                imageList.clear();
+//                view.removeAllViews();
                 break;
             case R.id.iv_mall_vipwall:
                 startActivity(new Intent(VIPSendWallActivity.this,MallActivity.class));

@@ -41,7 +41,7 @@ public class StringUtil {
     public static String getRandomName(int length){
         String s="";
         for (int i = 0; i < length; i++) {
-            int random = new Random().nextInt(58);
+            int random = new Random().nextInt(57);
             s+=CHARS[random];
         }
         return s;

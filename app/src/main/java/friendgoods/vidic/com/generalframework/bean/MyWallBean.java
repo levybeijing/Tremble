@@ -5,7 +5,7 @@ import java.util.List;
 public class MyWallBean {
 
     /**
-     * data : {"userPhoto":[{"score":36,"photo":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLqwiaNu3PTicDQHmWmqfZd9aMACjkChJgicmjleG1znoMMbVzvFplVv0YG9OVQ70KZWchiaOTNYeWiavg/132","id":26}],"id":93,"is_use":1,"userId":25,"axle":[{"xaxle":"1","giftId":3,"score":36,"high":"52","wide":"30","id":1089,"type":1,"yaxle":"1","url":"gift1-1.png"}]}
+     * data : {"score":614,"userPhoto":[{"score":571,"photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/cZpmNicibSqJTJXxYnAQBDRdKjONawhFN9G2R8CPWuIJDqLWgqogIicZdTa2meD4NialtF2J9VW91tylmq4PwOUzMg/132","id":206},{"score":43,"photo":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbzkWgDI18A699AmcTrjKicDReF6WGv7PiacibIPjiaz4FR8ShYtE4qIZO7dWNKUtzfmHaUuKUr9GZ7A/132","id":173}],"logo":"woman1.png","id":361,"is_use":1,"userId":231,"axle":[{"xaxle":"25","giftId":5,"score":20,"high":"50","wide":"52","id":2500,"type":1,"yaxle":"371","url":"gift1-3.png"},{"xaxle":"42","giftId":4,"score":7,"high":"45","wide":"52","id":2501,"type":1,"yaxle":"21","url":"gift1-2.png"},{"xaxle":"73","giftId":4,"score":7,"high":"45","wide":"52","id":2509,"type":1,"yaxle":"71","url":"gift1-2.png"},{"xaxle":"180","giftId":6,"score":5,"high":"50","wide":"52","id":2510,"type":1,"yaxle":"206","url":"gift1-4.png"},{"xaxle":"129","giftId":6,"score":5,"high":"50","wide":"52","id":2511,"type":1,"yaxle":"156","url":"gift1-4.png"},{"xaxle":"58","giftId":4,"score":7,"high":"45","wide":"52","id":2512,"type":1,"yaxle":"303","url":"gift1-2.png"},{"xaxle":"190","giftId":8,"score":520,"high":"208","wide":"140","id":2513,"type":1,"yaxle":"60","url":"gift2-1.png"},{"xaxle":"255","giftId":3,"score":36,"high":"52","wide":"30","id":2753,"type":1,"yaxle":"42","url":"gift1-1.png"},{"xaxle":"68","giftId":4,"score":7,"high":"45","wide":"52","id":2754,"type":1,"yaxle":"218","url":"gift1-2.png"}]}
      * message : 请求成功
      * state : 1
      */
@@ -40,18 +40,38 @@ public class MyWallBean {
 
     public static class DataBean {
         /**
-         * userPhoto : [{"score":36,"photo":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLqwiaNu3PTicDQHmWmqfZd9aMACjkChJgicmjleG1znoMMbVzvFplVv0YG9OVQ70KZWchiaOTNYeWiavg/132","id":26}]
-         * id : 93
+         * score : 614
+         * userPhoto : [{"score":571,"photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/cZpmNicibSqJTJXxYnAQBDRdKjONawhFN9G2R8CPWuIJDqLWgqogIicZdTa2meD4NialtF2J9VW91tylmq4PwOUzMg/132","id":206},{"score":43,"photo":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbzkWgDI18A699AmcTrjKicDReF6WGv7PiacibIPjiaz4FR8ShYtE4qIZO7dWNKUtzfmHaUuKUr9GZ7A/132","id":173}]
+         * logo : woman1.png
+         * id : 361
          * is_use : 1
-         * userId : 25
-         * axle : [{"xaxle":"1","giftId":3,"score":36,"high":"52","wide":"30","id":1089,"type":1,"yaxle":"1","url":"gift1-1.png"}]
+         * userId : 231
+         * axle : [{"xaxle":"25","giftId":5,"score":20,"high":"50","wide":"52","id":2500,"type":1,"yaxle":"371","url":"gift1-3.png"},{"xaxle":"42","giftId":4,"score":7,"high":"45","wide":"52","id":2501,"type":1,"yaxle":"21","url":"gift1-2.png"},{"xaxle":"73","giftId":4,"score":7,"high":"45","wide":"52","id":2509,"type":1,"yaxle":"71","url":"gift1-2.png"},{"xaxle":"180","giftId":6,"score":5,"high":"50","wide":"52","id":2510,"type":1,"yaxle":"206","url":"gift1-4.png"},{"xaxle":"129","giftId":6,"score":5,"high":"50","wide":"52","id":2511,"type":1,"yaxle":"156","url":"gift1-4.png"},{"xaxle":"58","giftId":4,"score":7,"high":"45","wide":"52","id":2512,"type":1,"yaxle":"303","url":"gift1-2.png"},{"xaxle":"190","giftId":8,"score":520,"high":"208","wide":"140","id":2513,"type":1,"yaxle":"60","url":"gift2-1.png"},{"xaxle":"255","giftId":3,"score":36,"high":"52","wide":"30","id":2753,"type":1,"yaxle":"42","url":"gift1-1.png"},{"xaxle":"68","giftId":4,"score":7,"high":"45","wide":"52","id":2754,"type":1,"yaxle":"218","url":"gift1-2.png"}]
          */
 
+        private int score;
+        private String logo;
         private int id;
         private int is_use;
         private int userId;
         private List<UserPhotoBean> userPhoto;
         private List<AxleBean> axle;
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public String getLogo() {
+            return logo;
+        }
+
+        public void setLogo(String logo) {
+            this.logo = logo;
+        }
 
         public int getId() {
             return id;
@@ -95,9 +115,9 @@ public class MyWallBean {
 
         public static class UserPhotoBean {
             /**
-             * score : 36
-             * photo : https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLqwiaNu3PTicDQHmWmqfZd9aMACjkChJgicmjleG1znoMMbVzvFplVv0YG9OVQ70KZWchiaOTNYeWiavg/132
-             * id : 26
+             * score : 571
+             * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/cZpmNicibSqJTJXxYnAQBDRdKjONawhFN9G2R8CPWuIJDqLWgqogIicZdTa2meD4NialtF2J9VW91tylmq4PwOUzMg/132
+             * id : 206
              */
 
             private int score;
@@ -131,15 +151,15 @@ public class MyWallBean {
 
         public static class AxleBean {
             /**
-             * xaxle : 1
-             * giftId : 3
-             * score : 36
-             * high : 52
-             * wide : 30
-             * id : 1089
+             * xaxle : 25
+             * giftId : 5
+             * score : 20
+             * high : 50
+             * wide : 52
+             * id : 2500
              * type : 1
-             * yaxle : 1
-             * url : gift1-1.png
+             * yaxle : 371
+             * url : gift1-3.png
              */
 
             private String xaxle;

@@ -45,6 +45,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
     private String wallId;
     private RelativeLayout container;
     private float scale;
+    private String logo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +111,9 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                         Log.e("=============", "onSuccess: "+s);
 
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
-                        List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
+                        logo=myWallBean.getData().getLogo();
                         wallId=myWallBean.getData().getId()+"";
+                        List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
                         for (int i = 0; i < axle.size(); i++) {
                             MyWallBean.DataBean.AxleBean bean = axle.get(i);
                             int realx= (int) (Float.parseFloat(bean.getXaxle())*scale);
@@ -167,6 +169,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_vipwall_friendname:
                 //跳转VIP赠送墙
                 Intent intent2=new Intent(FriendNameActivity.this,VIPSendWallActivity.class);
+                intent2.putExtra("logo",logo);
                 startActivity(intent2);
                 break;
             case R.id.tv_fans_friendname:
@@ -187,6 +190,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 Intent intent4=new Intent(FriendNameActivity.this,PublicWallActivity.class);
                 intent4.putExtra("userId",userId);
                 intent4.putExtra("wallId",wallId);
+                intent4.putExtra("logo",logo);
                 startActivity(intent4);
                 break;
         }

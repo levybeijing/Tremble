@@ -163,7 +163,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
 
                 break;
             case R.id.iv_exit_challengemodel:
-                havetime=false;
                 finish();
                 break;
             case R.id.tv_gotomall_challengemodel:
@@ -277,7 +276,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             public void onClick(View v) {
                 addgift(i);
                 alertDialog.dismiss();
-
             }
         });
     }
@@ -300,7 +298,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         havetime=false;
-        handlerhcal=null;
         lock=true;
     }
 }

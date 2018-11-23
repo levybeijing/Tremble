@@ -57,12 +57,11 @@
             >
             <ImageView
                 android:id="@+id/tv_color_vipwall"
-                android:layout_width="52dp"
-                android:layout_height="60dp"
+                android:layout_width="32dp"
+                android:layout_height="40dp"
                 android:background="@mipmap/mygift_pubwall_2x"
                 android:layout_margin="10dp"
                 />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_vipwall"
                 android:layout_width="0dp"
@@ -81,14 +80,15 @@
                     android:layout_width="36dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/makesure_pubwall_3x"
-                    android:layout_marginBottom="6dp"
                     />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
                 <ImageView
                     android:id="@+id/iv_mall_vipwall"
                     android:layout_width="36dp"
                     android:layout_height="15dp"
                     android:background="@mipmap/mall_pubwall_3x"
-                    android:layout_marginTop="5dp"
                     />
             </LinearLayout>
         </LinearLayout>
