@@ -230,7 +230,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
         v.draw(canvas);
-        File f = new File(MyApplication.MUSICPATH, fileName);
+        File f = new File(UrlCollect.IMAGEPATH, fileName);
         if (f.exists()) {
             f.delete();
         }

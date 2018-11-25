@@ -23,15 +23,17 @@ import java.util.List;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.activity.bean.MusicListBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class MusicService extends Service {
 
     private List<String> list=new ArrayList<>();
-//    private boolean waiting=true;
-//    private boolean havemusic=false;
+    private boolean havemusic=false;
     private static MusicService service;
+    private MediaPlayer player;
+
     public static MusicService getInstance(){
         if (service==null){
             service=new MusicService();
@@ -42,20 +44,44 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        获取列表
+        havemusic= (boolean) SharedPFUtils.getParam(MusicService.this,"havemusic",false);
         requestList();
 //        下载列表文件
 //        播放音乐
-        MediaPlayer player=new MediaPlayer();
-        try {
-            player.setDataSource(UrlCollect.baseIamgeUrl+File.separator+list.get(0));
+        player = new MediaPlayer();
 //            监听
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     currentIndex++;
+                    if (list.size()==0) {
+                        return;
+                    }
                     try {
-                        mp.setDataSource(MyApplication.MUSICPATH+File.separator+list.get(currentIndex%list.size()));
-                        mp.start();
+                        if (havemusic){
+                            File file=new File(MyApplication.MUSICPATH);
+                            String[] list = file.list();
+                            mp.stop();
+                            mp.release();
+                            mp = null;
+                            mp = new MediaPlayer();
+                            mp.setDataSource(MusicService.this
+                                    ,Uri.parse(MyApplication.MUSICPATH+File.separator+list[currentIndex%list.length]));
+                            Log.e("============", "havemusic: "+MyApplication.MUSICPATH+File.separator+list[currentIndex%list.length]);
+                            mp.prepare();
+                            mp.start();
+                        }else{
+                            mp.stop();
+                            mp.release();
+                            mp = null;
+                            mp = new MediaPlayer();
+                            mp.setDataSource(MusicService.this
+                                    ,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+                            Log.e("============", "nomusic: "+Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+
+                            mp.prepare();
+                            mp.start();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -65,8 +91,15 @@ public class MusicService extends Service {
             player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
+                    if (list.size()==0){
+                        return false;
+                    }
+                    if (mp==null){
+                        mp=new MediaPlayer();
+                    }
                     try {
-                        mp.setDataSource(MusicService.this,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+                        mp.setDataSource(MusicService.this
+                                ,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
                         mp.prepare();
                         mp.start();
                     } catch (IOException e) {
@@ -75,14 +108,9 @@ public class MusicService extends Service {
                     return false;
                 }
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//
-        player.start();
-        return super.onStartCommand(intent, flags, startId);
+        return Service.START_NOT_STICKY;
     }
-
+//请求列表 并下载 储存标识
     private void requestList() {
         OkGo.post(UrlCollect.getMusic)//
                 .tag(this)//
@@ -90,6 +118,9 @@ public class MusicService extends Service {
                         @Override
                         public void onSuccess(String s, Call call, Response response) {
                         Log.e("=================", "onSuccess: "+s);
+                        if (!(boolean) SharedPFUtils.getParam(MusicService.this,"havemusic",false)){
+                            SharedPFUtils.setParam(MusicService.this,"music",s);
+                        }
                         MusicListBean listBean = new Gson().fromJson(s, MusicListBean.class);
                         List<MusicListBean.DataBean> data = listBean.getData();
                         if (data==null){
@@ -99,6 +130,13 @@ public class MusicService extends Service {
                         for (int i = 0; i < data.size(); i++) {
                             list.add(data.get(i).getUrl());
                             download(data.get(i).getUrl());
+                        }
+                        try {
+                            player.setDataSource(MusicService.this,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+                            player.prepare();
+                            player.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -114,6 +152,8 @@ public class MusicService extends Service {
                             try {
                                 File f=new File(MyApplication.MUSICPATH+File.separator+name);
                                 file.renameTo(f);
+                                havemusic=true;
+                                SharedPFUtils.setParam(MusicService.this,"havemusic",true);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -125,5 +165,12 @@ public class MusicService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        player.stop();
+        stopSelf();
     }
 }

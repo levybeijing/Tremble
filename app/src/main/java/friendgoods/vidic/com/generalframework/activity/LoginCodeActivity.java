@@ -191,4 +191,10 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopMusic();
+    }
 }

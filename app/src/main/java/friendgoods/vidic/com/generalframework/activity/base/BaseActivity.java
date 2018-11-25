@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.activity.MusicService;
+
 /**
  * Created by wh on 2017/7/10.
  */
@@ -107,5 +109,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void exitApp() {
         finishAll();
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public void stopMusic(){
+        MusicService.getInstance().onDestroy();
     }
 }
