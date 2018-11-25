@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.activity.bean.MusicListBean;
@@ -44,39 +45,45 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        获取列表
-        havemusic= (boolean) SharedPFUtils.getParam(MusicService.this,"havemusic",false);
-        requestList();
-//        下载列表文件
-//        播放音乐
         player = new MediaPlayer();
-//            监听
+        player.setLooping(true);
+        havemusic= (boolean) SharedPFUtils.getParam(MusicService.this,"havemusic",false);
+        if (!havemusic){
+            requestList();
+        }else{
+            try {
+                File  ff=new File(MyApplication.MUSICPATH);
+                String[] strings =ff.list();
+                player.setDataSource(MyApplication.MUSICPATH+File.separator+strings[new Random().nextInt(3)]);
+                player.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            player.start();
+        }
             player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     currentIndex++;
+                    Log.e("============", "havemusic: "+currentIndex);
                     if (list.size()==0) {
                         return;
                     }
+                    mp.stop();
+                    mp.release();
+                    mp = null;
+                    mp = new MediaPlayer();
                     try {
                         if (havemusic){
                             File file=new File(MyApplication.MUSICPATH);
                             String[] list = file.list();
-                            mp.stop();
-                            mp.release();
-                            mp = null;
-                            mp = new MediaPlayer();
-                            mp.setDataSource(MusicService.this
-                                    ,Uri.parse(MyApplication.MUSICPATH+File.separator+list[currentIndex%list.length]));
+                            Log.e("============", "havemusic: "+list.length);
+                            mp.setDataSource(MyApplication.MUSICPATH+File.separator+list[currentIndex%list.length]);
                             Log.e("============", "havemusic: "+MyApplication.MUSICPATH+File.separator+list[currentIndex%list.length]);
                             mp.prepare();
                             mp.start();
                         }else{
-                            mp.stop();
-                            mp.release();
-                            mp = null;
-                            mp = new MediaPlayer();
-                            mp.setDataSource(MusicService.this
-                                    ,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
+                            mp.setDataSource(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size()));
                             Log.e("============", "nomusic: "+Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
 
                             mp.prepare();
@@ -94,9 +101,10 @@ public class MusicService extends Service {
                     if (list.size()==0){
                         return false;
                     }
-                    if (mp==null){
-                        mp=new MediaPlayer();
-                    }
+                    mp.stop();
+                    mp.release();
+                    mp = null;
+                    mp = new MediaPlayer();
                     try {
                         mp.setDataSource(MusicService.this
                                 ,Uri.parse(UrlCollect.baseIamgeUrl+File.separator+list.get(currentIndex%list.size())));
