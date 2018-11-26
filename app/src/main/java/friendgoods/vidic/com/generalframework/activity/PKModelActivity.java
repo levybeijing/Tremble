@@ -63,6 +63,8 @@ import okhttp3.Response;
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 public class PKModelActivity extends BaseActivity implements View.OnClickListener {
+    private static int degree=1;
+
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -74,7 +76,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private boolean havetime=false;
 
     private boolean haveready=false;
-
+    private static final int REQUESTCODE=2345;
     private LinearLayout ll;
     private ImageView readyno;
     private ImageView readyyes;
@@ -231,8 +233,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //            jump
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("roomId",roomId);
-            startActivity(intent);
-            finish();
+            startActivityForResult(intent,REQUESTCODE);
+//            startActivity(intent);
+//            finish();
         }
     }
 
@@ -244,9 +247,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_pkmodel);
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
-//        gametime=System.currentTimeMillis();
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
-//        connect();
         initView();
     }
 
@@ -903,5 +904,23 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUESTCODE){
+            switch (resultCode){
+                case 111:
+                    finish();
+                    break;
+                case 222:
+                    finish();
+                    break;
+                default:
+                    finish();
+                    break;
+            }
+        }
     }
 }

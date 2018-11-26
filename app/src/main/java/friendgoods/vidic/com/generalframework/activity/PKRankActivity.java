@@ -1,7 +1,10 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +29,6 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class PKRankActivity extends BaseActivity {
-
     private int roomId;
     private ImageView char_one;
     private ImageView char_two;
@@ -54,7 +56,28 @@ public class PKRankActivity extends BaseActivity {
         iv_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(PKRankActivity.this);
+                //    设置Title的图标
+//                builder.setIcon(R.drawable.ic_launcher);
+                builder.setTitle("游戏结束");
+                builder.setMessage("再来一局?");
+                builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent=new Intent();
+                        setResult(111,intent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent=new Intent();
+                        setResult(222,intent);
+                        finish();
+                    }
+                });
+                builder.show();
             }
         });
 //请求排名

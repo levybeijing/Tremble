@@ -330,7 +330,7 @@
             android:id="@+id/iv_sure_pkmodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/sure_pk"
+            android:background="@mipmap/makesure_pk"
             android:layout_margin="10dp"
             android:focusable="true"
             />
