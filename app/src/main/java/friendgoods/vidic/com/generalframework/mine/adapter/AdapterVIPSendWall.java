@@ -63,7 +63,7 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Integer remove = numlist.remove(position);
                     numlist.add(position,--remove);
-                    ((AdapterPubWall.MyViewHolder) holder).tv_number.setText(remove+"");
+                    ((MyViewHolder) holder).tv_number.setText(remove+"");
                     itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
                 }
             });

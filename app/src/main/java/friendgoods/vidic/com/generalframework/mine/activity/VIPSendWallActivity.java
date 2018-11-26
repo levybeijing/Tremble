@@ -244,14 +244,9 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //    上传图片到服务器
-//        uploadToService();
-    }
-
-    private void uploadToService() {
         OkGo.post(UrlCollect.baseIamgeUrl)//
                 .tag(this)//
-                .params("***", "")//文件
+                .params("icon",f)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -260,7 +255,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
     }
-
     //    上传VIP墙图片
     private void uploadPng() {
         OkGo.post(UrlCollect.updatePresentsWall)//

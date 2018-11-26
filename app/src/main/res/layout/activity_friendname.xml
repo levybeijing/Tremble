@@ -119,11 +119,17 @@
                     />
             </LinearLayout>
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/container_friendname"
-            style="@style/rl_giftwall"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             >
+            <RelativeLayout
+                android:id="@+id/container_friendname"
+                style="@style/rl_giftwall"
+                android:layout_centerInParent="true"
+                >
+            </RelativeLayout>
             <TextView
                 android:id="@+id/tv_pubsend_friendname"
                 android:background="@drawable/orange_friendname"
@@ -134,9 +140,9 @@
                 android:gravity="center"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="30dp"
+                android:layout_marginTop="400dp"
+                android:layout_marginLeft="240dp"
                 />
-        </RelativeLayout>
+        </FrameLayout>
     </LinearLayout>
-
 </ScrollView>

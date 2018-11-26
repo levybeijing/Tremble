@@ -596,18 +596,22 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 light1.setVisibility(View.VISIBLE);
                                 readyList.remove(0);
                                 readyList.add(0,true);
-                            }else{
+                            }
+                            if (idlist.get(0).equals(userId)&& pkbean.getStatus().equals("1")){
                                 light1.setVisibility(View.INVISIBLE);
-                                haveready=false;
+                                readyList.remove(0);
+                                readyList.add(0,false);
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             if (idlist.get(1).equals(userId)&& pkbean.getStatus().equals("2")){
                                 light3.setVisibility(View.VISIBLE);
                                 readyList.remove(1);
                                 readyList.add(1,true);
-                            }else{
+                            }
+                            if (idlist.get(1).equals(userId)&& pkbean.getStatus().equals("1")){
                                 light3.setVisibility(View.INVISIBLE);
-                                haveready=false;
+                                readyList.remove(1);
+                                readyList.add(1,false);
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             if (!idlist.get(0).equals("0")&&readyList.get(0).booleanValue()){

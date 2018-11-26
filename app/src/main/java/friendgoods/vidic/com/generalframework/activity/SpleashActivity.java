@@ -25,8 +25,7 @@ public class SpleashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-//        背景音乐服务启动
-        startService(new Intent(this,MusicService.class));
+
 //        动态权限
         String[] permession =new String[]{
                 Manifest.permission.READ_PHONE_STATE,

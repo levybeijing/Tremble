@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -28,7 +29,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        背景音乐服务启动
+        startService(new Intent(this,MusicService.class));
         initView();
     }
     protected void initView() {

@@ -45,6 +45,10 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        获取列表
+        File  ff=new File(MyApplication.MUSICPATH);
+        if (!ff.exists()){
+            ff.mkdirs();
+        }
         player = new MediaPlayer();
         player.setLooping(true);
         havemusic= (boolean) SharedPFUtils.getParam(MusicService.this,"havemusic",false);
@@ -52,7 +56,6 @@ public class MusicService extends Service {
             requestList();
         }else{
             try {
-                File  ff=new File(MyApplication.MUSICPATH);
                 String[] strings =ff.list();
                 player.setDataSource(MyApplication.MUSICPATH+File.separator+strings[new Random().nextInt(3)]);
                 player.prepare();
@@ -178,7 +181,9 @@ public class MusicService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        player.stop();
+        if (player!=null){
+            player.stop();
+        }
         stopSelf();
     }
 }
