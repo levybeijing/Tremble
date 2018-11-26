@@ -216,6 +216,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                             if ("请求成功".equals(message)){
                                 view.removeAllViews();
                                 Toast.makeText(VIPSendWallActivity.this, "已送达", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(VIPSendWallActivity.this, message, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -246,7 +248,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         }
         OkGo.post(UrlCollect.baseIamgeUrl)//
                 .tag(this)//
-                .params("icon",f)
+                .params("img",f)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

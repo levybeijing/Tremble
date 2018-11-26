@@ -39,6 +39,7 @@ public class PKRankActivity extends BaseActivity {
     private TextView name_one;
     private TextView name_two;
     private TextView name_three;
+    private int degree;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +47,9 @@ public class PKRankActivity extends BaseActivity {
         setContentView(R.layout.activity_pkrank);
 //
         roomId = getIntent().getIntExtra("roomId",0);
-        Log.e("================", "PKRankActivity: "+roomId);
+        degree = getIntent().getIntExtra("degree",1);
+        Log.e("================", "roomId: "+roomId);
+        Log.e("================", "degree: "+degree);
 
 //加载背景图片
         ImageView iv_bg = findViewById(R.id.iv_bg_pkrank);
@@ -106,8 +109,8 @@ public class PKRankActivity extends BaseActivity {
         }
         OkGo.post(UrlCollect.getUserPKRanking)//
                 .tag(this)//
-                .params("roomId", roomId+"")
-                .params("degree", "1")
+                .params("roomId", roomId)
+                .params("degree", degree)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

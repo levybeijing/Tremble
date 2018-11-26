@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -32,10 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +40,13 @@ import java.util.Map;
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
-import friendgoods.vidic.com.generalframework.activity.bean.AddRoomBean;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
-import friendgoods.vidic.com.generalframework.activity.bean.ListGamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBeanx;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
-import friendgoods.vidic.com.generalframework.util.ToastUtils;
 import friendgoods.vidic.com.generalframework.widget.OnTimeSelectListener;
 import friendgoods.vidic.com.generalframework.widget.TimePickerBuilder;
 import friendgoods.vidic.com.generalframework.widget.TimePickerView;
@@ -71,7 +64,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //   是否正在游戏
     private boolean isGaming=false;
 //   是否是房主
-    private boolean isHost=true;
+    private static boolean isHost=true;
 //
     private boolean havetime=false;
 
@@ -103,7 +96,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
-    private int roomId;
+    private static int roomId;
     private long gametime;
     private ScaleAnimation animation,animation1;
 
@@ -232,10 +225,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             addrecord();
 //            jump
             Intent intent=new Intent(this,PKRankActivity.class);
+            intent.putExtra("degree",degree);
             intent.putExtra("roomId",roomId);
             startActivityForResult(intent,REQUESTCODE);
-//            startActivity(intent);
-//            finish();
         }
     }
 
@@ -289,16 +281,16 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         switch (sex){
             case 12:
-                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_one));
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man2));
                 break;
             case 11:
-                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man_two));
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.man1));
                 break;
             case 22:
-                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_one));
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman2));
                 break;
             case 21:
-                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman_two));
+                person2.setImageDrawable(getResources().getDrawable(R.mipmap.woman1));
                 break;
         }
         //3
@@ -615,14 +607,24 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 readyList.add(1,false);
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
-                            if (!idlist.get(0).equals("0")&&readyList.get(0).booleanValue()){
-                                if (idlist.get(1).equals("0")){
+
+                            if (!idlist.get(0).equals("0")){
+                                if (idlist.get(1).equals("0")&&readyList.get(0).booleanValue()){
                                     haveready=true;
-                                }else if (readyList.get(1).booleanValue()){
+                                }else if (!idlist.get(1).equals("0")&&readyList.get(1).booleanValue()){
                                     haveready=true;
                                 }else{
                                     haveready=false;
                                 }
+                            }else {
+                                if (!idlist.get(1).equals("0")&&readyList.get(1).booleanValue()){
+                                    haveready=true;
+                                }else{
+                                    haveready=false;
+                                }
+                            }
+                            if (haveready){
+                                Toast.makeText(PKModelActivity.this, "请设置时间", Toast.LENGTH_SHORT).show();
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             break;
@@ -895,13 +897,11 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.i("===========toBeFriend", s);
-
                     }
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         Log.i("===========toBeFriend", response.toString());
-
                     }
                 });
     }
@@ -912,12 +912,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         if (requestCode==REQUESTCODE){
             switch (resultCode){
                 case 111:
+                    degree++;
+                    if (isHost){
+//                        light2.setVisibility(View.VISIBLE);
+
+                    }else{
+//                        light2.setVisibility(View.INVISIBLE);
+                    }
                     finish();
                     break;
                 case 222:
-                    finish();
-                    break;
                 default:
+                    degree=1;
+                    roomId=0;
                     finish();
                     break;
             }

@@ -45,14 +45,14 @@
                     android:id="@+id/iv_man_mars_sex"
                     android:layout_width="131dp"
                     android:layout_height="234dp"
-                    android:background="@mipmap/man_one"
+                    android:background="@mipmap/man2"
                     android:visibility="invisible"
                     />
                 <ImageView
                     android:id="@+id/iv_woman_mars_sex"
                     android:layout_width="131dp"
                     android:layout_height="234dp"
-                    android:background="@mipmap/woman_one"
+                    android:background="@mipmap/woman2"
                     android:visibility="invisible"
                     />
             </RelativeLayout>
@@ -99,14 +99,14 @@
                     android:id="@+id/iv_man_earth_sex"
                     android:layout_width="128dp"
                     android:layout_height="220dp"
-                    android:background="@mipmap/man_two"
+                    android:background="@mipmap/man1"
                     android:visibility="invisible"
                     />
                 <ImageView
                     android:id="@+id/iv_woman_earth_sex"
                     android:layout_width="128dp"
                     android:layout_height="220dp"
-                    android:background="@mipmap/woman_two"
+                    android:background="@mipmap/woman1"
                     android:visibility="invisible"
                     />
             </RelativeLayout>

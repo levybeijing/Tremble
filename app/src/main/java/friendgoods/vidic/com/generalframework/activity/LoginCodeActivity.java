@@ -135,16 +135,16 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                             if (logo !=null) {
                                 switch (logo) {
                                     case "man1.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
-                                        break;
-                                    case "man2.png":
                                         SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);
                                         break;
+                                    case "man2.png":
+                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 12);
+                                        break;
                                     case "woman1.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
+                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
                                         break;
                                     case "woman2.png":
-                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 21);
+                                        SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
                                         break;
                                 }
                                 startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));

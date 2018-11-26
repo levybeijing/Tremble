@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,7 +54,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private int minites;
     private int seconds;
     private boolean havetime=true;
-    private boolean requsetOk=true;
+//    private boolean requsetOk=true;
     private boolean lock=false;
     private boolean note=true;
     private Handler handlerhcal=new Handler(){
@@ -72,11 +73,38 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 }
                 tv_time.setText((minites<10?"0"+minites:minites+"")+":"+(seconds<10?"0"+seconds:seconds+""));
             } else{
-                iv_click.setClickable(false);
-                requestGift();
-                addrecord();
                 havetime=false;
                 lock=true;
+                if (number<50){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChalModelActivity.this);
+                    builder.setMessage("很遗憾,未获得礼物,请再接再厉!");
+                    builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+//                            tv_number.setText("0");
+//                            number=0;
+//                            iv_click.setClickable(false);
+//                            lock=false;
+//                            requestTime();
+                        }
+                    });
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            iv_start.setClickable(true);
+                            tv_number.setText("0");
+                            number=0;
+                            iv_click.setClickable(false);
+                            lock=false;
+                            requestTime();
+                        }
+                    });
+                    builder.show();
+                }else {
+                    requestGift();
+                    iv_click.setClickable(false);
+                }
+                addrecord();
             }
 
         }
@@ -85,6 +113,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private String userId;
     private ImageView iv_niu;
     private Drawable drawable;
+    private ImageView iv_start;
 
 
     @Override
@@ -106,8 +135,13 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         }
         iv_click = findViewById(R.id.iv_click_challengemodel);
         iv_click.setOnClickListener(this);
+        iv_click.setClickable(false);
         findViewById(R.id.iv_exit_challengemodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_challengemodel).setOnClickListener(this);
+
+        iv_start = findViewById(R.id.iv_start_chal);
+        iv_start.setOnClickListener(this);
+
         iv_note = findViewById(R.id.iv_note_challengemodel);
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_chal);
@@ -138,29 +172,18 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             }
         }
     };
-    private Thread thread=new Thread(runnable);
+//    private Thread thread=new Thread(runnable);
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_click_challengemodel:
-                if (!requsetOk){
-                    Toast.makeText(this, "网络延迟,请重新进入", Toast.LENGTH_SHORT).show();
-                }
                 //        缩放动画
-                animation.setDuration(1000);
+                animation.setDuration(300);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
 
-                animation1.setDuration(1000);
-                iv_niu.setImageDrawable(null);
-                iv_niu.setImageDrawable(drawable);
+                animation1.setDuration(300);
                 iv_niu.setAnimation(animation1);
-
-                if (!thread.isAlive()){
-                    thread=new Thread(runnable);
-                    thread.start();
-                }
-
                 break;
             case R.id.iv_exit_challengemodel:
                 finish();
@@ -177,6 +200,11 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     iv_detail.setVisibility(View.INVISIBLE);
                 }
                 note=!note;
+                break;
+            case R.id.iv_start_chal:
+                iv_click.setClickable(true);
+                new Thread(runnable).start();
+                iv_start.setClickable(false);
                 break;
         }
     }
@@ -208,7 +236,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                         time = bean.getData().getTime();
                         tv_time.setText(time);
                         if (time!=null){
-                            iv_click.setClickable(true);
+//                            iv_click.setClickable(true);
+                            havetime=true;
                             String[] split = time.split(":");
                             seconds=Integer.parseInt(split[split.length-1]);
                             minites=Integer.parseInt(split[split.length-2]);
@@ -258,7 +287,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             public void onDismiss(DialogInterface dialog) {
                 number=0;
                 lock=false;
-                havetime=true;
+//                havetime=true;
                 tv_number.setText("0");
                 requestTime();
             }

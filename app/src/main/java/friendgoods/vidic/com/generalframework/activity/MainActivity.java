@@ -17,6 +17,7 @@ import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -29,8 +30,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        背景音乐服务启动
-        startService(new Intent(this,MusicService.class));
+
         initView();
     }
     protected void initView() {
@@ -44,6 +44,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, list.get(1)).commit();
         model_rg.setChecked(true);
         preFt=1;
+        //        背景音乐服务启动
+        if ((boolean)SharedPFUtils.getParam(this,"voice",true)){
+            startService(new Intent(this,MusicService.class));
+        }
     }
 
     @Override

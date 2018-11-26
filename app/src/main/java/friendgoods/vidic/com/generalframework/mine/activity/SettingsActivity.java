@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.activity.MusicService;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -79,18 +80,19 @@ public class SettingsActivity extends BaseActivity {
                     VOICE=1;
                     edit.putBoolean("voice",true);
                     edit.commit();
-                    int i = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                    if (i==0)
+//                    int i = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+//                    if (i==0)
 //                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
-//                    startService(new Intent(SettingsActivity.this,MusicService.class));
+                    startService(new Intent(SettingsActivity.this,MusicService.class));
+
                 }else{
                     VOICE=0;
                     edit.putBoolean("voice",false);
                     edit.commit();
 //                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
-//                    MusicService.getInstance().onDestroy();
+                    MusicService.getInstance().onDestroy();
                 }
                 request(SHAKE,VOICE);
             }

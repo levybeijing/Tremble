@@ -25,10 +25,10 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class SexChooseActivity extends BaseActivity implements View.OnClickListener {
-    private  final int MANMARS =11;
-    private  final int MANEARTH =12;
-    private  final int WOMANMARS =21;
-    private  final int WOMANEARTH =22;
+    private  final int MANMARS =12;
+    private  final int MANEARTH =11;
+    private  final int WOMANMARS =22;
+    private  final int WOMANEARTH =21;
     private boolean isUpdateOk=true;
 
     private ImageView man_mars,woman_mars,man_earth,woman_earth,bg_man,bg_woman;
@@ -96,25 +96,25 @@ public class SexChooseActivity extends BaseActivity implements View.OnClickListe
                 woman_earth.setVisibility(View.VISIBLE);
                 break;
 //                下部
-            case R.id.iv_man_mars_sex:
+            case R.id.iv_man_mars_sex://12
                 edit.putInt("sex",MANMARS);
                 edit.commit();
                 gotoMain();
                 requset(MANMARS);
                 break;
-            case R.id.iv_man_earth_sex:
+            case R.id.iv_man_earth_sex://11
                 edit.putInt("sex",MANEARTH);
                 edit.commit();
                 gotoMain();
                 requset(MANEARTH);
                 break;
-            case R.id.iv_woman_mars_sex:
+            case R.id.iv_woman_mars_sex://22
                 edit.putInt("sex",WOMANMARS);
                 edit.commit();
                 gotoMain();
                 requset(WOMANMARS);
                 break;
-            case R.id.iv_woman_earth_sex:
+            case R.id.iv_woman_earth_sex://21
                 edit.putInt("sex",WOMANEARTH);
                 edit.commit();
                 gotoMain();

@@ -3,11 +3,7 @@ package friendgoods.vidic.com.generalframework.activity;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -20,15 +16,10 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
@@ -97,16 +88,16 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
         int r=0;
         switch (sex){
             case 11:
-                r=R.mipmap.man_one;
+                r=R.mipmap.man2;
                 break;
             case 12:
-                r=R.mipmap.man_two;
+                r=R.mipmap.man1;
                 break;
             case 21:
-                r=R.mipmap.woman_one;
+                r=R.mipmap.woman2;
                 break;
             case 22:
-                r=R.mipmap.woman_two;
+                r=R.mipmap.woman1;
                 break;
         }
         if (r!=0)
