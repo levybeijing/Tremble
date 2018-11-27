@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -133,7 +134,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        haveAddress=false;
+                        Log.e("================", "onSuccess: "+s);
                         startActivity(new Intent(CommitOrderActivity.this,MyOrdersActivity.class));
                     }
                 });
