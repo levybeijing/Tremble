@@ -22,6 +22,7 @@ import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerO
 import friendgoods.vidic.com.generalframework.mine.activity.DetailOrdersActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterOrdersCommon;
 import friendgoods.vidic.com.generalframework.bean.OrdersBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -46,7 +47,7 @@ public class FragOrders4 extends Fragment{
         //网络访问
         OkGo.post(UrlCollect.obtainOrderList)//
                 .tag(this)//
-                .params("userId", "27")
+                .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
                 .params("page", "1")
                 .params("pageSize", "10")
                 .params("status", "2")

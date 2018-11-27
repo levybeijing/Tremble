@@ -6,7 +6,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
@@ -18,12 +23,21 @@ import friendgoods.vidic.com.generalframework.mine.frag.FragOrders3;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders4;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders5;
 
+import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
+
 public class MyOrdersActivity extends BaseActivity {
+
+    private String preid;
+    public static IWXAPI api;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myorders);
 
+        api = WXAPIFactory.createWXAPI(this, WXAppID);
+        api.registerApp(WXAppID);
+//        Log.e("==========time", String.valueOf(System.currentTimeMillis()/1000));
+//        preid = getIntent().getStringExtra("preid");
         initView();
     }
 

@@ -183,7 +183,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private boolean note=true;
     private boolean lock=false;
     private String friendId;
-
+    private String invitename;
     private void setTime() {
         if (lock){
             return;
@@ -214,7 +214,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             isGaming=false;
             havetime=false;
             haveready=false;
-            gametime=System.currentTimeMillis()-gametime;
+//            gametime=System.currentTimeMillis()-gametime;
             Toast.makeText(this, "游戏结束", Toast.LENGTH_SHORT).show();
 //            game over
             PKSocketBean end =new PKSocketBean();
@@ -321,7 +321,10 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         if (data!=null){
             roomId = Integer.parseInt(data.getQueryParameter("id"));
             friendId = data.getQueryParameter("friendId");
-            Log.e("===========roomId", ""+ friendId);
+            invitename = data.getQueryParameter("userName");
+            Log.e("===========invitename", ""+ invitename);
+
+            Log.e("===========friendId", ""+ friendId);
             toBeFriend(friendId);
             Log.e("===========roomId", ""+roomId);
             isHost=false;
@@ -467,7 +470,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //                微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
                 int userId = (int)SharedPFUtils.getParam(this, "userId", 0);
-                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId+"&friendId="+userId;
+                String name = (String)SharedPFUtils.getParam(this, "name", "");
+                webpaget.webpageUrl="http://www.dt.pub/share/#/?roomId="+roomId+"&friendId="+userId+"&userName="+name;
                 Log.e("===========webpageUrl", webpaget.webpageUrl);
                 WXMediaMessage msg=new WXMediaMessage(webpaget);
                 msg.title="抖腿大乐斗";

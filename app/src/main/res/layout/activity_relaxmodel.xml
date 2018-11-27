@@ -59,7 +59,7 @@
         android:id="@+id/iv_notedetail_relaxmodel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/note_relax_3x"
+        android:background="@mipmap/note_relaxmodel"
         android:layout_toLeftOf="@id/ll_note_relax"
         android:layout_below="@+id/ll_note_relax"
         android:visibility="invisible"
