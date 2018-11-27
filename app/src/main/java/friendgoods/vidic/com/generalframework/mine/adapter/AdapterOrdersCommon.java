@@ -15,25 +15,16 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
 
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MyOrdersActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.PayBean;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerOrderId;
 import friendgoods.vidic.com.generalframework.bean.OrdersBean;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
-import friendgoods.vidic.com.generalframework.util.StringUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
