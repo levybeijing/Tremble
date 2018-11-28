@@ -26,6 +26,7 @@ import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.FriendNameActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -97,7 +98,8 @@ public class WeekRankFragment extends Fragment {
     private void requestworld(int page) {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
-                .params("page", page+"")
+                .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
+                .params("page", page)
                 .params("pageSize", "20")
                 .params("type", "1")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
@@ -112,7 +114,8 @@ public class WeekRankFragment extends Fragment {
     private void requestFriend(int page) {
         OkGo.post(UrlCollect.getFriendp)//
                 .tag(this)//
-                .params("page", page+"")
+                .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
+                .params("page", page)
                 .params("pageSize", "20")
                 .params("type", "1")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动

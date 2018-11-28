@@ -1,11 +1,17 @@
 package friendgoods.vidic.com.generalframework.activity.base;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
 
 /**
@@ -47,9 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         mForegroundActivity = null;
-//        if (mActivities.size()==0){
-//            MusicService.getInstance().onDestroy();
-//        }
         super.onPause();
     }
     /**
@@ -117,5 +120,4 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void stopMusic(){
         MusicService.getInstance().onDestroy();
     }
-
 }

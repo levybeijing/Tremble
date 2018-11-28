@@ -107,7 +107,10 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
             public void onItemClick(String sx, String sy, String surl, String id, int remove) {
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
-
+                if (remove==0){
+                    Toast.makeText(VIPSendWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //实际图片尺寸
                 int realwidth= (int) (x* scale)-1;
                 int realheight= (int) (y* scale)-1;
@@ -126,6 +129,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
                 //加载图片
+                iv.setScale(scale);
                 Picasso.with(VIPSendWallActivity.this).load(surl).into(iv);
                 //传入自己的真实像素
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(

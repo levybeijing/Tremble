@@ -76,7 +76,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
         int wid = (int) (density*343);
         scale = wid/325.0f;
-        Log.e("=============", "zhanshi: "+scale);
+//        Log.e("=============", "zhanshi: "+scale);
 
         rv = findViewById(R.id.rv_friendname);
         GridLayoutManager  manager=new GridLayoutManager(this,3);
@@ -108,7 +108,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=============", "onSuccess: "+s);
+//                        Log.e("=============", "onSuccess: "+s);
 
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         logo=myWallBean.getData().getLogo();

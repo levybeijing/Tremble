@@ -97,7 +97,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
     private static int roomId;
-    private long gametime;
     private ScaleAnimation animation,animation1;
 
 //    计时器
