@@ -151,7 +151,7 @@ public class AdapterOrdersCommon extends RecyclerView.Adapter<AdapterOrdersCommo
                                         PayBean payBean = new Gson().fromJson(s, PayBean.class);
 
                                         PayReq request = new PayReq();
-                                        request.appId = WXAppID;//
+                                        request.appId = UrlCollect.WXAppID;//
                                         request.nonceStr= payBean.getData().getNonceStr();
                                         request.partnerId = UrlCollect.mch_id;
                                         request.packageValue = "Sign=WXPay";

@@ -14,7 +14,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     private int parentTop=0;
     private int parentRight=0;
     private int parentBottom=0;
-
+    private float scale;
     public MoveImageView(Context context) {
         super(context);
     }
@@ -31,12 +31,15 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     }
     public int lastX = 0;
     public int lastY = 0;
-
+    public void setScale(float s){
+        scale=s;
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
 
         RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) this.getLayoutParams();
+
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -70,16 +73,18 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                     bottom = parentBottom-parentTop;
                     top = bottom - getHeight();
                 }
+                //相对服布局的定位?
                 layout(left, top, right, bottom);
-
-                lastX = (int) event.getRawX();
-                lastY = (int) event.getRawY();
                 //点击事件的坐标
-//                Log.e("#########Move", "onTouchEvent: "+getBottom());
-//                Log.e("#########Move", "onTouchEvent: "+getRight());
+                Log.e("#########Move", "onTouchEvent: "+dx);
+                Log.e("#########Move", "onTouchEvent: "+dy);
                 //记录当前位置  拖曳过程中 会变小!?
                 lp.setMargins(getLeft(),getTop(),getLeft()+getWidth(),getTop()+getHeight());
+//                lp.setMargins(left,top,right,bottom);
+                //确定位置?
                 this.setLayoutParams(lp);
+                lastX = (int) event.getRawX();
+                lastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_UP:
 

@@ -28,7 +28,6 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
         api = WXAPIFactory.createWXAPI(this, WXAppID);//这里填入自己的微信APPID
         api.handleIntent(getIntent(), this);
         Log.d("==========", "WXPayEntryActivity");
-
     }
 
     @Override
@@ -39,14 +38,18 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     public void onResp(BaseResp baseResp) {
         Log.e("==========", "onPayFinish, errCode = " + baseResp.errCode);
-        Log.e("==========", "onPayFinish, errCode = " + baseResp.getType()+baseResp.openId);
-        if(baseResp.errCode==0){
-            Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
+        switch (baseResp.errCode){
+            case 0:
+                Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
+                break;
+            case -1:
+                Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
+                break;
+            case -2:
+                Toast.makeText(this, "用户取消", Toast.LENGTH_LONG).show();
+                break;
         }
-        else {
-            Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
-        }
-//        finish();
+        finish();
     }
 
     @Override

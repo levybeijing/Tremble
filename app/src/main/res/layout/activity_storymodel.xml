@@ -76,29 +76,7 @@
                 />
         </FrameLayout>
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="280dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        >
-        <ImageView
-            android:id="@+id/iv_close_story"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/story_close_3x"
-            android:layout_alignParentRight="true"
-            android:visibility="invisible"
-            />
-        <ImageView
-            android:id="@+id/iv_net_story"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:visibility="invisible"
-            android:background="#8aaa"
-            />
-    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -131,4 +109,27 @@
         android:layout_below="@+id/ll_note_story"
         android:visibility="invisible"
         />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/iv_net_story"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:visibility="invisible"
+            android:background="#8aaa"
+            android:scaleType="centerCrop"
+            />
+        <ImageView
+            android:id="@+id/iv_close_story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/story_close_3x"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -134,6 +134,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(String sx, String sy, String surl, String id, int remove) {
                 float x=Float.parseFloat(sx);
                 float y=Float.parseFloat(sy);
+
                 if (remove==0){
                     Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
                     return;
@@ -144,8 +145,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 //获取限定范围 以父控件为参照
                 int left = view.getLeft();
                 int top = view.getTop();
-                int right = view.getRight();
-                int bottom = view.getBottom();
+                int right = (int) (view.getRight()*scale);
+                int bottom = (int) (view.getBottom()*scale);
                 Log.e("=============", "onSuccess: "+realhei);
                 Log.e("=============", "onSuccess: "+left);
                 Log.e("=============", "onSuccess: "+top);

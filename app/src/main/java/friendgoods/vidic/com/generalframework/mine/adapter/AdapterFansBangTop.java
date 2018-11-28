@@ -53,14 +53,14 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
                 holder.iv_small.setVisibility(View.INVISIBLE);
                 holder.iv_big.setVisibility(View.VISIBLE);
                 if (list.size()==1){
-                    Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_big);
+                    Picasso.with(context).load(list.get(position-1).getPhoto()).into(holder.iv_big);
                     Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
-                    holder.tv_name.setText(list.get(position).getName());
-                    holder.tv_energy.setText(list.get(position).getScore()+"");
+                    holder.tv_name.setText(list.get(position-1).getName());
+                    holder.tv_energy.setText(list.get(position-1).getScore()+"");
                     break;
                 }
                 if (list.size()==0){
-                    return;
+                    break;
                 }
                 Picasso.with(context).load(list.get(position-1).getPhoto()).into(holder.iv_big);
                 Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);

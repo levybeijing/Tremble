@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -138,18 +139,21 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 if (count==numbers.get(flag)){
-                    int i = new Random().nextInt(5);
+                    int i = new Random().nextInt(images.size());
                     iv_net.setVisibility(View.VISIBLE);
                     iv_close.setVisibility(View.VISIBLE);
-                    Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+images.get(i)).into(iv_net);
+                    Picasso.with(StoryModelActivity.this).load(UrlCollect.baseIamgeUrl+images.get(i).getImg()).into(iv_net);
+                    Log.e("========", "onSuccess: "+UrlCollect.baseIamgeUrl+images.get(i).getImg());
+                    images.remove(i);
                     iv_click.setClickable(false);
                     flag++;
                 }
-                if (flag==numbers.size()){
+                if (images.size()==0){
                     gametime=System.currentTimeMillis()-gametime;
 //                    格式化时间值
                     addrecord();
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
+                    iv_click.setClickable(false);
                 }
                 tv_number.setText(count+"");
                 tv_number.setAnimation(animation);
@@ -157,6 +161,9 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
             case R.id.iv_close_story:
                 iv_net.setVisibility(View.INVISIBLE);
                 iv_close.setVisibility(View.INVISIBLE);
+                if (images.size()==0){
+                    break;
+                }
                 iv_click.setClickable(true);
                 break;
             case R.id.iv_note_storymodel:

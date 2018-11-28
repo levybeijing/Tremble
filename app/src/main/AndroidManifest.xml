@@ -118,5 +118,10 @@
                 <data android:scheme="wx880032906dd26b0f" />
             </intent-filter>
         </activity>
+        <!--<receiver android:name=".LoginReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="action.LOGIN.OTHER"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 </manifest>
