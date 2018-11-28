@@ -287,7 +287,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             public void onDismiss(DialogInterface dialog) {
                 number=0;
                 lock=false;
-//                havetime=true;
                 tv_number.setText("0");
                 requestTime();
             }

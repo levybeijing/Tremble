@@ -67,26 +67,6 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
         holder.tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                进入购买流程 直接出现支付界面
-//                api = WXAPIFactory.createWXAPI(context, UrlCollect.WXAppID);
-//                api.registerApp(WXAppID);
-//
-//                PayReq request = new PayReq();
-////
-//                request.appId = WXAppID;//
-////商户号
-//                request.partnerId = UrlCollect.mch_id;
-////订单号
-//                request.prepayId= "1101000000140415649af9fc314aa427";
-////固定值
-//                request.packageValue = "Sign=WXPay";
-////随机数
-//                request.nonceStr= new Random().nextInt(10000)+"";
-////时间戳
-//                request.timeStamp= new Date().getTime()/10+"";
-////签名
-//                request.sign= "496F2F2982786AE44920E262B550DAA4";
-//                api.sendReq(request);
                 float integral = (Float)SharedPFUtils.getParam(context, "integral", 0.0f);
                 if (jifen>integral){
                     Toast.makeText(context, "您的积分不足", Toast.LENGTH_SHORT).show();

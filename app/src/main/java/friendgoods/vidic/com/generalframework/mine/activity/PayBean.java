@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class PayBean {
 
     /**
-     * data : {"timeStamp":"1537184833","package":"prepay_id=null","paySign":"E5337671C5BE4C5B2061A65CF4C88E6F","appid":"wx01114b3ed5f6ed34","signType":"MD5","nonceStr":"3knpcfkhb6pk0lwi6jhfrxc7x9crf5da"}
+     * data : {"timeStamp":"1543304154","package":"prepay_id=wx27153554412242c3737519fb0996094654","paySign":"CB2435E40CF57AE31F9479B6ED6D1D41","appid":"wx01114b3ed5f6ed34","signType":"MD5","nonceStr":"hoig7zbjbls5cg2dzdkzig6qzucxz5jk","prepay_id":"wx27153554412242c3737519fb0996094654"}
      * message : 请求成功
      * state : 1
      */
@@ -40,12 +40,13 @@ public class PayBean {
 
     public static class DataBean {
         /**
-         * timeStamp : 1537184833
-         * package : prepay_id=null
-         * paySign : E5337671C5BE4C5B2061A65CF4C88E6F
+         * timeStamp : 1543304154
+         * package : prepay_id=wx27153554412242c3737519fb0996094654
+         * paySign : CB2435E40CF57AE31F9479B6ED6D1D41
          * appid : wx01114b3ed5f6ed34
          * signType : MD5
-         * nonceStr : 3knpcfkhb6pk0lwi6jhfrxc7x9crf5da
+         * nonceStr : hoig7zbjbls5cg2dzdkzig6qzucxz5jk
+         * prepay_id : wx27153554412242c3737519fb0996094654
          */
 
         private String timeStamp;
@@ -55,6 +56,7 @@ public class PayBean {
         private String appid;
         private String signType;
         private String nonceStr;
+        private String prepay_id;
 
         public String getTimeStamp() {
             return timeStamp;
@@ -102,6 +104,14 @@ public class PayBean {
 
         public void setNonceStr(String nonceStr) {
             this.nonceStr = nonceStr;
+        }
+
+        public String getPrepay_id() {
+            return prepay_id;
+        }
+
+        public void setPrepay_id(String prepay_id) {
+            this.prepay_id = prepay_id;
         }
     }
 }

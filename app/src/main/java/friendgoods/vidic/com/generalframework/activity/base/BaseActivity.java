@@ -47,6 +47,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         mForegroundActivity = null;
+//        if (mActivities.size()==0){
+//            MusicService.getInstance().onDestroy();
+//        }
         super.onPause();
     }
     /**
@@ -114,4 +117,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void stopMusic(){
         MusicService.getInstance().onDestroy();
     }
+
 }

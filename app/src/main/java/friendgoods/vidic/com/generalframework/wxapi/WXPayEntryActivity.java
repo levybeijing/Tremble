@@ -2,7 +2,10 @@ package friendgoods.vidic.com.generalframework.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -24,6 +27,8 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
 //        setContentView(R.layout.activity_wxpay_entry);
         api = WXAPIFactory.createWXAPI(this, WXAppID);//这里填入自己的微信APPID
         api.handleIntent(getIntent(), this);
+        Log.d("==========", "WXPayEntryActivity");
+
     }
 
     @Override
@@ -33,19 +38,15 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
 
     @Override
     public void onResp(BaseResp baseResp) {
-//        Log.d("coyc", "onPayFinish, errCode = " + baseResp.errCode);
-
-        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            int errCord = baseResp.errCode;
-            if (errCord == 0) {
-//                App.getInstance().tos("支付成功！");
-            } else {
-//                App.getInstance().tos("支付失败");
-            }
-            //这里接收到了返回的状态码可以进行相应的操作，如果不想在这个页面操作可以把状态码存在本地然后finish掉这个页面，这样就回到了你调起支付的那个页面
-            //获取到你刚刚存到本地的状态码进行相应的操作就可以了
-            finish();
+        Log.e("==========", "onPayFinish, errCode = " + baseResp.errCode);
+        Log.e("==========", "onPayFinish, errCode = " + baseResp.getType()+baseResp.openId);
+        if(baseResp.errCode==0){
+            Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
         }
+        else {
+            Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
+        }
+//        finish();
     }
 
     @Override

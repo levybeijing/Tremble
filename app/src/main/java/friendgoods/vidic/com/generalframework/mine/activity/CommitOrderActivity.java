@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
@@ -18,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+import friendgoods.vidic.com.generalframework.bean.PayIdBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
 import friendgoods.vidic.com.generalframework.bean.DetailGoodsBean;
@@ -134,8 +136,12 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.e("================", "onSuccess: "+s);
-                        startActivity(new Intent(CommitOrderActivity.this,MyOrdersActivity.class));
+                        Log.e("=========", "onSuccess: "+s);
+                        PayIdBean payIdBean = new Gson().fromJson(s, PayIdBean.class);
+                        finishAll();
+                        Intent intent = new Intent(CommitOrderActivity.this, MyOrdersActivity.class);
+                        intent.putExtra("preid",payIdBean.getData());
+                        startActivity(intent);
                     }
                 });
     }
