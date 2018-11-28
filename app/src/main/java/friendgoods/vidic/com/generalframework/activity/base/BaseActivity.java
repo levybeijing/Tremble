@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.LoginReceiver;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
 
@@ -27,11 +28,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 记录所有活动的Activity
      */
     private static final List<BaseActivity> mActivities = new LinkedList<BaseActivity>();
+    private LoginReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addActivity(this);
+        // 1. 实例化BroadcastReceiver子类 &  IntentFilter
+        receiver = new LoginReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        // 2. 设置接收广播的类型
+        intentFilter.addAction("action.LOGIN.OTHER");
+        registerReceiver(receiver, intentFilter);
     }
 
     /**
@@ -119,5 +127,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void stopMusic(){
         MusicService.getInstance().onDestroy();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 }
