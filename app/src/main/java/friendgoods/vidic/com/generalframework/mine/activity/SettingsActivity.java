@@ -132,7 +132,7 @@ public class SettingsActivity extends BaseActivity {
     public void clear() {
         edit.clear();
         edit.commit();
-//        System.exit(0);
+        SharedPFUtils.setParam(SettingsActivity.this, "loginstatus", false);
         startActivity(new Intent(this,LoginCodeActivity.class));
         finishAll();
     }

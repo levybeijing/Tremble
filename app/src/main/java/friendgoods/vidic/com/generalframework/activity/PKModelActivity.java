@@ -226,7 +226,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("degree",degree);
             intent.putExtra("roomId",roomId);
-            startActivityForResult(intent,REQUESTCODE);
+//            startActivityForResult(intent,REQUESTCODE);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -236,6 +238,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
+
+
+
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
@@ -318,11 +323,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
         if (data!=null){
+            if (!(boolean) SharedPFUtils.getParam(this, "loginstatus", false)){
+                startActivity(new Intent(this,LoginCodeActivity.class));
+                finish();
+            }
             roomId = Integer.parseInt(data.getQueryParameter("id"));
             friendId = data.getQueryParameter("friendId");
-            invitename = data.getQueryParameter("userName");
-            Log.e("===========invitename", ""+ invitename);
-
             Log.e("===========friendId", ""+ friendId);
             toBeFriend(friendId);
             Log.e("===========roomId", ""+roomId);
@@ -918,7 +924,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     degree++;
                     if (isHost){
 //                        light2.setVisibility(View.VISIBLE);
-
                     }else{
 //                        light2.setVisibility(View.INVISIBLE);
                     }

@@ -91,7 +91,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            iv_start.setClickable(true);
+                            iv_start.setVisibility(View.VISIBLE);
                             tv_number.setText("0");
                             number=0;
                             iv_click.setClickable(false);
@@ -204,7 +204,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_start_chal:
                 iv_click.setClickable(true);
                 new Thread(runnable).start();
-                iv_start.setClickable(false);
+                iv_start.setVisibility(View.INVISIBLE);
                 break;
         }
     }

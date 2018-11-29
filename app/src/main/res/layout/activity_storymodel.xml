@@ -102,8 +102,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_notedetail_storymodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/note_game"
         android:background="@mipmap/note_story"
         android:layout_toLeftOf="@id/ll_note_story"
         android:layout_below="@+id/ll_note_story"

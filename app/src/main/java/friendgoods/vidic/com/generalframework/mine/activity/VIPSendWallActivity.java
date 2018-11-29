@@ -14,6 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -175,7 +182,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_makesure_vipwall:
                 sendGift("1");
-                randomName=StringUtil.getRandomName(16);
+                randomName=StringUtil.getRandomName(10);
                 saveBitmap(view, randomName);
                 imageList.clear();
 //                view.removeAllViews();
@@ -236,7 +243,11 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
         v.draw(canvas);
-        File f = new File(UrlCollect.IMAGEPATH, fileName);
+        File files=new File(UrlCollect.IMAGEPATH);
+        if (!files.exists()) {
+            files.mkdirs();
+        }
+        File f = new File(UrlCollect.IMAGEPATH,fileName);
         if (f.exists()) {
             f.delete();
         }
@@ -250,16 +261,9 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
-        OkGo.post(UrlCollect.baseIamgeUrl)//
-                .tag(this)//
-                .params("img",f)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        Log.e("=============", "上传到图片服务器: "+s);
-                        uploadPng();
-                    }
-                });
+        uploadOss(name,f.getAbsolutePath());
+        uploadPng();
+        Toast.makeText(this, "已送达", Toast.LENGTH_SHORT).show();
     }
     //    上传VIP墙图片
     private void uploadPng() {
@@ -274,5 +278,41 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                         Log.e("=============", "上传VIP墙图片: "+s);
                     }
                 });
+    }
+    //    上传VIP墙图片
+    private void uploadOss(String name,String path) {
+        // 构造上传请求
+        PutObjectRequest put = new PutObjectRequest("doutui", name, UrlCollect.baseIamgeUrl+name);
+
+// 异步上传时可以设置进度回调
+        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+                Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+            }
+        });
+
+        OSSAsyncTask task = MyApplication.oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                Log.d("=============PutObject", "UploadSuccess");
+            }
+
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                // 请求异常
+                if (clientExcepion != null) {
+                    // 本地异常如网络异常等
+                    clientExcepion.printStackTrace();
+                }
+                if (serviceException != null) {
+                    // 服务异常
+                    Log.e("ErrorCode", serviceException.getErrorCode());
+                    Log.e("RequestId", serviceException.getRequestId());
+                    Log.e("HostId", serviceException.getHostId());
+                    Log.e("RawMessage", serviceException.getRawMessage());
+                }
+            }
+        });
     }
 }

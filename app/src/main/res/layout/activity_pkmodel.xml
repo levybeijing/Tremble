@@ -362,8 +362,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_notedetail_pkmodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/note_game"
         android:background="@mipmap/note_pk"
         android:layout_toLeftOf="@id/ll_note_pk"
         android:layout_below="@+id/ll_note_pk"
