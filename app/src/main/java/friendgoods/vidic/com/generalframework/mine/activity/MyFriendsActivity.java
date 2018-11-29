@@ -1,6 +1,5 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +19,7 @@ import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFriends;
 import friendgoods.vidic.com.generalframework.bean.MyFriendsBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -68,15 +68,14 @@ public class MyFriendsActivity extends BaseActivity {
     private void request() {
         OkGo.post(UrlCollect.myFriends)//
                 .tag(this)//
-                .params("userId", "27")
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0))
                 .params("page", "1")
-                .params("pageSize", "7")
+                .params("pageSize", "12")
                 .params("type", "1")
                 .params("status", "1")//0（手）1（脚）
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("&&&&&&&&&&&&&&&&&&&&&&&", "onSuccess: "+s);
                         MyFriendsBean myFriendsBean = new Gson().fromJson(s, MyFriendsBean.class);
                         List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list = myFriendsBean.getData().getPageInfo().getList();
                         adapter.setData(list);

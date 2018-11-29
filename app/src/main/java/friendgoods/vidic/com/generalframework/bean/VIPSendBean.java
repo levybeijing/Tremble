@@ -2,10 +2,10 @@ package friendgoods.vidic.com.generalframework.bean;
 
 import java.util.List;
 
-public class VIPWallBean {
+public class VIPSendBean {
 
     /**
-     * data : {"PageInfo":{"endRow":3,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":3,"startRow":1,"total":3}}
+     * data : {"PageInfo":{"endRow":2,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":389,"userId":235},{"score":2400,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":392,"userId":235}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":2,"startRow":1,"total":2}}
      * message : 请求成功
      * state : 1
      */
@@ -40,7 +40,7 @@ public class VIPWallBean {
 
     public static class DataBean {
         /**
-         * PageInfo : {"endRow":3,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":3,"startRow":1,"total":3}
+         * PageInfo : {"endRow":2,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":389,"userId":235},{"score":2400,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":392,"userId":235}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":2,"startRow":1,"total":2}
          */
 
         private PageInfoBean PageInfo;
@@ -55,14 +55,14 @@ public class VIPWallBean {
 
         public static class PageInfoBean {
             /**
-             * endRow : 3
+             * endRow : 2
              * firstPage : 1
              * hasNextPage : false
              * hasPreviousPage : false
              * isFirstPage : true
              * isLastPage : true
              * lastPage : 1
-             * list : [{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}]
+             * list : [{"score":70,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":389,"userId":235},{"score":2400,"name":"大黑","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","logo":"man1.png","id":392,"userId":235}]
              * navigatePages : 1
              * navigatepageNums : [1]
              * nextPage : 0
@@ -70,9 +70,9 @@ public class VIPWallBean {
              * pageSize : 20
              * pages : 1
              * prePage : 0
-             * size : 3
+             * size : 2
              * startRow : 1
-             * total : 3
+             * total : 2
              */
 
             private int endRow;
@@ -241,21 +241,19 @@ public class VIPWallBean {
             public static class ListBean {
                 /**
                  * score : 70
-                 * fansId : 236
-                 * name : levy
-                 * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
-                 * logo : woman1.png
+                 * name : 大黑
+                 * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132
+                 * logo : man1.png
                  * id : 389
-                 * url : http://doutui.oss-cn-beijing.aliyuncs.com/null
+                 * userId : 235
                  */
 
                 private int score;
-                private int fansId;
                 private String name;
                 private String photo;
                 private String logo;
                 private int id;
-                private String url;
+                private int userId;
 
                 public int getScore() {
                     return score;
@@ -263,14 +261,6 @@ public class VIPWallBean {
 
                 public void setScore(int score) {
                     this.score = score;
-                }
-
-                public int getFansId() {
-                    return fansId;
-                }
-
-                public void setFansId(int fansId) {
-                    this.fansId = fansId;
                 }
 
                 public String getName() {
@@ -305,12 +295,12 @@ public class VIPWallBean {
                     this.id = id;
                 }
 
-                public String getUrl() {
-                    return url;
+                public int getUserId() {
+                    return userId;
                 }
 
-                public void setUrl(String url) {
-                    this.url = url;
+                public void setUserId(int userId) {
+                    this.userId = userId;
                 }
             }
         }

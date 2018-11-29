@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:text="08-25--08.31"
+            android:text="00-00--00.00"
             android:textColor="#EC2C98"
             />
         <LinearLayout

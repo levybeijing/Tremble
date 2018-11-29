@@ -44,15 +44,11 @@ public class MyPubWallActivity extends BaseActivity {
     private RelativeLayout rl;
     private RecyclerView rv;
     private AdapterMyPubWall adapter;
-//    private float scale;
-//    private int testWallId;
     private float scale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mygiftswall);
-        Intent intent = getIntent();
-//        testWallId = intent.getIntExtra("testWallId", -1);
         initView();
     }
 

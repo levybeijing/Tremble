@@ -55,7 +55,6 @@ public class AdapterVipWallReceive extends RecyclerView.Adapter<AdapterVipWallRe
         for (int i = 0; i < list.size(); i++) {
             listFlag.add(yn);
         }
-//        Log.e("*************", "setALL: "+listFlag.size());
         notifyDataSetChanged();
     }
 
@@ -77,8 +76,8 @@ public class AdapterVipWallReceive extends RecyclerView.Adapter<AdapterVipWallRe
         }else{
             holder.tv_name.setText(list.get(position).getName());
             holder.tv_energy.setText(list.get(position).getScore()+"");
-            Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getSlt()).into(holder.iv_wall);
-            Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getLogo()).into(holder.iv_icon);
+            Picasso.with(context).load(list.get(position).getUrl()).into(holder.iv_wall);
+            Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
         }
         //
         if (listFlag.get(position)){

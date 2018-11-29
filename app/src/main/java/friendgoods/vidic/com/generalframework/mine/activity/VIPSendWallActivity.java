@@ -40,6 +40,7 @@ import java.util.Random;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+import friendgoods.vidic.com.generalframework.bean.GetWallIdBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVIPSendWall;
@@ -59,7 +60,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private float scale;
 
     private String receiveId;
-    private String wallId,logo;
+    private int wallId;
+    private String logo;
     private StringBuffer yaxle;
     private StringBuffer xaxle;
     private StringBuffer gift;
@@ -80,9 +82,11 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
 
         Intent intent = getIntent();
         receiveId = intent.getStringExtra("userId");
-        wallId = intent.getStringExtra("wallId");
         logo = intent.getStringExtra("logo");
         userId = (int)SharedPFUtils.getParam(this, "userId", 0)+"";
+
+        requestWall();
+
         gift = new StringBuffer();
         xaxle = new StringBuffer();
         yaxle = new StringBuffer();
@@ -126,12 +130,12 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 int top = view.getTop();
                 int right = view.getRight();
                 int bottom = view.getBottom();
-                Log.e("=============", "onSuccess: "+realwidth);
-                Log.e("=============", "onSuccess: "+realheight);
-                Log.e("=============", "onSuccess: "+left);
-                Log.e("=============", "onSuccess: "+top);
-                Log.e("=============", "onSuccess: "+right);
-                Log.e("=============", "onSuccess: "+bottom);
+//                Log.e("=============", "onSuccess: "+realwidth);
+//                Log.e("=============", "onSuccess: "+realheight);
+//                Log.e("=============", "onSuccess: "+left);
+//                Log.e("=============", "onSuccess: "+top);
+//                Log.e("=============", "onSuccess: "+right);
+//                Log.e("=============", "onSuccess: "+bottom);
 
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
@@ -172,6 +176,22 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 }
             }
         });
+
+    }
+
+    private void requestWall() {
+        OkGo.post(UrlCollect.getSPresentsWall)//
+                .tag(this)//
+                .params("userId", receiveId)
+                .params("fansId", userId)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        Log.e("=============", "forwall: "+s);
+                        GetWallIdBean wallIdBean = new Gson().fromJson(s, GetWallIdBean.class);
+                        wallId = wallIdBean.getData().getId();
+                    }
+                });
     }
 
     @Override
@@ -181,8 +201,9 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.iv_makesure_vipwall:
-                sendGift("1");
                 randomName=StringUtil.getRandomName(10);
+                sendGift(UrlCollect.baseIamgeUrl+randomName);
+                Log.e("=============", "randomName: "+UrlCollect.baseIamgeUrl+randomName);
                 saveBitmap(view, randomName);
                 imageList.clear();
 //                view.removeAllViews();
@@ -207,7 +228,10 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
     }
-    private void sendGift(String status){
+
+
+
+    private void sendGift(String url){
         OkGo.post(UrlCollect.sendGift)//
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//
@@ -216,8 +240,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .params("xaxle", String.valueOf(xaxle))//
                 .params("yaxle", String.valueOf(yaxle))//
                 .params("presentsWallId",wallId)//墙的ID
-                .params("status",status)
-                .params("url","")//status为1的时候上传
+                .params("status","1")
+                .params("url",url)//status为1的时候上传
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -261,6 +285,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("=======getAbsolutePath", f.getAbsolutePath());
         uploadOss(name,f.getAbsolutePath());
         uploadPng();
         Toast.makeText(this, "已送达", Toast.LENGTH_SHORT).show();
@@ -282,7 +307,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     //    上传VIP墙图片
     private void uploadOss(String name,String path) {
         // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest("doutui", name, UrlCollect.baseIamgeUrl+name);
+        PutObjectRequest put = new PutObjectRequest("doutui", name, path);
 
 // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {

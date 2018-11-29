@@ -167,7 +167,9 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_vipwall_friendname:
                 //跳转VIP赠送墙
                 Intent intent2=new Intent(FriendNameActivity.this,VIPSendWallActivity.class);
+                intent2.putExtra("userId",userId);
                 intent2.putExtra("logo",logo);
+                intent2.putExtra("wallId",wallId);
                 startActivity(intent2);
                 break;
             case R.id.tv_fans_friendname:
