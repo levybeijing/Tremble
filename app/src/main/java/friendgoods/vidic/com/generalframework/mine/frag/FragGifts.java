@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.frag;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,9 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.activity.PublicWallActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterGiftMall;
 import friendgoods.vidic.com.generalframework.bean.GiftsMallBean;
 import okhttp3.Call;
@@ -40,7 +43,7 @@ public class FragGifts extends Fragment {
         final RecyclerView rv = view.findViewById(R.id.rv_gifts_mall);
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         rv.setLayoutManager(manager);
-        adapter = new AdapterGiftMall(getContext());
+        adapter = new AdapterGiftMall(getActivity());
         rv.setAdapter(adapter);
 //        Log.e("=================", "onSuccess: "+UrlCollect.giftsListGift);
         OkGo.post(UrlCollect.giftsListGift)//
@@ -52,6 +55,8 @@ public class FragGifts extends Fragment {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("=================", "onSuccess: "+s);
+                        TokenCheck.toLogin(getActivity(),s);
+
                         GiftsMallBean giftsMallBean = new Gson().fromJson(s, GiftsMallBean.class);
                         List<GiftsMallBean.DataBean.PageInfoBean.ListBean> list = giftsMallBean.getData().getPageInfo().getList();
                         adapter.setData(list);

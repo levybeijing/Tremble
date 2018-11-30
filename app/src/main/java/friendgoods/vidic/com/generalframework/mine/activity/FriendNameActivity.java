@@ -27,6 +27,7 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.SingleWallActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
@@ -109,6 +110,8 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("=============", "onSuccess: "+s);
+                        TokenCheck.toLogin(FriendNameActivity.this,s);
+
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         logo=myWallBean.getData().getLogo();
                         wallId=myWallBean.getData().getId()+"";
@@ -119,16 +122,6 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                             int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
                             int realhight= (int) (Integer.parseInt(bean.getHigh())*scale);
                             int realweith= (int) (Integer.parseInt(bean.getWide())*scale);
-                            Log.e("=============", "onSuccess: "+Float.parseFloat(bean.getXaxle()));
-                            Log.e("=============", "onSuccess: "+Float.parseFloat(bean.getYaxle()));
-                            Log.e("=============", "onSuccess: "+Integer.parseInt(bean.getHigh()));
-                            Log.e("=============", "onSuccess: "+Integer.parseInt(bean.getWide()));
-
-
-                            Log.e("=============", "onSuccess: "+realx);
-                            Log.e("=============", "onSuccess: "+realy);
-                            Log.e("=============", "onSuccess: "+realhight);
-                            Log.e("=============", "onSuccess: "+realweith);
                             //传入自己的真实像素
                             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                                     realweith, realhight);
@@ -155,6 +148,8 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(FriendNameActivity.this,s);
+
                         FansBangBean fansBangBean = new Gson().fromJson(s, FansBangBean.class);
                         list = fansBangBean.getData().getPageInfo().getList();
                         adapter.setData(list);

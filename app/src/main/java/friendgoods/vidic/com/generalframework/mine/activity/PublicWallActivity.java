@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
@@ -118,6 +119,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(PublicWallActivity.this,s);
+
                         IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
                         List<IconSetBean.DataBean> data = iconSetBean.getData();
                         for (int i = 0; i < data.size(); i++) {
@@ -219,6 +222,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(PublicWallActivity.this,s);
+
                         MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
                         List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
                         adapter.setData(data);
@@ -231,8 +236,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         }
         for (int i = 0; i < imageList.size(); i++) {
             if (i==0){
-                Log.e("=============", "onSuccess: "+imageList.get(i).getX());
-                Log.e("=============", "onSuccess: "+imageList.get(i).getY());
                 yaxle.append(imageList.get(i).getY()/scale);
                 xaxle.append(imageList.get(i).getX()/scale);
             }else{
@@ -240,11 +243,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 xaxle.append(","+imageList.get(i).getX()/scale);
             }
         }
-        Log.e("=============", "onSuccess: "+String.valueOf(scale));
-        Log.e("=============", "onSuccess: "+String.valueOf(xaxle));
-        Log.e("=============", "onSuccess: "+String.valueOf(yaxle));
-        Log.e("=============", "onSuccess: "+String.valueOf(gift));
-
         OkGo.post(UrlCollect.sendGift)//
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//
@@ -259,6 +257,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         try {
+                            TokenCheck.toLogin(PublicWallActivity.this,s);
+
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){

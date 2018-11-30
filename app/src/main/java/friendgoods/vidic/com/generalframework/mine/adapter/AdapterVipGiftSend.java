@@ -46,21 +46,9 @@ public class AdapterVipGiftSend extends RecyclerView.Adapter<AdapterVipGiftSend.
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        int wallid = list.get(position).getId();
-
-        OkGo.post(UrlCollect.getSPresentsWallOne)//
-                .tag(this)//
-                .params("presentswallId", wallid)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(String s, Call call, Response response) {
-                        SingleWallBean singleWallBean = new Gson().fromJson(s, SingleWallBean.class);
-                        String url = singleWallBean.getData().getUrl();
-                        Log.e("===============", "onSuccess: "+url);
-                        if (url!=null)
-                            Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
-                    }
-                });
+        String url = list.get(position).getUrl();
+        if (url!=null)
+             Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
     }
 
     @Override

@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MainActivity;
@@ -51,14 +52,14 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
-//        try {
-//            boolean result =  api.handleIntent(getIntent(), this);
-//            if(!result){
-//                finish();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            boolean result =  api.handleIntent(getIntent(), this);
+            if(!result){
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        register = getIntent().getStringExtra("register");
     }
 
@@ -128,6 +129,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+
                         WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
                         getUserInfo(tokenBean);
                     }

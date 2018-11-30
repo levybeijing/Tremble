@@ -35,6 +35,7 @@ import java.io.File;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.ChalGiftBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ChallengeModelBean;
@@ -232,6 +233,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
+
                         ChallengeModelBean bean = new Gson().fromJson(s, ChallengeModelBean.class);
                         time = bean.getData().getTime();
                         tv_time.setText(time);
@@ -254,6 +257,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
+
                         ChalGiftBean giftBean = new Gson().fromJson(s, ChalGiftBean.class);
                         ChalGiftBean.DataBean data = giftBean.getData();
                         if (data==null){
@@ -317,6 +322,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
 
                     }
                 });

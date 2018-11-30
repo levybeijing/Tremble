@@ -17,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerOrderId;
 import friendgoods.vidic.com.generalframework.mine.activity.DetailOrdersActivity;
@@ -54,6 +55,8 @@ public class FragOrders4 extends Fragment{
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         OrdersBean ordersBean = new Gson().fromJson(s, OrdersBean.class);
                         List<OrdersBean.DataBean.PageInfoBean.ListBean> list = ordersBean.getData().getPageInfo().getList();
                         adapter.setData(list);

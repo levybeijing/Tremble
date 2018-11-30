@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.SingleWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -51,6 +52,8 @@ public class SingleWallActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(SingleWallActivity.this,s);
+
                         SingleWallBean singleWallBean = new Gson().fromJson(s, SingleWallBean.class);
                         name.setText(singleWallBean.getData().getName());
                         Glide.with(SingleWallActivity.this).load(singleWallBean.getData().getPhoto()).into(icon);

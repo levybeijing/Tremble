@@ -16,8 +16,12 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.StoryModelActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.PayIdBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -89,7 +93,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
         username = findViewById(R.id.tv_username_commitorders);
         phone = findViewById(R.id.tv_phone_commitorders);
         address = findViewById(R.id.tv_address_commitorders);
-
+        requestAddress();
     }
 
     @Override
@@ -137,10 +141,11 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=========", "onSuccess: "+s);
+                        TokenCheck.toLogin(CommitOrderActivity.this,s);
+
                         PayIdBean payIdBean = new Gson().fromJson(s, PayIdBean.class);
                         finishAll();
                         Intent intent = new Intent(CommitOrderActivity.this, MyOrdersActivity.class);
-                        intent.putExtra("preid",payIdBean.getData());
                         startActivity(intent);
                     }
                 });
@@ -161,4 +166,32 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
             haveAddress=true;
         }
     }
+
+
+    private void requestAddress() {
+        OkGo.post(UrlCollect.addresses)
+                .tag(this)
+                .params("userId",(int)SharedPFUtils.getParam(this,"userId",0))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(CommitOrderActivity.this,s);
+
+                        Log.e("======================", "onSuccess: "+s);
+                        AddressesBean addressesBean = new Gson().fromJson(s, AddressesBean.class);
+                        List<AddressesBean.DataBean> data = addressesBean.getData();
+                        addre=data.get(0);
+                        if (data.size() > 0){
+                            ll_top.setVisibility(View.GONE);
+                            ll_bottom.setVisibility(View.VISIBLE);
+                            username.setText(data.get(0).getConsignee());
+                            phone.setText(data.get(0).getMobile());
+                            address.setText(data.get(0).getSite());
+                            haveAddress=true;
+                        }
+                    }
+                });
+
+    }
+
 }

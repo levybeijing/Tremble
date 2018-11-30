@@ -36,8 +36,6 @@ public class MyOrdersActivity extends BaseActivity {
 
         api = WXAPIFactory.createWXAPI(this, WXAppID);
         api.registerApp(WXAppID);
-//        Log.e("==========time", String.valueOf(System.currentTimeMillis()/1000));
-//        preid = getIntent().getStringExtra("preid");
         initView();
     }
 

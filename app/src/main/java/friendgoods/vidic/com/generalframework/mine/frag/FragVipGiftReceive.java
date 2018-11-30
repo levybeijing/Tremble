@@ -21,6 +21,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipWallReceive;
 import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
@@ -103,6 +104,8 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         VIPWallBean vipWallBean = new Gson().fromJson(s, VIPWallBean.class);
                         list = vipWallBean.getData().getPageInfo().getList();
                         adapter.setData(list);

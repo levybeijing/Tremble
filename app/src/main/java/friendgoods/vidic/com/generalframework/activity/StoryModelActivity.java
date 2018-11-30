@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.StoryModelBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -112,6 +113,8 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("========", "onSuccess: "+s);
+                        TokenCheck.toLogin(StoryModelActivity.this,s);
+
                         StoryModelBean bean = new Gson().fromJson(s, StoryModelBean.class);
                         numbers = bean.getData().getRandom();
                         images=bean.getData().getStoryIMG();
@@ -190,6 +193,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(StoryModelActivity.this,s);
 
                     }
                 });

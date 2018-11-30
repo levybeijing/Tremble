@@ -17,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.MallActivity;
@@ -108,6 +109,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
+                TokenCheck.toLogin(RelaxModelActivity.this,s);
 
             }
         });

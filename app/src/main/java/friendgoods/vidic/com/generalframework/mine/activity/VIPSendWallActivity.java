@@ -39,6 +39,7 @@ import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.GetWallIdBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -130,13 +131,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 int top = view.getTop();
                 int right = view.getRight();
                 int bottom = view.getBottom();
-//                Log.e("=============", "onSuccess: "+realwidth);
-//                Log.e("=============", "onSuccess: "+realheight);
-//                Log.e("=============", "onSuccess: "+left);
-//                Log.e("=============", "onSuccess: "+top);
-//                Log.e("=============", "onSuccess: "+right);
-//                Log.e("=============", "onSuccess: "+bottom);
-
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
                 //加载图片
@@ -183,6 +177,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=============", "forwall: "+s);
+                        TokenCheck.toLogin(VIPSendWallActivity.this,s);
+
                         GetWallIdBean wallIdBean = new Gson().fromJson(s, GetWallIdBean.class);
                         wallId = wallIdBean.getData().getId();
                     }
@@ -197,7 +193,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_makesure_vipwall:
                 randomName=StringUtil.getRandomName(10);
-                sendGift(UrlCollect.baseIamgeUrl+randomName);
+                sendGift(randomName);
                 Log.e("=============", "randomName: "+UrlCollect.baseIamgeUrl+randomName);
                 saveBitmap(view, randomName);
                 imageList.clear();
@@ -217,6 +213,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(VIPSendWallActivity.this,s);
+
                         MyGiftsListBean myGiftsListBean = new Gson().fromJson(s, MyGiftsListBean.class);
                         List<MyGiftsListBean.DataBean> data = myGiftsListBean.getData();
                         adapter.setData(data);
@@ -230,8 +228,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         if (imageList.size()==0){
             return;
         }
-        Log.e("=============", "onSuccess: "+String.valueOf(xaxle));
-        Log.e("=============", "onSuccess: "+String.valueOf(yaxle));
         for (int i = 0; i < imageList.size(); i++) {
             if (i==0){
                 yaxle.append(imageList.get(i).getY()/scale);
@@ -250,10 +246,12 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .params("yaxle", String.valueOf(yaxle))//
                 .params("presentsWallId",wallId)//墙的ID
                 .params("status","1")
-                .params("url",url)//status为1的时候上传
+                .params("url",url+".png")//status为1的时候上传
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(VIPSendWallActivity.this,s);
+
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
@@ -304,13 +302,15 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private void uploadPng() {
         OkGo.post(UrlCollect.updatePresentsWall)//
                 .tag(this)//
-                .params("url", randomName)//文件名
+                .params("url", randomName+".png")//文件名
                 .params("presentsWallId", wallId)//墙的ID
                 .params("slt", "")//缩略图 省略>?
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=============", "上传VIP墙图片: "+s);
+                        TokenCheck.toLogin(VIPSendWallActivity.this,s);
+
                     }
                 });
     }

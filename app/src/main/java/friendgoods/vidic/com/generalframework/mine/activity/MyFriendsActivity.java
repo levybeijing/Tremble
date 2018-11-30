@@ -14,6 +14,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
@@ -76,6 +77,8 @@ public class MyFriendsActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(MyFriendsActivity.this,s);
+
                         MyFriendsBean myFriendsBean = new Gson().fromJson(s, MyFriendsBean.class);
                         List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list = myFriendsBean.getData().getPageInfo().getList();
                         adapter.setData(list);

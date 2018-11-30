@@ -14,6 +14,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.AddressesBean;
@@ -112,6 +113,7 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(EditAddressActivity.this,s);
 
                     }
                 });
@@ -129,6 +131,8 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(EditAddressActivity.this,s);
+
                         name.setText("");
                         phone.setText("");
                         detail.setText("");
@@ -144,6 +148,8 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(EditAddressActivity.this,s);
+
                         name.setText("");
                         phone.setText("");
                         detail.setText("");

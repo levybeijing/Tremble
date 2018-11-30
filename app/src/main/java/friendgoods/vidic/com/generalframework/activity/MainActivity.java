@@ -22,24 +22,25 @@ import friendgoods.vidic.com.generalframework.util.ToastUtils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static boolean mBackKeyPressed = false;
-    private RadioButton  model_rg;
+    private RadioButton  model_rg,rank_rg;
     private static int preFt;
     private List<Fragment> list=new ArrayList<>();
-
+    public static MainActivity instance = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        instance = this;
         initView();
     }
     protected void initView() {
 
+        model_rg = findViewById(R.id.dou_rg);
+        rank_rg = findViewById(R.id.rank_rg);
+
         list.add(new RankFragment());
         list.add(new ModelFragment());
         list.add(new MineFragment());
-
-        model_rg = findViewById(R.id.dou_rg);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, list.get(1)).commit();
         model_rg.setChecked(true);
@@ -47,6 +48,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //        背景音乐服务启动
         if ((boolean)SharedPFUtils.getParam(this,"voice",true)){
             startService(new Intent(this,MusicService.class));
+        }
+        //        礼物界面传入
+        int type = getIntent().getIntExtra("type", 0);
+        if (type == 1) {
+            switchContent(0);
+            rank_rg.setChecked(true);
         }
     }
 

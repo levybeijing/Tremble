@@ -14,10 +14,12 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyFans;
 import friendgoods.vidic.com.generalframework.bean.MyFansBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -53,12 +55,14 @@ public class MyFansActivity extends BaseActivity {
 
         OkGo.post(UrlCollect.fansList)//
                 .tag(this)//
-                .params("userId", "27")
-                .params("page", "0")
-                .params("pageSize", "7")
+                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0))
+                .params("page", "1")
+                .params("pageSize", "17")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(MyFansActivity.this,s);
+
                         MyFansBean myFansBean = new Gson().fromJson(s, MyFansBean.class);
 //                        Log.e("========MyFansActivity", "onSuccess: "+s);
                         List<MyFansBean.DataBean.PageInfoBean.ListBean> list = myFansBean.getData().getPageInfo().getList();
