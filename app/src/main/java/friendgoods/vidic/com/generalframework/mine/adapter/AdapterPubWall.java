@@ -59,10 +59,10 @@ public class AdapterPubWall extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Integer remove = numlist.remove(position);
-                    numlist.add(position,--remove);
-                    ((MyViewHolder) holder).tv_number.setText(remove+"");
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
+                Integer remove = numlist.remove(position);
+                numlist.add(position,--remove);
+                ((MyViewHolder) holder).tv_number.setText(remove+"");
+                itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
                 }
             });
         }

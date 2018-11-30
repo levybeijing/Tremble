@@ -10,7 +10,7 @@ public class TokenCheck {
         if ("0".equals(JsonUtil.getString("state", json))) {
             Intent intent = new Intent(activit, LoginReceiver.class);
             intent.setAction("action.LOGIN.OTHER");
-            activit.startActivity(intent);
+            activit.sendBroadcast(intent);
         }
     }
 }

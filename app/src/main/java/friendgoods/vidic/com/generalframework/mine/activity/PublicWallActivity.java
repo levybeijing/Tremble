@@ -30,6 +30,7 @@ import java.util.Random;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
@@ -113,24 +114,21 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         rv.setAdapter(adapter);
 
         //头像集访问
-        OkGo.post(UrlCollect.getUserPhoto)//
+        OkGo.post(UrlCollect.getPresentsWall)//
                 .tag(this)//
-                .params("presentsWallId", receiveId)
+                .params("userId", receiveId)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+//                        Log.e("=============", "onSuccess: "+s);
                         TokenCheck.toLogin(PublicWallActivity.this,s);
+                        MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
+                        List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
+                        for (int i = 0; i < userPhoto.size(); i++) {
 
-                        IconSetBean iconSetBean = new Gson().fromJson(s, IconSetBean.class);
-                        List<IconSetBean.DataBean> data = iconSetBean.getData();
-                        for (int i = 0; i < data.size(); i++) {
-                            CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
-                            Picasso.with(PublicWallActivity.this).load(data.get(i).getPhoto()).into(imageView);
-                            set.addView(imageView);
                         }
                     }
                 });
-
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
 
             @Override
@@ -138,7 +136,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 //                宽高 图片尺寸?
                 float x=Float.parseFloat(sx);
                 float y=Float.parseFloat(sy);
-                Log.e("=============", "onSuccess: "+surl);
 
                 if (remove==0){
                     Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();

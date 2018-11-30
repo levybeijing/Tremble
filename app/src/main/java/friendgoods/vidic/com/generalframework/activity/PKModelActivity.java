@@ -120,22 +120,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             }
         }
     };
-//    三秒倒计时
-//    private Thread Threetoone = new Thread(new Runnable() {
-//        @Override
-//        public void run() {
-//            try {
-//                while (lastTime >= 0) {
-//                    Thread.sleep(1000);
-//                    Message message = Message.obtain();
-//                    message.what = lastTime--;
-//                    sHandler.sendMessage(message);
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    });
     private  Handler sHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -857,8 +841,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 e.printStackTrace();
                             }
                         }
-
-
                     }
                 });
     }
@@ -879,7 +861,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(PKModelActivity.this,s);
-
                         Log.e("=============", "addrecord: "+s);
 
                     }
@@ -926,21 +907,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             exit.setUserId(currentId+"");
             sendMessage(new Gson().toJson(exit));
         }
-//exit
-//        PKSocketBean exit=new PKSocketBean();
-//        if (isHost){
-//            exit.setType("10");
-//            if (isGaming)
-//                exit.setType("11");
-//        }else{
-//            exit.setType("8");
-//        }
-//        exit.setRoomId(roomId+"");
-//        exit.setUserId(currentId+"");
-//        sendMessage(new Gson().toJson(exit));
-//        mConnect.disconnect();
-//        sHandler=null;
-//        Threetoone=null;
     }
 
 //控件操作
