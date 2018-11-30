@@ -89,11 +89,14 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                 login(number,code);
                 break;
             case R.id.iv_weixin_logincode:
+                if (api==null||!api.isWXAppInstalled()){
+                    Toast.makeText(this, "请先安装微信", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "login";
                 api.sendReq(req);
-                finish();
                 break;
 
         }

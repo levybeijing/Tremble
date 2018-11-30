@@ -148,7 +148,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高
-//                宽度大于控件!!!!!!!!!
                 int rx=right-left-realwidth;
                 if (rx==0){
                     lp.leftMargin=0;
@@ -166,12 +165,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 imageList.add(iv);
                 //获取容器内所有控件 获取位置
                 if (gift.length()==0){
-                    yaxle.append(iv.getTop()/scale);
-                    xaxle.append(iv.getLeft()/scale);
                     gift.append(id);
                 }else{
-                    yaxle.append(","+iv.getTop()/scale);
-                    xaxle.append(","+iv.getLeft()/scale);
                     gift.append(","+id);
                 }
             }
@@ -232,6 +227,20 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
 
 
     private void sendGift(String url){
+        if (imageList.size()==0){
+            return;
+        }
+        Log.e("=============", "onSuccess: "+String.valueOf(xaxle));
+        Log.e("=============", "onSuccess: "+String.valueOf(yaxle));
+        for (int i = 0; i < imageList.size(); i++) {
+            if (i==0){
+                yaxle.append(imageList.get(i).getY()/scale);
+                xaxle.append(imageList.get(i).getX()/scale);
+            }else{
+                yaxle.append(","+imageList.get(i).getY()/scale);
+                xaxle.append(","+imageList.get(i).getX()/scale);
+            }
+        }
         OkGo.post(UrlCollect.sendGift)//
                 .tag(this)//
                 .params("giftId", String.valueOf(gift))//
@@ -250,6 +259,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                             String message = jo.getString("message");
                             if ("请求成功".equals(message)){
                                 view.removeAllViews();
+                                imageList.clear();
                                 Toast.makeText(VIPSendWallActivity.this, "已送达", Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(VIPSendWallActivity.this, message, Toast.LENGTH_SHORT).show();

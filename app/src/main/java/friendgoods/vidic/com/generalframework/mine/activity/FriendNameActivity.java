@@ -119,6 +119,16 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                             int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
                             int realhight= (int) (Integer.parseInt(bean.getHigh())*scale);
                             int realweith= (int) (Integer.parseInt(bean.getWide())*scale);
+                            Log.e("=============", "onSuccess: "+Float.parseFloat(bean.getXaxle()));
+                            Log.e("=============", "onSuccess: "+Float.parseFloat(bean.getYaxle()));
+                            Log.e("=============", "onSuccess: "+Integer.parseInt(bean.getHigh()));
+                            Log.e("=============", "onSuccess: "+Integer.parseInt(bean.getWide()));
+
+
+                            Log.e("=============", "onSuccess: "+realx);
+                            Log.e("=============", "onSuccess: "+realy);
+                            Log.e("=============", "onSuccess: "+realhight);
+                            Log.e("=============", "onSuccess: "+realweith);
                             //传入自己的真实像素
                             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                                     realweith, realhight);

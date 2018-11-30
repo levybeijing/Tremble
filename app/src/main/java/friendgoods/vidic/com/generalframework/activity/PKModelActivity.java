@@ -153,7 +153,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     //                    开始游戏
 //                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
                     isGaming=true;
-//                    游戏时间开始
+//                    游戏开始
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -182,7 +182,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private boolean note=true;
     private boolean lock=false;
     private String friendId;
-    private String invitename;
     private void setTime() {
         if (lock){
             return;
@@ -316,6 +315,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         readyyes = findViewById(R.id.iv_readyyes_pkmodel);
         readyyes.setOnClickListener(this);
         readyno = findViewById(R.id.iv_readyno_pkmodel);
+        readyno.setOnClickListener(this);
 //        开始
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
@@ -401,8 +401,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 settime.setTime(time);
                 settime.setUserId(currentId+"");
                 Log.e("===========确认时间", new Gson().toJson(settime));
-                havetime=true;
                 sendMessage(new Gson().toJson(settime));
+                havetime=true;
                 if (isHost&&haveready){
                     startyes.setVisibility(View.VISIBLE);
                     startno.setVisibility(View.INVISIBLE);
@@ -450,6 +450,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 ready.setStatus("2");//0取消 1准备
                 sendMessage(new Gson().toJson(ready));
                 Log.e("===========socketUrl", ""+new Gson().toJson(ready));
+                break;
+            case R.id.iv_readyno_pkmodel:
+                readyyes.setVisibility(View.VISIBLE);
+                readyno.setVisibility(View.INVISIBLE);
+                light2.setVisibility(View.INVISIBLE);
+//ready
+                PKSocketBean noready=new PKSocketBean();
+                noready.setRoomId(roomId+"");
+                noready.setType("2");
+                noready.setUserId(currentId+"");
+                noready.setStatus("1");//0取消 1准备
+                sendMessage(new Gson().toJson(noready));
+                Log.e("===========socketUrl", ""+new Gson().toJson(noready));
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
@@ -632,8 +645,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                     haveready=false;
                                 }
                             }
-                            if (haveready){
+                            if (haveready&&!havetime){
                                 Toast.makeText(PKModelActivity.this, "请设置时间", Toast.LENGTH_SHORT).show();
+                            }
+                            if (havetime&&haveready){
+                                startno.setVisibility(View.INVISIBLE);
+                                startyes.setVisibility(View.VISIBLE);
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             break;
@@ -695,6 +712,22 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 idlist.remove(1);
                                 idlist.add(1,gamerBean.getUserId()+"");
                                 break;
+                            }
+                            if (isHost){
+                                break;
+                            }
+                            String time2 = pkSocketBeanx.getTime();
+                            if (time2!=null&&time2.length()==8){
+                                tv1_timer.setText(time2.charAt(0)+"");
+                                tv2_timer.setText(time2.charAt(1)+"");
+                                tv3_timer.setText(time2.charAt(3)+"");
+                                tv4_timer.setText(time2.charAt(4)+"");
+                                tv5_timer.setText(time2.charAt(6)+"");
+                                tv6_timer.setText(time2.charAt(7)+"");
+                                x=Integer.parseInt(time2.charAt(0)+"")*10+Integer.parseInt(time2.charAt(1)+"");
+                                y=Integer.parseInt(time2.charAt(3)+"")*10+Integer.parseInt(time2.charAt(4)+"");
+                                z=Integer.parseInt(time2.charAt(6)+"")*10+Integer.parseInt(time2.charAt(7)+"");
+                                time=time2;
                             }
                             break;
                         case "8":
