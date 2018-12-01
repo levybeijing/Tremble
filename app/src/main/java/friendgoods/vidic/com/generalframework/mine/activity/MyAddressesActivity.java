@@ -16,6 +16,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerAddress;
 import friendgoods.vidic.com.generalframework.R;
@@ -67,6 +68,8 @@ public class MyAddressesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("======================", "onSuccess: "+s);
+                        TokenCheck.toLogin(MyAddressesActivity.this,s);
+
                         AddressesBean addressesBean = new Gson().fromJson(s, AddressesBean.class);
                         List<AddressesBean.DataBean> data = addressesBean.getData();
                         adapter.setData(data);

@@ -21,10 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MainActivity;
 import friendgoods.vidic.com.generalframework.activity.PhoneBindActivity;
+import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.WXLoginBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXUserInfoBean;
 import friendgoods.vidic.com.generalframework.activity.bean.WXAccessTokenBean;
@@ -58,8 +60,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         } catch (Exception e) {
             e.printStackTrace();
         }
-        register = getIntent().getStringExtra("register");
-
+//        register = getIntent().getStringExtra("register");
     }
 
     @Override
@@ -73,28 +74,34 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         super.onNewIntent(intent);
         setIntent(intent);
         api.handleIntent(intent, this);
+        finish();
     }
 
     @Override
     public void onReq(BaseReq baseReq) {
-
+        Log.e("===============", "onReq: "+baseReq.toString());
     }
 
     @Override
     public void onResp(BaseResp baseResp) {
-        int type1 = baseResp.getType();
-        Log.e("===============", "baseResp.getType(): "+type1);
-        Gson gson = new Gson();
-        WXRespBean wxRespBean = gson.fromJson(gson.toJson(baseResp), WXRespBean.class);
+        Log.e("===============", "wxRespBean: "+baseResp);
+        WXRespBean wxRespBean = new Gson().fromJson(new Gson().toJson(baseResp), WXRespBean.class);
         switch(baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
-//                result ="发送成功";
-                requestLogin(wxRespBean.getCode());
-//                判断对话类型
-                int type = wxRespBean.getType();
-                Log.e("===============", "baseResp.getType(): "+type);
                 Log.e("===============", "wxRespBean.getState(): "+wxRespBean.getState());
                 status=wxRespBean.getState();
+//                判断对话类型
+                int type = wxRespBean.getType();
+                switch (type){
+                    case  1:
+//                        login
+                        requestLogin(wxRespBean.getCode());
+                        break;
+                    case  2:
+//                        share
+                        Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
+                        break;
+                }
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -122,6 +129,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+
                         WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
                         getUserInfo(tokenBean);
                     }
@@ -191,6 +199,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                     }
                 });
     }
+
     private void requestWX(final String openid) {
         OkGo.post(UrlCollect.getUserByWeChatA)//
                 .tag(this)//
@@ -230,17 +239,15 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                                         break;
                                 }
                                 startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
-                                finish();
+                                BaseActivity.finishAll();
                             }else{
                                 startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-                                finish();
+                                BaseActivity.finishAll();
                             }
                         }else{
                             startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
-                            finish();
                         }
                     }
-
                 });
     }
 }

@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -105,6 +106,8 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("===============", "getUserByWeChatA: "+s);
+                        TokenCheck.toLogin(PhoneBindActivity.this,s);
+
                         startActivity(new Intent(PhoneBindActivity.this,LoginCodeActivity.class));
                     }
                     @Override
@@ -122,7 +125,7 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//
+
                     }
                 });
     }

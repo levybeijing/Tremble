@@ -28,6 +28,7 @@ import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -44,15 +45,11 @@ public class MyPubWallActivity extends BaseActivity {
     private RelativeLayout rl;
     private RecyclerView rv;
     private AdapterMyPubWall adapter;
-//    private float scale;
-//    private int testWallId;
     private float scale;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mygiftswall);
-        Intent intent = getIntent();
-//        testWallId = intent.getIntExtra("testWallId", -1);
         initView();
     }
 
@@ -104,6 +101,8 @@ public class MyPubWallActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("=============", "onSuccess: "+s);
+                        TokenCheck.toLogin(MyPubWallActivity.this,s);
+
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
                         adapter.setData(userPhoto);

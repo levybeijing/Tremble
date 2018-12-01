@@ -14,9 +14,12 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.bean.VIPSendBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipGiftSend;
 import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -50,14 +53,15 @@ public class FragVipGiftSend extends Fragment {
         //网络访问
         OkGo.post(UrlCollect.vipWallSend)//
                 .tag(this)//
-                .params("userId", "27")
+                .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
                 .params("page", "1")
                 .params("pageSize", "20")
                 .execute(new StringCallback() {
-
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        VIPWallBean vipWallBean = new Gson().fromJson(s, VIPWallBean.class);
+                        TokenCheck.toLogin(getActivity(),s);
+
+                        VIPSendBean vipWallBean = new Gson().fromJson(s, VIPSendBean.class);
                         adapter.setData(vipWallBean.getData().getPageInfo().getList());
                     }
                 });

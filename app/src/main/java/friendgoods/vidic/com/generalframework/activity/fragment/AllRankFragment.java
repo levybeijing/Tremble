@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.LazyFragment;
 import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
@@ -107,6 +109,9 @@ public class AllRankFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
+                        Log.i("*********", response.toString());
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         adapter.setData(bean.getData().getPageInfo().getList());
                     }
@@ -123,6 +128,8 @@ public class AllRankFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         adapter.setData(bean.getData().getPageInfo().getList());
                     }

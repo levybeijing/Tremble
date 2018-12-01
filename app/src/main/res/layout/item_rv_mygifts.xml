@@ -7,6 +7,7 @@
     android:padding="5dp"
     android:background="@drawable/bg_yellow_option"
     android:layout_margin="5dp"
+    android:id="@+id/gift_good"
     >
     <ImageView
         android:id="@+id/iv_icon_mygifts"

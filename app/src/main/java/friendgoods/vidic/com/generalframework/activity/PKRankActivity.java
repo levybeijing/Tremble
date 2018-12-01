@@ -67,17 +67,22 @@ public class PKRankActivity extends BaseActivity {
                 builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent=new Intent();
-                        setResult(111,intent);
+                        Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
+                        intent.putExtra("again",true);
+//                        setResult(111,intent);
+//                        finish();
+                        startActivity(intent);
                         finish();
                     }
                 });
                 builder.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent=new Intent();
-                        setResult(222,intent);
+//                        Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
+//                        intent.putExtra("again",false);
+//                        setResult(222,intent);
                         finish();
+//                        startActivity(intent);
                     }
                 });
                 builder.show();

@@ -21,9 +21,11 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipWallReceive;
 import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
+import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -35,7 +37,6 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
     private CheckBox box_all;
     private List<VIPWallBean.DataBean.PageInfoBean.ListBean> list;
     private LinearLayout ll_choose,ll_unchoose;
-
 
     @Nullable
     @Override
@@ -66,13 +67,10 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
         rv_top.setAdapter(adapter);
 
         //网络访问
-
-
         box_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //设置是否全选 如何设置所有
-//                Log.e("$$$$$$$$$4", "onCheckedChanged: "+isChecked);
                 adapter.setALL(isChecked);
 //                adapter.notifyDataSetChanged();
             }
@@ -100,18 +98,19 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
         //网络访问
         OkGo.post(UrlCollect.vipWallReceived)//
                 .tag(this)//
-                .params("userId", "27")
+                .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
                 .params("page", "1")
                 .params("pageSize", "20")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         VIPWallBean vipWallBean = new Gson().fromJson(s, VIPWallBean.class);
                         list = vipWallBean.getData().getPageInfo().getList();
                         adapter.setData(list);
                     }
                 });
-
     }
 
     @Override

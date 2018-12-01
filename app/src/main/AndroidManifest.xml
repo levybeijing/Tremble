@@ -48,9 +48,7 @@
            />
         <activity android:name=".activity.IntroduceActivity"></activity>
         <activity android:name=".activity.SexChooseActivity"></activity>
-        <activity android:name=".wxapi.WXEntryActivity"
-            android:exported="true"
-            />
+
         <!--主页-->
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="sensorPortrait"></activity>
@@ -118,10 +116,11 @@
                 <data android:scheme="wx880032906dd26b0f" />
             </intent-filter>
         </activity>
-        <!--<receiver android:name=".LoginReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="action.LOGIN.OTHER"/>-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.SingleWallActivity"></activity>
     </application>
 </manifest>

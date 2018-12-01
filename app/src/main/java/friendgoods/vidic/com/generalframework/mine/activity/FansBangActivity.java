@@ -17,6 +17,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
@@ -97,6 +98,8 @@ public class FansBangActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(FansBangActivity.this,s);
+
                         FansBangBean fansBangBean = new Gson().fromJson(s, FansBangBean.class);
                         list = fansBangBean.getData().getPageInfo().getList();
                         adapter.setData(list);

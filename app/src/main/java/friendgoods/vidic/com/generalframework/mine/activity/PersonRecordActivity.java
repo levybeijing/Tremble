@@ -13,6 +13,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterWallRecord;
@@ -61,6 +62,8 @@ public class PersonRecordActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("================", "onSuccess: "+s);
+                        TokenCheck.toLogin(PersonRecordActivity.this,s);
+
                         WallRecordBean wallRecordBean = new Gson().fromJson(s, WallRecordBean.class);
                         List<WallRecordBean.DataBean.PageInfoBean.ListBean> list = wallRecordBean.getData().getPageInfo().getList();
                         if (list==null||list.size()==0){

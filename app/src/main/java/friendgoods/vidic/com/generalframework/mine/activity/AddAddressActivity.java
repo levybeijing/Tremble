@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.StoryModelActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -107,6 +109,8 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(AddAddressActivity.this,s);
+
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");

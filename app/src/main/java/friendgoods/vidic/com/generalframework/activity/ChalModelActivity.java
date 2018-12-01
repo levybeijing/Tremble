@@ -35,6 +35,7 @@ import java.io.File;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.ChalGiftBean;
 import friendgoods.vidic.com.generalframework.activity.bean.ChallengeModelBean;
@@ -91,7 +92,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            iv_start.setClickable(true);
+                            iv_start.setVisibility(View.VISIBLE);
                             tv_number.setText("0");
                             number=0;
                             iv_click.setClickable(false);
@@ -204,7 +205,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_start_chal:
                 iv_click.setClickable(true);
                 new Thread(runnable).start();
-                iv_start.setClickable(false);
+                iv_start.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -232,6 +233,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
+
                         ChallengeModelBean bean = new Gson().fromJson(s, ChallengeModelBean.class);
                         time = bean.getData().getTime();
                         tv_time.setText(time);
@@ -254,6 +257,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
+
                         ChalGiftBean giftBean = new Gson().fromJson(s, ChalGiftBean.class);
                         ChalGiftBean.DataBean data = giftBean.getData();
                         if (data==null){
@@ -317,6 +322,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
 
                     }
                 });

@@ -69,4 +69,9 @@
         <item name="android:layout_height">454dp</item>
         <item name="android:background">@drawable/white_friendname</item>
     </style>
+
+    <style name="note_game">
+        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_height">280dp</item>
+    </style>
 </resources>

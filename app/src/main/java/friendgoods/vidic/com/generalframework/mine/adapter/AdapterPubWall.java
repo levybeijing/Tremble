@@ -46,7 +46,8 @@ public class AdapterPubWall extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         numlist.add(list.get(position).getNum());
 
-        final String photo = UrlCollect.baseIamgeUrl+list.get(position).getPhoto();
+        final String photo = UrlCollect.baseIamgeUrl+list.get(position).getUrl();
+
         ((MyViewHolder)holder).tv_energy.setText(list.get(position).getScore()+"能量");
         ((MyViewHolder)holder).tv_number.setText(list.get(position).getNum()+"");
         ((MyViewHolder)holder).tv_name.setText(list.get(position).getName());
@@ -58,10 +59,10 @@ public class AdapterPubWall extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Integer remove = numlist.remove(position);
-                    numlist.add(position,--remove);
-                    ((MyViewHolder) holder).tv_number.setText(remove+"");
-                    itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
+                Integer remove = numlist.remove(position);
+                numlist.add(position,--remove);
+                ((MyViewHolder) holder).tv_number.setText(remove+"");
+                itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
                 }
             });
         }

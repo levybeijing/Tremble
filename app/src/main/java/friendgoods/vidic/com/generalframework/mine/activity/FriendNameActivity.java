@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.SingleWallActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -46,16 +49,13 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
     private RelativeLayout container;
     private float scale;
     private String logo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friendname);
         //获取特定ID
-
-        Intent intent = getIntent();
-        //参数1
-        userId = intent.getStringExtra("userId");
-        //参数2 本机用户
+        userId = getIntent().getStringExtra("userId");
         initView();
     }
 
@@ -76,7 +76,6 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
         float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
         int wid = (int) (density*343);
         scale = wid/325.0f;
-//        Log.e("=============", "zhanshi: "+scale);
 
         rv = findViewById(R.id.rv_friendname);
         GridLayoutManager  manager=new GridLayoutManager(this,3);
@@ -90,7 +89,9 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onItemClick(int i) {
                 //点击就进入粉丝霸榜
-                startActivity(new Intent(FriendNameActivity.this,FansBangActivity.class));
+                Intent intent = new Intent(FriendNameActivity.this, SingleWallActivity.class);
+                intent.putExtra("wallId",i);
+                startActivity(intent);
             }
         });
     }
@@ -109,6 +110,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("=============", "onSuccess: "+s);
+                        TokenCheck.toLogin(FriendNameActivity.this,s);
 
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         logo=myWallBean.getData().getLogo();
@@ -146,6 +148,8 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(FriendNameActivity.this,s);
+
                         FansBangBean fansBangBean = new Gson().fromJson(s, FansBangBean.class);
                         list = fansBangBean.getData().getPageInfo().getList();
                         adapter.setData(list);
@@ -153,7 +157,6 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 });
 
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -169,7 +172,9 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
             case R.id.tv_vipwall_friendname:
                 //跳转VIP赠送墙
                 Intent intent2=new Intent(FriendNameActivity.this,VIPSendWallActivity.class);
+                intent2.putExtra("userId",userId);
                 intent2.putExtra("logo",logo);
+                intent2.putExtra("wallId",wallId);
                 startActivity(intent2);
                 break;
             case R.id.tv_fans_friendname:

@@ -5,7 +5,7 @@ import java.util.List;
 public class VIPWallBean {
 
     /**
-     * data : {"PageInfo":{"endRow":1,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":1229,"fansId":25,"name":"what are words","logo":"man1.png","slt":"1231","id":94}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":10,"pages":1,"prePage":0,"size":1,"startRow":1,"total":1}}
+     * data : {"PageInfo":{"endRow":3,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":3,"startRow":1,"total":3}}
      * message : 请求成功
      * state : 1
      */
@@ -40,7 +40,7 @@ public class VIPWallBean {
 
     public static class DataBean {
         /**
-         * PageInfo : {"endRow":1,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":1229,"fansId":25,"name":"what are words","logo":"man1.png","slt":"1231","id":94}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":10,"pages":1,"prePage":0,"size":1,"startRow":1,"total":1}
+         * PageInfo : {"endRow":3,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":20,"pages":1,"prePage":0,"size":3,"startRow":1,"total":3}
          */
 
         private PageInfoBean PageInfo;
@@ -55,24 +55,24 @@ public class VIPWallBean {
 
         public static class PageInfoBean {
             /**
-             * endRow : 1
+             * endRow : 3
              * firstPage : 1
              * hasNextPage : false
              * hasPreviousPage : false
              * isFirstPage : true
              * isLastPage : true
              * lastPage : 1
-             * list : [{"score":1229,"fansId":25,"name":"what are words","logo":"man1.png","slt":"1231","id":94}]
+             * list : [{"score":70,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":389},{"score":2400,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":392},{"score":5114,"fansId":236,"name":"levy","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","logo":"woman1.png","id":393,"url":"http://doutui.oss-cn-beijing.aliyuncs.com/null"}]
              * navigatePages : 1
              * navigatepageNums : [1]
              * nextPage : 0
              * pageNum : 1
-             * pageSize : 10
+             * pageSize : 20
              * pages : 1
              * prePage : 0
-             * size : 1
+             * size : 3
              * startRow : 1
-             * total : 1
+             * total : 3
              */
 
             private int endRow;
@@ -240,20 +240,22 @@ public class VIPWallBean {
 
             public static class ListBean {
                 /**
-                 * score : 1229
-                 * fansId : 25
-                 * name : what are words
-                 * logo : man1.png
-                 * slt : 1231
-                 * id : 94
+                 * score : 70
+                 * fansId : 236
+                 * name : levy
+                 * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
+                 * logo : woman1.png
+                 * id : 389
+                 * url : http://doutui.oss-cn-beijing.aliyuncs.com/null
                  */
 
                 private int score;
                 private int fansId;
                 private String name;
+                private String photo;
                 private String logo;
-                private String slt;
                 private int id;
+                private String url;
 
                 public int getScore() {
                     return score;
@@ -279,6 +281,14 @@ public class VIPWallBean {
                     this.name = name;
                 }
 
+                public String getPhoto() {
+                    return photo;
+                }
+
+                public void setPhoto(String photo) {
+                    this.photo = photo;
+                }
+
                 public String getLogo() {
                     return logo;
                 }
@@ -287,20 +297,20 @@ public class VIPWallBean {
                     this.logo = logo;
                 }
 
-                public String getSlt() {
-                    return slt;
-                }
-
-                public void setSlt(String slt) {
-                    this.slt = slt;
-                }
-
                 public int getId() {
                     return id;
                 }
 
                 public void setId(int id) {
                     this.id = id;
+                }
+
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
                 }
             }
         }

@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
@@ -115,6 +116,8 @@ public class SettingsActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(SettingsActivity.this,s);
+
                         //  失败则设置 requestIsOk值 重新请求
                         try {
                             JSONObject jo=new JSONObject(s);
@@ -132,7 +135,7 @@ public class SettingsActivity extends BaseActivity {
     public void clear() {
         edit.clear();
         edit.commit();
-//        System.exit(0);
+        SharedPFUtils.setParam(SettingsActivity.this, "loginstatus", false);
         startActivity(new Intent(this,LoginCodeActivity.class));
         finishAll();
     }

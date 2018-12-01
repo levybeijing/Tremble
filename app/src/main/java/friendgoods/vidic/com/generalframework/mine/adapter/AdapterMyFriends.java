@@ -70,7 +70,6 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
                 @Override
                 public void onClick(View v) {
                     int userId = list.get(position).getUserId();
-//                    int position = holder.getLayoutPosition();
                     itemClickListener.onItemClick(userId);
                 }
             });

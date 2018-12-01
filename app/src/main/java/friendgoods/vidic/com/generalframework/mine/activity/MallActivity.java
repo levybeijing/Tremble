@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.FansBangBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -54,7 +55,9 @@ public class MallActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                      Log.e("=============", "onSuccess: "+s);
+                        TokenCheck.toLogin(MallActivity.this,s);
+
+                        Log.e("=============", "onSuccess: "+s);
                         JifenBean jifenBean = new Gson().fromJson(s, JifenBean.class);
                         double integral = jifenBean.getData().getIntegral();
                         tv_number.setText(integral+"");

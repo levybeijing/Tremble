@@ -16,6 +16,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.RecordDetailBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -99,6 +100,8 @@ public class MyRecordActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(MyRecordActivity.this,s);
+
                         Log.e("==========requestRecord", "onSuccess: "+s);
                         MyRecordBean recordBean = new Gson().fromJson(s, MyRecordBean.class);
                         adapter.setData(recordBean.getData().getPageInfo().getList());
@@ -113,6 +116,8 @@ public class MyRecordActivity extends BaseActivity {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(MyRecordActivity.this,s);
+
                         Log.e("===========requestInfo=", "onSuccess: "+s);
                         RecordDetailBean record = new Gson().fromJson(s, RecordDetailBean.class);
                         tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+(int)record.getData().getRownum());

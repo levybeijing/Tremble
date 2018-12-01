@@ -41,6 +41,7 @@ import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
 import de.tavendo.autobahn.WebSocketHandler;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
@@ -63,8 +64,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private TimePickerView pvCustomTime;
 //   是否正在游戏
     private boolean isGaming=false;
-//   是否是房主
+//
     private static boolean isHost=true;
+    private static int roomId;
 //
     private boolean havetime=false;
 
@@ -96,15 +98,14 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
-    private static int roomId;
+
     private ScaleAnimation animation,animation1;
 
 //    计时器
     private int x;
     private int y;
     private int z;
-//    三秒倒计时
-    private Thread Threetoone = new Thread(new Runnable() {
+    private Runnable run=new Runnable() {
         @Override
         public void run() {
             try {
@@ -118,7 +119,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 e.printStackTrace();
             }
         }
-    });
+    };
     private  Handler sHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -153,7 +154,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     //                    开始游戏
 //                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
                     isGaming=true;
-//                    游戏时间开始
+//                    游戏开始
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -182,7 +183,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private boolean note=true;
     private boolean lock=false;
     private String friendId;
-    private String invitename;
+    private boolean again;
+
     private void setTime() {
         if (lock){
             return;
@@ -213,7 +215,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             isGaming=false;
             havetime=false;
             haveready=false;
-//            gametime=System.currentTimeMillis()-gametime;
             Toast.makeText(this, "游戏结束", Toast.LENGTH_SHORT).show();
 //            game over
             PKSocketBean end =new PKSocketBean();
@@ -226,7 +227,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             Intent intent=new Intent(this,PKRankActivity.class);
             intent.putExtra("degree",degree);
             intent.putExtra("roomId",roomId);
-            startActivityForResult(intent,REQUESTCODE);
+//            startActivityForResult(intent,REQUESTCODE);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -236,6 +239,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
+
+        again = getIntent().getBooleanExtra("again", false);
+
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
@@ -311,32 +317,50 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         readyyes = findViewById(R.id.iv_readyyes_pkmodel);
         readyyes.setOnClickListener(this);
         readyno = findViewById(R.id.iv_readyno_pkmodel);
+        readyno.setOnClickListener(this);
 //        开始
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
         startno = findViewById(R.id.iv_startno_pkmodel);
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
-        if (data!=null){
-            roomId = Integer.parseInt(data.getQueryParameter("id"));
-            friendId = data.getQueryParameter("friendId");
-            invitename = data.getQueryParameter("userName");
-            Log.e("===========invitename", ""+ invitename);
+        if (again){
+            degree++;
+            if (isHost){
+                startno.setVisibility(View.VISIBLE);
+                light2.setVisibility(View.VISIBLE);
+            }else{
+                ll.setClickable(false);
+                readyyes.setVisibility(View.VISIBLE);
+                light2.setVisibility(View.INVISIBLE);
+                iv_sure.setVisibility(View.GONE);
 
-            Log.e("===========friendId", ""+ friendId);
-            toBeFriend(friendId);
-            Log.e("===========roomId", ""+roomId);
-            isHost=false;
-            ll.setClickable(false);
-            readyyes.setVisibility(View.VISIBLE);
-            light2.setVisibility(View.INVISIBLE);
-            iv_sure.setVisibility(View.GONE);
+            }
             connect();
         }else{
-            startno.setVisibility(View.VISIBLE);
-            light2.setVisibility(View.VISIBLE);
-            createroom();
+            if (data!=null){
+                if (!(boolean) SharedPFUtils.getParam(this, "loginstatus", false)){
+                    startActivity(new Intent(this,LoginCodeActivity.class));
+                    finish();
+                }
+                roomId = Integer.parseInt(data.getQueryParameter("id"));
+                friendId = data.getQueryParameter("friendId");
+//                Log.e("===========friendId", ""+ friendId);
+                toBeFriend(friendId);
+//                Log.e("===========roomId", ""+roomId);
+                isHost=false;
+                ll.setClickable(false);
+                readyyes.setVisibility(View.VISIBLE);
+                light2.setVisibility(View.INVISIBLE);
+                iv_sure.setVisibility(View.GONE);
+                connect();
+            }else{
+                startno.setVisibility(View.VISIBLE);
+                light2.setVisibility(View.VISIBLE);
+                createroom();
+            }
         }
+
         //        缩放动画
         animation = new ScaleAnimation(
                 1.0f, 2.0f, 1.0f, 2.0f,
@@ -395,8 +419,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 settime.setTime(time);
                 settime.setUserId(currentId+"");
                 Log.e("===========确认时间", new Gson().toJson(settime));
-                havetime=true;
                 sendMessage(new Gson().toJson(settime));
+                havetime=true;
                 if (isHost&&haveready){
                     startyes.setVisibility(View.VISIBLE);
                     startno.setVisibility(View.INVISIBLE);
@@ -430,13 +454,25 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 startyes.setVisibility(View.INVISIBLE);
                 three.setVisibility(View.VISIBLE);
 //start
-                Threetoone.start();
+//                Threetoone.start();
+                new Thread(run).start();
+                break;
+            case R.id.iv_startno_pkmodel:
+                if ("0".equals(idlist.get(0)) && "0".equals(idlist.get(1))){
+//                    ToastUtils.shortToast("房间不能少于两人");
+                    Toast.makeText(this, "房间不能少于两人", Toast.LENGTH_SHORT).show();
+                }
+                if ((!"0".equals(idlist.get(0)) || !"0".equals(idlist.get(1)))){
+                    if (!havetime){
+                        Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
             case R.id.iv_readyyes_pkmodel:
                 readyyes.setVisibility(View.INVISIBLE);
                 readyno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
-//ready
+//ready yes
                 PKSocketBean ready=new PKSocketBean();
                 ready.setRoomId(roomId+"");
                 ready.setType("2");
@@ -444,6 +480,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 ready.setStatus("2");//0取消 1准备
                 sendMessage(new Gson().toJson(ready));
                 Log.e("===========socketUrl", ""+new Gson().toJson(ready));
+                break;
+            case R.id.iv_readyno_pkmodel:
+                readyyes.setVisibility(View.VISIBLE);
+                readyno.setVisibility(View.INVISIBLE);
+                light2.setVisibility(View.INVISIBLE);
+//ready no
+                PKSocketBean noready=new PKSocketBean();
+                noready.setRoomId(roomId+"");
+                noready.setType("2");
+                noready.setUserId(currentId+"");
+                noready.setStatus("1");//0取消 1准备
+                sendMessage(new Gson().toJson(noready));
+                Log.e("===========socketUrl", ""+new Gson().toJson(noready));
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
@@ -492,8 +541,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     }
     //接收socket信息 后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
-    private List<String> idlist=new ArrayList<>();
-    private List<Boolean> readyList=new ArrayList<>();
+    private static List<String> idlist=new ArrayList<>();
+    private static List<Boolean> readyList=new ArrayList<>();
     private void connect() {
         final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+currentId;
         try {
@@ -503,10 +552,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onOpen() {
-                    idlist.add("0");
-                    idlist.add("0");
-                    readyList.add(false);
-                    readyList.add(false);
+                    if (!again) {
+                        idlist.add("0");
+                        idlist.add("0");
+                        readyList.add(false);
+                        readyList.add(false);
+                    }
 //                    Log.e("===========socketUrl", ""+socketUrl);
 //            send socket
                     if (!isHost){
@@ -519,6 +570,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                         sendMessage(new Gson().toJson(join));
                         Log.e("===========join", ""+new Gson().toJson(join));
                     }else{
+                        if (again){
+                            return;
+                        }
                         PKSocketBean add=new PKSocketBean();
                         add.setRoomId(roomId+"");
                         add.setType("1");
@@ -626,8 +680,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                     haveready=false;
                                 }
                             }
-                            if (haveready){
+                            if (haveready&&!havetime){
                                 Toast.makeText(PKModelActivity.this, "请设置时间", Toast.LENGTH_SHORT).show();
+                            }
+                            if (havetime&&haveready){
+                                startno.setVisibility(View.INVISIBLE);
+                                startyes.setVisibility(View.VISIBLE);
                             }
                             Log.e("============readyList.n",readyList.get(0)+"%"+readyList.get(1));
                             break;
@@ -655,7 +713,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 isGaming=true;
                                 three.setVisibility(View.VISIBLE);
                                 readyno.setVisibility(View.INVISIBLE);
-                                Threetoone.start();
+//                                Threetoone.start();
+                                new Thread(run).start();
                             }
                             break;
                         case "5":
@@ -689,6 +748,22 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 idlist.remove(1);
                                 idlist.add(1,gamerBean.getUserId()+"");
                                 break;
+                            }
+                            if (isHost){
+                                break;
+                            }
+                            String time2 = pkSocketBeanx.getTime();
+                            if (time2!=null&&time2.length()==8){
+                                tv1_timer.setText(time2.charAt(0)+"");
+                                tv2_timer.setText(time2.charAt(1)+"");
+                                tv3_timer.setText(time2.charAt(3)+"");
+                                tv4_timer.setText(time2.charAt(4)+"");
+                                tv5_timer.setText(time2.charAt(6)+"");
+                                tv6_timer.setText(time2.charAt(7)+"");
+                                x=Integer.parseInt(time2.charAt(0)+"")*10+Integer.parseInt(time2.charAt(1)+"");
+                                y=Integer.parseInt(time2.charAt(3)+"")*10+Integer.parseInt(time2.charAt(4)+"");
+                                z=Integer.parseInt(time2.charAt(6)+"")*10+Integer.parseInt(time2.charAt(7)+"");
+                                time=time2;
                             }
                             break;
                         case "8":
@@ -754,6 +829,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("==============addroom", s);
+                        TokenCheck.toLogin(PKModelActivity.this,s);
                         if (null!=s){
                             JSONObject jo= null;
                             try {
@@ -765,8 +841,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 e.printStackTrace();
                             }
                         }
-
-
                     }
                 });
     }
@@ -782,10 +856,11 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 .params("roomId", roomId+"")
                 .params("status", "0")//0（手动）1（脚动）
                 .params("mode", "3")//1（挑战）2（故事）3（pk）4（休闲）
-                .params("degree", "1")//
+                .params("degree", degree)//
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(PKModelActivity.this,s);
                         Log.e("=============", "addrecord: "+s);
 
                     }
@@ -825,21 +900,13 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//exit
-        PKSocketBean exit=new PKSocketBean();
-        if (isHost){
-            exit.setType("10");
-            if (isGaming)
-                exit.setType("11");
-        }else{
+        if (!isHost){
+            PKSocketBean exit=new PKSocketBean();
             exit.setType("8");
+            exit.setRoomId(roomId+"");
+            exit.setUserId(currentId+"");
+            sendMessage(new Gson().toJson(exit));
         }
-        exit.setRoomId(roomId+"");
-        exit.setUserId(currentId+"");
-        sendMessage(new Gson().toJson(exit));
-        mConnect.disconnect();
-        sHandler=null;
-        Threetoone=null;
     }
 
 //控件操作
@@ -899,38 +966,41 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        Log.i("===========toBeFriend", s);
-                    }
+                        TokenCheck.toLogin(PKModelActivity.this,s);
 
-                    @Override
-                    public void onError(Call call, Response response, Exception e) {
-                        Log.i("===========toBeFriend", response.toString());
+                        Log.i("===========toBeFriend", s);
                     }
                 });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==REQUESTCODE){
-            switch (resultCode){
-                case 111:
-                    degree++;
-                    if (isHost){
+////        if (requestCode==REQUESTCODE){
+//            switch (resultCode){
+//                case 111:
+//                    degree++;
+//                    if (isHost){
 //                        light2.setVisibility(View.VISIBLE);
-
-                    }else{
+//                        startno.setVisibility(View.VISIBLE);
+//                    }else{
 //                        light2.setVisibility(View.INVISIBLE);
-                    }
-                    finish();
-                    break;
-                case 222:
-                default:
-                    degree=1;
-                    roomId=0;
-                    finish();
-                    break;
-            }
-        }
-    }
+//                        readyyes.setVisibility(View.VISIBLE);
+//                    }
+//                    name2.setText((String)SharedPFUtils.getParam(this,"name",""));
+//                    name1.setText("邀请好友");
+//                    name3.setText("邀请好友");
+//                    clearOne();
+//                    clearThree();
+//                    connect();
+//                    break;
+//                case 222:
+//                default:
+//                    degree=1;
+//                    roomId=0;
+//                    finish();
+//                    break;
+//            }
+////        }
+//    }
 }

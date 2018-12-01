@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
@@ -29,9 +30,11 @@ import java.util.List;
 import java.util.Random;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.GiftsMallBean;
 import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
+import friendgoods.vidic.com.generalframework.mine.activity.VIPSendWallActivity;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -39,11 +42,11 @@ import okhttp3.Response;
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyViewHolder> {
-    private Context context;
+    private Activity context;
     private List<GiftsMallBean.DataBean.PageInfoBean.ListBean> list;
 //    private IWXAPI api;
 
-    public AdapterGiftMall(Context context_) {
+    public AdapterGiftMall(Activity context_) {
         context=context_;
     }
 
@@ -108,6 +111,8 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("=================", "onSuccess: "+s);
+                        TokenCheck.toLogin(context,s);
+
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");

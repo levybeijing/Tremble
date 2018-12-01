@@ -20,6 +20,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.ChalModelActivity;
 import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -106,6 +108,8 @@ public class WeekRankFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         adapter.setData(bean.getData().getPageInfo().getList());
                     }
@@ -122,6 +126,7 @@ public class WeekRankFragment extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         adapter.setData(bean.getData().getPageInfo().getList());
                     }

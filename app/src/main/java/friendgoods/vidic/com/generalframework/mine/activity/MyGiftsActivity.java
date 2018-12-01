@@ -14,6 +14,7 @@ import com.lzy.okgo.callback.StringCallback;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyGifts;
@@ -60,6 +61,8 @@ public class MyGiftsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("###############", "onSuccess: "+s);
+                        TokenCheck.toLogin(MyGiftsActivity.this,s);
+
                         MyGiftsBean bean = new Gson().fromJson(s, MyGiftsBean.class);
                         List<MyGiftsBean.DataBean> data = bean.getData();
                         adapter.setData(data);

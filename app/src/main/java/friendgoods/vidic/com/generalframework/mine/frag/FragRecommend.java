@@ -14,6 +14,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterRecommendMall;
 import friendgoods.vidic.com.generalframework.bean.GoodsRecommendBean;
@@ -53,6 +54,8 @@ public class FragRecommend extends Fragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(getActivity(),s);
+
                         GoodsRecommendBean recommendBean = new Gson().fromJson(s, GoodsRecommendBean.class);
                         adapter.setData(recommendBean.getData().getPageInfo().getList());
                     }

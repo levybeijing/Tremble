@@ -22,6 +22,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.bean.DetailOrderBean;
@@ -60,6 +61,8 @@ public class DetailOrdersActivity  extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("################", "onSuccess: "+s);
+                        TokenCheck.toLogin(DetailOrdersActivity.this,s);
+
                         DetailOrderBean detailOrderBean = new Gson().fromJson(s, DetailOrderBean.class);
                         DetailOrderBean.DataBean data = detailOrderBean.getData();
                         Picasso.with(DetailOrdersActivity.this).load(UrlCollect.baseIamgeUrl+data.getPhoto()).into(icon);

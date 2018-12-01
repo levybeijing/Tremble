@@ -15,6 +15,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.CustomDialogBottom;
@@ -58,6 +59,8 @@ public class DetailGoodsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         //暂时没有数据
+                        TokenCheck.toLogin(DetailGoodsActivity.this,s);
+
                         DetailGoodsBean bean = new Gson().fromJson(s, DetailGoodsBean.class);
                         data = bean.getData();
                         Picasso.with(DetailGoodsActivity.this).load(UrlCollect.baseIamgeUrl+ data.getPhoto()).into(iv_top);
