@@ -5,7 +5,7 @@ import java.util.List;
 public class MyFriendsBean {
 
     /**
-     * data : {"PageInfo":{"endRow":6,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"shakeNum":123123,"photo":"avatar_1.png","time":"00:34:50","userId":2,"NAME":"asd"},{"shakeNum":5212,"photo":"avatar_1.png","time":"00:34:50","userId":6,"NAME":"zc"},{"shakeNum":2542,"photo":"avatar_1.png","time":"00:34:50","userId":7,"NAME":"fa"},{"shakeNum":515,"photo":"avatar_1.png","time":"00:34:50","userId":5,"NAME":"zx"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":4,"NAME":"gagda"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":3,"NAME":"sf"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":10,"pages":1,"prePage":0,"size":6,"startRow":1,"total":6}}
+     * data : {"PageInfo":{"endRow":1,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"rownum":1,"name":"levy","shakeNum":0,"photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","time":"00:0:0","userId":236}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":12,"pages":1,"prePage":0,"size":1,"startRow":1,"total":1}}
      * message : 请求成功
      * state : 1
      */
@@ -40,7 +40,7 @@ public class MyFriendsBean {
 
     public static class DataBean {
         /**
-         * PageInfo : {"endRow":6,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"shakeNum":123123,"photo":"avatar_1.png","time":"00:34:50","userId":2,"NAME":"asd"},{"shakeNum":5212,"photo":"avatar_1.png","time":"00:34:50","userId":6,"NAME":"zc"},{"shakeNum":2542,"photo":"avatar_1.png","time":"00:34:50","userId":7,"NAME":"fa"},{"shakeNum":515,"photo":"avatar_1.png","time":"00:34:50","userId":5,"NAME":"zx"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":4,"NAME":"gagda"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":3,"NAME":"sf"}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":10,"pages":1,"prePage":0,"size":6,"startRow":1,"total":6}
+         * PageInfo : {"endRow":1,"firstPage":1,"hasNextPage":false,"hasPreviousPage":false,"isFirstPage":true,"isLastPage":true,"lastPage":1,"list":[{"rownum":1,"name":"levy","shakeNum":0,"photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","time":"00:0:0","userId":236}],"navigatePages":1,"navigatepageNums":[1],"nextPage":0,"pageNum":1,"pageSize":12,"pages":1,"prePage":0,"size":1,"startRow":1,"total":1}
          */
 
         private PageInfoBean PageInfo;
@@ -55,24 +55,24 @@ public class MyFriendsBean {
 
         public static class PageInfoBean {
             /**
-             * endRow : 6
+             * endRow : 1
              * firstPage : 1
              * hasNextPage : false
              * hasPreviousPage : false
              * isFirstPage : true
              * isLastPage : true
              * lastPage : 1
-             * list : [{"shakeNum":123123,"photo":"avatar_1.png","time":"00:34:50","userId":2,"NAME":"asd"},{"shakeNum":5212,"photo":"avatar_1.png","time":"00:34:50","userId":6,"NAME":"zc"},{"shakeNum":2542,"photo":"avatar_1.png","time":"00:34:50","userId":7,"NAME":"fa"},{"shakeNum":515,"photo":"avatar_1.png","time":"00:34:50","userId":5,"NAME":"zx"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":4,"NAME":"gagda"},{"shakeNum":124,"photo":"avatar_1.png","time":"00:34:50","userId":3,"NAME":"sf"}]
+             * list : [{"rownum":1,"name":"levy","shakeNum":0,"photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","time":"00:0:0","userId":236}]
              * navigatePages : 1
              * navigatepageNums : [1]
              * nextPage : 0
              * pageNum : 1
-             * pageSize : 10
+             * pageSize : 12
              * pages : 1
              * prePage : 0
-             * size : 6
+             * size : 1
              * startRow : 1
-             * total : 6
+             * total : 1
              */
 
             private int endRow;
@@ -240,18 +240,36 @@ public class MyFriendsBean {
 
             public static class ListBean {
                 /**
-                 * shakeNum : 123123
-                 * photo : avatar_1.png
-                 * time : 00:34:50
-                 * userId : 2
-                 * NAME : asd
+                 * rownum : 1
+                 * name : levy
+                 * shakeNum : 0
+                 * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
+                 * time : 00:0:0
+                 * userId : 236
                  */
 
+                private int rownum;
+                private String name;
                 private int shakeNum;
                 private String photo;
                 private String time;
                 private int userId;
-                private String NAME;
+
+                public int getRownum() {
+                    return rownum;
+                }
+
+                public void setRownum(int rownum) {
+                    this.rownum = rownum;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
 
                 public int getShakeNum() {
                     return shakeNum;
@@ -283,14 +301,6 @@ public class MyFriendsBean {
 
                 public void setUserId(int userId) {
                     this.userId = userId;
-                }
-
-                public String getNAME() {
-                    return NAME;
-                }
-
-                public void setNAME(String NAME) {
-                    this.NAME = NAME;
                 }
             }
         }

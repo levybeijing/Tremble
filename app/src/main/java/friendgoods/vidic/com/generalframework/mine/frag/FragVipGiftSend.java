@@ -46,7 +46,6 @@ public class FragVipGiftSend extends Fragment {
         rv.setAdapter(adapter);
         //网络访问
         request();
-
     }
 
     private void request() {

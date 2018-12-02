@@ -23,7 +23,6 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
     private List<MyFriendsBean.DataBean.PageInfoBean.ListBean> list;
     public AdapterMyFriends(Context context_) {
         context=context_;
-
     }
 
     public void setOnItemClickListener(OnItemClickListenerPosition itemClickListene_){
@@ -58,7 +57,7 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
                 holder.tv_rank.setText(position+1);
                 break;
         }
-        holder.tv_name.setText(list.get(position).getNAME());
+        holder.tv_name.setText(list.get(position).getName());
         holder.tv_time.setText(list.get(position).getTime());
         holder.tv_count.setText(list.get(position).getShakeNum()+"");
         Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<friendgoods.vidic.com.generalframework.mine.customview.CirImageView
+<friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="60dp"
-    android:layout_height="60dp"
-    app:round_borderWidth="3dp"
-    app:round_borderColor="#ffffff" />
+    android:layout_height="60dp" />

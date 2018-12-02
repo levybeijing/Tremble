@@ -81,9 +81,6 @@ public class SettingsActivity extends BaseActivity {
                     VOICE=1;
                     edit.putBoolean("voice",true);
                     edit.commit();
-//                    int i = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-//                    if (i==0)
-//                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
                     startService(new Intent(SettingsActivity.this,MusicService.class));
 
@@ -91,9 +88,8 @@ public class SettingsActivity extends BaseActivity {
                     VOICE=0;
                     edit.putBoolean("voice",false);
                     edit.commit();
-//                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
                     Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
-                    MusicService.getInstance().onDestroy();
+                    MusicService.getInstance().stopSelf();
                 }
                 request(SHAKE,VOICE);
             }

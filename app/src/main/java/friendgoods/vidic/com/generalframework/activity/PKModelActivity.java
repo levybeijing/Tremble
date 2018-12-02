@@ -988,8 +988,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //                        readyyes.setVisibility(View.VISIBLE);
 //                    }
 //                    name2.setText((String)SharedPFUtils.getParam(this,"name",""));
-//                    name1.setText("邀请好友");
-//                    name3.setText("邀请好友");
+//                    name1.se tText("邀请好友");
 //                    clearOne();
 //                    clearThree();
 //                    connect();

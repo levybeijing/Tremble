@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -32,6 +33,8 @@ import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
+import friendgoods.vidic.com.generalframework.mine.customview.PileView;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
 import friendgoods.vidic.com.generalframework.bean.IconSetBean;
@@ -48,7 +51,9 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     private RecyclerView rv;
     private AdapterPubWall adapter;
     private RelativeLayout view;
+
     private PileLayout set;
+
     private TextView name;
     private TextView energy;
     private ImageView icon;
@@ -120,12 +125,17 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("=============", "onSuccess: "+s);
+//                        Log.e("=============", "444444444444: "+s);
                         TokenCheck.toLogin(PublicWallActivity.this,s);
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
                         List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
                         for (int i = 0; i < userPhoto.size(); i++) {
-
+//                            CirImageView iv=(CirImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.avart, set, false);
+////                            Glide.with(PublicWallActivity.this).load(userPhoto.get(i)).into(iv);
+////                            set.addView(iv);
+                            CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
+                            Glide.with(PublicWallActivity.this).load(userPhoto.get(i)).into(imageView);
+                            set.addView(imageView);
                         }
                     }
                 });
@@ -134,55 +144,55 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onItemClick(String sx, String sy, String surl, String id, int remove) {
 //                宽高 图片尺寸?
-                float x=Float.parseFloat(sx);
-                float y=Float.parseFloat(sy);
+            float x=Float.parseFloat(sx);
+            float y=Float.parseFloat(sy);
 
-                if (remove==0){
-                    Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                //实际图片尺寸
-                int realwid= (int) (x* scale)-1;
-                int realhei= (int) (y* scale)-1;
-                //获取限定范围 以父控件为参照
-                int left = view.getLeft();
-                int top = view.getTop();
-                int right = view.getRight();
-                int bottom = view.getBottom();
+            if (remove==0){
+                Toast.makeText(PublicWallActivity.this, "该礼物没有了,去商城购买", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //实际图片尺寸
+            int realwid= (int) (x* scale)-1;
+            int realhei= (int) (y* scale)-1;
+            //获取限定范围 以父控件为参照
+            int left = view.getLeft();
+            int top = view.getTop();
+            int right = view.getRight();
+            int bottom = view.getBottom();
 
-                //传入父控件的左上右下
-                MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
-                //加载图片
-                iv.setScale(scale);
+            //传入父控件的左上右下
+            MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
+            //加载图片
+            iv.setScale(scale);
 
-                //传入自己的真实像素
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                        realwid, realhei);
-                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
-                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
-                //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
-                int rx=right-left-realwid;
-                if (rx<=0){
-                    lp.leftMargin=0;
-                }else{
-                    lp.leftMargin=new Random().nextInt(rx);
-                }
-                int ry=bottom-top-realhei;
-                if (ry<=0){
-                    lp.topMargin= 0;
-                }else{
-                    lp.topMargin=new Random().nextInt(ry);
-                }
-                iv.setLayoutParams(lp);
-                view.addView(iv);
-                Picasso.with(PublicWallActivity.this).load(surl).into(iv);
-                imageList.add(iv);
-                //获取容器内所有控件 获取位置
-                if (gift.length()==0){
-                    gift.append(id);
-                }else{
-                    gift.append(","+id);
-                }
+            //传入自己的真实像素
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    realwid, realhei);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
+            //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
+            int rx=right-left-realwid;
+            if (rx<=0){
+                lp.leftMargin=0;
+            }else{
+                lp.leftMargin=new Random().nextInt(rx);
+            }
+            int ry=bottom-top-realhei;
+            if (ry<=0){
+                lp.topMargin= 0;
+            }else{
+                lp.topMargin=new Random().nextInt(ry);
+            }
+            iv.setLayoutParams(lp);
+            view.addView(iv);
+            Picasso.with(PublicWallActivity.this).load(surl).into(iv);
+            imageList.add(iv);
+            //获取容器内所有控件 获取位置
+            if (gift.length()==0){
+                gift.append(id);
+            }else{
+                gift.append(","+id);
+            }
             }
         });
     }

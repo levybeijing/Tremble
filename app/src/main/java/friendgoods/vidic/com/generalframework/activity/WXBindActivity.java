@@ -42,7 +42,6 @@ public class WXBindActivity extends BaseActivity implements View.OnClickListener
                 req.scope = "snsapi_userinfo";
                 req.state = "bind";
                 api.sendReq(req);
-//                finish();
                 break;
         }
     }

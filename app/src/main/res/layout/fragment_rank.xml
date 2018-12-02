@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/bg_mine_3x">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="历史排行"
-        android:textColor="#fff"
-        android:layout_marginTop="11dp"
-        android:layout_marginLeft="15dp"
-        android:textSize="24dp"/>
-
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"

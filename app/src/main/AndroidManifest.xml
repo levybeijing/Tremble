@@ -92,7 +92,8 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="friendgoods.vidic.com.dou" android:scheme="android"/>
+                <data android:host="friendgoods.vidic.com.dou"
+                    android:scheme="android"/>
             </intent-filter>
         </activity>
         <!--微信-->

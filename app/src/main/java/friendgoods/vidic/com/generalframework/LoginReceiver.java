@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
@@ -18,9 +19,10 @@ public class LoginReceiver extends BroadcastReceiver {
             case "action.LOGIN.OTHER":
                 Log.e("=============", "action_LOGIN_OTHERPLACE: ");
                 Intent intent1 = new Intent(context, LoginCodeActivity.class);
-                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);
                 BaseActivity.finishAll();
+                Toast.makeText(context, "登录异常,请重新登录", Toast.LENGTH_SHORT).show();
                 SharedPreferences userinfo = context.getSharedPreferences("userinfo", MODE_PRIVATE);
                 SharedPreferences.Editor edit = userinfo.edit();
                 edit.clear();

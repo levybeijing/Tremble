@@ -89,7 +89,7 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                 login(number,code);
                 break;
             case R.id.iv_weixin_logincode:
-                if (api==null||!api.isWXAppInstalled()){
+                if (!api.isWXAppInstalled()){
                     Toast.makeText(this, "请先安装微信", Toast.LENGTH_SHORT).show();
                     break;
                 }
