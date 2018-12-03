@@ -123,7 +123,7 @@ public class MyRecordActivity extends BaseActivity {
                         tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+(int)record.getData().getRownum());
                         hand.setText(record.getData().getSShakeNum()+"");
                         foot.setText(record.getData().getJShakeNum()+"");
-                        jifen.setText(record.getData().getIntegral()+"");
+                        jifen.setText((int)record.getData().getIntegral()+"");
                     }
                 });
     }
