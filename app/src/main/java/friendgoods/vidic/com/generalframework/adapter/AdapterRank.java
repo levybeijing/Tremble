@@ -43,15 +43,15 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.iv_rank.setVisibility(View.GONE);
-        holder.tv_rank.setText(1+position+"");
-        holder.tv_name.setText(list.get(position).getName());
-        holder.tv_time.setText(list.get(position).getTime());
-        holder.tv_count.setText(list.get(position).getShakeNum()+"");
-        String photo = list.get(position).getPhoto();
+        holder.tv_rank.setText(4+position+"");
+        holder.tv_name.setText(list.get(position+3).getName());
+        holder.tv_time.setText(list.get(position+3).getTime());
+        holder.tv_count.setText(list.get(position+3).getShakeNum()+"");
+        String photo = list.get(position+3).getPhoto();
         if (photo!=null&&!photo.equals("")) {
             Picasso.with(context).load(photo).into(holder.iv_icon);
         }
-        final int userId = list.get(position).getUserId();
+        final int userId = list.get(position+3).getUserId();
 
         View itemView = holder.itemView;
 
@@ -68,10 +68,10 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (list==null){
+        if (list==null||list.size()<4){
             return 0;
         }
-        return list.size();
+        return list.size()-3;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder

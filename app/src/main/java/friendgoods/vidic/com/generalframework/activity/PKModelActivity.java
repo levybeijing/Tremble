@@ -55,19 +55,18 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
+import static friendgoods.vidic.com.generalframework.entity.UrlCollect.fansList;
 
 public class PKModelActivity extends BaseActivity implements View.OnClickListener {
     public static int degree=1;
     public static boolean isHost=true;
     private static int roomId;
-
+    public static boolean forPK=false;
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
 //   是否正在游戏
     private boolean isGaming=false;
-//
-
 //
     private boolean havetime=false;
 
@@ -239,12 +238,17 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
-
+        boolean loginstatus = (boolean)SharedPFUtils.getParam(this, "loginstatus", false);
+        if (!loginstatus){
+            startActivity(new Intent(this,LoginCodeActivity.class));
+            forPK=true;
+        }
         again = getIntent().getBooleanExtra("again", false);
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
+
         initView();
     }
 
@@ -342,11 +346,15 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
         if (again){
+            Log.e("===========again", "again");
             degree++;
             if (isHost){
+                Log.e("===========again", "isHost");
+
                 startno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
             }else{
+                Log.e("===========again", "else");
                 ll.setClickable(false);
                 readyyes.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.INVISIBLE);
@@ -451,17 +459,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 startyes.setVisibility(View.INVISIBLE);
                 three.setVisibility(View.VISIBLE);
 //start
-//                Threetoone.start();
                 new Thread(run).start();
                 break;
             case R.id.iv_startno_pkmodel:
+                Log.e("===========startno", "");
+                Toast.makeText(this, "dianji ", Toast.LENGTH_SHORT).show();
                 if ("0".equals(idlist.get(0)) && "0".equals(idlist.get(1))){
-//                    ToastUtils.shortToast("房间不能少于两人");
                     Toast.makeText(this, "房间不能少于两人", Toast.LENGTH_SHORT).show();
+                    break;
                 }
                 if ((!"0".equals(idlist.get(0)) || !"0".equals(idlist.get(1)))){
                     if (!havetime){
                         Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
+                        break;
                     }
                 }
                 break;

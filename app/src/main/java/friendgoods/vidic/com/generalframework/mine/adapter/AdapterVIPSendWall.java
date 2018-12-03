@@ -56,15 +56,19 @@ public class AdapterVIPSendWall extends RecyclerView.Adapter {
         Picasso.with(context).load(photo).into(((MyViewHolder)holder).iv_goods);
         remain.add(list.get(position).getNum());
 
-        View itemView = holder.itemView;
+        final View itemView = holder.itemView;
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                Integer remove = numlist.remove(position);
+                Integer remove = numlist.get(position);
+                itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
+                if (remove==0){
+                    return;
+                }
+                numlist.remove(position);
                 numlist.add(position,--remove);
                 ((MyViewHolder) holder).tv_number.setText(remove+"");
-                itemClickListener.onItemClick(list.get(position).getWide(),list.get(position).getHigh(), photo,list.get(position).getGiftId()+"",remove);
                 }
             });
         }

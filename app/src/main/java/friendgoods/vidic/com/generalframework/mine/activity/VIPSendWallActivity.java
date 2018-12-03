@@ -259,6 +259,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                                 view.removeAllViews();
                                 imageList.clear();
                                 Toast.makeText(VIPSendWallActivity.this, "已送达", Toast.LENGTH_SHORT).show();
+                                finish();
                             }else{
                                 Toast.makeText(VIPSendWallActivity.this, message, Toast.LENGTH_SHORT).show();
                             }

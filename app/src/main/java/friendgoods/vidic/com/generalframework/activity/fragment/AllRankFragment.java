@@ -15,10 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+
+import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
@@ -28,6 +32,7 @@ import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.FriendNameActivity;
 import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
+import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
@@ -43,6 +48,8 @@ public class AllRankFragment extends Fragment {
     private int worldPage=1;
     private int friendPage=1;
     public static BroadcastReceiver mBroadcastReceiver;
+    private CirImageView icon1,icon2,icon3;
+    private TextView name1,time1,count1,name2,time2,count2,name3,time3,count3;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +104,22 @@ public class AllRankFragment extends Fragment {
         intentFilter.addAction("android.tremble.WORLD2");
         getContext().registerReceiver(mBroadcastReceiver, intentFilter);
 
+
+        icon1 = view.findViewById(R.id.icon_first_top3);
+        name1 = view.findViewById(R.id.name_first_top3);
+        time1 = view.findViewById(R.id.time_first_top3);
+        count1 = view.findViewById(R.id.count_first_top3);
+
+        icon2 = view.findViewById(R.id.icon_second_top3);
+        name2 = view.findViewById(R.id.name_second_top3);
+        time2 = view.findViewById(R.id.time_second_top3);
+        count2 = view.findViewById(R.id.count_second_top3);
+
+        icon3 = view.findViewById(R.id.icon_third_top3);
+        name3 = view.findViewById(R.id.name_third_top3);
+        time3 = view.findViewById(R.id.time_third_top3);
+        count3 = view.findViewById(R.id.count_third_top3);
+
         requestworld(1);
     }
     private void requestworld(int page) {
@@ -111,10 +134,56 @@ public class AllRankFragment extends Fragment {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(getActivity(),s);
-
                         Log.i("*********", response.toString());
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         adapter.setData(bean.getData().getPageInfo().getList());
+
+                        List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
+                        Glide.with(getActivity()).load(list.get(0).getPhoto()).into(icon1);
+                        name1.setText(list.get(0).getName());
+                        time1.setText(list.get(0).getTime());
+                        count1.setText(list.get(0).getShakeNum()+"");
+
+                        Glide.with(getActivity()).load(list.get(1).getPhoto()).into(icon2);
+                        name2.setText(list.get(1).getName());
+                        time2.setText(list.get(1).getTime());
+                        count2.setText(list.get(1).getShakeNum()+"");
+
+                        Glide.with(getActivity()).load(list.get(2).getPhoto()).into(icon3);
+                        name3.setText(list.get(2).getName());
+                        time3.setText(list.get(2).getTime());
+                        count3.setText(list.get(2).getShakeNum()+"");
+
+                        final int userId1 = list.get(0).getUserId();
+                        icon1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getContext(),FriendNameActivity.class);
+
+                                intent.putExtra("userId", userId1 +"");
+                                startActivity(intent);
+                            }
+                        });
+                        final int userId2 = list.get(1).getUserId();
+
+                        icon2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getContext(),FriendNameActivity.class);
+                                intent.putExtra("userId",userId2+"");
+                                startActivity(intent);
+                            }
+                        });
+                        final int userId3 = list.get(2).getUserId();
+
+                        icon3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(getContext(),FriendNameActivity.class);
+                                intent.putExtra("userId",userId3+"");
+                                startActivity(intent);
+                            }
+                        });
                     }
                 });
     }

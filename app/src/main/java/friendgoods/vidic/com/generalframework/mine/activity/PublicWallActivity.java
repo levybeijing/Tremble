@@ -269,6 +269,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                                 view.removeAllViews();
                                 imageList.clear();
                                 Toast.makeText(PublicWallActivity.this, "已送达", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

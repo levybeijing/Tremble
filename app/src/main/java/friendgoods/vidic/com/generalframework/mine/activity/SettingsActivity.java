@@ -83,14 +83,17 @@ public class SettingsActivity extends BaseActivity {
                     edit.commit();
                     Toast.makeText(SettingsActivity.this,"开启",Toast.LENGTH_SHORT).show();
                     startService(new Intent(SettingsActivity.this,MusicService.class));
-
                 }else{
                     VOICE=0;
                     edit.putBoolean("voice",false);
                     edit.commit();
                     Toast.makeText(SettingsActivity.this,"关闭",Toast.LENGTH_SHORT).show();
-                    MusicService.getInstance().stopSelf();
+//                    MusicService.getInstance().stopSelf();
+//                    MusicService.getInstance().onDestroy();
+                    Intent intent2 = new Intent(SettingsActivity.this, MusicService.class);
+                    stopService(intent2);
                 }
+
                 request(SHAKE,VOICE);
             }
         });
@@ -113,7 +116,6 @@ public class SettingsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(SettingsActivity.this,s);
-
                         //  失败则设置 requestIsOk值 重新请求
                         try {
                             JSONObject jo=new JSONObject(s);

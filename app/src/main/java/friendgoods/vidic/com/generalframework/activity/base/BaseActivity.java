@@ -40,6 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 2. 设置接收广播的类型
         intentFilter.addAction("action.LOGIN.OTHER");
         registerReceiver(receiver, intentFilter);
+
     }
 
     /**
@@ -56,6 +57,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         mForegroundActivity = this;
         super.onResume();
+//        if (getIntent().getBooleanExtra("clear",false)){
+//            finishOther();
+//        }
     }
 
     @Override
@@ -69,7 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static void finishAll() {
         List<BaseActivity> copy;
         synchronized (mActivities) {
-            copy = new ArrayList<BaseActivity>(mActivities);
+            copy = new ArrayList<>(mActivities);
         }
         for (BaseActivity activity : copy) {
             activity.finish();
@@ -79,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 关闭所有Activity，除了参数传递的Activity
      */
-    public static void finishAll(BaseActivity except) {
+    public static void finishOther(BaseActivity except) {
         List<BaseActivity> copy;
         synchronized (mActivities) {
             copy = new ArrayList<>(mActivities);
@@ -110,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static BaseActivity getCurrentActivity() {
         List<BaseActivity> copy;
         synchronized (mActivities) {
-            copy = new ArrayList<BaseActivity>(mActivities);
+            copy = new ArrayList<>(mActivities);
         }
         if (copy.size() > 0) {
             return copy.get(copy.size() - 1);

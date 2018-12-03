@@ -14,7 +14,6 @@ public class TokenCheck {
             intent.setPackage(activit.getPackageName());
             intent.setAction("action.LOGIN.OTHER");
             activit.sendBroadcast(intent);
-//            Log.e("=============", "sendBroadcast");
         }
     }
 }
