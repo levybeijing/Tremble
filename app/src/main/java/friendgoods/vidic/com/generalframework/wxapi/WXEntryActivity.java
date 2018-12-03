@@ -44,7 +44,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      */
     private IWXAPI api;
     private String status;
-    private String register;
+//    private String register;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

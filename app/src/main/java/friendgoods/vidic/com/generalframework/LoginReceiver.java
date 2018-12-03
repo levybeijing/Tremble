@@ -15,9 +15,9 @@ import static android.content.Context.MODE_PRIVATE;
 public class LoginReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("=============", "接收到了广播: ");
         switch (intent.getAction()){
             case "action.LOGIN.OTHER":
-                Log.e("=============", "action_LOGIN_OTHERPLACE: ");
                 Intent intent1 = new Intent(context, LoginCodeActivity.class);
 //                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);

@@ -67,11 +67,6 @@ public class MyGiftsActivity extends BaseActivity {
                         List<MyGiftsBean.DataBean> data = bean.getData();
                         adapter.setData(data);
                     }
-
-                    @Override
-                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-
-                    }
                 });
     }
 }

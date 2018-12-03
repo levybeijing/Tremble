@@ -1,5 +1,7 @@
 package friendgoods.vidic.com.generalframework.util;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,16 +10,17 @@ import org.json.JSONObject;
  */
 public class JsonUtil {
 
-    public static String getString(String field, String json) {
-
+    public static Boolean getInt(String json) {
         try {
             JSONObject obj = new JSONObject(json);
-            String imag = obj.getString(field);
-            return imag;
+            int state = obj.getInt("state");
+            String message = obj.getString("message");
+            boolean yes="请重新登录".equals(message)||state==0;
+            Log.e("=============", "JsonUtil: "+yes);
+            return yes;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return field;
+        return false;
     }
 }

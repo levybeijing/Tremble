@@ -126,17 +126,14 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 //                        Log.e("=============", "444444444444: "+s);
-                        TokenCheck.toLogin(PublicWallActivity.this,s);
-                        MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
-                        List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
-                        for (int i = 0; i < userPhoto.size(); i++) {
-//                            CirImageView iv=(CirImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.avart, set, false);
-////                            Glide.with(PublicWallActivity.this).load(userPhoto.get(i)).into(iv);
-////                            set.addView(iv);
-                            CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
-                            Glide.with(PublicWallActivity.this).load(userPhoto.get(i)).into(imageView);
-                            set.addView(imageView);
-                        }
+                    TokenCheck.toLogin(PublicWallActivity.this,s);
+                    MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
+                    List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
+                    for (int i = 0; i < userPhoto.size(); i++) {
+                        CircleImageView imageView = (CircleImageView) LayoutInflater.from(PublicWallActivity.this).inflate(R.layout.item_praise, set, false);
+                        Glide.with(PublicWallActivity.this).load(userPhoto.get(i)).into(imageView);
+                        set.addView(imageView);
+                    }
                     }
                 });
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {

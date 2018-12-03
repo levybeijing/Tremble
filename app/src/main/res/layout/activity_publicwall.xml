@@ -91,71 +91,72 @@
                 />
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/container_pubwall"
+            style="@style/rl_giftwall"
+            >
+            <ImageView
+                android:id="@+id/xingxiang_pubwall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
+
+
             <RelativeLayout
-                android:id="@+id/container_pubwall"
-                style="@style/rl_giftwall"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 >
-                <ImageView
-                    android:id="@+id/xingxiang_pubwall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                <LinearLayout
+                    android:id="@+id/ll_bottom_pubwall"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:orientation="horizontal"
                     android:layout_alignParentBottom="true"
-                    />
+                    android:gravity="center_vertical"
+                    android:background="#5000"
+                    >
+                    <ImageView
+                        android:id="@+id/tv_color_pubwall"
+                        android:layout_width="42dp"
+                        android:layout_height="48dp"
+                        android:background="@mipmap/mygift_pubwall_2x"
+                        android:layout_margin="10dp"
+                        />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_pubwall"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        />
+                    <LinearLayout
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+                        <ImageView
+                            android:id="@+id/iv_makesure_pubwall"
+                            android:layout_width="36dp"
+                            android:layout_height="15dp"
+                            android:background="@mipmap/makesure_pubwall_3x"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"/>
+                        <ImageView
+                            android:id="@+id/iv_mall_pubwall"
+                            android:layout_width="36dp"
+                            android:layout_height="15dp"
+                            android:background="@mipmap/mall_pubwall_3x"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-        <LinearLayout
-            android:id="@+id/ll_bottom_pubwall"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:gravity="center_vertical"
-            android:background="#5000"
-            >
-            <ImageView
-                android:id="@+id/tv_color_pubwall"
-                android:layout_width="42dp"
-                android:layout_height="48dp"
-                android:background="@mipmap/mygift_pubwall_2x"
-                android:layout_margin="10dp"
-                />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_pubwall"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-            <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                >
-                <ImageView
-                    android:id="@+id/iv_makesure_pubwall"
-                    android:layout_width="36dp"
-                    android:layout_height="15dp"
-                    android:background="@mipmap/makesure_pubwall_3x"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"/>
-                <ImageView
-                    android:id="@+id/iv_mall_pubwall"
-                    android:layout_width="36dp"
-                    android:layout_height="15dp"
-                    android:background="@mipmap/mall_pubwall_3x"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

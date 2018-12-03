@@ -222,6 +222,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
+                        TokenCheck.toLogin(ChalModelActivity.this,s);
 
                     }
                 });
