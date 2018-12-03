@@ -334,7 +334,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 readyyes.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.INVISIBLE);
                 iv_sure.setVisibility(View.GONE);
-
             }
             connect();
         }else{
@@ -862,11 +861,10 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(PKModelActivity.this,s);
                         Log.e("=============", "addrecord: "+s);
-
                     }
                 });
     }
-//    private boolean first=true;
+
     private void initCustomTimePicker() {
         //时间选择器 ，自定义布局
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
@@ -881,15 +879,15 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 tv6_timer.setText(String.valueOf(datetime.charAt(7)));
             }
         })
-                .setDate(null)
-                .setContentTextSize(18)
-                .setType(new boolean[]{false, false, false, true, true, true})
-                .setLabel("年", "月", "日", "", "", "")
-                .setLineSpacingMultiplier(1.2f)
-                .setTextXOffset(0, 0, 0, 40, 0, -40)
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .setDividerColor(0xFF24AD9D)
-                .build();
+        .setDate(null)
+        .setContentTextSize(18)
+        .setType(new boolean[]{false, false, false, true, true, true})
+        .setLabel("年", "月", "日", "", "", "")
+        .setLineSpacingMultiplier(1.2f)
+        .setTextXOffset(0, 0, 0, 40, 0, -40)
+        .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+        .setDividerColor(0xFF24AD9D)
+        .build();
     }
 
     private String getTime(Date date) {//可根据需要自行截取数据显示
@@ -907,6 +905,18 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             exit.setUserId(currentId+"");
             sendMessage(new Gson().toJson(exit));
         }
+        if (mConnect.isConnected()){
+            mConnect.disconnect();
+            mConnect=null;
+        }
+        idlist.remove(0);
+        idlist.add(0,"0");
+        idlist.remove(1);
+        idlist.add(1,"0");
+        readyList.remove(0);
+        readyList.add(0,false);
+        readyList.remove(1);
+        readyList.add(1,false);
     }
 
 //控件操作
@@ -972,7 +982,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     }
                 });
     }
-
+//
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -987,8 +997,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //                        light2.setVisibility(View.INVISIBLE);
 //                        readyyes.setVisibility(View.VISIBLE);
 //                    }
-//                    name2.setText((String)SharedPFUtils.getParam(this,"name",""));
-//                    name1.se tText("邀请好友");
+//
 //                    clearOne();
 //                    clearThree();
 //                    connect();

@@ -14,9 +14,11 @@ import java.util.TimerTask;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
+import friendgoods.vidic.com.generalframework.activity.fragment.AllRankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
+import friendgoods.vidic.com.generalframework.activity.fragment.WeekRankFragment;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 
@@ -108,5 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         stopMusic();
+        unregisterReceiver(WeekRankFragment.mBroadcastReceiver);
+        unregisterReceiver(AllRankFragment.mBroadcastReceiver);
     }
 }

@@ -3,7 +3,7 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 public class WXLoginBean {
 
     /**
-     * data : {"voice":1,"shake":1,"weChatA":"o-CJL1KxMf3C_Bjw-EzlIG58823g","mobile":"13302168008","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132","updateTime":"2018-11-14 17:28:14","signDays":1,"createTime":"2018-11-14 15:36:43","integral":2.34,"name":"大黑","logo":"man1.png","id":213,"is_use":1,"status":0}
+     * data : {"voice":0,"shake":1,"weChatA":"o-CJL1IxT1aYtdIpxBggH1I727Hg","mobile":"15210903179","photo":"http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132","updateTime":"2018-11-26 16:34:57","token":"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzYifQ.jE5rNOcn1SWDtGwj8cnIf9S-_HAVmXsstac6rrneWPE","signDays":1,"createTime":"2018-11-26 16:34:53","integral":1.22,"name":"levy","logo":"woman2.png","id":236,"is_use":1,"status":0}
      * message : 请求成功
      * state : 1
      */
@@ -38,18 +38,19 @@ public class WXLoginBean {
 
     public static class DataBean {
         /**
-         * voice : 1
+         * voice : 0
          * shake : 1
-         * weChatA : o-CJL1KxMf3C_Bjw-EzlIG58823g
-         * mobile : 13302168008
-         * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132
-         * updateTime : 2018-11-14 17:28:14
+         * weChatA : o-CJL1IxT1aYtdIpxBggH1I727Hg
+         * mobile : 15210903179
+         * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJsfB1qXEvdNSkKYIV3QqrWvM320PpAupPEjC8UBE7UzlWoDpzbZP6zmHBwPWpB9JlPSVBVhH6XTQ/132
+         * updateTime : 2018-11-26 16:34:57
+         * token : eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzYifQ.jE5rNOcn1SWDtGwj8cnIf9S-_HAVmXsstac6rrneWPE
          * signDays : 1
-         * createTime : 2018-11-14 15:36:43
-         * integral : 2.34
-         * name : 大黑
-         * logo : man1.png
-         * id : 213
+         * createTime : 2018-11-26 16:34:53
+         * integral : 1.22
+         * name : levy
+         * logo : woman2.png
+         * id : 236
          * is_use : 1
          * status : 0
          */
@@ -60,6 +61,7 @@ public class WXLoginBean {
         private String mobile;
         private String photo;
         private String updateTime;
+        private String token;
         private int signDays;
         private String createTime;
         private double integral;
@@ -115,6 +117,14 @@ public class WXLoginBean {
 
         public void setUpdateTime(String updateTime) {
             this.updateTime = updateTime;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
         }
 
         public int getSignDays() {

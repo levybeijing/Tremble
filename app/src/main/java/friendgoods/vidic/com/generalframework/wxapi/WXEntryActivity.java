@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpHeaders;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -91,17 +92,20 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 Log.e("===============", "wxRespBean.getState(): "+wxRespBean.getState());
                 status=wxRespBean.getState();
 //                判断对话类型
-                int type = wxRespBean.getType();
-                switch (type){
-                    case  1:
-//                        login
-                        requestLogin(wxRespBean.getCode());
-                        break;
-                    case  2:
-//                        share
-                        Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
-                        break;
+                if ("login".equals(status)|"bind".equals(status)){
+                    requestLogin(wxRespBean.getCode());
                 }
+                int type = wxRespBean.getType();
+//                switch (type){
+////                    case  1:
+//////                        login
+////                        requestLogin(wxRespBean.getCode());
+////                        break;
+//                    case  2:
+////                        share
+//                        Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -154,7 +158,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             SharedPFUtils.setParam(WXEntryActivity.this,"name",bean.getNickname());
                             SharedPFUtils.setParam(WXEntryActivity.this,"icon",bean.getHeadimgurl());
                             SharedPFUtils.setParam(WXEntryActivity.this,"wx",openid);
-                            switch (status){//??????NullPointerException
+                            switch (status){//
                                 case "bind":
                                     requestBind(openid);
                                     break;
@@ -222,6 +226,11 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             SharedPFUtils.setParam(WXEntryActivity.this,"userId",data.getId());
                             SharedPFUtils.setParam(WXEntryActivity.this,"name",data.getName());
                             SharedPFUtils.setParam(WXEntryActivity.this,"icon",data.getPhoto());
+//                            设置全局请求头
+                            SharedPFUtils.setParam(WXEntryActivity.this,"token",data.getToken());
+                            HttpHeaders headers = new HttpHeaders();
+                            headers.put("token",data.getToken());
+                            OkGo.getInstance().addCommonHeaders(headers);
 
                             if (wxLoginBean.getData().getLogo()!=null){
                                 switch (wxLoginBean.getData().getLogo()) {

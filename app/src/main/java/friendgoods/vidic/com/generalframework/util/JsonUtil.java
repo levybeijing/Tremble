@@ -13,9 +13,8 @@ public class JsonUtil {
     public static Boolean getInt(String json) {
         try {
             JSONObject obj = new JSONObject(json);
-            int state = obj.getInt("state");
             String message = obj.getString("message");
-            boolean yes="请重新登录".equals(message)||state==0;
+            boolean yes="请重新登录".equals(message);
             Log.e("=============", "JsonUtil: "+yes);
             return yes;
         } catch (JSONException e) {

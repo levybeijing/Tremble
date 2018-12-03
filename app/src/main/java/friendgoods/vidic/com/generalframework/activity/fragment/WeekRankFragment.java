@@ -41,6 +41,7 @@ public class WeekRankFragment extends Fragment {
     private String currentAction="android.tremble.WORLD";
     private int worldPage=1;
     private int friendPage=1;
+    public static BroadcastReceiver mBroadcastReceiver;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class WeekRankFragment extends Fragment {
             }
         });
         // 1. 实例化BroadcastReceiver子类 &  IntentFilter
-        BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (currentAction.equals(intent.getAction())){

@@ -70,7 +70,7 @@ public class PKRankActivity extends BaseActivity {
                         Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
                         intent.putExtra("again",true);
 //                        setResult(111,intent);
-//                        finish();
+////                        finish();
                         startActivity(intent);
                         finish();
                     }
