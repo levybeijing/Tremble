@@ -228,6 +228,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             SharedPFUtils.setParam(WXEntryActivity.this,"icon",data.getPhoto());
 //                            设置全局请求头
                             SharedPFUtils.setParam(WXEntryActivity.this,"token",data.getToken());
+                            SharedPFUtils.setParam(WXEntryActivity.this, "loginstatus", true);
+
                             HttpHeaders headers = new HttpHeaders();
                             headers.put("token",data.getToken());
                             OkGo.getInstance().addCommonHeaders(headers);

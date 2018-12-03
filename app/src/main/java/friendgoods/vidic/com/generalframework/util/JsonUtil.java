@@ -15,7 +15,7 @@ public class JsonUtil {
             JSONObject obj = new JSONObject(json);
             String message = obj.getString("message");
             boolean yes="请重新登录".equals(message);
-            Log.e("=============", "JsonUtil: "+yes);
+//            Log.e("=============", "JsonUtil: "+yes);
             return yes;
         } catch (JSONException e) {
             e.printStackTrace();

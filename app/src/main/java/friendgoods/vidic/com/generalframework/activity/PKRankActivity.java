@@ -81,6 +81,7 @@ public class PKRankActivity extends BaseActivity {
 //                        Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
 //                        intent.putExtra("again",false);
 //                        setResult(222,intent);
+//                        PKModelActivity.isHost=true;
                         finish();
 //                        startActivity(intent);
                     }

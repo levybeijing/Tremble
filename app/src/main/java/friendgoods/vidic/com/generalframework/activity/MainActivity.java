@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+        PKModelActivity.isHost=true;
+        PKModelActivity.degree=1;
         initView();
     }
     protected void initView() {

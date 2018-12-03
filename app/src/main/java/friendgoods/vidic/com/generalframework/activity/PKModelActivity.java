@@ -57,7 +57,9 @@ import okhttp3.Response;
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 public class PKModelActivity extends BaseActivity implements View.OnClickListener {
-    private static int degree=1;
+    public static int degree=1;
+    public static boolean isHost=true;
+    private static int roomId;
 
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
@@ -65,13 +67,11 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //   是否正在游戏
     private boolean isGaming=false;
 //
-    private static boolean isHost=true;
-    private static int roomId;
+
 //
     private boolean havetime=false;
 
     private boolean haveready=false;
-    private static final int REQUESTCODE=2345;
     private LinearLayout ll;
     private ImageView readyno;
     private ImageView readyyes;
@@ -322,6 +322,23 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
         startno = findViewById(R.id.iv_startno_pkmodel);
+        //        缩放动画
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
+        );
+        animation.setDuration(100);
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        );
+        animation1.setDuration(100);
+        click_left = findViewById(R.id.iv_click_left);
+        click_righr = findViewById(R.id.iv_click_right);
+//
+        iv_note = findViewById(R.id.iv_note_pkmodel);
+        iv_note.setOnClickListener(this);
+        iv_detail = findViewById(R.id.iv_notedetail_pkmodel);
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
         if (again){
@@ -335,7 +352,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 light2.setVisibility(View.INVISIBLE);
                 iv_sure.setVisibility(View.GONE);
             }
-            connect();
+//            connect();
         }else{
             if (data!=null){
                 if (!(boolean) SharedPFUtils.getParam(this, "loginstatus", false)){
@@ -359,25 +376,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 createroom();
             }
         }
-
-        //        缩放动画
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
-        );
-        animation.setDuration(100);
-        animation1 = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
-        );
-        animation1.setDuration(100);
-        click_left = findViewById(R.id.iv_click_left);
-        click_righr = findViewById(R.id.iv_click_right);
-//
-        iv_note = findViewById(R.id.iv_note_pkmodel);
-        iv_note.setOnClickListener(this);
-        iv_detail = findViewById(R.id.iv_notedetail_pkmodel);
-
     }
     //获取当前时间值
     public void getListOfTime() {
@@ -551,12 +549,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onOpen() {
-                    if (!again) {
+//                    if (!again) {
                         idlist.add("0");
                         idlist.add("0");
                         readyList.add(false);
                         readyList.add(false);
-                    }
+//                    }
 //                    Log.e("===========socketUrl", ""+socketUrl);
 //            send socket
                     if (!isHost){
@@ -606,7 +604,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                     list1.remove(i);
                                 }
                             }
-
 //                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
                             if (list1.size()==0){
                                 break;
@@ -977,7 +974,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(PKModelActivity.this,s);
-
                         Log.i("===========toBeFriend", s);
                     }
                 });
