@@ -61,7 +61,6 @@ public class PKRankActivity extends BaseActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(PKRankActivity.this);
                 //    设置Title的图标
-//                builder.setIcon(R.drawable.ic_launcher);
                 builder.setTitle("游戏结束");
                 builder.setMessage("再来一局?");
                 builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
@@ -69,8 +68,7 @@ public class PKRankActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
                         intent.putExtra("again",true);
-//                        setResult(111,intent);
-////                        finish();
+                        intent.putExtra("exit",false);
                         startActivity(intent);
                         finish();
                     }
@@ -78,12 +76,11 @@ public class PKRankActivity extends BaseActivity {
                 builder.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
-//                        intent.putExtra("again",false);
-//                        setResult(222,intent);
-//                        PKModelActivity.isHost=true;
+                        Intent intent=new Intent(PKRankActivity.this,PKModelActivity.class);
+                        intent.putExtra("again",true);
+                        intent.putExtra("exit",true);
+                        startActivity(intent);
                         finish();
-//                        startActivity(intent);
                     }
                 });
                 builder.show();

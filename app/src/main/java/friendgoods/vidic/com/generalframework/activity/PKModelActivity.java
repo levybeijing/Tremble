@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
@@ -47,6 +48,8 @@ import friendgoods.vidic.com.generalframework.activity.bean.GamerBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBean;
 import friendgoods.vidic.com.generalframework.activity.bean.PKSocketBeanx;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
+import friendgoods.vidic.com.generalframework.mine.CustomDialogBottom;
+import friendgoods.vidic.com.generalframework.mine.activity.DetailGoodsActivity;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.widget.OnTimeSelectListener;
 import friendgoods.vidic.com.generalframework.widget.TimePickerBuilder;
@@ -61,7 +64,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     public static int degree=1;
     public static boolean isHost=true;
     private static int roomId;
-    public static boolean forPK=false;
+//    public static boolean forPK=false;
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -183,6 +186,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private boolean lock=false;
     private String friendId;
     private boolean again;
+    private boolean exit;
 
     private void setTime() {
         if (lock){
@@ -223,12 +227,15 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             sendMessage(new Gson().toJson(end));
             addrecord();
 //            jump
-            Intent intent=new Intent(this,PKRankActivity.class);
-            intent.putExtra("degree",degree);
-            intent.putExtra("roomId",roomId);
-//            startActivityForResult(intent,REQUESTCODE);
-            startActivity(intent);
-            finish();
+//            Intent intent=new Intent(this,PKRankActivity.class);
+////            intent.putExtra("degree",degree);
+////            intent.putExtra("roomId",roomId);
+//////            startActivityForResult(intent,REQUESTCODE);
+////            startActivity(intent);
+////            finish();
+            new DialogPKRank(PKModelActivity.this,roomId,degree)
+                    .showAtLocation(PKModelActivity.this.findViewById(R.id.root_pkrank),
+                            Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         }
     }
 
@@ -238,17 +245,15 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
-        boolean loginstatus = (boolean)SharedPFUtils.getParam(this, "loginstatus", false);
-        if (!loginstatus){
-            startActivity(new Intent(this,LoginCodeActivity.class));
-            forPK=true;
-        }
+//来自排行页信息
         again = getIntent().getBooleanExtra("again", false);
-
+        exit = getIntent().getBooleanExtra("exit", false);
+//微信注册
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
+//本地用户的id
         currentId= ""+(int) SharedPFUtils.getParam(this,"userId",0);
-
+//初始化控件
         initView();
     }
 
@@ -262,14 +267,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         tv4_timer= findViewById(R.id.tv4_timer_pk);
         tv5_timer= findViewById(R.id.tv5_timer_pk);
         tv6_timer= findViewById(R.id.tv6_timer_pk);
-
+//
         initCustomTimePicker();
 
         iv_sure = findViewById(R.id.iv_sure_pkmodel);
         iv_sure.setOnClickListener(this);
         findViewById(R.id.iv_exit_pkmodel).setOnClickListener(this);
-//
-
         //1
         person1 = findViewById(R.id.iv_person_one_pkmodel);
         light1 = findViewById(R.id.iv_light_one_pkmodel);
@@ -345,23 +348,40 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         iv_detail = findViewById(R.id.iv_notedetail_pkmodel);
 ////非房主状态收到roomid
         Uri data = getIntent().getData();
+//        是否再来一次
         if (again){
             Log.e("===========again", "again");
             degree++;
             if (isHost){
                 Log.e("===========again", "isHost");
-
                 startno.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.VISIBLE);
+                if (exit){
+                    PKSocketBean exit=new PKSocketBean();
+                    exit.setType("10");
+                    exit.setRoomId(roomId+"");
+                    exit.setUserId(currentId+"");
+                    sendMessage(new Gson().toJson(exit));
+                    finish();
+                }
             }else{
                 Log.e("===========again", "else");
                 ll.setClickable(false);
                 readyyes.setVisibility(View.VISIBLE);
                 light2.setVisibility(View.INVISIBLE);
                 iv_sure.setVisibility(View.GONE);
+                if (exit){
+                    PKSocketBean exit=new PKSocketBean();
+                    exit.setType("8");
+                    exit.setRoomId(roomId+"");
+                    exit.setUserId(currentId+"");
+                    sendMessage(new Gson().toJson(exit));
+                    finish();
+                }
             }
-//            connect();
+            connect();
         }else{
+//            初次进入
             if (data!=null){
                 if (!(boolean) SharedPFUtils.getParam(this, "loginstatus", false)){
                     startActivity(new Intent(this,LoginCodeActivity.class));
@@ -385,7 +405,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             }
         }
     }
-    //获取当前时间值
+//获取当前时间值
     public void getListOfTime() {
         numlist.clear();
         numlist.add(Integer.parseInt(tv1_timer.getText().toString()));
@@ -398,11 +418,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         y=numlist.get(2)*10+numlist.get(3);
         z=numlist.get(4)*10+numlist.get(5);
     }
+//    控件点击事件
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_timer_pk:
-//                非游戏状态下  计时器有点击事件 非房主无反应
+//非游戏状态下  计时器有点击事件 非房主无反应
                 if (!isGaming||!isHost)
                     pvCustomTime.show();
                 break;
@@ -446,9 +467,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 sendMessage(new Gson().toJson(exit));
                 finish();
                 break;
-//                房主逻辑
+//房主逻辑
             case R.id.iv_startyes_pkmodel:
-
                 PKSocketBean start=new PKSocketBean();
                 start.setType("4");
                 start.setRoomId(roomId+"");
@@ -463,7 +483,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.iv_startno_pkmodel:
                 Log.e("===========startno", "");
-                Toast.makeText(this, "dianji ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "click ", Toast.LENGTH_SHORT).show();
                 if ("0".equals(idlist.get(0)) && "0".equals(idlist.get(1))){
                     Toast.makeText(this, "房间不能少于两人", Toast.LENGTH_SHORT).show();
                     break;
@@ -522,7 +542,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     return;
                 if (!name3.getText().equals("邀请好友"))
                     return;
-//                微信url分享界面
+//微信url分享界面
                 WXWebpageObject webpaget=new WXWebpageObject();
                 int userId = (int)SharedPFUtils.getParam(this, "userId", 0);
                 String name = (String)SharedPFUtils.getParam(this, "name", "");
@@ -546,7 +566,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
-    //接收socket信息 后期引入心跳机制
+//接收socket信息 建议后期引入心跳机制
     private WebSocketConnection mConnect=new WebSocketConnection();
     private static List<String> idlist=new ArrayList<>();
     private static List<Boolean> readyList=new ArrayList<>();
@@ -559,35 +579,45 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onOpen() {
-//                    if (!again) {
+                    if (!again) {
                         idlist.add("0");
                         idlist.add("0");
                         readyList.add(false);
                         readyList.add(false);
-//                    }
+                    }
 //                    Log.e("===========socketUrl", ""+socketUrl);
 //            send socket
-                    if (!isHost){
-                        PKSocketBean join=new PKSocketBean();
-                        join.setType("1");
-                        join.setRoomId(roomId+"");
-                        join.setMaster("0");
-                        join.setUserId(currentId+"");
+                    if (again){
+                        if (!isHost){
+                            PKSocketBean join=new PKSocketBean();
+                            join.setType("1");
+                            join.setRoomId(roomId+"");
+                            join.setMaster("0");
+                            join.setUserId(currentId+"");
 //                        Log.e("===========currentId", ""+currentId);
-                        sendMessage(new Gson().toJson(join));
-                        Log.e("===========join", ""+new Gson().toJson(join));
-                    }else{
-                        if (again){
-                            return;
+                            sendMessage(new Gson().toJson(join));
+                            Log.e("===========join", ""+new Gson().toJson(join));
                         }
-                        PKSocketBean add=new PKSocketBean();
-                        add.setRoomId(roomId+"");
-                        add.setType("1");
-                        add.setUserId(currentId+"");
-                        add.setMaster("1");
-                        sendMessage(new Gson().toJson(add));
+                    }else{
+                        if (!isHost){
+                            PKSocketBean join=new PKSocketBean();
+                            join.setType("1");
+                            join.setRoomId(roomId+"");
+                            join.setMaster("0");
+                            join.setUserId(currentId+"");
 //                        Log.e("===========currentId", ""+currentId);
-                        Log.e("===========add", ""+new Gson().toJson(add));
+                            sendMessage(new Gson().toJson(join));
+                            Log.e("===========join", ""+new Gson().toJson(join));
+                        }else{
+                            PKSocketBean add=new PKSocketBean();
+                            add.setRoomId(roomId+"");
+                            add.setType("1");
+                            add.setUserId(currentId+"");
+                            add.setMaster("1");
+                            sendMessage(new Gson().toJson(add));
+//                        Log.e("===========currentId", ""+currentId);
+                            Log.e("===========add", ""+new Gson().toJson(add));
+                        }
                     }
 //                    Log.e("==============", "Status:Connect to " + socketUrl);
                 }
@@ -824,9 +854,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
     }
-    //房主创建 房间
+//房主创建 房间
     private void createroom() {
-//        Log.e("==============addroom", "");
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
                 .params("userId", currentId)
@@ -852,7 +881,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     }
 //增加游戏记录
     private void addrecord() {
-//        Log.e("==============addrecord", "");
         OkGo.post(UrlCollect.addRecord)//
                 .tag(this)//
                 .params("userId", currentId+"")
@@ -871,7 +899,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     }
                 });
     }
-
+//时间选择器初始化
     private void initCustomTimePicker() {
         //时间选择器 ，自定义布局
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
@@ -896,12 +924,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         .setDividerColor(0xFF24AD9D)
         .build();
     }
-
+//
     private String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return format.format(date);
     }
-
+//
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -912,18 +940,18 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             exit.setUserId(currentId+"");
             sendMessage(new Gson().toJson(exit));
         }
-        if (mConnect.isConnected()){
-            mConnect.disconnect();
-            mConnect=null;
-        }
-        idlist.remove(0);
-        idlist.add(0,"0");
-        idlist.remove(1);
-        idlist.add(1,"0");
-        readyList.remove(0);
-        readyList.add(0,false);
-        readyList.remove(1);
-        readyList.add(1,false);
+//        if (mConnect.isConnected()){
+//            mConnect.disconnect();
+//            mConnect=null;
+//        }
+//        idlist.remove(0);
+//        idlist.add(0,"0");
+//        idlist.remove(1);
+//        idlist.add(1,"0");
+//        readyList.remove(0);
+//        readyList.add(0,false);
+//        readyList.remove(1);
+//        readyList.add(1,false);
     }
 
 //控件操作
@@ -937,7 +965,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             light1.setVisibility(View.INVISIBLE);
         }
     }
-
     private void  setThree(GamerBean bean){
         name3.setText(bean.getName());
         Picasso.with(PKModelActivity.this).load(bean.getPhoto()).into(icon3);
@@ -948,25 +975,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             light3.setVisibility(View.INVISIBLE);
         }
     }
-
     private void clearOne(){
         name1.setText("邀请好友");
         icon1.setImageDrawable(null);
         person1.setImageDrawable(null);
         light1.setVisibility(View.INVISIBLE);
     }
-
     private void clearThree(){
         name3.setText("邀请好友");
         icon3.setImageDrawable(null);
         person3.setImageDrawable(null);
         light3.setVisibility(View.INVISIBLE);
     }
-    /**
-     * 发送消息
-     *
-     * @param msg
-     */
+// socket发送消息
     private void sendMessage(String msg) {
         if (mConnect.isConnected()) {
             mConnect.sendTextMessage(msg);
@@ -974,47 +995,21 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             Log.i("===========", "no connection!!");
         }
     }
-
+//与邀请人成为好友
     private void toBeFriend(String hostid) {
         OkGo.post(UrlCollect.inviteFriend)//
                 .tag(this)//
-                .params("userId", (int)SharedPFUtils.getParam(this,"userId",0)+"")
+                .params("userId", (int) SharedPFUtils.getParam(this, "userId", 0) + "")
                 .params("weChat", hostid)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        TokenCheck.toLogin(PKModelActivity.this,s);
+                        TokenCheck.toLogin(PKModelActivity.this, s);
                         Log.i("===========toBeFriend", s);
                     }
                 });
     }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-////        if (requestCode==REQUESTCODE){
-//            switch (resultCode){
-//                case 111:
-//                    degree++;
-//                    if (isHost){
-//                        light2.setVisibility(View.VISIBLE);
-//                        startno.setVisibility(View.VISIBLE);
-//                    }else{
-//                        light2.setVisibility(View.INVISIBLE);
-//                        readyyes.setVisibility(View.VISIBLE);
-//                    }
-//
-//                    clearOne();
-//                    clearThree();
-//                    connect();
-//                    break;
-//                case 222:
-//                default:
-//                    degree=1;
-//                    roomId=0;
-//                    finish();
-//                    break;
-//            }
-////        }
-//    }
+
+//   the second case
+
 }

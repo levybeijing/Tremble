@@ -33,8 +33,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
-        PKModelActivity.isHost=true;
-        PKModelActivity.degree=1;
+
         initView();
     }
     protected void initView() {
@@ -87,6 +86,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             transaction.add(R.id.frame_layout,list.get(i)).hide(list.get(preFt)).commit();
         }
         preFt=i;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PKModelActivity.isHost=true;
+        PKModelActivity.degree=1;
     }
 
     @Override

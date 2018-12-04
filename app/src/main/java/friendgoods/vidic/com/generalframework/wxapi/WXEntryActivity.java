@@ -237,16 +237,16 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             if (wxLoginBean.getData().getLogo()!=null){
                                 switch (wxLoginBean.getData().getLogo()) {
                                     case "man1.png":
-                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 12);
-                                        break;
-                                    case "man2.png":
                                         SharedPFUtils.setParam(WXEntryActivity.this, "sex", 11);
                                         break;
+                                    case "man2.png":
+                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 12);
+                                        break;
                                     case "woman1.png":
-                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 22);
+                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 21);
                                         break;
                                     case "woman2.png":
-                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 21);
+                                        SharedPFUtils.setParam(WXEntryActivity.this, "sex", 22);
                                         break;
                                 }
                                 startActivity(new Intent(WXEntryActivity.this,MainActivity.class));

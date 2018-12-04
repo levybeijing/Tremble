@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
+    android:id="@+id/root_pkrank"
     >
     <LinearLayout
         android:layout_width="match_parent"
