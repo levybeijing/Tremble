@@ -1,6 +1,9 @@
 package friendgoods.vidic.com.generalframework.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -148,6 +151,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     click.setVisibility(View.VISIBLE);
                     click_left.setVisibility(View.VISIBLE);
                     click_righr.setVisibility(View.VISIBLE);
+                    click.setClickable(true);
                     if (!idlist.get(0).equals("0"))
                         name1.setText("0");
                     if (!idlist.get(1).equals("0"))
@@ -227,17 +231,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             sendMessage(new Gson().toJson(end));
             addrecord();
 //            jump
-//            Intent intent=new Intent(this,PKRankActivity.class);
-////            intent.putExtra("degree",degree);
-////            intent.putExtra("roomId",roomId);
-//////            startActivityForResult(intent,REQUESTCODE);
-////            startActivity(intent);
-////            finish();
             new DialogPKRank(PKModelActivity.this,roomId,degree)
                     .showAtLocation(PKModelActivity.this.findViewById(R.id.root_pkrank),
                             Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         }
     }
+
 
     private IWXAPI api;
     private String currentId;
@@ -245,6 +244,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pkmodel);
+//
+        IntentFilter intentFilter = new IntentFilter();
+        // 2. 设置接收广播的类型
+        intentFilter.addAction("action.PKAGAIN.OK");
+        intentFilter.addAction("action.PKAGAIN.NO");
+        registerReceiver(receiver, intentFilter);
 //来自排行页信息
         again = getIntent().getBooleanExtra("again", false);
         exit = getIntent().getBooleanExtra("exit", false);
@@ -570,6 +575,8 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private WebSocketConnection mConnect=new WebSocketConnection();
     private static List<String> idlist=new ArrayList<>();
     private static List<Boolean> readyList=new ArrayList<>();
+    private List<String> namelist=new ArrayList<>();
+
     private void connect() {
         final String socketUrl="ws://www.dt.pub/shakeLeg/socket/"+currentId;
         try {
@@ -933,25 +940,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!isHost){
-            PKSocketBean exit=new PKSocketBean();
+        PKSocketBean exit=new PKSocketBean();
+        if (isHost){
+            if (isGaming){
+                exit.setType("11");
+            }else{
+                exit.setType("10");
+            }
+        }else{
             exit.setType("8");
-            exit.setRoomId(roomId+"");
-            exit.setUserId(currentId+"");
-            sendMessage(new Gson().toJson(exit));
         }
-//        if (mConnect.isConnected()){
-//            mConnect.disconnect();
-//            mConnect=null;
-//        }
-//        idlist.remove(0);
-//        idlist.add(0,"0");
-//        idlist.remove(1);
-//        idlist.add(1,"0");
-//        readyList.remove(0);
-//        readyList.add(0,false);
-//        readyList.remove(1);
-//        readyList.add(1,false);
+        exit.setRoomId(roomId+"");
+        exit.setUserId(currentId+"");
+        sendMessage(new Gson().toJson(exit));
     }
 
 //控件操作
@@ -1011,5 +1012,41 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     }
 
 //   the second case
+    private BroadcastReceiver receiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action){
+                case "action.PKAGAIN.OK":
+                    degree++;
+                    lastTime=2;
+                    lock=false;
+                    name2.setText((String)SharedPFUtils.getParam(PKModelActivity.this,"name",""));
+                    click.setVisibility(View.INVISIBLE);
+                    click_left.setVisibility(View.INVISIBLE);
+                    click_righr.setVisibility(View.INVISIBLE);
+                    if (isHost){
+                        startno.setVisibility(View.VISIBLE);
+                    }else{
+                        readyno.setVisibility(View.VISIBLE);
+                        PKSocketBean ready=new PKSocketBean();
+                        ready.setRoomId(roomId+"");
+                        ready.setType("2");
+                        ready.setUserId(currentId+"");
+                        ready.setStatus("2");//0取消 1准备
+                        sendMessage(new Gson().toJson(ready));
+                        Log.e("===========socketUrl", ""+new Gson().toJson(ready));
+                    }
+                    break;
+                case "action.PKAGAIN.NO":
+                    if (isHost){
 
+                    }else{
+
+                    }
+                    finish();
+                    break;
+            }
+        }
+    };
 }

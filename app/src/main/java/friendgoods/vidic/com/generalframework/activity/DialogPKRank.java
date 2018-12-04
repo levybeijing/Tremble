@@ -69,15 +69,18 @@ public class DialogPKRank extends PopupWindow{
                 builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-
+                        Intent intent=new Intent();
+                        intent.setAction("action.PKAGAIN.OK");
+                        context.sendBroadcast(intent);
                         dismiss();
                     }
                 });
                 builder.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        context.finish();
+                        Intent intent=new Intent();
+                        intent.setAction("action.PKAGAIN.NO");
+                        context.sendBroadcast(intent);
                         dismiss();
                     }
                 });
@@ -140,13 +143,13 @@ public class DialogPKRank extends PopupWindow{
 
         dialogView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                int height = dialogView.findViewById(R.id.iv_next_detailgoods).getTop();
-                int y = (int) event.getY();
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (y < height) { //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-                        dismiss();
-                    }
-                }
+//                int height = dialogView.findViewById(R.id.iv_next_detailgoods).getTop();
+//                int y = (int) event.getY();
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    if (y < height) { //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
+//                        dismiss();
+//                    }
+//                }
                 return true;
             }
         });
