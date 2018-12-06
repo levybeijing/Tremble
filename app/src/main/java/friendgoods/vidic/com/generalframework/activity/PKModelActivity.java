@@ -67,7 +67,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     public static int degree=1;
     public static boolean isHost=true;
     public static int roomId;
-//    public static boolean forPK=false;//
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
 //    时间选择器
     private TimePickerView pvCustomTime;
@@ -91,7 +90,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private ImageView two;
     private ImageView one;
     private ImageButton click;
-    //    socket赋值
+//    socket赋值
     private ImageView person1;
     private ImageView light1;
     private ImageView light2;
@@ -250,8 +249,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_pkmodel);
 //
         Intent intent = getIntent();
-//        roomId = intent.getIntExtra("roomId", 0);
-//        friendId = intent.getIntExtra("friendId", 0)+"";
         forpk = intent.getBooleanExtra("forpk", false);
 //
         IntentFilter intentFilter = new IntentFilter();
@@ -259,9 +256,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         intentFilter.addAction("action.PKAGAIN.OK");
         intentFilter.addAction("action.PKAGAIN.NO");
         registerReceiver(receiver, intentFilter);
-//来自排行页信息
-//        again = getIntent().getBooleanExtra("again", false);
-//        exit = getIntent().getBooleanExtra("exit", false);
 //微信注册
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
@@ -641,7 +635,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 idlist.add(1,list1.get(1).getUserId()+"");
                             }
 //                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
-
                             break;
                         case "2":
 //  ready
