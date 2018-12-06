@@ -137,6 +137,7 @@ public class DialogPKRank extends PopupWindow{
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setFocusable(true);
+        this.setOutsideTouchable(false);
 //        this.setAnimationStyle(R.style.DialogShowStyle); //设置SelectPicPopupWindow弹出窗体动画效果
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         this.setBackgroundDrawable(dw);

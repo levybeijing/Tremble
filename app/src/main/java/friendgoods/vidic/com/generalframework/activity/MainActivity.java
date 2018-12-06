@@ -1,9 +1,11 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.fragment.AllRankFragment;
@@ -28,14 +31,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static int preFt;
     private List<Fragment> list=new ArrayList<>();
     public static MainActivity instance = null;
+    private boolean loginstatus;
+    private static boolean intopk=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+//
+        MyApplication.data = getIntent().getData();
+        if (MyApplication.data!=null){
+            PKModelActivity.roomId=Integer.parseInt(MyApplication.data .getQueryParameter("id"));
+            PKModelActivity.friendId=Integer.parseInt(MyApplication.data .getQueryParameter("friendId"))+"";
+            intopk=true;
+            MyApplication.data=null;
+        }
+//        判断登录状态
+        loginstatus = (boolean) SharedPFUtils.getParam(this, "loginstatus", false);
+        if (!loginstatus){
+            startActivity(new Intent(this,LoginCodeActivity.class));
+            finish();
+        }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         initView();
     }
+
     protected void initView() {
 
         model_rg = findViewById(R.id.dou_rg);
@@ -93,6 +118,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         PKModelActivity.isHost=true;
         PKModelActivity.degree=1;
+        //        持久化保存?
+        if (intopk){
+            Intent intent=new Intent(this,PKModelActivity.class);
+            intent.putExtra("forpk",true);
+//            intent.putExtra("roomId",Integer.parseInt(MyApplication.data .getQueryParameter("id")));
+//            intent.putExtra("friendId",Integer.parseInt(MyApplication.data .getQueryParameter("friendId")));
+            startActivity(intent);
+            intopk=false;
+        }
+
     }
 
     @Override
@@ -117,8 +152,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopMusic();
-        unregisterReceiver(WeekRankFragment.mBroadcastReceiver);
-        unregisterReceiver(AllRankFragment.mBroadcastReceiver);
     }
 }

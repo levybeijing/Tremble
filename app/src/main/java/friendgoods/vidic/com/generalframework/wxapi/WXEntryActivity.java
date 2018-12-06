@@ -249,8 +249,11 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                                         SharedPFUtils.setParam(WXEntryActivity.this, "sex", 22);
                                         break;
                                 }
-                                startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
-                                BaseActivity.finishAll();
+                                Intent intent1 = new Intent(WXEntryActivity.this, MainActivity.class);
+//                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent1);
+//                                startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
+//                                BaseActivity.finishAll();
                             }else{
                                 startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
                                 BaseActivity.finishAll();
