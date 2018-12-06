@@ -51,7 +51,17 @@
 
         <!--主页-->
         <activity android:name=".activity.MainActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:exported="true"
+            android:screenOrientation="sensorPortrait">
+            <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com.dou -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="friendgoods.vidic.com.dou"
+                    android:scheme="android"/>
+            </intent-filter>
+        </activity>
         <!--mine-->
         <activity android:name=".mine.activity.SettingsActivity"></activity>
         <activity android:name=".mine.activity.MallActivity"></activity>
@@ -87,14 +97,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             >
-            <!--H5网页启动界面   协议格式 android://friendgoods.vidic.com.dou -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="friendgoods.vidic.com.dou"
-                    android:scheme="android"/>
-            </intent-filter>
+
         </activity>
         <!--微信-->
         <activity android:name=".activity.WXBindActivity"

@@ -14,6 +14,8 @@ import java.util.List;
 import friendgoods.vidic.com.generalframework.LoginReceiver;
 import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
+import friendgoods.vidic.com.generalframework.activity.PKModelActivity;
+import friendgoods.vidic.com.generalframework.mine.activity.SettingsActivity;
 
 /**
  * Created by wh on 2017/7/10.
@@ -130,12 +132,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void stopMusic(){
-        MusicService.getInstance().onDestroy();
+        startService(new Intent(BaseActivity.this,MusicService.class));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (!hasActivity()){
+            stopMusic();
+//            PKModelActivity.forPK=false;
+        }
         unregisterReceiver(receiver);
     }
 }

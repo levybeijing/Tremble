@@ -21,14 +21,12 @@ import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.MyOrdersActivity;
-import friendgoods.vidic.com.generalframework.mine.activity.PayBean;
+import friendgoods.vidic.com.generalframework.bean.PayBean;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerOrderId;
 import friendgoods.vidic.com.generalframework.bean.OrdersBean;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
-
-import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 
 public class AdapterOrdersCommon extends RecyclerView.Adapter<AdapterOrdersCommon.MyViewHolder> {
     private Context context;

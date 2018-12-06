@@ -46,7 +46,7 @@ public class WeekRankFragment extends Fragment {
     private String currentAction="android.tremble.WORLD";
     private int worldPage=1;
     private int friendPage=1;
-    public static BroadcastReceiver mBroadcastReceiver;
+    private BroadcastReceiver mBroadcastReceiver;
     private CirImageView icon1,icon2,icon3;
     private TextView name1,time1,count1,name2,time2,count2,name3,time3,count3;
     @Override
@@ -200,5 +200,11 @@ public class WeekRankFragment extends Fragment {
                         adapter.setData(bean.getData().getPageInfo().getList());
                     }
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mBroadcastReceiver);
     }
 }

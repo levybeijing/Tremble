@@ -82,11 +82,12 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            tv_number.setText("0");
-//                            number=0;
-//                            iv_click.setClickable(false);
-//                            lock=false;
-//                            requestTime();
+                            iv_start.setVisibility(View.VISIBLE);
+                            tv_number.setText("0");
+                            number=0;
+                            iv_click.setClickable(false);
+                            lock=false;
+                            requestTime();
                         }
                     });
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {

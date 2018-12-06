@@ -97,6 +97,7 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                 req.scope = "snsapi_userinfo";
                 req.state = "login";
                 api.sendReq(req);
+                finish();
                 break;
 
         }
@@ -152,7 +153,10 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                                         SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
                                         break;
                                 }
-                                startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
+//                                startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
+                                Intent intent1 = new Intent(LoginCodeActivity.this, MainActivity.class);
+//                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent1);
                                 finish();
                             }else{
                                 startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));

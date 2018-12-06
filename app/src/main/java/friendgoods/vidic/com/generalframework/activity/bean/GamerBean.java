@@ -2,19 +2,22 @@ package friendgoods.vidic.com.generalframework.activity.bean;
 
 public class GamerBean {
 
+
     /**
-     * name : 薛
-     * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/Wfic6iapia6Z12M1BWyqt3nKnWTOmUxJynPjynqaPSqOLUbmaEqV1WmiaKxdbMy2bQ6bznMaq8ddMlYcznCRQubD7A/132
+     * name : 大黑
+     * photo : http://thirdwx.qlogo.cn/mmopen/vi_32/K6gwAt74kEjUC9F0aPeVicPbibx6wYJhg0yfreXK85dvMIia5WJgkpKgjTq1QUkEFtCzCC50qNScKkuoANYWu8edg/132
      * logo : man1.png
-     * id : 2032
+     * time : 00:00:06
+     * id : 3074
      * is_use : 1
-     * userId : 204
-     * status : 1
+     * userId : 235
+     * status : 2
      */
 
     private String name;
     private String photo;
     private String logo;
+    private String time;
     private int id;
     private int is_use;
     private int userId;
@@ -42,6 +45,14 @@ public class GamerBean {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public int getId() {

@@ -16,7 +16,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     private int parentBottom=0;
     private Object obj=new Object();
 
-    private float scale;
+//    private float scale;
     public MoveImageView(Context context) {
         super(context);
     }
@@ -33,9 +33,9 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     }
     public int lastX = 0;
     public int lastY = 0;
-    public void setScale(float s){
-        scale=s;
-    }
+//    public void setScale(float s){
+//        scale=s;
+//    }
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -88,7 +88,6 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 }
                 break;
             case MotionEvent.ACTION_UP:
-
 
                 break;
             default:

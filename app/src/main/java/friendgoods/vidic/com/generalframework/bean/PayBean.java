@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.mine.activity;
+package friendgoods.vidic.com.generalframework.bean;
 
 import com.google.gson.annotations.SerializedName;
 
