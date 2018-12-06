@@ -152,10 +152,16 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     click_left.setVisibility(View.VISIBLE);
                     click_righr.setVisibility(View.VISIBLE);
                     click.setClickable(true);
-                    if (!idlist.get(0).equals("0"))
+                    if (!idlist.get(0).equals("0")){
+                        namelist.add(0,name1.getText().toString());
                         name1.setText("0");
-                    if (!idlist.get(1).equals("0"))
+                    }
+
+                    if (!idlist.get(1).equals("0")){
+                        namelist.add(0,name3.getText().toString());
                         name3.setText("0");
+                    }
+
                     name2.setText("0");
                     //                    开始游戏
 //                    倒计时开始   结束时 停止点击  然后网络访问 重置数据
@@ -649,6 +655,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 int userId = (int) SharedPFUtils.getParam(PKModelActivity.this, "userId", 0);
                                 if (userId==list1.get(i).getUserId()){
                                     list1.remove(i);
+                                    continue;
                                 }
                             }
 //                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
@@ -656,6 +663,12 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 break;
                             }
 //                            GamerBean current=list1.get(0);
+                            String time1 = list1.get(0).getTime();
+                            if (time1 !=null&&time1.length()==8){
+                                Log.e("=============", time1);
+                                setTime(time1);
+                                time =time1;
+                            }
                             if (idlist.get(0).equals(list1.get(0).getUserId()+"")||idlist.get(0).equals("0")){
                                 setOne(list1.get(0));
                                 idlist.remove(0);
@@ -681,6 +694,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                 idlist.add(1,list1.get(1).getUserId()+"");
                             }
 //                            Log.e("============idlist.n",idlist.get(0)+"%"+idlist.get(1)+idlist.size());
+
                             break;
                         case "2":
 //  ready
@@ -736,18 +750,10 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
  // settime
                             if (isHost)
                                 break;
-                            String time1 = pkbean.getTime();
-                            Log.e("=============", time1);
-                            tv1_timer.setText(time1.charAt(0)+"");
-                            tv2_timer.setText(time1.charAt(1)+"");
-                            tv3_timer.setText(time1.charAt(3)+"");
-                            tv4_timer.setText(time1.charAt(4)+"");
-                            tv5_timer.setText(time1.charAt(6)+"");
-                            tv6_timer.setText(time1.charAt(7)+"");
-                            x=Integer.parseInt(time1.charAt(0)+"")*10+Integer.parseInt(time1.charAt(1)+"");
-                            y=Integer.parseInt(time1.charAt(3)+"")*10+Integer.parseInt(time1.charAt(4)+"");
-                            z=Integer.parseInt(time1.charAt(6)+"")*10+Integer.parseInt(time1.charAt(7)+"");
-                            time=time1;
+                            String time2 = pkbean.getTime();
+                            Log.e("=============", time2);
+                            setTime(time2);
+                            time =time2;
 //                            Log.e("=============", "onTextMessage: "+x+y+z);
                             break;
                         case "4":
@@ -780,6 +786,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
 //  remove current user
                             PKSocketBeanx pkSocketBeanx = new Gson().fromJson(payload, PKSocketBeanx.class);
                             GamerBean gamerBean = pkSocketBeanx.getUser();
+
                             if (idlist.get(0).equals(gamerBean.getUserId()+"")||idlist.get(0).equals("0")){
                                 setOne(gamerBean);
                                 idlist.remove(0);
@@ -795,18 +802,10 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                             if (isHost){
                                 break;
                             }
-                            String time2 = pkSocketBeanx.getTime();
-                            if (time2!=null&&time2.length()==8){
-                                tv1_timer.setText(time2.charAt(0)+"");
-                                tv2_timer.setText(time2.charAt(1)+"");
-                                tv3_timer.setText(time2.charAt(3)+"");
-                                tv4_timer.setText(time2.charAt(4)+"");
-                                tv5_timer.setText(time2.charAt(6)+"");
-                                tv6_timer.setText(time2.charAt(7)+"");
-                                x=Integer.parseInt(time2.charAt(0)+"")*10+Integer.parseInt(time2.charAt(1)+"");
-                                y=Integer.parseInt(time2.charAt(3)+"")*10+Integer.parseInt(time2.charAt(4)+"");
-                                z=Integer.parseInt(time2.charAt(6)+"")*10+Integer.parseInt(time2.charAt(7)+"");
-                                time=time2;
+                            String time3 = pkSocketBeanx.getTime();
+                            if (time3!=null&&time3.length()==8){
+                                setTime(time3);
+                                PKModelActivity.this.time =time3;
                             }
                             break;
                         case "8":
@@ -861,7 +860,20 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
     }
-//房主创建 房间
+
+    private void setTime(String time2) {
+        tv1_timer.setText(time2.charAt(0)+"");
+        tv2_timer.setText(time2.charAt(1)+"");
+        tv3_timer.setText(time2.charAt(3)+"");
+        tv4_timer.setText(time2.charAt(4)+"");
+        tv5_timer.setText(time2.charAt(6)+"");
+        tv6_timer.setText(time2.charAt(7)+"");
+        x=Integer.parseInt(time2.charAt(0)+"")*10+Integer.parseInt(time2.charAt(1)+"");
+        y=Integer.parseInt(time2.charAt(3)+"")*10+Integer.parseInt(time2.charAt(4)+"");
+        z=Integer.parseInt(time2.charAt(6)+"")*10+Integer.parseInt(time2.charAt(7)+"");
+    }
+
+    //房主创建 房间
     private void createroom() {
         OkGo.post(UrlCollect.addRoom)//
                 .tag(this)//
@@ -1019,12 +1031,16 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             switch (action){
                 case "action.PKAGAIN.OK":
                     degree++;
-                    lastTime=2;
-                    lock=false;
                     name2.setText((String)SharedPFUtils.getParam(PKModelActivity.this,"name",""));
                     click.setVisibility(View.INVISIBLE);
                     click_left.setVisibility(View.INVISIBLE);
                     click_righr.setVisibility(View.INVISIBLE);
+                    if (!name1.getText().toString().equals("邀请好友")){
+                        name1.setText(namelist.get(0));
+                    }
+                    if (!name3.getText().toString().equals("邀请好友")){
+                        name3.setText(namelist.get(1));
+                    }
                     if (isHost){
                         startno.setVisibility(View.VISIBLE);
                     }else{
@@ -1039,14 +1055,27 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     }
                     break;
                 case "action.PKAGAIN.NO":
+
+                    PKSocketBean exit=new PKSocketBean();
                     if (isHost){
-
+                        if (isGaming){
+                            exit.setType("11");
+                        }else{
+                            exit.setType("10");
+                        }
                     }else{
-
+                        exit.setType("8");
                     }
+                    exit.setRoomId(roomId+"");
+                    exit.setUserId(currentId+"");
+                    sendMessage(new Gson().toJson(exit));
                     finish();
                     break;
             }
+            namelist.clear();
+            pkCount=0;
+            lastTime=2;
+            lock=false;
         }
     };
 }
