@@ -16,11 +16,9 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     private int parentBottom=0;
     private Object obj=new Object();
 
-//    private float scale;
     public MoveImageView(Context context) {
         super(context);
     }
-
     public MoveImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -33,9 +31,6 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     }
     public int lastX = 0;
     public int lastY = 0;
-//    public void setScale(float s){
-//        scale=s;
-//    }
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -80,6 +75,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
 //                layout(left, top, right, bottom);
                 //记录当前位置  拖曳过程中 会变小!?
                 lp.setMargins(left,top,left+getWidth(),top+getHeight());
+
 //                lp.setMargins(left,top,right,bottom);
                 //确定位置?
                 this.setLayoutParams(lp);
