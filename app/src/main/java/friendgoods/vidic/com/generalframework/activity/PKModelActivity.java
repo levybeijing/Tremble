@@ -1028,6 +1028,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     if (isHost){
                         startno.setVisibility(View.VISIBLE);
                     }else{
+
                         readyno.setVisibility(View.VISIBLE);
                         PKSocketBean ready=new PKSocketBean();
                         ready.setRoomId(roomId+"");
