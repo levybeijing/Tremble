@@ -159,10 +159,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
             //传入父控件的左上右下
             MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
-            //加载图片
-            iv.setScale(scale);
-
             //传入自己的真实像素
+            iv.setFocusable(true);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                     realwid, realhei);
             lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐

@@ -134,7 +134,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 //传入父控件的左上右下
                 MoveImageView iv=new MoveImageView(VIPSendWallActivity.this,left,top,right,bottom);
                 //加载图片
-                iv.setScale(scale);
                 Picasso.with(VIPSendWallActivity.this).load(surl).into(iv);
                 //传入自己的真实像素
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(

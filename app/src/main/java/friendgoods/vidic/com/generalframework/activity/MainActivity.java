@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<Fragment> list=new ArrayList<>();
     public static MainActivity instance = null;
     private boolean loginstatus;
-    private static boolean intopk=false;
+    public static boolean intopk=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +53,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(new Intent(this,LoginCodeActivity.class));
             finish();
         }
+        initView();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initView();
+
     }
 
     protected void initView() {

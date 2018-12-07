@@ -356,6 +356,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         iv_detail = findViewById(R.id.iv_notedetail_pkmodel);
 //            初次进入
             if (forpk){
+                MainActivity.intopk=false;
                 toBeFriend(friendId);
                 isHost=false;
                 ll.setClickable(false);
@@ -669,12 +670,20 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                                     haveready=true;
                                 }else{
                                     haveready=false;
+                                    if (isHost){
+                                        startyes.setVisibility(View.INVISIBLE);
+                                        startno.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }else {
                                 if (!idlist.get(1).equals("0")&&readyList.get(1).booleanValue()){
                                     haveready=true;
                                 }else{
                                     haveready=false;
+                                    if (isHost){
+                                        startyes.setVisibility(View.INVISIBLE);
+                                        startno.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
                             if (haveready&&!havetime){

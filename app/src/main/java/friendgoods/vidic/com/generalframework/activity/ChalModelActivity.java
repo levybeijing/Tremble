@@ -82,7 +82,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.setPositiveButton("好的", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            iv_start.setVisibility(View.VISIBLE);
+//                            iv_start.setVisibility(View.VISIBLE);
                             tv_number.setText("0");
                             number=0;
                             iv_click.setClickable(false);
@@ -93,7 +93,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            iv_start.setVisibility(View.VISIBLE);
+//                            iv_start.setVisibility(View.VISIBLE);
                             tv_number.setText("0");
                             number=0;
                             iv_click.setClickable(false);
@@ -243,6 +243,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                         if (time!=null){
 //                            iv_click.setClickable(true);
                             havetime=true;
+                            iv_start.setVisibility(View.VISIBLE);
+
                             String[] split = time.split(":");
                             seconds=Integer.parseInt(split[split.length-1]);
                             minites=Integer.parseInt(split[split.length-2]);
@@ -295,6 +297,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 number=0;
                 lock=false;
                 tv_number.setText("0");
+                iv_start.setVisibility(View.VISIBLE);
                 requestTime();
             }
         });
@@ -309,6 +312,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         window.findViewById(R.id.tv_recerive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 addgift(i);
                 alertDialog.dismiss();
             }
@@ -325,7 +329,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(ChalModelActivity.this,s);
-
                     }
                 });
     }

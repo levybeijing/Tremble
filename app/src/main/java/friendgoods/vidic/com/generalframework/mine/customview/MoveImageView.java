@@ -50,7 +50,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 lastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                synchronized (obj){
+//                synchronized (obj){
                 //偏移量
                 int dx =(int)event.getRawX() - lastX;
                 int dy =(int)event.getRawY() - lastY;
@@ -79,13 +79,14 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 //相对fu布局的定位?
 //                layout(left, top, right, bottom);
                 //记录当前位置  拖曳过程中 会变小!?
-                lp.setMargins(left,top,left+getWidth(),top+getHeight());
-//                lp.setMargins(left,top,right,bottom);
+//                lp.setMargins(left,top,left+getWidth(),top+getHeight());
+                lp.setMargins(left,top,right,bottom);
                 //确定位置?
                 this.setLayoutParams(lp);
+                invalidate();
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
-                }
+//                }
                 break;
             case MotionEvent.ACTION_UP:
 
