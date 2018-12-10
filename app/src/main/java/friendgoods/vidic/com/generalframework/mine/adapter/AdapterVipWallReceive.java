@@ -2,6 +2,7 @@ package friendgoods.vidic.com.generalframework.mine.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,8 @@ public class AdapterVipWallReceive extends RecyclerView.Adapter<AdapterVipWallRe
         }else{
             holder.tv_name.setText(list.get(position).getName());
             holder.tv_energy.setText(list.get(position).getScore()+"");
-            Picasso.with(context).load(list.get(position).getUrl()).into(holder.iv_wall);
+            Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getUrl()).into(holder.iv_wall);
+            Log.e("=======adapterReceive", UrlCollect.baseIamgeUrl+list.get(position).getUrl());
             Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
         }
         //

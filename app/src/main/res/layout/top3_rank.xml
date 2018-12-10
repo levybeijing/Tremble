@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="#666666"
             android:text="**"
+            android:singleLine="true"
             />
         <TextView
             android:id="@+id/time_second_top3"
@@ -81,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#666666"
-
+            android:singleLine="true"
             android:text="**"
             />
         <TextView
@@ -130,6 +131,7 @@
             android:layout_height="wrap_content"
             android:textColor="#666666"
             android:text="**"
+            android:singleLine="true"
             />
         <TextView
             android:id="@+id/time_third_top3"
@@ -137,6 +139,7 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             android:textColor="#B30CDD"
+            android:singleLine="true"
             />
         <TextView
             android:id="@+id/count_third_top3"
@@ -144,6 +147,7 @@
             android:layout_height="wrap_content"
             android:text="00000"
             android:textColor="#FF145C"
+            android:singleLine="true"
             />
     </LinearLayout>
 </LinearLayout>

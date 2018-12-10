@@ -365,8 +365,7 @@
         android:id="@+id/iv_notedetail_pkmodel"
         style="@style/note_game"
         android:background="@mipmap/note_pk"
-        android:layout_toLeftOf="@id/ll_note_pk"
-        android:layout_below="@+id/ll_note_pk"
         android:visibility="invisible"
+        android:layout_centerInParent="true"
         />
 </RelativeLayout>

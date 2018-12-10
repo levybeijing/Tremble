@@ -64,7 +64,7 @@ import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 import static friendgoods.vidic.com.generalframework.entity.UrlCollect.fansList;
 
 public class PKModelActivity extends BaseActivity implements View.OnClickListener {
-    public static int degree=1;
+    public int degree=1;
     public static boolean isHost=true;
     public static int roomId;
     private TextView tv1_timer,tv2_timer,tv3_timer,tv4_timer,tv5_timer,tv6_timer;
@@ -916,6 +916,10 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
             exit.setUserId(currentId+"");
             sendMessage(new Gson().toJson(exit));
 //        }
+        idlist.remove(0);
+        idlist.add(0,"0");
+        idlist.remove(1);
+        idlist.add(1,"0");
         unregisterReceiver(receiver);
 
     }

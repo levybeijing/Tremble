@@ -142,13 +142,13 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
                 //实现随机出现  限定坐标 父控件宽高-子空间宽高
                 int rx=right-left-realwidth;
-                if (rx==0){
+                if (rx<=0){
                     lp.leftMargin=0;
                 }else{
                     lp.leftMargin=new Random().nextInt(rx);
                 }
                 int ry=bottom-top-realheight;
-                if (ry==0){
+                if (ry<=0){
                     lp.topMargin= 0;
                 }else{
                     lp.topMargin=new Random().nextInt(ry);
@@ -193,7 +193,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
             case R.id.iv_makesure_vipwall:
                 randomName=StringUtil.getRandomName(10);
                 sendGift(randomName);
-                Log.e("=============", "randomName: "+UrlCollect.baseIamgeUrl+randomName);
                 saveBitmap(view, randomName);
                 imageList.clear();
 //                view.removeAllViews();
@@ -221,8 +220,6 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
-
-
     private void sendGift(String url){
         if (imageList.size()==0){
             return;
@@ -245,7 +242,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 .params("yaxle", String.valueOf(yaxle))//
                 .params("presentsWallId",wallId)//墙的ID
                 .params("status","1")
-                .params("url",url+".png")//status为1的时候上传
+                .params("url",url)//status为1的时候上传
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
@@ -293,16 +290,17 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("=======getAbsolutePath", f.getAbsolutePath());
+
         uploadOss(name,f.getAbsolutePath());
-        uploadPng();
+//        ??????
+        uploadPng(name);
         Toast.makeText(this, "已送达", Toast.LENGTH_SHORT).show();
     }
     //    上传VIP墙图片
-    private void uploadPng() {
+    private void uploadPng(String name) {
         OkGo.post(UrlCollect.updatePresentsWall)//
                 .tag(this)//
-                .params("url", randomName+".png")//文件名
+                .params("url", name)//文件名
                 .params("presentsWallId", wallId)//墙的ID
                 .params("slt", "")//缩略图 省略>?
                 .execute(new StringCallback() {
