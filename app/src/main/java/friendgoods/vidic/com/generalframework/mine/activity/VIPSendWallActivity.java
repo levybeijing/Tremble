@@ -69,7 +69,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
     private String userId;
     private ImageView iv_char;
     private String randomName;
-
+    private int jifen=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +116,8 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
 //
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
             @Override
-            public void onItemClick(String sx, String sy, String surl, String id, int remove) {
+            public void onItemClick(String sx, String sy, String surl, String id, int remove, int score) {
+                jifen+=score;
                 int x=Integer.parseInt(sx);
                 int y=Integer.parseInt(sy);
                 if (remove==0){
@@ -191,6 +192,10 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.iv_makesure_vipwall:
+                if (jifen<500){
+                    Toast.makeText(this, "能量不能小于500", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 randomName=StringUtil.getRandomName(10);
                 sendGift(randomName);
                 saveBitmap(view, randomName);

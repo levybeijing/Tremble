@@ -19,13 +19,11 @@ import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.bean.VIPSendBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipGiftSend;
-import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class FragVipGiftSend extends Fragment {
-
 
     private RecyclerView rv;
     private AdapterVipGiftSend adapter;
@@ -65,6 +63,5 @@ public class FragVipGiftSend extends Fragment {
                         adapter.setData(vipWallBean.getData().getPageInfo().getList());
                     }
                 });
-
     }
 }

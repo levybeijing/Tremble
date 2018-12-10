@@ -135,10 +135,10 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                             SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
                             SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
                             SharedPFUtils.setParam(LoginCodeActivity.this, "loginstatus", true);
-                            SharedPFUtils.setParam(LoginCodeActivity.this, "logo", bean.getData().getLogo());
 
                             String logo = bean.getData().getLogo();
                             if (logo !=null) {
+                                SharedPFUtils.setParam(LoginCodeActivity.this, "logo", logo);
                                 switch (logo) {
                                     case "man1.png":
                                         SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 11);

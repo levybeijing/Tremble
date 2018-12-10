@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,11 +32,8 @@ import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.bean.MyWallBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
-import friendgoods.vidic.com.generalframework.mine.customview.PileView;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPubWall;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterPubWall;
-import friendgoods.vidic.com.generalframework.bean.IconSetBean;
 import friendgoods.vidic.com.generalframework.bean.MyGiftsListBean;
 import friendgoods.vidic.com.generalframework.mine.customview.MoveImageView;
 import friendgoods.vidic.com.generalframework.mine.customview.customiconset.CircleImageView;
@@ -139,7 +135,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         adapter.setOnItemClickListener(new OnItemClickListenerPubWall() {
 
             @Override
-            public void onItemClick(String sx, String sy, String surl, String id, int remove) {
+            public void onItemClick(String sx, String sy, String surl, String id, int remove, int score) {
 //                宽高 图片尺寸?
             float x=Float.parseFloat(sx);
             float y=Float.parseFloat(sy);

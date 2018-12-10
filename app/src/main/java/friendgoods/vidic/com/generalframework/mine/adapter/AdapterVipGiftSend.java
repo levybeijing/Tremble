@@ -49,7 +49,7 @@ public class AdapterVipGiftSend extends RecyclerView.Adapter<AdapterVipGiftSend.
         String url = list.get(position).getUrl();
         Log.e("=======AdapterSend", url+"");
         if (url!=null){
-            Glide.with(context).load(UrlCollect.baseIamgeUrl+url+".png").into(holder.iv_icon);
+            Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
         }
 
     }

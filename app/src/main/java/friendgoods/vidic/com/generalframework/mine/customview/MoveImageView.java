@@ -41,7 +41,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     {
 
         RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) this.getLayoutParams();
-
+        int dx,dy,top,left,right,bottom;
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -52,17 +52,17 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
             case MotionEvent.ACTION_MOVE:
 //                synchronized (obj){
                 //偏移量
-                int dx =(int)event.getRawX() - lastX;
-                int dy =(int)event.getRawY() - lastY;
+                dx =(int)event.getRawX() - lastX;
+                dy =(int)event.getRawY() - lastY;
                 //控件位置
-                int left = getLeft() + dx;
-                int top = getTop() + dy;
-                int right = getRight() + dx;
-                int bottom = getBottom() + dy;
+                left = getLeft() + dx;
+                top = getTop() + dy;
+                right = getRight() + dx;
+                bottom = getBottom() + dy;
 
                 if(left < 0){
                     left = 0;
-                    right = left + getWidth();
+                    right = getWidth();
                 }
                 if(right > parentRight-parentLeft){
                     right = parentRight-parentLeft;
@@ -70,7 +70,7 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 }
                 if(top < 0){
                     top = 0;
-                    bottom = top + getHeight();
+                    bottom = getHeight();
                 }
                 if(bottom > parentBottom-parentTop){
                     bottom = parentBottom-parentTop;
