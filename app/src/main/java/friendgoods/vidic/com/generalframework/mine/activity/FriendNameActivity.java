@@ -109,32 +109,31 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-//                        Log.e("=============", "onSuccess: "+s);
-                        TokenCheck.toLogin(FriendNameActivity.this,s);
+                    TokenCheck.toLogin(FriendNameActivity.this,s);
 
-                        MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
-                        logo=myWallBean.getData().getLogo();
-                        wallId=myWallBean.getData().getId()+"";
-                        List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
-                        for (int i = 0; i < axle.size(); i++) {
-                            MyWallBean.DataBean.AxleBean bean = axle.get(i);
-                            int realx= (int) (Float.parseFloat(bean.getXaxle())*scale);
-                            int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
-                            int realhight= (int) (Integer.parseInt(bean.getHigh())*scale);
-                            int realweith= (int) (Integer.parseInt(bean.getWide())*scale);
-                            //传入自己的真实像素
-                            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                                    realweith, realhight);
-                            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
-                            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
-                            //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
-                            lp.leftMargin=realx;
-                            lp.topMargin= realy;
-                            ImageView view=new ImageView(FriendNameActivity.this);
-                            Picasso.with(FriendNameActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getUrl()).into(view);
-                            view.setLayoutParams(lp);
-                            container.addView(view);
-                        }
+                    MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
+                    logo=myWallBean.getData().getLogo();
+                    wallId=myWallBean.getData().getId()+"";
+                    List<MyWallBean.DataBean.AxleBean> axle = myWallBean.getData().getAxle();
+                    for (int i = 0; i < axle.size(); i++) {
+                        MyWallBean.DataBean.AxleBean bean = axle.get(i);
+                        int realx= (int) (Float.parseFloat(bean.getXaxle())*scale);
+                        int realy= (int) (Float.parseFloat(bean.getYaxle())*scale);
+                        int realhight= (int) (Integer.parseInt(bean.getHigh())*scale);
+                        int realweith= (int) (Integer.parseInt(bean.getWide())*scale);
+                        //传入自己的真实像素
+                        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                                realweith, realhight);
+                        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);//与父容器的左侧对齐
+                        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);//与父容器的上侧对齐
+                        //实现随机出现  限定坐标 父控件宽高-子空间宽高  不能保存移动后位置 ? 还是在别的地方
+                        lp.leftMargin=realx;
+                        lp.topMargin= realy;
+                        ImageView view=new ImageView(FriendNameActivity.this);
+                        Picasso.with(FriendNameActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getUrl()).into(view);
+                        view.setLayoutParams(lp);
+                        container.addView(view);
+                    }
                     }
                 });
     }

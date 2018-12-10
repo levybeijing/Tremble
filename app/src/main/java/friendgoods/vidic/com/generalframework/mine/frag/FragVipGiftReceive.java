@@ -72,7 +72,6 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //设置是否全选 如何设置所有
                 adapter.setALL(isChecked);
-//                adapter.notifyDataSetChanged();
             }
         });
         getView().setOnKeyListener(new View.OnKeyListener() {
@@ -131,9 +130,9 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
 
                     }
                 }
-                adapter.setData(list);
                 box_all.setChecked(false);
                 adapter.setCheckable(false);
+                adapter.setData(list);
                 break;
             case R.id.btn_delete_frag_vipwallbelow:
                 List<Boolean> listFlag = adapter.getFlag();
