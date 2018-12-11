@@ -67,6 +67,8 @@
     <style name="rl_giftwall">
         <item name="android:layout_width">343dp</item>
         <item name="android:layout_height">454dp</item>
+        <!--<item name="android:layout_width">343dp</item>-->
+        <!--<item name="android:layout_height">454dp</item>-->
         <item name="android:background">@drawable/white_friendname</item>
     </style>
 
