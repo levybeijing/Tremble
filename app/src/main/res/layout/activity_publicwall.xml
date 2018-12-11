@@ -90,11 +90,13 @@
                 app:PileLayout_pileWidth="10dp"
                 />
         </LinearLayout>
-
         <RelativeLayout
-            android:id="@+id/container_pubwall"
             style="@style/rl_giftwall"
             >
+            <FrameLayout
+                android:id="@+id/container_pubwall"
+                style="@style/rl_giftwall"
+                />
             <ImageView
                 android:id="@+id/xingxiang_pubwall"
                 android:layout_width="wrap_content"
@@ -103,7 +105,6 @@
                 android:layout_alignParentBottom="true"
                 />
         </RelativeLayout>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"

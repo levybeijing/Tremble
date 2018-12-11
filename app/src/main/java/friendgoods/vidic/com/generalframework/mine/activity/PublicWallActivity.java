@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,10 +47,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
     private RecyclerView rv;
     private AdapterPubWall adapter;
-    private RelativeLayout view;
-
+    private FrameLayout view;
     private PileLayout set;
-
     private TextView name;
     private TextView energy;
     private ImageView icon;

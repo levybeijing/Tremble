@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -57,7 +58,7 @@ public class VIPSendWallActivity extends BaseActivity implements View.OnClickLis
 
     private RecyclerView rv;
     private AdapterVIPSendWall adapter;
-    private RelativeLayout view;
+    private FrameLayout view;
     private float scale;
 
     private String receiveId;

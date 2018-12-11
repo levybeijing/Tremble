@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -33,14 +34,12 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     }
     public int lastX = 0;
     public int lastY = 0;
-//    public void setScale(float s){
-//        scale=s;
-//    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-
-        RelativeLayout.LayoutParams lp= (RelativeLayout.LayoutParams) this.getLayoutParams();
+        boolean lock=false;
+        FrameLayout.LayoutParams lp= (FrameLayout.LayoutParams) this.getLayoutParams();
         int dx,dy,top,left,right,bottom;
         switch (event.getAction())
         {
@@ -51,49 +50,51 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 break;
             case MotionEvent.ACTION_MOVE:
 //                synchronized (obj){
-                //偏移量
-                dx =(int)event.getRawX() - lastX;
-                dy =(int)event.getRawY() - lastY;
-                //控件位置
-                left = getLeft() + dx;
-                top = getTop() + dy;
-                right = getRight() + dx;
-                bottom = getBottom() + dy;
+                if (!lock) {
+                    //偏移量
+                    lock=true;
+                    dx = (int) event.getRawX() - lastX;
+                    dy = (int) event.getRawY() - lastY;
 
-                if(left < 0){
-                    left = 0;
-                    right = getWidth();
-                }
-                if(right > parentRight-parentLeft){
-                    right = parentRight-parentLeft;
-                    left = right - getWidth();
-                }
-                if(top < 0){
-                    top = 0;
-                    bottom = getHeight();
-                }
-                if(bottom > parentBottom-parentTop){
-                    bottom = parentBottom-parentTop;
-                    top = bottom - getHeight();
-                }
-                //相对fu布局的定位?
+
+                    //控件位置
+                    left = getLeft() + dx;
+                    top = getTop() + dy;
+                    right = getRight() + dx;
+                    bottom = getBottom() + dy;
+
+                    if (left < 0) {
+                        left = 0;
+                        right = getWidth();
+                    }
+                    if (right > parentRight - parentLeft) {
+                        right = parentRight - parentLeft;
+                        left = right - getWidth();
+                    }
+                    if (top < 0) {
+                        top = 0;
+                        bottom = getHeight();
+                    }
+                    if (bottom > parentBottom - parentTop) {
+                        bottom = parentBottom - parentTop;
+                        top = bottom - getHeight();
+                    }
 //                layout(left, top, right, bottom);
-                //记录当前位置  拖曳过程中 会变小!?
 //                lp.setMargins(left,top,left+getWidth(),top+getHeight());
-                lp.setMargins(left,top,right,bottom);
-                //确定位置?
-                this.setLayoutParams(lp);
-                invalidate();
+                    lp.setMargins(left, top, right, bottom);
+                    //确定位置
+                    this.setLayoutParams(lp);
+//                invalidate();
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
+//                    lastX = lastX + dx;
+//                    lastY = lastY + dy;
 //                }
-                break;
-            case MotionEvent.ACTION_UP:
-
-                break;
-            default:
+                    lock=false;
+                }
                 break;
         }
+        invalidate();
         return true;
     }
 }
