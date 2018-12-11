@@ -18,6 +18,7 @@ import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.SingleWallActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerMine;
@@ -77,13 +78,19 @@ public class FansBangActivity extends BaseActivity {
         adapter.setOnItemClickListener(new OnItemClickListenerMine() {
             @Override
             public void onItemClick(int i) {
-                Toast.makeText(FansBangActivity.this, ""+i, Toast.LENGTH_SHORT).show();
+                //点击就进入粉丝霸榜
+                Intent intent = new Intent(FansBangActivity.this, SingleWallActivity.class);
+                intent.putExtra("wallId",i);
+                startActivity(intent);
             }
         });
         adapter2.setOnItemClickListener(new OnItemClickListenerMine() {
             @Override
             public void onItemClick(int i) {
-                Toast.makeText(FansBangActivity.this, ""+i, Toast.LENGTH_SHORT).show();
+                //点击就进入粉丝霸榜
+                Intent intent = new Intent(FansBangActivity.this, SingleWallActivity.class);
+                intent.putExtra("wallId",i);
+                startActivity(intent);
             }
         });
     }

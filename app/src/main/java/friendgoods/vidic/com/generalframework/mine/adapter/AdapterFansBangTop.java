@@ -39,11 +39,13 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+        int id=0;
         switch (position){
             case 0:
                 if (list.size()<2){
                     return;
                 }
+                id = list.get(1).getId();
                 Picasso.with(context).load(list.get(position+1).getPhoto()).into(holder.iv_small);
                 Picasso.with(context).load(R.mipmap.second_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position+1).getName());
@@ -53,6 +55,7 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
                 holder.iv_small.setVisibility(View.INVISIBLE);
                 holder.iv_big.setVisibility(View.VISIBLE);
                 if (list.size()==1){
+                    id = list.get(0).getId();
                     Picasso.with(context).load(list.get(position-1).getPhoto()).into(holder.iv_big);
                     Picasso.with(context).load(R.mipmap.first_fans_3x).into(holder.iv_rank);
                     holder.tv_name.setText(list.get(position-1).getName());
@@ -71,6 +74,7 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
                 if (list.size()<3){
                     return;
                 }
+                id = list.get(2).getId();
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position).getName());
                 holder.tv_energy.setText(list.get(position).getScore()+"");
@@ -81,11 +85,11 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
         //监听事件
         View itemView =holder.itemView;
         if (itemClickListener != null) {
+            final int finalId = id;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    itemClickListener.onItemClick(position);
+                    itemClickListener.onItemClick(finalId);
                 }
             });
         }

@@ -1,6 +1,5 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -119,7 +118,7 @@ public class EditAddressActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
-    private void requestChange(String consigee,String mobile,String district) {
+    private void requestChange(String consigee, String mobile, final String district) {
         OkGo.post(UrlCollect.modifyAddress)
                 .tag(this)
                 .params("site",district)

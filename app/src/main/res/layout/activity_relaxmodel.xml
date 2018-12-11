@@ -59,9 +59,8 @@
         android:id="@+id/iv_notedetail_relaxmodel"
         style="@style/note_game"
         android:background="@mipmap/note_relaxmodel"
-        android:layout_toLeftOf="@id/ll_note_relax"
-        android:layout_below="@+id/ll_note_relax"
         android:visibility="invisible"
+        android:layout_centerInParent="true"
         />
     <ImageView
         android:id="@+id/tv_gotomall_relaxmodel"

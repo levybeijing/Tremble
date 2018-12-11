@@ -47,8 +47,11 @@ public class AdapterVipGiftSend extends RecyclerView.Adapter<AdapterVipGiftSend.
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         String url = list.get(position).getUrl();
-        if (url!=null)
-             Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
+        Log.e("=======AdapterSend", url+"");
+        if (url!=null){
+            Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
+        }
+
     }
 
     @Override

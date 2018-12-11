@@ -41,22 +41,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
                 >
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
                 <RelativeLayout
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/container_vipwall"
                     style="@style/rl_giftwall"
-                    android:focusable="true"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="50dp"
                     >
+                    <FrameLayout
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/container_vipwall"
+                        style="@style/rl_giftwall"
+                        android:focusable="true"
+                        />
                     <ImageView
                         android:id="@+id/xingxiang_vipwall"
                         android:layout_width="wrap_content"
@@ -65,8 +62,6 @@
                         android:layout_alignParentBottom="true"
                         />
                 </RelativeLayout>
-            </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

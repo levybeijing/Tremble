@@ -43,15 +43,14 @@ public class AdapterFansBangBottom extends RecyclerView.Adapter<AdapterFansBangB
         holder.tv_name.setText(list.get(position+3).getName());
         holder.tv_energy.setText(list.get(position+3).getScore()+"");
         Picasso.with(context).load(list.get(position+3).getPhoto()).into(holder.iv_icon);
-
+        final int id = list.get(position).getId();
         //监听事件
         View itemView =holder.itemView;
         if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = holder.getLayoutPosition();
-                    itemClickListener.onItemClick(position+3);
+                    itemClickListener.onItemClick(id);
                 }
             });
         }

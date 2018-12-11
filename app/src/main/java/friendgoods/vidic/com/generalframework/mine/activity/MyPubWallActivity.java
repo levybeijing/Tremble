@@ -80,7 +80,6 @@ public class MyPubWallActivity extends BaseActivity {
             }
         });
         rl = findViewById(R.id.container_mygiftwall);
-//        scale=rl.getWidth()/325;
         //
         rv = findViewById(R.id.rv_mygiftwall);
         GridLayoutManager manager=new GridLayoutManager(this,10);
@@ -126,9 +125,14 @@ public class MyPubWallActivity extends BaseActivity {
                             lp.leftMargin=realx;
                             lp.topMargin= realy;
                             ImageView view=new ImageView(MyPubWallActivity.this);
-                            Picasso.with(MyPubWallActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+bean.getUrl()).into(view);
+                            Picasso.with(MyPubWallActivity.this).load(UrlCollect.baseIamgeUrl+bean.getUrl()).into(view);
                             view.setLayoutParams(lp);
                             rl.addView(view);
+                            Log.e("============", "onSuccess: "+UrlCollect.baseIamgeUrl+bean.getUrl());
+                            Log.e("============", "onSuccess: "+realx);
+                            Log.e("============", "onSuccess: "+realy);
+                            Log.e("============", "onSuccess: "+realweith);
+                            Log.e("============", "onSuccess: "+realhight);
                         }
                     }
                 });

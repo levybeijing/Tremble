@@ -73,7 +73,7 @@ public class MyFriendsActivity extends BaseActivity {
                 .params("page", "1")
                 .params("pageSize", "12")
                 .params("type", "1")
-                .params("status", "1")//0（手）1（脚）
+                .params("status", "0")//0（手）1（脚）
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

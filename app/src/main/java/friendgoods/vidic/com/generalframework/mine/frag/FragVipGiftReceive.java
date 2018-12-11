@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 
+import java.io.File;
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
+import friendgoods.vidic.com.generalframework.activity.MusicService;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterVipWallReceive;
 import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
@@ -37,6 +42,7 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
     private CheckBox box_all;
     private List<VIPWallBean.DataBean.PageInfoBean.ListBean> list;
     private LinearLayout ll_choose,ll_unchoose;
+    private List<Boolean> flag;
 
     @Nullable
     @Override
@@ -72,9 +78,9 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //设置是否全选 如何设置所有
                 adapter.setALL(isChecked);
-//                adapter.notifyDataSetChanged();
             }
         });
+//        返回键事件
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -86,11 +92,6 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         request();
     }
 
@@ -105,7 +106,7 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(getActivity(),s);
-
+                        Log.e("====%=====", "onSuccess: "+s);
                         VIPWallBean vipWallBean = new Gson().fromJson(s, VIPWallBean.class);
                         list = vipWallBean.getData().getPageInfo().getList();
                         adapter.setData(list);
@@ -124,27 +125,24 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
                 adapter.setData(list);
                 break;
             case R.id.btn_down_frag_vipwallbelow:
-                List<Boolean> Flag = adapter.getFlag();
+                flag = adapter.getFlag();
                 for (int i = 0; i < list.size(); i++) {
-                    if (Flag.get(i)){
+                    if (flag.get(i)){
                         //网络下载
-
+                        requestDown(list.get(i).getUrl(),i);
                     }
                 }
-                adapter.setData(list);
                 box_all.setChecked(false);
                 adapter.setCheckable(false);
+                adapter.setData(list);
+                ll_choose.setVisibility(View.INVISIBLE);
+                ll_unchoose.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_delete_frag_vipwallbelow:
-                List<Boolean> listFlag = adapter.getFlag();
-                for (int i = 0; i < list.size(); i++) {
-                    if (listFlag.get(i)){
-                        list.remove(i);
-                    }
-                }
-                adapter.setData(list);
-                box_all.setChecked(false);
+                ll_choose.setVisibility(View.INVISIBLE);
+                ll_unchoose.setVisibility(View.VISIBLE);
                 adapter.setCheckable(false);
+                adapter.setData(list);
                 break;
         }
     }
@@ -154,5 +152,30 @@ public class FragVipGiftReceive extends Fragment implements View.OnClickListener
         super.onStop();
         if (list!=null)
             list.clear();
+    }
+
+    public void requestDown(final String url, final int i){
+        OkGo.<File>get(UrlCollect.baseIamgeUrl+url)//
+                .tag(this)//
+                .execute(
+                        new FileCallback() {
+                            @Override
+                            public void onSuccess(File file, Call call, Response response) {
+                                try {
+                                    File f=new File(UrlCollect.IMAGEPATH+File.separator+url+".png");
+                                    file.renameTo(f);
+                                    flag.remove(i);
+                                    flag.add(i,false);
+                                    for (int j = 0; j < flag.size(); j++) {
+                                        if (flag.get(j)){
+                                            return;
+                                        }
+                                    }
+                                    Toast.makeText(getContext(), "下载完成", Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
     }
 }

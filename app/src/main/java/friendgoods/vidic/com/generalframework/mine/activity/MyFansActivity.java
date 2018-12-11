@@ -1,10 +1,10 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -64,7 +64,7 @@ public class MyFansActivity extends BaseActivity {
                         TokenCheck.toLogin(MyFansActivity.this,s);
 
                         MyFansBean myFansBean = new Gson().fromJson(s, MyFansBean.class);
-//                        Log.e("========MyFansActivity", "onSuccess: "+s);
+                        Log.e("========MyFansActivity", "onSuccess: "+s);
                         List<MyFansBean.DataBean.PageInfoBean.ListBean> list = myFansBean.getData().getPageInfo().getList();
                         adapter.setData(list);
                     }

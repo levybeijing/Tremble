@@ -37,10 +37,6 @@
             android:id="@+id/container_mygiftwall"
             style="@style/rl_giftwall"
             >
-        </RelativeLayout>
-        <RelativeLayout
-            style="@style/rl_giftwall"
-            >
             <TextView
                 android:id="@+id/tv_date_mygiftwall"
                 android:layout_width="wrap_content"

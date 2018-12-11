@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         PKModelActivity.isHost=true;
-        PKModelActivity.degree=1;
+//        PKModelActivity.degree=1;
         //        持久化保存?
         if (intopk){
             Intent intent=new Intent(this,PKModelActivity.class);

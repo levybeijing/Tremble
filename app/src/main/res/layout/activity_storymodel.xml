@@ -104,8 +104,7 @@
         android:id="@+id/iv_notedetail_storymodel"
         style="@style/note_game"
         android:background="@mipmap/note_story"
-        android:layout_toLeftOf="@id/ll_note_story"
-        android:layout_below="@+id/ll_note_story"
+        android:layout_centerInParent="true"
         android:visibility="invisible"
         />
     <RelativeLayout
