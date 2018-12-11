@@ -94,6 +94,7 @@ public class FriendNameActivity extends BaseActivity implements View.OnClickList
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

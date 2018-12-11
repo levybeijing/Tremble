@@ -59,7 +59,6 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
         }
         holder.tv_name.setText(list.get(position).getName());
         holder.tv_value.setText(list.get(position).getScore()+"");
-        Picasso.with(context).load(list.get(position).getGiftId()).into(holder.iv_wall);
         Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
     }
 
@@ -90,7 +89,7 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
 
     class MyViewHolder extends ViewHolder
     {
-        ImageView iv_rank,iv_icon,iv_wall;
+        ImageView iv_rank,iv_icon;
         TextView tv_rank,tv_name,tv_value;
         public MyViewHolder(View view)
         {
@@ -100,7 +99,6 @@ public class AdapterMyFans extends RecyclerView.Adapter<AdapterMyFans.MyViewHold
 
             tv_name= view.findViewById(R.id.tv_name_myfans);
             iv_icon= view.findViewById(R.id.iv_icon_myfans);
-            iv_wall = view.findViewById(R.id.iv_wall_myfans);
             tv_value = view.findViewById(R.id.tv_value_myfans);
         }
     }

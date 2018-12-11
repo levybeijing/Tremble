@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-
+    android:layout_height="180dp"
+    android:layout_margin="5dp"
     >
     <ImageView
         android:id="@+id/iv_wall_vipwall"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         />
     <CheckBox
         android:id="@+id/box_flag_vipwall"
