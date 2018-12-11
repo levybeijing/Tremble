@@ -69,24 +69,32 @@ public class AdapterVipWallReceive extends RecyclerView.Adapter<AdapterVipWallRe
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         if (isCheckable){
             holder.box_flag.setVisibility(View.VISIBLE);
-            holder.ll.setVisibility(View.GONE);
+            holder.ll.setVisibility(View.INVISIBLE);
             holder.tv_name.setVisibility(View.INVISIBLE);
             holder.tv_energy.setVisibility(View.INVISIBLE);
             holder.iv_icon.setVisibility(View.INVISIBLE);
             holder.iv_energy.setVisibility(View.INVISIBLE);
+            //
+            if (listFlag.get(position)){
+                holder.box_flag.setChecked(listFlag.get(position));
+            }else {
+                holder.box_flag.setChecked(listFlag.get(position));
+            }
         }else{
+            holder.tv_name.setVisibility(View.VISIBLE);
+            holder.tv_energy.setVisibility(View.VISIBLE);
+            holder.iv_icon.setVisibility(View.VISIBLE);
+            holder.iv_energy.setVisibility(View.VISIBLE);
+            holder.ll.setVisibility(View.VISIBLE);
+
+            holder.box_flag.setVisibility(View.INVISIBLE);
             holder.tv_name.setText(list.get(position).getName());
             holder.tv_energy.setText(list.get(position).getScore()+"");
             Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getUrl()).into(holder.iv_wall);
             Log.e("=======adapterReceive", UrlCollect.baseIamgeUrl+list.get(position).getUrl());
             Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_icon);
         }
-        //
-        if (listFlag.get(position)){
-            holder.box_flag.setChecked(listFlag.get(position));
-        }else {
-            holder.box_flag.setChecked(listFlag.get(position));
-        }
+
         //
         holder.box_flag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

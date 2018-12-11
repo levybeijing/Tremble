@@ -63,13 +63,13 @@
                 android:id="@+id/btn_down_frag_vipwallbelow"
                 android:layout_width="114dp"
                 android:layout_height="match_parent"
-                android:background="@mipmap/down_vipwall_3x"
+                android:background="@mipmap/down_vip"
                 />
             <ImageView
                 android:id="@+id/btn_delete_frag_vipwallbelow"
                 android:layout_width="114dp"
                 android:layout_height="match_parent"
-                android:background="@mipmap/delete_vipwall_3x"
+                android:background="@mipmap/cancel_vip"
                 />
         </LinearLayout>
     </FrameLayout>
