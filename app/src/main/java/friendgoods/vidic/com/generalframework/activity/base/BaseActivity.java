@@ -59,9 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         mForegroundActivity = this;
         super.onResume();
-//        if (getIntent().getBooleanExtra("clear",false)){
-//            finishOther();
-//        }
     }
 
     @Override
@@ -78,6 +75,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             copy = new ArrayList<>(mActivities);
         }
         for (BaseActivity activity : copy) {
+            if (activity.equals(mForegroundActivity)){
+                continue;
+            }
             activity.finish();
         }
     }

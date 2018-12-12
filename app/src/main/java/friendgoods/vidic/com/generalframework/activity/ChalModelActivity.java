@@ -149,14 +149,14 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_detail = findViewById(R.id.iv_notedetail_chal);
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
         drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-        );
+
+
+
         animation1 = new ScaleAnimation(
                 1.0f, 2.0f, 1.0f, 2.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
         );
+
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -179,13 +179,17 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_click_challengemodel:
+                animation = new ScaleAnimation(
+                        1.0f, 2.0f, 1.0f, 2.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                );
                 //        缩放动画
                 animation.setDuration(300);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
 
-                animation1.setDuration(300);
-                iv_niu.setAnimation(animation1);
+//                animation1.setDuration(300);
+                iv_niu.setAnimation(animation);
                 break;
             case R.id.iv_exit_challengemodel:
                 finish();
@@ -204,6 +208,10 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 note=!note;
                 break;
             case R.id.iv_start_chal:
+                if (!havetime){
+                    Toast.makeText(this, "网络故障,请重新进入房间", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 iv_click.setClickable(true);
                 new Thread(runnable).start();
                 iv_start.setVisibility(View.INVISIBLE);

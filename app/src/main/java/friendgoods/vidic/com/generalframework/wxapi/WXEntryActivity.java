@@ -92,20 +92,9 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 Log.e("===============", "wxRespBean.getState(): "+wxRespBean.getState());
                 status=wxRespBean.getState();
 //                判断对话类型
-                if ("login".equals(status)|"bind".equals(status)){
+                if ("login".equals(status)||"bind".equals(status)){
                     requestLogin(wxRespBean.getCode());
                 }
-                int type = wxRespBean.getType();
-//                switch (type){
-////                    case  1:
-//////                        login
-////                        requestLogin(wxRespBean.getCode());
-////                        break;
-//                    case  2:
-////                        share
-//                        Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
