@@ -75,9 +75,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             copy = new ArrayList<>(mActivities);
         }
         for (BaseActivity activity : copy) {
-            if (activity.equals(mForegroundActivity)){
-                continue;
-            }
             activity.finish();
         }
     }
