@@ -30,7 +30,6 @@
         android:id="@+id/iv_icon_myfriends"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@mipmap/temp_icon"
         android:layout_margin="10dp"
         />
     <RelativeLayout
