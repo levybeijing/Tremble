@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <include
         layout="@layout/top3_rank"/>
-    <android.support.v7.widget.RecyclerView
+    <friendgoods.vidic.com.generalframework.xrecyclerview.XRecyclerView
         android:id="@+id/rv_weekrank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

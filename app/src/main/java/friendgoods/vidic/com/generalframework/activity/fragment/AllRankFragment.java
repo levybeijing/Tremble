@@ -35,6 +35,8 @@ import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
 import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
+import friendgoods.vidic.com.generalframework.xrecyclerview.ProgressStyle;
+import friendgoods.vidic.com.generalframework.xrecyclerview.XRecyclerView;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -66,11 +68,41 @@ public class AllRankFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView rv = view.findViewById(R.id.rv_weekrank);
+        XRecyclerView rv = view.findViewById(R.id.rv_weekrank);
         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         adapter = new AdapterRank(getActivity());
         rv.setAdapter(adapter);
+
+        rv.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        rv.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        rv.setArrowImageView(R.drawable.iconfont_downgrey);
+        rv.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                switch (currentAction){
+                    case "android.tremble.FRIEND2":
+                        requestFriend(1);
+                        break;
+                    case "android.tremble.WORLD2":
+                        requestFriend(1);
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoadMore() {
+                switch (currentAction){
+                    case "android.tremble.FRIEND2":
+                        requestFriend(++friendPage);
+                        break;
+                    case "android.tremble.WORLD2":
+                        requestFriend(++worldPage);
+                        break;
+                }
+            }
+        });
         adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
             @Override
             public void onItemClick(int i) {
@@ -126,7 +158,7 @@ public class AllRankFragment extends Fragment {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
                 .params("userId", (int)SharedPFUtils.getParam(getContext(),"userId",0))
-                .params("page", page+"")
+                .params("page", page)
                 .params("pageSize", "20")
                 .params("type", "0")    //1 周排行 0总排行
                 .params("status", "0")//0  手动  1脚动
