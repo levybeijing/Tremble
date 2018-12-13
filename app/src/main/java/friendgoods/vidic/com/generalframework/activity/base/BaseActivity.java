@@ -137,7 +137,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         if (!hasActivity()){
             stopMusic();
-//            PKModelActivity.forPK=false;
         }
         unregisterReceiver(receiver);
     }

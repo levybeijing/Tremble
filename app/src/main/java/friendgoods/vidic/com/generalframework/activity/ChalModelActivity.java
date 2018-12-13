@@ -49,13 +49,12 @@ import okhttp3.Response;
 public class ChalModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number,tv_time;
-    private ScaleAnimation animation,animation1;
+    private ScaleAnimation animation;
     private ImageView iv_click;
     private String time;
     private int minites;
     private int seconds;
     private boolean havetime=true;
-//    private boolean requsetOk=true;
     private boolean lock=false;
     private boolean note=true;
     private Handler handlerhcal=new Handler(){
@@ -104,8 +103,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                     builder.show();
                 }else {
                     requestGift();
-                    iv_click.setClickable(false);
                 }
+                iv_click.setClickable(false);
                 addrecord();
             }
 
@@ -150,13 +149,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
         drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
 
-
-
-        animation1 = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-        );
-
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -174,7 +166,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             }
         }
     };
-//    private Thread thread=new Thread(runnable);
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -184,11 +176,9 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                         Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                 );
                 //        缩放动画
-                animation.setDuration(300);
-                tv_number.setText(++number+"");
+                animation.setDuration(200);
                 tv_number.setAnimation(animation);
-
-//                animation1.setDuration(300);
+                tv_number.setText(++number+"");
                 iv_niu.setAnimation(animation);
                 break;
             case R.id.iv_exit_challengemodel:
@@ -249,13 +239,12 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                         time = bean.getData().getTime();
                         tv_time.setText(time);
                         if (time!=null){
-//                            iv_click.setClickable(true);
                             havetime=true;
                             iv_start.setVisibility(View.VISIBLE);
 
                             String[] split = time.split(":");
                             seconds=Integer.parseInt(split[split.length-1]);
-                            minites=Integer.parseInt(split[split.length-2]);
+//                            minites=Integer.parseInt(split[split.length-2]);
                         }
                     }
                 });

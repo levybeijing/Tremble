@@ -29,14 +29,15 @@
             android:layout_centerInParent="true"
             />
         <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/iv_niu_challengemodel"
             android:id="@+id/tv_number_challengemodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="60dp"
+            android:textSize="45dp"
             android:textColor="@color/color_count"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/iv_niu_challengemodel"
+            android:gravity="center"
             />
         <ImageView
             android:id="@+id/iv_click_challengemodel"

@@ -35,6 +35,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
     private ImageView iv_note,iv_detail;
     private String userId;
     private String time;
+    private ImageView iv_niu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +54,6 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
             font = getResources().getFont(R.font.edo);
             tv_number.setTypeface(font);
         }
-        //        缩放动画
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        animation.setDuration(100);
 
         findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
         findViewById(R.id.iv_exit_relaxmodel).setOnClickListener(this);
@@ -67,12 +62,21 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         iv_note = findViewById(R.id.iv_note_relaxmodell);
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_relaxmodel);
+
+        iv_niu = findViewById(R.id.iv_niu_relaxmodel);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_click_relaxmodel:
+                //        缩放动画
+                animation = new ScaleAnimation(
+                        1.0f, 2.0f, 1.0f, 2.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                );
+                animation.setDuration(200);
+                iv_niu.setAnimation(animation);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
                 break;
