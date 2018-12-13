@@ -72,9 +72,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private TimePickerView pvCustomTime;
 //   是否正在游戏
     private boolean isGaming=false;
-//
     private boolean havetime=false;
-//
     private boolean haveready=false;
     private LinearLayout ll;
     private ImageView readyno;
@@ -85,7 +83,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private int pkCount=0;
 //  倒数计时开始
     private int lastTime=2;
-
     private ImageView three;
     private ImageView two;
     private ImageView one;
@@ -102,7 +99,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     private TextView name3;
     private List<Integer> numlist=new ArrayList<>();
     private TextView name2;
-
     private ScaleAnimation animation,animation1;
 
 //    计时器
@@ -898,30 +894,34 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         return format.format(date);
     }
 //
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PKSocketBean exit=new PKSocketBean();
+        if (isHost){
+            if (isGaming){
+                exit.setType("11");
+            }else{
+                exit.setType("10");
+            }
+        }else{
+            exit.setType("8");
+            Log.e("=========", "onDestroy: "+"通过销毁");
+        }
+        exit.setRoomId(roomId+"");
+        exit.setUserId(currentId+"");
+        sendMessage(new Gson().toJson(exit));
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if (!forPK){
-            PKSocketBean exit=new PKSocketBean();
-            if (isHost){
-                if (isGaming){
-                    exit.setType("11");
-                }else{
-                    exit.setType("10");
-                }
-            }else{
-                exit.setType("8");
-            }
-            exit.setRoomId(roomId+"");
-            exit.setUserId(currentId+"");
-            sendMessage(new Gson().toJson(exit));
-//        }
         idlist.remove(0);
         idlist.add(0,"0");
         idlist.remove(1);
         idlist.add(1,"0");
         unregisterReceiver(receiver);
-
     }
 
 //控件操作
@@ -1013,7 +1013,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                     }
                     break;
                 case "action.PKAGAIN.NO":
-
                     PKSocketBean exit=new PKSocketBean();
                     if (isHost){
                         if (isGaming){

@@ -125,6 +125,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
                         WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
                         getUserInfo(tokenBean);
+                        Log.e("=====================", "onSuccess: "+tokenBean.getUnionid());
                     }
                 });
     }

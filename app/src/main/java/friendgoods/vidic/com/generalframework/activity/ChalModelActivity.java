@@ -113,7 +113,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private ImageView iv_note,iv_detail;
     private String userId;
     private ImageView iv_niu;
-    private Drawable drawable;
     private ImageView iv_start;
 
 
@@ -147,7 +146,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_chal);
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
-        drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
+//        drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
 
         requestTime();
     }
@@ -244,7 +243,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
 
                             String[] split = time.split(":");
                             seconds=Integer.parseInt(split[split.length-1]);
-//                            minites=Integer.parseInt(split[split.length-2]);
+                            minites=Integer.parseInt(split[split.length-2]);
                         }
                     }
                 });
@@ -309,7 +308,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         window.findViewById(R.id.tv_recerive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 addgift(i);
                 alertDialog.dismiss();
             }

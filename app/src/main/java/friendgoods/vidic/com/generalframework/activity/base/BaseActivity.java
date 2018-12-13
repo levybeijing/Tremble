@@ -82,13 +82,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 关闭所有Activity，除了参数传递的Activity
      */
-    public static void finishOther(BaseActivity except) {
+    public static void finishOther() {
         List<BaseActivity> copy;
         synchronized (mActivities) {
             copy = new ArrayList<>(mActivities);
         }
         for (BaseActivity activity : copy) {
-            if (activity != except)
+            if (!(activity instanceof LoginCodeActivity))
                 activity.finish();
         }
     }

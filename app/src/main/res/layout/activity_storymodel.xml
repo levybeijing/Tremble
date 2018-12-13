@@ -5,11 +5,6 @@
     android:background="@mipmap/bg_game_3x"
     >
     <!--早写早绘制越底层-->
-    <!--<FrameLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
-        <!---->
-    <!--</FrameLayout>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,13 +13,14 @@
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"
         >
-        <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+        <TextView
             android:id="@+id/tv_number_storymodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
             android:textSize="50dp"
             android:layout_margin="30dp"
+            android:textColor="@color/color_count"
             />
         <ImageView
             android:id="@+id/iv_click_storymodel"

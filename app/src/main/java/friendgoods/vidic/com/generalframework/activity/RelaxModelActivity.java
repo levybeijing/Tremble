@@ -76,9 +76,9 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                         Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
                 );
                 animation.setDuration(200);
-                iv_niu.setAnimation(animation);
                 tv_number.setText(++number+"");
                 tv_number.setAnimation(animation);
+                iv_niu.setAnimation(animation);
                 break;
             case R.id.iv_exit_relaxmodel:
 //                gametime=System.currentTimeMillis()-gametime;

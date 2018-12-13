@@ -56,10 +56,10 @@ public class MallActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(MallActivity.this,s);
-
                         Log.e("=============", "onSuccess: "+s);
                         JifenBean jifenBean = new Gson().fromJson(s, JifenBean.class);
-                        double integral = jifenBean.getData().getIntegral();
+                        int integral = (int) jifenBean.getData().getIntegral();
+                        SharedPFUtils.setParam(MallActivity.this,"integral",integral);
                         tv_number.setText(integral+"");
                     }
                 });

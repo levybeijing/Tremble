@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
@@ -44,7 +45,6 @@ import static friendgoods.vidic.com.generalframework.entity.UrlCollect.WXAppID;
 public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyViewHolder> {
     private Activity context;
     private List<GiftsMallBean.DataBean.PageInfoBean.ListBean> list;
-//    private IWXAPI api;
 
     public AdapterGiftMall(Activity context_) {
         context=context_;
@@ -64,18 +64,20 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final int giftid = list.get(position).getId();
-        int jf=list.get(position).getIntegral();
-        final String number = holder.et_number.getText().toString();
-        final int jifen =Integer.parseInt(number)*jf;
         holder.tv_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float integral = (Float)SharedPFUtils.getParam(context, "integral", 0.0f);
+                int jf=list.get(position).getIntegral();
+                final String number = holder.et_number.getText().toString();
+                final int jifen =Integer.parseInt(number)*jf;
+                int integral = (int)SharedPFUtils.getParam(context, "integral", 0);
                 if (jifen>integral){
                     Toast.makeText(context, "您的积分不足", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                buyGift(giftid,number,jifen);
+                if (buyGift(giftid,number,jifen)){
+                    holder.et_number.setText("1");
+                }
             }
         });
         holder.tv_name.setText(list.get(position).getName());
@@ -100,7 +102,7 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
         });
     }
 
-    private void buyGift(int id,String number,int jifen) {
+    private boolean buyGift(int id,String number,int jifen) {
         OkGo.post(UrlCollect.convertGift)//
                 .tag(this)//
                 .params("userId", (int)SharedPFUtils.getParam(context,"userId",0)+"")
@@ -116,14 +118,15 @@ public class AdapterGiftMall extends RecyclerView.Adapter<AdapterGiftMall.MyView
                         try {
                             JSONObject jo=new JSONObject(s);
                             String message = jo.getString("message");
-//                            if (message.equals("请求成功")){
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-//                            }
+                            if (message.equals("请求成功")){
+                                Toast.makeText(context, "购买成功", Toast.LENGTH_SHORT).show();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
+        return true;
     }
 
     @Override

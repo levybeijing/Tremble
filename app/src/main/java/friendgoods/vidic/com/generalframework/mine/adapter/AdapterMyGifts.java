@@ -50,7 +50,6 @@ public class AdapterMyGifts extends RecyclerView.Adapter {
         ((MyViewHolder)holder).gift_good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                IntentUtils.startActivity(context, MainActivity.class,true);
                 Intent intent = new Intent();
                 intent.putExtra("type", 1);
                 intent.setClass(context, MainActivity.class);

@@ -18,15 +18,16 @@ public class LoginReceiver extends BroadcastReceiver {
         Log.e("=============", "接收到了广播: ");
         switch (intent.getAction()){
             case "action.LOGIN.OTHER":
+                Toast.makeText(context, "登录异常,请重新登录", Toast.LENGTH_SHORT).show();
+                BaseActivity.finishOther();
                 Intent intent1 = new Intent(context, LoginCodeActivity.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);
-                Toast.makeText(context, "登录异常,请重新登录", Toast.LENGTH_SHORT).show();
+
                 SharedPreferences userinfo = context.getSharedPreferences("userinfo", MODE_PRIVATE);
                 SharedPreferences.Editor edit = userinfo.edit();
                 edit.clear();
                 edit.commit();
-                BaseActivity.finishAll();
                 break;
         }
     }

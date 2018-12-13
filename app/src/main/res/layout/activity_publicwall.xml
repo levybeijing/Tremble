@@ -44,7 +44,6 @@
             android:orientation="horizontal"
             android:padding="5dp"
             android:gravity="center"
-            android:layout_marginTop="20dp"
             >
             <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                 android:id="@+id/iv_icon_pubwall"
@@ -93,7 +92,6 @@
         </LinearLayout>
         <RelativeLayout
             style="@style/rl_giftwall"
-            android:layout_marginTop="20dp"
             >
             <FrameLayout
                 android:id="@+id/container_pubwall"
@@ -101,18 +99,16 @@
                 />
             <ImageView
                 android:id="@+id/xingxiang_pubwall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="81dp"
+                android:layout_height="147dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginTop="30dp"
                 >
                 <LinearLayout
                     android:id="@+id/ll_bottom_pubwall"

@@ -21,13 +21,6 @@
             android:textColor="@color/color_count"
             android:layout_above="@+id/tv_number_challengemodel"
             />
-        <ImageView
-            android:id="@+id/iv_niu_challengemodel"
-            android:layout_width="322dp"
-            android:layout_height="342dp"
-            android:background="@mipmap/niu_game_3x"
-            android:layout_centerInParent="true"
-            />
         <TextView
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/iv_niu_challengemodel"
@@ -39,6 +32,14 @@
             android:textColor="@color/color_count"
             android:gravity="center"
             />
+        <ImageView
+            android:id="@+id/iv_niu_challengemodel"
+            android:layout_width="322dp"
+            android:layout_height="342dp"
+            android:background="@mipmap/niu_game_3x"
+            android:layout_centerInParent="true"
+            />
+
         <ImageView
             android:id="@+id/iv_click_challengemodel"
             android:layout_width="120dp"
