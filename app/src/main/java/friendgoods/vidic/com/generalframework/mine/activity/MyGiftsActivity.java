@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,6 +15,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import java.util.List;
 
+import friendgoods.vidic.com.generalframework.MDGridRvDividerDecoration;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
@@ -50,10 +52,10 @@ public class MyGiftsActivity extends BaseActivity {
         adapter = new AdapterMyGifts(MyGiftsActivity.this);
         rv.setAdapter(adapter);
 //添加带颜色分割线
-        rv.addItemDecoration(new DividerItemDecoration(
-                this, DividerItemDecoration.HORIZONTAL));
-        rv.addItemDecoration(new DividerItemDecoration(
-                this, DividerItemDecoration.VERTICAL));
+        rv.addItemDecoration(new MDGridRvDividerDecoration(
+                this));
+//        rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.,5,Color.BLUE));
+
         repuest();
     }
 
