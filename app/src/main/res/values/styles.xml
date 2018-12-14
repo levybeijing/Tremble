@@ -31,7 +31,7 @@
 <!--PK模式计时器背景-->
     <style name="bg_tv_pk">
         <item name="android:textSize">40dp</item>
-        <item name="android:textColor">#ED3195</item>
+        <item name="android:textColor">#FFFF7C00</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">54dp</item>
@@ -75,5 +75,10 @@
     <style name="note_game">
         <item name="android:layout_width">280dp</item>
         <item name="android:layout_height">280dp</item>
+    </style>
+
+    <style name="xingxiang">
+        <item name="android:layout_width">81dp</item>
+        <item name="android:layout_height">147dp</item>
     </style>
 </resources>

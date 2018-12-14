@@ -54,7 +54,7 @@ public class AdapterMyFriends extends RecyclerView.Adapter<AdapterMyFriends.MyVi
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
                 break;
             default:
-                holder.tv_rank.setText(position+1);
+                holder.tv_rank.setText(position+1+"");
                 break;
         }
         holder.tv_name.setText(list.get(position).getName());

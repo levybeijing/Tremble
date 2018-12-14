@@ -18,28 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_margin="20dp"
         />
-<!--人物-->
-    <ImageView
-        android:id="@+id/char_two_pkrank"
-        android:layout_width="54dp"
-        android:layout_height="117dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="299dp"
-        />
-    <ImageView
-        android:id="@+id/char_one_pkrank"
-        android:layout_width="66dp"
-        android:layout_height="117dp"
-        android:layout_marginLeft="155dp"
-        android:layout_marginTop="250dp"
-        />
-    <ImageView
-        android:id="@+id/char_three_pkrank"
-        android:layout_width="66dp"
-        android:layout_height="116dp"
-        android:layout_marginLeft="260dp"
-        android:layout_marginTop="311dp"
-        />
+
 <!--站台-->
         <ImageView
             android:layout_width="106dp"
@@ -111,5 +90,30 @@
         android:layout_height="20dp"
         android:layout_marginLeft="274dp"
         android:layout_marginTop="479dp"
+        />
+    <!--人物-->
+    <ImageView
+        android:id="@+id/char_two_pkrank"
+        android:layout_width="54dp"
+        android:layout_height="117dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="299dp"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:id="@+id/char_one_pkrank"
+        android:layout_width="66dp"
+        android:layout_height="117dp"
+        android:layout_marginLeft="155dp"
+        android:layout_marginTop="250dp"
+        android:scaleType="centerCrop"
+        />
+    <ImageView
+        android:id="@+id/char_three_pkrank"
+        android:layout_width="66dp"
+        android:layout_height="116dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="311dp"
+        android:scaleType="centerCrop"
         />
 </RelativeLayout>

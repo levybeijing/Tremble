@@ -97,12 +97,14 @@
                 android:id="@+id/container_pubwall"
                 style="@style/rl_giftwall"
                 />
+
             <ImageView
                 android:id="@+id/xingxiang_pubwall"
-                android:layout_width="81dp"
-                android:layout_height="147dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="0dp"
+                style="@style/xingxiang" />
         </RelativeLayout>
 
             <RelativeLayout

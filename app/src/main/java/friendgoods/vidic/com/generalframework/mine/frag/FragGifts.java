@@ -50,7 +50,7 @@ public class FragGifts extends Fragment {
                 .tag(this)//
                 .params("isUse", "1")
                 .params("page", "1")
-                .params("pageSize", "12")
+                .params("pageSize", "20")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {

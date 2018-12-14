@@ -51,6 +51,8 @@ public class WeekRankFragment extends Fragment {
     private BroadcastReceiver mBroadcastReceiver;
     private CirImageView icon1,icon2,icon3;
     private TextView name1,time1,count1,name2,time2,count2,name3,time3,count3;
+    private XRecyclerView rv;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,12 +69,12 @@ public class WeekRankFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        XRecyclerView rv = view.findViewById(R.id.rv_weekrank);
+        rv = view.findViewById(R.id.rv_weekrank);
         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         adapter = new AdapterRank(getActivity());
-        rv.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
             @Override
             public void onItemClick(int i) {
@@ -89,11 +91,11 @@ public class WeekRankFragment extends Fragment {
             @Override
             public void onRefresh() {
                 switch (currentAction){
-                    case "android.tremble.FRIEND2":
+                    case "android.tremble.FRIEND":
                         requestFriend(1);
                         break;
-                    case "android.tremble.WORLD2":
-                        requestFriend(1);
+                    case "android.tremble.WORLD":
+                        requestworld(1);
                         break;
                 }
             }
@@ -101,15 +103,18 @@ public class WeekRankFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 switch (currentAction){
-                    case "android.tremble.FRIEND2":
+                    case "android.tremble.FRIEND":
                         requestFriend(++friendPage);
                         break;
-                    case "android.tremble.WORLD2":
-                        requestFriend(++worldPage);
+                    case "android.tremble.WORLD":
+                        requestworld(++worldPage);
                         break;
                 }
             }
         });
+
+        rv.setAdapter(adapter);
+        rv.refresh();
         // 1. 实例化BroadcastReceiver子类 &  IntentFilter
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -122,6 +127,7 @@ public class WeekRankFragment extends Fragment {
                         requestFriend(friendPage);
                         currentAction="android.tremble.FRIEND";
                         break;
+
                     case "android.tremble.WORLD":
                         requestworld(worldPage);
                         currentAction="android.tremble.WORLD";
@@ -140,7 +146,6 @@ public class WeekRankFragment extends Fragment {
         time1 = view.findViewById(R.id.time_first_top3);
         count1 = view.findViewById(R.id.count_first_top3);
 
-
         icon2 = view.findViewById(R.id.icon_second_top3);
         name2 = view.findViewById(R.id.name_second_top3);
         time2 = view.findViewById(R.id.time_second_top3);
@@ -150,6 +155,7 @@ public class WeekRankFragment extends Fragment {
         name3 = view.findViewById(R.id.name_third_top3);
         time3 = view.findViewById(R.id.time_third_top3);
         count3 = view.findViewById(R.id.count_third_top3);
+
         requestworld(1);
     }
     private void requestworld(int page) {
@@ -165,20 +171,19 @@ public class WeekRankFragment extends Fragment {
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(getActivity(),s);
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
-                        adapter.setData(bean.getData().getPageInfo().getList());
                         List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
 
-                        Glide.with(getActivity()).load(list.get(0).getPhoto()).into(icon1);
+                        Glide.with(getContext()).load(list.get(0).getPhoto()).into(icon1);
                         name1.setText(list.get(0).getName());
                         time1.setText(list.get(0).getTime());
                         count1.setText(list.get(0).getShakeNum()+"");
 
-                        Glide.with(getActivity()).load(list.get(1).getPhoto()).into(icon2);
+                        Glide.with(getContext()).load(list.get(1).getPhoto()).into(icon2);
                         name2.setText(list.get(1).getName());
                         time2.setText(list.get(1).getTime());
                         count2.setText(list.get(1).getShakeNum()+"");
 
-                        Glide.with(getActivity()).load(list.get(2).getPhoto()).into(icon3);
+                        Glide.with(getContext()).load(list.get(2).getPhoto()).into(icon3);
                         name3.setText(list.get(2).getName());
                         time3.setText(list.get(2).getTime());
                         count3.setText(list.get(2).getShakeNum()+"");
@@ -188,7 +193,6 @@ public class WeekRankFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 Intent intent=new Intent(getContext(),FriendNameActivity.class);
-
                                 intent.putExtra("userId", userId1 +"");
                                 startActivity(intent);
                             }
@@ -204,7 +208,6 @@ public class WeekRankFragment extends Fragment {
                             }
                         });
                         final int userId3 = list.get(2).getUserId();
-
                         icon3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -213,9 +216,15 @@ public class WeekRankFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
+                        rv.refreshComplete();
+                        rv.loadMoreComplete();
+                        adapter.setData(list);
+                        adapter.notifyDataSetChanged();
+
                     }
                 });
     }
+
     private void requestFriend(int page) {
         OkGo.post(UrlCollect.getFriendp)//
                 .tag(this)//
@@ -229,7 +238,11 @@ public class WeekRankFragment extends Fragment {
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(getActivity(),s);
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
+                        rv.refreshComplete();
+                        rv.loadMoreComplete();
                         adapter.setData(bean.getData().getPageInfo().getList());
+                        adapter.notifyDataSetChanged();
+
                     }
                 });
     }

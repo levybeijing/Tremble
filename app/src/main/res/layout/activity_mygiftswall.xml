@@ -29,44 +29,57 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        >
+        <TextView
+            android:id="@+id/tv_date_mygiftwall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:text="00-00--00.00"
+            android:textColor="#FF57A6E2"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            >
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="match_parent"
+                android:background="@mipmap/energy_mygifts_3x"
+                />
+            <TextView
+                android:id="@+id/tv_energy_mygiftwall"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0"
+                android:textColor="#FF57A6E2"
+                android:layout_marginRight="30dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
     <FrameLayout
         style="@style/rl_giftwall"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         >
         <RelativeLayout
             android:id="@+id/container_mygiftwall"
             style="@style/rl_giftwall"
             >
-            <TextView
-                android:id="@+id/tv_date_mygiftwall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:text="00-00--00.00"
-                android:textColor="#EC2C98"
-                />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+            <ImageView
+                android:id="@+id/xingxiang_mygiftwall"
+                style="@style/xingxiang"
                 android:layout_alignParentRight="true"
-                >
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="match_parent"
-                    android:background="@mipmap/energy_mygifts_3x"
-                    />
-                <TextView
-                    android:id="@+id/tv_energy_mygiftwall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="0"
-                    />
-            </LinearLayout>
+                android:layout_alignParentBottom="true"
+                />
         </RelativeLayout>
     </FrameLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"

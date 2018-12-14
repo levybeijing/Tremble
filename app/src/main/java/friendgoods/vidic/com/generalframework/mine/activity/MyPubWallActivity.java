@@ -2,6 +2,7 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,6 +47,8 @@ public class MyPubWallActivity extends BaseActivity {
     private RecyclerView rv;
     private AdapterMyPubWall adapter;
     private float scale;
+    private ImageView xignxiang;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,8 @@ public class MyPubWallActivity extends BaseActivity {
         String end = new SimpleDateFormat("MM-dd").format(calendar.getTime());
         date.setText(strat+"~"+end);
 //
+        xignxiang = findViewById(R.id.xingxiang_mygiftwall);
+
         findViewById(R.id.iv_back_mygiftwall).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +108,8 @@ public class MyPubWallActivity extends BaseActivity {
                         TokenCheck.toLogin(MyPubWallActivity.this,s);
 
                         MyWallBean myWallBean = new Gson().fromJson(s, MyWallBean.class);
+                        Picasso.with(MyPubWallActivity.this).load(UrlCollect.baseIamgeUrl+myWallBean.getData().getLogo()).into(xignxiang);
+
                         List<MyWallBean.DataBean.UserPhotoBean> userPhoto = myWallBean.getData().getUserPhoto();
                         adapter.setData(userPhoto);
                         for (int i = 0; i <userPhoto.size(); i++) {
@@ -128,11 +135,6 @@ public class MyPubWallActivity extends BaseActivity {
                             Picasso.with(MyPubWallActivity.this).load(UrlCollect.baseIamgeUrl+bean.getUrl()).into(view);
                             view.setLayoutParams(lp);
                             rl.addView(view);
-                            Log.e("============", "onSuccess: "+UrlCollect.baseIamgeUrl+bean.getUrl());
-                            Log.e("============", "onSuccess: "+realx);
-                            Log.e("============", "onSuccess: "+realy);
-                            Log.e("============", "onSuccess: "+realweith);
-                            Log.e("============", "onSuccess: "+realhight);
                         }
                     }
                 });

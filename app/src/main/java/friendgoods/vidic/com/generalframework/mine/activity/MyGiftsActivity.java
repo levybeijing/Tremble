@@ -2,6 +2,7 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,7 +49,11 @@ public class MyGiftsActivity extends BaseActivity {
         rv.setLayoutManager(manager);
         adapter = new AdapterMyGifts(MyGiftsActivity.this);
         rv.setAdapter(adapter);
-
+//添加带颜色分割线
+        rv.addItemDecoration(new DividerItemDecoration(
+                this, DividerItemDecoration.HORIZONTAL));
+        rv.addItemDecoration(new DividerItemDecoration(
+                this, DividerItemDecoration.VERTICAL));
         repuest();
     }
 

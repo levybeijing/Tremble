@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#F7F8FF"
-    >
+    android:background="#F7F8FF">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的记录"
+            android:text="我爱抖腿"
             android:textColor="@color/white"
             android:textSize="26dp"
             android:layout_weight="1"
@@ -62,6 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,22 +76,49 @@
                 android:textSize="16dp"
                 android:text="历史最佳战绩"
                 />
-            <friendgoods.vidic.com.generalframework.mine.customview.ColorTextView
+            <!--<friendgoods.vidic.com.generalframework.mine.customview.ColorTextView-->
+                <!--android:id="@+id/tv_mingcheng_myrecord"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="take me hand"-->
+                <!--android:textSize="32dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--/>-->
+            <TextView
                 android:id="@+id/tv_mingcheng_myrecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="take me hand"
                 android:textSize="32dp"
+                android:textColor="#FF57A6E2"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 />
-            <TextView
-                android:id="@+id/tv_detailrecord_myrecord"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="时长: 00:00 总排名: 0"
-                android:layout_marginTop="10dp"
-                />
+                android:orientation="horizontal"
+                android:layout_margin="10dp"
+                >
+                <TextView
+                    android:id="@+id/tv_detailrecord1_myrecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="时长: 00:00 "
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/tv_detailrecord2_myrecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="总排名: 0"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
             <!---->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,9 +193,11 @@
     </android.support.v7.widget.CardView>
     <!--history-->
     <android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,6 +228,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp"
         >
         <LinearLayout
             android:layout_width="match_parent"

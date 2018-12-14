@@ -52,6 +52,7 @@ public class AllRankFragment extends Fragment {
     private BroadcastReceiver mBroadcastReceiver;
     private CirImageView icon1,icon2,icon3;
     private TextView name1,time1,count1,name2,time2,count2,name3,time3,count3;
+    private XRecyclerView rv;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,12 +69,12 @@ public class AllRankFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        XRecyclerView rv = view.findViewById(R.id.rv_weekrank);
+        rv = view.findViewById(R.id.rv_weekrank);
+
         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         adapter = new AdapterRank(getActivity());
-        rv.setAdapter(adapter);
 
         rv.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         rv.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
@@ -86,7 +87,7 @@ public class AllRankFragment extends Fragment {
                         requestFriend(1);
                         break;
                     case "android.tremble.WORLD2":
-                        requestFriend(1);
+                        requestworld(1);
                         break;
                 }
             }
@@ -98,11 +99,14 @@ public class AllRankFragment extends Fragment {
                         requestFriend(++friendPage);
                         break;
                     case "android.tremble.WORLD2":
-                        requestFriend(++worldPage);
+                        requestworld(++worldPage);
                         break;
                 }
             }
         });
+
+        rv.setAdapter(adapter);
+        rv.refresh();
         adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
             @Override
             public void onItemClick(int i) {
@@ -111,6 +115,7 @@ public class AllRankFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         // 1. 实例化BroadcastReceiver子类 &  IntentFilter
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -168,9 +173,9 @@ public class AllRankFragment extends Fragment {
                         TokenCheck.toLogin(getActivity(),s);
                         Log.i("*********", response.toString());
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
-                        adapter.setData(bean.getData().getPageInfo().getList());
-
                         List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
+
+
                         Glide.with(getActivity()).load(list.get(0).getPhoto()).into(icon1);
                         name1.setText(list.get(0).getName());
                         time1.setText(list.get(0).getTime());
@@ -216,9 +221,15 @@ public class AllRankFragment extends Fragment {
                                 startActivity(intent);
                             }
                         });
+                        rv.refreshComplete();
+                        rv.loadMoreComplete();
+                        adapter.setData(list);
+                        adapter.notifyDataSetChanged();
+
                     }
                 });
     }
+
     private void requestFriend(int page) {
         OkGo.post(UrlCollect.getFriendp)//
                 .tag(this)//
@@ -233,7 +244,10 @@ public class AllRankFragment extends Fragment {
                         TokenCheck.toLogin(getActivity(),s);
 
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
+                        rv.refreshComplete();
+                        rv.loadMoreComplete();
                         adapter.setData(bean.getData().getPageInfo().getList());
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }

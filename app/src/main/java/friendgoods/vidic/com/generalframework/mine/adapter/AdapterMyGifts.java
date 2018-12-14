@@ -47,17 +47,17 @@ public class AdapterMyGifts extends RecyclerView.Adapter {
         ((MyViewHolder)holder).tv_energy.setText(list.get(position).getScore()+"");
         ((MyViewHolder)holder).tv_price.setText(list.get(position).getNum()+"");
         Picasso.with(context).load(UrlCollect.baseIamgeUrl+list.get(position).getUrl()).into(((MyViewHolder)holder).iv_icon);
-        ((MyViewHolder)holder).gift_good.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.putExtra("type", 1);
-                intent.setClass(context, MainActivity.class);
-                context.startActivity(intent);
-                context.finish();
-                MainActivity.instance.finish();
-            }
-        });
+//        ((MyViewHolder)holder).gift_good.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent();
+//                intent.putExtra("type", 1);
+//                intent.setClass(context, MainActivity.class);
+//                context.startActivity(intent);
+//                context.finish();
+//                MainActivity.instance.finish();
+//            }
+//        });
     }
 
     @Override

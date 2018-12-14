@@ -79,13 +79,8 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
             font = getResources().getFont(R.font.edo);
             tv_number.setTypeface(font);
         }
-        //        缩放动画
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        animation.setDuration(500);
-        tv_number.setAnimation(animation);
+
+//        tv_number.setAnimation(animation);
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         int r=0;
         switch (sex){
@@ -158,6 +153,12 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                     iv_click.setClickable(false);
                 }
+                //        缩放动画
+                animation = new ScaleAnimation(
+                        1.0f, 2.0f, 1.0f, 2.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+                );
+                animation.setDuration(200);
                 tv_number.setText(count+"");
                 tv_number.setAnimation(animation);
                 break;

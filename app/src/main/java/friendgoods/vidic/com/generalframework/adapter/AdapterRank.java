@@ -31,7 +31,6 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.MyViewHolder> 
 
     public void setData(List<WeekRankBean.DataBean.PageInfoBean.ListBean> list_){
         list=list_;
-        notifyDataSetChanged();
     }
 
     @Override

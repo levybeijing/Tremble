@@ -29,8 +29,9 @@ import okhttp3.Response;
 
 public class MyRecordActivity extends BaseActivity {
 
-    private ColorTextView tv_name,tv_chenghu,tv_history;
-    private TextView tv_detailrecord;
+    private ColorTextView tv_name,tv_history;
+
+    private TextView tv_detailrecord1,tv_detailrecord2,tv_chenghu;
     private RecyclerView rv;
     private AdapterMyRecord adapter;
     private String currentId;
@@ -64,7 +65,8 @@ public class MyRecordActivity extends BaseActivity {
 //        tv_name = findViewById(R.id.tv_username_myrecord);
         tv_chenghu = findViewById(R.id.tv_mingcheng_myrecord);
         tv_history = findViewById(R.id.tv_history_myrecord);
-        tv_detailrecord = findViewById(R.id.tv_detailrecord_myrecord);
+        tv_detailrecord1 = findViewById(R.id.tv_detailrecord1_myrecord);
+        tv_detailrecord2 = findViewById(R.id.tv_detailrecord2_myrecord);
 //        iv_icon = findViewById(R.id.iv_icon_myrecord);
         //新增需求
         hand = findViewById(R.id.tv_hand_myrecord);
@@ -120,7 +122,8 @@ public class MyRecordActivity extends BaseActivity {
 
                         Log.e("===========requestInfo=", "onSuccess: "+s);
                         RecordDetailBean record = new Gson().fromJson(s, RecordDetailBean.class);
-                        tv_detailrecord.setText("时长:"+record.getData().getTime()+"  好友排名:"+(int)record.getData().getRownum());
+                        tv_detailrecord1.setText("时长:"+record.getData().getTime());
+                        tv_detailrecord2.setText("好友排名:"+(int)record.getData().getRownum());
                         hand.setText(record.getData().getSShakeNum()+"");
                         foot.setText(record.getData().getJShakeNum()+"");
                         jifen.setText((int)record.getData().getIntegral()+"");

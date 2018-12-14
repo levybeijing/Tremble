@@ -3,6 +3,8 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
@@ -97,7 +100,15 @@ public class SettingsActivity extends BaseActivity {
                 request(SHAKE,VOICE);
             }
         });
-
+        TextView version = findViewById(R.id.tv_version);
+        PackageManager pm = getPackageManager();
+        PackageInfo pi = null;
+        try {
+            pi = pm.getPackageInfo(getPackageName(),0);
+            version.setText(pi.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         findViewById(R.id.exit_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

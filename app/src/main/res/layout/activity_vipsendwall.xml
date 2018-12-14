@@ -55,8 +55,7 @@
                         />
                     <ImageView
                         android:id="@+id/xingxiang_vipwall"
-                        android:layout_width="81dp"
-                        android:layout_height="147dp"
+                        style="@style/xingxiang"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentBottom="true"
                         />

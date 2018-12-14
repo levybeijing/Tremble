@@ -79,11 +79,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startService(new Intent(this,MusicService.class));
         }
         //        礼物界面传入
-        int type = getIntent().getIntExtra("type", 0);
-        if (type == 1) {
-            switchContent(0);
-            rank_rg.setChecked(true);
-        }
+//        int type = getIntent().getIntExtra("type", 0);
+//        if (type == 1) {
+//            switchContent(0);
+//            rank_rg.setChecked(true);
+//        }
     }
 
     @Override

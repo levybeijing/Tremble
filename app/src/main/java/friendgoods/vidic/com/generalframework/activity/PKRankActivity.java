@@ -127,12 +127,15 @@ public class PKRankActivity extends BaseActivity {
                         Picasso.with(PKRankActivity.this).load(data.get(0).getPhoto()).into(icon_one);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(0).getLogo()).into(char_one);
                         if (data.size()<=1){
+                            name_three.setVisibility(View.INVISIBLE);
+                            name_two.setVisibility(View.INVISIBLE);
                             return;
                         }
                         name_two.setText(data.get(1).getShakeNum()+"");
                         Picasso.with(PKRankActivity.this).load(data.get(1).getPhoto()).into(icon_two);
                         Picasso.with(PKRankActivity.this).load(UrlCollect.baseIamgeUrl+data.get(1).getLogo()).into(char_two);
                         if (data.size()<=2){
+                            name_three.setVisibility(View.INVISIBLE);
                             return;
                         }
                         name_three.setText(data.get(2).getShakeNum()+"");
