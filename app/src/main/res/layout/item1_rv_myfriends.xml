@@ -10,6 +10,7 @@
     <FrameLayout
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
         >
         <ImageView
             android:id="@+id/iv_item1_myfriends"
@@ -42,7 +43,7 @@
             android:id="@+id/tv_name_myfriends"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="董桑"
+            android:text="**"
             android:gravity="center"
             android:singleLine="true"
             android:layout_toLeftOf="@+id/tv_time_myfriends"
@@ -64,7 +65,7 @@
             android:id="@+id/tv_count_myfriends"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:text="1231223"
+            android:text="0"
             android:gravity="center"
             android:textColor="#FF145C"
             android:layout_toRightOf="@+id/tv_time_myfriends"

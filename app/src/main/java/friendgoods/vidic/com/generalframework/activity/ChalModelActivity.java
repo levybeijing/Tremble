@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -114,6 +115,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private String userId;
     private ImageView iv_niu;
     private ImageView iv_start;
+    private LinearLayout ll;
 
 
     @Override
@@ -148,6 +150,8 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
 //        drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
 
+
+        ll = findViewById(R.id.ll_chal);
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -172,13 +176,13 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_click_challengemodel:
                 animation = new ScaleAnimation(
                         1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-                );
+                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 //        缩放动画
                 animation.setDuration(200);
-                tv_number.setAnimation(animation);
+//                tv_number.setAnimation(animation);
                 tv_number.setText(++number+"");
-                iv_niu.setAnimation(animation);
+//                iv_niu.setAnimation(animation);
+                ll.setAnimation(animation);
                 break;
             case R.id.iv_exit_challengemodel:
                 finish();

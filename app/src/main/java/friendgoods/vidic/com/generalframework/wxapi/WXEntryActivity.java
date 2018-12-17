@@ -214,7 +214,10 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             SharedPFUtils.setParam(WXEntryActivity.this,"integral",data.getIntegral());//
                             SharedPFUtils.setParam(WXEntryActivity.this,"phone",data.getMobile());
                             SharedPFUtils.setParam(WXEntryActivity.this,"userId",data.getId());
-                            SharedPFUtils.setParam(WXEntryActivity.this,"name",data.getName());
+                            String name = data.getName();
+                            if (name!=null) {
+                                SharedPFUtils.setParam(WXEntryActivity.this,"name", name);
+                            }
                             SharedPFUtils.setParam(WXEntryActivity.this,"icon",data.getPhoto());
 //                            设置全局请求头
                             SharedPFUtils.setParam(WXEntryActivity.this,"token",data.getToken());

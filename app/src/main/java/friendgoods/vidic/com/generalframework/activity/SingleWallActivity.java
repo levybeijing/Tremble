@@ -62,7 +62,6 @@ public class SingleWallActivity extends BaseActivity {
                             Glide.with(SingleWallActivity.this).load(UrlCollect.baseIamgeUrl+url).into(container);
                     }
                 });
-
     }
 
     private void initView() {

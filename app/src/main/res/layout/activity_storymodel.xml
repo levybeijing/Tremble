@@ -1,36 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
     >
     <!--早写早绘制越底层-->
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
-        >
-        <TextView
-            android:id="@+id/tv_number_storymodel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="50dp"
-            android:layout_margin="30dp"
-            android:textColor="@color/color_count"
-            />
-        <ImageView
-            android:id="@+id/iv_click_storymodel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/btn_story_3x"
-            />
         <RelativeLayout
+            android:id="@+id/rlstory"
             android:layout_width="116dp"
-            android:layout_height="140dp">
+            android:layout_height="140dp"
+            android:layout_centerInParent="true"
+            >
             <ImageView
                 android:id="@+id/iv_light_storymodel"
                 android:layout_width="116dp"
@@ -55,7 +37,10 @@
         </RelativeLayout>
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/rlstory"
+            >
             <TextView
                 android:id="@+id/tv_name_storymodel"
                 android:layout_width="88dp"
@@ -71,7 +56,7 @@
                 android:background="@mipmap/temp_icon"
                 />
         </FrameLayout>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -96,6 +81,40 @@
             android:layout_marginTop="10dp"
             />
     </LinearLayout>
+
+    <!---->
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@id/iv_click_storymodel"
+        android:layout_alignTop="@id/iv_click_storymodel"
+        >
+        <ImageView
+            android:id="@+id/iv_right_story"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@mipmap/click_right_3x"
+
+            />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_click_storymodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/btn_story_3x"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/rlstory"
+        />
+    <ImageView
+        android:id="@+id/iv_left_story"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@mipmap/click_left_3x"
+        android:layout_toLeftOf="@id/iv_click_storymodel"
+        android:layout_alignBottom="@id/iv_click_storymodel"
+        />
+    <!---->
     <ImageView
         android:id="@+id/iv_notedetail_storymodel"
         style="@style/note_game"
@@ -107,16 +126,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
         <ImageView
             android:id="@+id/iv_net_story"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="false"
-            android:visibility="invisible"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
             android:background="#8aaa"
+            android:focusable="false"
             android:scaleType="centerCrop"
-            />
+            android:visibility="invisible" />
         <ImageView
             android:id="@+id/iv_close_story"
             android:layout_width="wrap_content"

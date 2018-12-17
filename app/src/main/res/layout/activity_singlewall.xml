@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7F8FF"
-
+    android:background="@mipmap/back_root_mywall_2x"
     android:gravity="center_horizontal"
     >
     <friendgoods.vidic.com.generalframework.mine.customview.CirImageView

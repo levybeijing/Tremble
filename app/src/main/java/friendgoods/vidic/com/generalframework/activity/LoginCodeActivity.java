@@ -132,7 +132,10 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
                             SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"name",bean.getData().getName());
+                            String name = bean.getData().getName();
+                            if (name!=null) {
+                                SharedPFUtils.setParam(LoginCodeActivity.this,"name", name);
+                            }
                             SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
                             SharedPFUtils.setParam(LoginCodeActivity.this, "loginstatus", true);
 

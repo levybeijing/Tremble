@@ -333,17 +333,7 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         startyes = findViewById(R.id.iv_startyes_pkmodel);
         startyes.setOnClickListener(this);
         startno = findViewById(R.id.iv_startno_pkmodel);
-        //        缩放动画
-        animation = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
-        );
-        animation.setDuration(100);
-        animation1 = new ScaleAnimation(
-                1.0f, 2.0f, 1.0f, 2.0f,
-                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
-        );
-        animation1.setDuration(100);
+
         click_left = findViewById(R.id.iv_click_left);
         click_righr = findViewById(R.id.iv_click_right);
 //
@@ -485,6 +475,17 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
+                //        缩放动画
+                animation = new ScaleAnimation(
+                        1.0f, 2.0f, 1.0f, 2.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
+                );
+                animation.setDuration(200);
+                animation1 = new ScaleAnimation(
+                        1.0f, 2.0f, 1.0f, 2.0f,
+                        Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+                );
+                animation1.setDuration(200);
                 click_left.setAnimation(animation1);
                 click_righr.setAnimation(animation);
 //send count
@@ -898,6 +899,11 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         PKSocketBean exit=new PKSocketBean();
         if (isHost){
             if (isGaming){
@@ -912,11 +918,6 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         exit.setRoomId(roomId+"");
         exit.setUserId(currentId+"");
         sendMessage(new Gson().toJson(exit));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
         idlist.remove(0);
         idlist.add(0,"0");
         idlist.remove(1);

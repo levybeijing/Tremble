@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         MyApplication.data = getIntent().getData();
         if (MyApplication.data!=null){
             PKModelActivity.roomId=Integer.parseInt(MyApplication.data .getQueryParameter("id"));
+//            Log.e("======", "onCreate: "+PKModelActivity.roomId);
             PKModelActivity.friendId=Integer.parseInt(MyApplication.data .getQueryParameter("friendId"))+"";
             intopk=true;
             MyApplication.data=null;

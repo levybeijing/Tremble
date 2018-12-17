@@ -52,8 +52,8 @@ public class MyGiftsActivity extends BaseActivity {
         adapter = new AdapterMyGifts(MyGiftsActivity.this);
         rv.setAdapter(adapter);
 //添加带颜色分割线
-        rv.addItemDecoration(new MDGridRvDividerDecoration(
-                this));
+//        rv.addItemDecoration(new MDGridRvDividerDecoration(
+//                this));
 //        rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.,5,Color.BLUE));
 
         repuest();

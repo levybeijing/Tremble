@@ -38,13 +38,13 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     private List<Integer> numbers;
     private List<StoryModelBean.DataBean.StoryIMGBean> images;
     private int flag=0;
-    private TextView tv_number;
     private long gametime;
-    private ScaleAnimation animation;
-    private ImageView iv_click,iv_note,iv_detail;
+    private ScaleAnimation animation,animation1;
+    private ImageView iv_click,iv_note,iv_detail,iv_left,iv_right;
     private boolean note=true;
     private String userId;
     private String time;
+    private TextView name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,19 +68,13 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
         //设置形象
         ImageView person = findViewById(R.id.iv_person_storymodel);
         ImageView icon = findViewById(R.id.iv_icon_storymodel);
-        TextView name = findViewById(R.id.tv_name_storymodel);
-        tv_number = findViewById(R.id.tv_number_storymodel);
+        name = findViewById(R.id.tv_name_storymodel);
+        iv_left = findViewById(R.id.iv_left_story);
+        iv_right = findViewById(R.id.iv_right_story);
 
         name.setText((String) SharedPFUtils.getParam(this, "name", ""));
         Picasso.with(StoryModelActivity.this).load((String) SharedPFUtils.getParam(this, "icon", "")).into(icon);
-
-        Typeface font=null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            font = getResources().getFont(R.font.edo);
-            tv_number.setTypeface(font);
-        }
-
-//        tv_number.setAnimation(animation);
+//
         int sex = (int) SharedPFUtils.getParam(this, "sex", 0);
         int r=0;
         switch (sex){
@@ -99,6 +93,19 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
         }
         if (r!=0)
             person.setImageDrawable(getResources().getDrawable(r));
+        //        缩放动画
+
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        animation.setDuration(200);
+        animation.setRepeatMode(Animation.REVERSE);
+
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
+        animation1.setDuration(200);
+        animation1.setRepeatMode(Animation.REVERSE);
     }
 
     private void request() {
@@ -152,15 +159,13 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     addrecord();
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                     iv_click.setClickable(false);
+                    name.setText((String) SharedPFUtils.getParam(this, "name", ""));
                 }
-                //        缩放动画
-                animation = new ScaleAnimation(
-                        1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-                );
-                animation.setDuration(200);
-                tv_number.setText(count+"");
-                tv_number.setAnimation(animation);
+
+
+                name.setText(count+"");
+                iv_left.setAnimation(animation);
+                iv_right.setAnimation(animation1);
                 break;
             case R.id.iv_close_story:
                 iv_net.setVisibility(View.INVISIBLE);
