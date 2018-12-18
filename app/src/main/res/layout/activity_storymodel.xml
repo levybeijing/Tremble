@@ -6,7 +6,6 @@
     android:background="@mipmap/bg_game_3x"
     >
     <!--早写早绘制越底层-->
-
         <RelativeLayout
             android:id="@+id/rlstory"
             android:layout_width="116dp"
@@ -83,20 +82,14 @@
     </LinearLayout>
 
     <!---->
-    <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <ImageView
+        android:id="@+id/iv_right_story"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/click_right_3x"
         android:layout_toRightOf="@id/iv_click_storymodel"
         android:layout_alignTop="@id/iv_click_storymodel"
-        >
-        <ImageView
-            android:id="@+id/iv_right_story"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@mipmap/click_right_3x"
-
-            />
-    </FrameLayout>
+        />
 
     <ImageView
         android:id="@+id/iv_click_storymodel"

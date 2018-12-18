@@ -6,31 +6,25 @@
     android:background="@mipmap/bg_game_3x"
     android:id="@+id/root_challege"
     >
-
-    <LinearLayout
-        android:id="@+id/ll_chal"
+    <TextView
+        android:id="@+id/tv_number_challengemodel"
         android:layout_width="wrap_content"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="45dp"
+        android:textColor="@color/color_count"
+        android:layout_gravity="center"
+        android:layout_above="@+id/iv_niu_challengemodel"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        />
+    <ImageView
+        android:id="@+id/iv_niu_challengemodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/niu_game_3x"
         android:layout_centerInParent="true"
-        >
-        <TextView
-            android:id="@+id/tv_number_challengemodel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="45dp"
-            android:textColor="@color/color_count"
-            android:layout_gravity="center"
-            />
-        <ImageView
-            android:id="@+id/iv_niu_challengemodel"
-            android:layout_width="322dp"
-            android:layout_height="342dp"
-            android:background="@mipmap/niu_game_3x"
-            android:layout_centerInParent="true"
-            />
-    </LinearLayout>
+        />
 
     <RelativeLayout
         android:id="@+id/rl_challengemodel"

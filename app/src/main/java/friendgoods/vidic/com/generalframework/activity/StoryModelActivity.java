@@ -162,10 +162,9 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                     name.setText((String) SharedPFUtils.getParam(this, "name", ""));
                 }
 
-
                 name.setText(count+"");
-                iv_left.setAnimation(animation);
-                iv_right.setAnimation(animation1);
+                iv_left.startAnimation(animation);
+                iv_right.startAnimation(animation1);
                 break;
             case R.id.iv_close_story:
                 iv_net.setVisibility(View.INVISIBLE);

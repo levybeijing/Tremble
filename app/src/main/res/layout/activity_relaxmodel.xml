@@ -4,16 +4,7 @@
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
     >
-    <TextView
-        android:id="@+id/tv_number_relaxmodel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="54dp"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/rl_relaxmodel"
-        android:textColor="@color/color_count"
-        />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,6 +28,26 @@
             android:layout_marginTop="10dp"
             />
     </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_number_relaxmodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="54dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/color_count"
+            android:layout_above="@+id/iv_niu_relaxmodel"
+            />
+        <ImageView
+            android:id="@+id/iv_niu_relaxmodel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/niu_game_3x"
+            android:layout_centerInParent="true"
+            android:layout_margin="20dp"
+            />
+
     <ImageView
         android:id="@+id/iv_notedetail_relaxmodel"
         style="@style/note_game"
@@ -44,13 +55,8 @@
         android:visibility="invisible"
         android:layout_centerInParent="true"
         />
-    <ImageView
-        android:id="@+id/iv_niu_relaxmodel"
-        android:layout_width="322dp"
-        android:layout_height="342dp"
-        android:background="@mipmap/niu_game_3x"
-        android:layout_centerInParent="true"
-        />
+    <!--n牛-->
+
     <RelativeLayout
         android:id="@+id/rl_relaxmodel"
         android:layout_width="match_parent"

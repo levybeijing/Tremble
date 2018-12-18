@@ -50,7 +50,7 @@ import okhttp3.Response;
 public class ChalModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number,tv_time;
-    private ScaleAnimation animation;
+    private ScaleAnimation animation,animation1;
     private ImageView iv_click;
     private String time;
     private int minites;
@@ -148,10 +148,21 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
         iv_note.setOnClickListener(this);
         iv_detail = findViewById(R.id.iv_notedetail_chal);
         iv_niu = findViewById(R.id.iv_niu_challengemodel);
-//        drawable = getResources().getDrawable(R.mipmap.niu_game_3x);
 
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //        缩放动画
+        animation.setDuration(200);
+        animation.setRepeatMode(Animation.REVERSE);
 
-        ll = findViewById(R.id.ll_chal);
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //        缩放动画
+        animation1.setDuration(200);
+        animation1.setRepeatMode(Animation.REVERSE);
+
         requestTime();
     }
     Runnable runnable=new Runnable() {
@@ -174,15 +185,9 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_click_challengemodel:
-                animation = new ScaleAnimation(
-                        1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                //        缩放动画
-                animation.setDuration(200);
-//                tv_number.setAnimation(animation);
                 tv_number.setText(++number+"");
-//                iv_niu.setAnimation(animation);
-                ll.setAnimation(animation);
+                tv_number.startAnimation(animation);
+                iv_niu.startAnimation(animation1);
                 break;
             case R.id.iv_exit_challengemodel:
                 finish();

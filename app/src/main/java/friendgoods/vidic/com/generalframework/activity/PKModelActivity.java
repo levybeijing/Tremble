@@ -273,6 +273,19 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
         tv6_timer= findViewById(R.id.tv6_timer_pk);
 //
         initCustomTimePicker();
+//        缩放动画
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
+        );
+        animation.setDuration(200);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        );
+        animation1.setDuration(200);
+        animation1.setRepeatMode(Animation.REVERSE);
 
         iv_sure = findViewById(R.id.iv_sure_pkmodel);
         iv_sure.setOnClickListener(this);
@@ -475,19 +488,9 @@ public class PKModelActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.iv_click_pkmodel:
                 name2.setText(++pkCount+"");
-                //        缩放动画
-                animation = new ScaleAnimation(
-                        1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f
-                );
-                animation.setDuration(200);
-                animation1 = new ScaleAnimation(
-                        1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f
-                );
-                animation1.setDuration(200);
-                click_left.setAnimation(animation1);
-                click_righr.setAnimation(animation);
+
+                click_left.startAnimation(animation1);
+                click_righr.startAnimation(animation);
 //send count
                 PKSocketBean count=new PKSocketBean();
                 count.setType("5");

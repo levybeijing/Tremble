@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lzy.okgo.OkGo;
@@ -29,13 +30,14 @@ import okhttp3.Response;
 public class RelaxModelActivity extends BaseActivity implements View.OnClickListener {
     private int number=0;
     private TextView tv_number;
-    private ScaleAnimation animation;
+    private ScaleAnimation animation,animation1;
     private long gametime;
     private boolean note=true;
     private ImageView iv_note,iv_detail;
     private String userId;
     private String time;
     private ImageView iv_niu;
+    private LinearLayout ll;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,24 +66,34 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         iv_detail = findViewById(R.id.iv_notedetail_relaxmodel);
 
         iv_niu = findViewById(R.id.iv_niu_relaxmodel);
+        //        缩放动画
+        animation = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        animation.setDuration(200);
+        animation.setRepeatMode(Animation.REVERSE);
+
+        animation1 = new ScaleAnimation(
+                1.0f, 2.0f, 1.0f, 2.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        animation1.setDuration(200);
+        animation1.setRepeatMode(Animation.REVERSE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_click_relaxmodel:
-                //        缩放动画
-                animation = new ScaleAnimation(
-                        1.0f, 2.0f, 1.0f, 2.0f,
-                        Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
-                );
-                animation.setDuration(200);
                 tv_number.setText(++number+"");
-                tv_number.setAnimation(animation);
-                iv_niu.setAnimation(animation);
+                tv_number.startAnimation(animation);
+                iv_niu.startAnimation(animation1);
+
+//                tv_number.setAnimation(animation);
+//                iv_niu.setAnimation(animation);
                 break;
             case R.id.iv_exit_relaxmodel:
-//                gametime=System.currentTimeMillis()-gametime;
                 finish();
                 break;
             case R.id.tv_gotomall_relaxmodel:
