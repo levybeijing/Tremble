@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 import java.util.List;
-
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.PKRecordBean;
@@ -48,8 +43,8 @@ public class PKRankActivity extends BaseActivity {
 //
         roomId = getIntent().getIntExtra("roomId",0);
         degree = getIntent().getIntExtra("degree",1);
-        Log.e("================", "roomId: "+roomId);
-        Log.e("================", "degree: "+degree);
+//        Log.e("================", "roomId: "+roomId);
+//        Log.e("================", "degree: "+degree);
 
 //加载背景图片
         ImageView iv_bg = findViewById(R.id.iv_bg_pkrank);

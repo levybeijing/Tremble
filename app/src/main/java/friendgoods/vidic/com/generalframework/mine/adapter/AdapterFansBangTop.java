@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -18,11 +19,11 @@ import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerM
 import friendgoods.vidic.com.generalframework.bean.FansBangBean;
 
 public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.MyViewHolder> {
-    private Context context;
+    private Activity context;
     private OnItemClickListenerMine itemClickListener;
     private List<FansBangBean.DataBean.PageInfoBean.ListBean> list;
 
-    public AdapterFansBangTop(Context context_) {
+    public AdapterFansBangTop(Activity context_) {
         context=context_;
     }
 
@@ -78,7 +79,7 @@ public class AdapterFansBangTop extends RecyclerView.Adapter<AdapterFansBangTop.
                 Picasso.with(context).load(R.mipmap.third_fans_3x).into(holder.iv_rank);
                 holder.tv_name.setText(list.get(position).getName());
                 holder.tv_energy.setText(list.get(position).getScore()+"");
-                Picasso.with(context).load(list.get(position+1).getPhoto()).into(holder.iv_small);
+                Picasso.with(context).load(list.get(position).getPhoto()).into(holder.iv_small);
                 break;
         }
 

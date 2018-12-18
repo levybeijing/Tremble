@@ -94,7 +94,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
         userId = (int) SharedPFUtils.getParam(this, "userId", 0);
         name.setText((String)SharedPFUtils.getParam(this,"name",""));
         Picasso.with(PublicWallActivity.this).load((String)SharedPFUtils.getParam(this,"icon","")).into(icon);
-        energy.setText((float)SharedPFUtils.getParam(this,"integral",0.0f)+"");
+        energy.setText((int)SharedPFUtils.getParam(this,"integral",0)+"");
 //
         ImageView iv_logo = findViewById(R.id.xingxiang_pubwall);
         Picasso.with(PublicWallActivity.this).load(UrlCollect.baseIamgeUrl+File.separator+logo).into(iv_logo);
@@ -154,6 +154,7 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
             //传入父控件的左上右下
             MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
+//            iv.setFocusable(true);
             //传入自己的真实像素
             iv.setFocusable(true);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(

@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -176,17 +177,17 @@ public class AllRankFragment extends Fragment {
                         List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
 
 
-                        Glide.with(getActivity()).load(list.get(0).getPhoto()).into(icon1);
+                        Picasso.with(getActivity()).load(list.get(0).getPhoto()).into(icon1);
                         name1.setText(list.get(0).getName());
                         time1.setText(list.get(0).getTime());
                         count1.setText(list.get(0).getShakeNum()+"");
 
-                        Glide.with(getActivity()).load(list.get(1).getPhoto()).into(icon2);
+                        Picasso.with(getActivity()).load(list.get(1).getPhoto()).into(icon2);
                         name2.setText(list.get(1).getName());
                         time2.setText(list.get(1).getTime());
                         count2.setText(list.get(1).getShakeNum()+"");
 
-                        Glide.with(getActivity()).load(list.get(2).getPhoto()).into(icon3);
+                        Picasso.with(getActivity()).load(list.get(2).getPhoto()).into(icon3);
                         name3.setText(list.get(2).getName());
                         time3.setText(list.get(2).getTime());
                         count3.setText(list.get(2).getShakeNum()+"");

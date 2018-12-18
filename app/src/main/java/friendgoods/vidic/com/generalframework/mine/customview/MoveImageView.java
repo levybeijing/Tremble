@@ -3,21 +3,15 @@ package friendgoods.vidic.com.generalframework.mine.customview;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 public class MoveImageView extends android.support.v7.widget.AppCompatImageView {
     private int parentLeft=0;
     private int parentTop=0;
     private int parentRight=0;
     private int parentBottom=0;
-    private Object obj=new Object();
 
-//    private float scale;
     public MoveImageView(Context context) {
         super(context);
     }
@@ -38,7 +32,6 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        boolean lock=false;
         FrameLayout.LayoutParams lp= (FrameLayout.LayoutParams) this.getLayoutParams();
         int dx,dy,top,left,right,bottom;
         switch (event.getAction())
@@ -49,15 +42,10 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 lastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-//                synchronized (obj){
-                if (!lock) {
                     //偏移量
-                    lock=true;
                     dx = (int) event.getRawX() - lastX;
                     dy = (int) event.getRawY() - lastY;
 
-
-                    //控件位置
                     left = getLeft() + dx;
                     top = getTop() + dy;
                     right = getRight() + dx;
@@ -79,19 +67,11 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                         bottom = parentBottom - parentTop;
                         top = bottom - getHeight();
                     }
-//                layout(left, top, right, bottom);
-//                lp.setMargins(left,top,left+getWidth(),top+getHeight());
                     lp.setMargins(left, top, right, bottom);
                     //确定位置
                     this.setLayoutParams(lp);
-//                invalidate();
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
-//                    lastX = lastX + dx;
-//                    lastY = lastY + dy;
-//                }
-                    lock=false;
-                }
                 break;
         }
         invalidate();

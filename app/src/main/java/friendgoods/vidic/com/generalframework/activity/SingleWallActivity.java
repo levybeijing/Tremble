@@ -1,23 +1,13 @@
 package friendgoods.vidic.com.generalframework.activity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.util.List;
-
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
@@ -56,10 +46,10 @@ public class SingleWallActivity extends BaseActivity {
 
                         SingleWallBean singleWallBean = new Gson().fromJson(s, SingleWallBean.class);
                         name.setText(singleWallBean.getData().getName());
-                        Glide.with(SingleWallActivity.this).load(singleWallBean.getData().getPhoto()).into(icon);
+                        Picasso.with(SingleWallActivity.this).load(singleWallBean.getData().getPhoto()).into(icon);
                         String url = singleWallBean.getData().getUrl();
                         if (url!=null)
-                            Glide.with(SingleWallActivity.this).load(UrlCollect.baseIamgeUrl+url).into(container);
+                            Picasso.with(SingleWallActivity.this).load(UrlCollect.baseIamgeUrl+url).into(container);
                     }
                 });
     }

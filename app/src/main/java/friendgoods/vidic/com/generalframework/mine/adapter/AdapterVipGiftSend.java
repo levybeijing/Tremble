@@ -7,24 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
 import friendgoods.vidic.com.generalframework.R;
-import friendgoods.vidic.com.generalframework.activity.SingleWallActivity;
-import friendgoods.vidic.com.generalframework.bean.SingleWallBean;
 import friendgoods.vidic.com.generalframework.bean.VIPSendBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
-import friendgoods.vidic.com.generalframework.bean.VIPWallBean;
-import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class AdapterVipGiftSend extends RecyclerView.Adapter<AdapterVipGiftSend.MyViewHolder> {
     private Context context;
@@ -49,7 +36,7 @@ public class AdapterVipGiftSend extends RecyclerView.Adapter<AdapterVipGiftSend.
         String url = list.get(position).getUrl();
         Log.e("=======AdapterSend", url+"");
         if (url!=null){
-            Glide.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
+            Picasso.with(context).load(UrlCollect.baseIamgeUrl+url).into(holder.iv_icon);
         }
 
     }

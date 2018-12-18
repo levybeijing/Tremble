@@ -16,21 +16,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
-import friendgoods.vidic.com.generalframework.activity.ChalModelActivity;
 import friendgoods.vidic.com.generalframework.adapter.AdapterRank;
 import friendgoods.vidic.com.generalframework.bean.WeekRankBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
 import friendgoods.vidic.com.generalframework.mine.activity.FriendNameActivity;
-import friendgoods.vidic.com.generalframework.mine.activity.MyRecordActivity;
 import friendgoods.vidic.com.generalframework.mine.customview.CirImageView;
 import friendgoods.vidic.com.generalframework.mine.listener.OnItemClickListenerPosition;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
@@ -173,17 +171,17 @@ public class WeekRankFragment extends Fragment {
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
 
-                        Glide.with(getContext()).load(list.get(0).getPhoto()).into(icon1);
+                        Picasso.with(getContext()).load(list.get(0).getPhoto()).into(icon1);
                         name1.setText(list.get(0).getName());
                         time1.setText(list.get(0).getTime());
                         count1.setText(list.get(0).getShakeNum()+"");
 
-                        Glide.with(getContext()).load(list.get(1).getPhoto()).into(icon2);
+                        Picasso.with(getContext()).load(list.get(1).getPhoto()).into(icon2);
                         name2.setText(list.get(1).getName());
                         time2.setText(list.get(1).getTime());
                         count2.setText(list.get(1).getShakeNum()+"");
 
-                        Glide.with(getContext()).load(list.get(2).getPhoto()).into(icon3);
+                        Picasso.with(getContext()).load(list.get(2).getPhoto()).into(icon3);
                         name3.setText(list.get(2).getName());
                         time3.setText(list.get(2).getTime());
                         count3.setText(list.get(2).getShakeNum()+"");
