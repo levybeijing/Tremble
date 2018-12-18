@@ -68,7 +68,7 @@
             android:id="@+id/iv_click_relaxmodel"
             android:layout_width="150dp"
             android:layout_height="123dp"
-            android:background="@mipmap/button_game_3x"
+            android:background="@drawable/selector_a_click"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"

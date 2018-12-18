@@ -95,7 +95,7 @@
         android:id="@+id/iv_click_storymodel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/btn_story_3x"
+        android:background="@drawable/selector_b_click"
         android:layout_centerInParent="true"
         android:layout_above="@+id/rlstory"
         />

@@ -51,7 +51,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private int number=0;
     private TextView tv_number,tv_time;
     private ScaleAnimation animation,animation1;
-    private ImageView iv_click;
+    private ImageView iv_click,iv_down;
     private String time;
     private int minites;
     private int seconds;
@@ -115,7 +115,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private String userId;
     private ImageView iv_niu;
     private ImageView iv_start;
-    private LinearLayout ll;
+//    private LinearLayout ll;
 
 
     @Override
@@ -135,7 +135,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
             font = getResources().getFont(R.font.edo);
             tv_number.setTypeface(font);
         }
-        iv_click = findViewById(R.id.iv_click_challengemodel);
+        iv_click = findViewById(R.id.iv_click_up);
         iv_click.setOnClickListener(this);
         iv_click.setClickable(false);
         findViewById(R.id.iv_exit_challengemodel).setOnClickListener(this);
@@ -153,14 +153,14 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
                 1.0f, 2.0f, 1.0f, 2.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         //        缩放动画
-        animation.setDuration(200);
+        animation.setDuration(100);
         animation.setRepeatMode(Animation.REVERSE);
 
         animation1 = new ScaleAnimation(
                 1.0f, 2.0f, 1.0f, 2.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         //        缩放动画
-        animation1.setDuration(200);
+        animation1.setDuration(100);
         animation1.setRepeatMode(Animation.REVERSE);
 
         requestTime();
@@ -184,7 +184,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.iv_click_challengemodel:
+            case R.id.iv_click_up:
                 tv_number.setText(++number+"");
                 tv_number.startAnimation(animation);
                 iv_niu.startAnimation(animation1);

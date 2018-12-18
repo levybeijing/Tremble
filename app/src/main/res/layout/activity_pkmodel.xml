@@ -89,7 +89,7 @@
             android:id="@+id/iv_click_pkmodel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/btn_story_3x"
+            android:background="@drawable/selector_b_click"
             android:clickable="true"
             android:layout_centerInParent="true"
             android:visibility="invisible"
