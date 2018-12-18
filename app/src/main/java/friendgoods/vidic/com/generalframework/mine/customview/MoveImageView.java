@@ -42,39 +42,39 @@ public class MoveImageView extends android.support.v7.widget.AppCompatImageView 
                 lastY = (int) event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                    //偏移量
-                    dx = (int) event.getRawX() - lastX;
-                    dy = (int) event.getRawY() - lastY;
+                //偏移量
+                dx = (int) event.getRawX() - lastX;
+                dy = (int) event.getRawY() - lastY;
 
-                    left = getLeft() + dx;
-                    top = getTop() + dy;
-                    right = getRight() + dx;
-                    bottom = getBottom() + dy;
+                left = getLeft() + dx;
+                top = getTop() + dy;
+                right = getRight() + dx;
+                bottom = getBottom() + dy;
 
-                    if (left < 0) {
-                        left = 0;
-                        right = getWidth();
-                    }
-                    if (right > parentRight - parentLeft) {
-                        right = parentRight - parentLeft;
-                        left = right - getWidth();
-                    }
-                    if (top < 0) {
-                        top = 0;
-                        bottom = getHeight();
-                    }
-                    if (bottom > parentBottom - parentTop) {
-                        bottom = parentBottom - parentTop;
-                        top = bottom - getHeight();
-                    }
-                    lp.setMargins(left, top, right, bottom);
-                    //确定位置
-                    this.setLayoutParams(lp);
+                if (left < 0) {
+                    left = 0;
+                    right = getWidth();
+                }
+                if (right > parentRight - parentLeft) {
+                    right = parentRight - parentLeft;
+                    left = right - getWidth();
+                }
+                if (top < 0) {
+                    top = 0;
+                    bottom = getHeight();
+                }
+                if (bottom > parentBottom - parentTop) {
+                    bottom = parentBottom - parentTop;
+                    top = bottom - getHeight();
+                }
+                lp.setMargins(left, top, right, bottom);
+                //确定位置
+                this.setLayoutParams(lp);
                 lastX = (int) event.getRawX();
                 lastY = (int) event.getRawY();
                 break;
         }
-        invalidate();
+//        invalidate();
         return true;
     }
 }

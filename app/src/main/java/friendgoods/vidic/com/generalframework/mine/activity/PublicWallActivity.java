@@ -3,6 +3,7 @@ package friendgoods.vidic.com.generalframework.mine.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -87,6 +88,9 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
 
     private void initView() {
 //
+        NestedScrollView scroll = findViewById(R.id.nsv_pub);
+        scroll.setNestedScrollingEnabled(false);
+
         findViewById(R.id.iv_back_pubwall).setOnClickListener(this);
         name = findViewById(R.id.tv_name_pubwall);
         energy = findViewById(R.id.tv_energy_pubwall);
@@ -151,10 +155,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
             int top = view.getTop();
             int right = view.getRight();
             int bottom = view.getBottom();
-
             //传入父控件的左上右下
             MoveImageView iv=new MoveImageView(PublicWallActivity.this,left,top,right,bottom);
-//            iv.setFocusable(true);
             //传入自己的真实像素
             iv.setFocusable(true);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
@@ -204,7 +206,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
         }
-
     }
 
     @Override

@@ -29,9 +29,11 @@
             android:layout_weight="1"
             />
     </LinearLayout>
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nsv_pub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="false"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,7 +52,6 @@
                 android:id="@+id/iv_icon_pubwall"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@mipmap/temp_icon"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -97,8 +98,8 @@
             <FrameLayout
                 android:id="@+id/container_pubwall"
                 style="@style/rl_giftwall"
+                android:focusable="true"
                 />
-
             <ImageView
                 android:id="@+id/xingxiang_pubwall"
                 android:layout_alignParentRight="true"
@@ -161,5 +162,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
