@@ -14,7 +14,6 @@
         android:orientation="horizontal"
         android:background="@color/commen_top"
         android:gravity="center"
-        android:layout_alignParentTop="true"
         >
         <ImageView
             android:id="@+id/iv_back_vipwall"
@@ -32,21 +31,16 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top_vip"
+        android:layout_weight="1"
         >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                >
                 <RelativeLayout
                     style="@style/rl_giftwall"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_gravity="center"
                     >
                     <FrameLayout
                         android:id="@+id/container_vipwall"
@@ -60,58 +54,57 @@
                         android:layout_alignParentBottom="true"
                         />
                 </RelativeLayout>
-        <RelativeLayout
+    </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        >
+        <LinearLayout
+            android:id="@+id/ll_bottom_vipwall"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="90dp"
+            android:orientation="horizontal"
             android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:background="#5000"
             >
+            <ImageView
+                android:id="@+id/tv_color_vipwall"
+                android:layout_width="32dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/mygift_pubwall_2x"
+                android:layout_margin="10dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_vipwall"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
             <LinearLayout
-                android:id="@+id/ll_bottom_vipwall"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
-                android:gravity="center_vertical"
-                android:background="#5000"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="vertical"
                 >
                 <ImageView
-                    android:id="@+id/tv_color_vipwall"
-                    android:layout_width="32dp"
-                    android:layout_height="40dp"
-                    android:background="@mipmap/mygift_pubwall_2x"
-                    android:layout_margin="10dp"
+                    android:id="@+id/iv_makesure_vipwall"
+                    android:layout_width="36dp"
+                    android:layout_height="15dp"
+                    android:background="@mipmap/makesure_pubwall_3x"
                     />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_vipwall"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <ImageView
+                    android:id="@+id/iv_mall_vipwall"
+                    android:layout_width="36dp"
+                    android:layout_height="15dp"
+                    android:background="@mipmap/mall_pubwall_3x"
                     />
-                <LinearLayout
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    >
-                    <ImageView
-                        android:id="@+id/iv_makesure_vipwall"
-                        android:layout_width="36dp"
-                        android:layout_height="15dp"
-                        android:background="@mipmap/makesure_pubwall_3x"
-                        />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"/>
-                    <ImageView
-                        android:id="@+id/iv_mall_vipwall"
-                        android:layout_width="36dp"
-                        android:layout_height="15dp"
-                        android:background="@mipmap/mall_pubwall_3x"
-                        />
-                </LinearLayout>
-                </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </LinearLayout>

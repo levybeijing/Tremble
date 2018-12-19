@@ -87,11 +87,8 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-//
-        NestedScrollView scroll = findViewById(R.id.nsv_pub);
-        scroll.setNestedScrollingEnabled(false);
 
-        findViewById(R.id.iv_back_pubwall).setOnClickListener(this);
+//        findViewById(R.id.iv_back_pubwall).setOnClickListener(this);
         name = findViewById(R.id.tv_name_pubwall);
         energy = findViewById(R.id.tv_energy_pubwall);
         icon = findViewById(R.id.iv_icon_pubwall);
@@ -201,9 +198,6 @@ public class PublicWallActivity extends BaseActivity implements View.OnClickList
                 //保存未完成?
                 startActivity(new Intent(PublicWallActivity.this,MallActivity.class));
                 view.removeAllViews();
-                break;
-            case R.id.iv_back_pubwall:
-                finish();
                 break;
         }
     }

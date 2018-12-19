@@ -27,11 +27,11 @@
             android:layout_weight="1"
             />
     </LinearLayout>
-    <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1dp"-->
-        <!--android:background="@drawable/bg_div"-->
-        <!--/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#8000"
+        />
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_vipwall"
         android:layout_width="match_parent"
