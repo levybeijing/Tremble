@@ -2,6 +2,7 @@ package friendgoods.vidic.com.generalframework.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -61,7 +62,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        register = getIntent().getStringExtra("register");
     }
 
     @Override
@@ -122,7 +122,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-
                         WXAccessTokenBean tokenBean = new Gson().fromJson(s, WXAccessTokenBean.class);
                         getUserInfo(tokenBean);
                         Log.e("=====================", "onSuccess: "+tokenBean.getUnionid());
@@ -199,6 +198,9 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                 .tag(this)//
                 .params("weChat", openid)
                 .execute(new StringCallback() {
+
+                    private Intent intent1;
+
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("===============", "getUserByWeChatA: "+openid);
@@ -206,27 +208,31 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                         WXLoginBean wxLoginBean = new Gson().fromJson(s, WXLoginBean.class);
 //                        保存信息
                         WXLoginBean.DataBean data = wxLoginBean.getData();
+
                         if (data!=null){
                             Log.e("===============", "data!=null: "+data);
                             SharedPFUtils.setParam(WXEntryActivity.this,"wx",data.getWeChatA());
                             SharedPFUtils.setParam(WXEntryActivity.this,"voice",data.getVoice()==1?true:false);
-                            SharedPFUtils.setParam(WXEntryActivity.this,"signDays",data.getSignDays());
                             SharedPFUtils.setParam(WXEntryActivity.this,"integral",data.getIntegral());//
                             SharedPFUtils.setParam(WXEntryActivity.this,"phone",data.getMobile());
                             SharedPFUtils.setParam(WXEntryActivity.this,"userId",data.getId());
+//                            名字 不可为空? 特殊字符处理不了
                             String name = data.getName();
                             if (name!=null) {
                                 SharedPFUtils.setParam(WXEntryActivity.this,"name", name);
                             }
-                            SharedPFUtils.setParam(WXEntryActivity.this,"icon",data.getPhoto());
+//                            头像
+                            String photo = data.getPhoto();
+                            if (photo!=null) {
+                                SharedPFUtils.setParam(WXEntryActivity.this,"icon", photo);
+                            }
 //                            设置全局请求头
                             SharedPFUtils.setParam(WXEntryActivity.this,"token",data.getToken());
                             SharedPFUtils.setParam(WXEntryActivity.this, "loginstatus", true);
-
                             HttpHeaders headers = new HttpHeaders();
                             headers.put("token",data.getToken());
                             OkGo.getInstance().addCommonHeaders(headers);
-
+//                            判断依据?
                             if (wxLoginBean.getData().getLogo()!=null){
                                 switch (wxLoginBean.getData().getLogo()) {
                                     case "man1.png":
@@ -242,18 +248,16 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                                         SharedPFUtils.setParam(WXEntryActivity.this, "sex", 22);
                                         break;
                                 }
-                                Intent intent1 = new Intent(WXEntryActivity.this, MainActivity.class);
-//                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent1);
-//                                startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
-//                                BaseActivity.finishAll();
+                                intent1 = new Intent(WXEntryActivity.this, MainActivity.class);
                             }else{
-                                startActivity(new Intent(WXEntryActivity.this,IntroduceActivity.class));
-                                BaseActivity.finishAll();
+                                intent1 =new Intent(WXEntryActivity.this,IntroduceActivity.class);
                             }
                         }else{
-                            startActivity(new Intent(WXEntryActivity.this,PhoneBindActivity.class));
+                            intent1 =new Intent(WXEntryActivity.this,PhoneBindActivity.class);
                         }
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent1);
+                        finish();
                     }
                 });
     }

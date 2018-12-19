@@ -44,6 +44,7 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phonebind);
+
         time = new TimeCount(60000, 1000);
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
@@ -107,7 +108,6 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
                     public void onSuccess(String s, Call call, Response response) {
                         Log.e("===============", "getUserByWeChatA: "+s);
                         TokenCheck.toLogin(PhoneBindActivity.this,s);
-
                         startActivity(new Intent(PhoneBindActivity.this,LoginCodeActivity.class));
                     }
                     @Override
@@ -147,7 +147,6 @@ public class PhoneBindActivity extends BaseActivity implements View.OnClickListe
             btn_code.setText("重新获取验证码");
             btn_code.setClickable(true);
             btn_code.setBackgroundColor(Color.parseColor("#4EB84A"));
-
         }
     }
 }

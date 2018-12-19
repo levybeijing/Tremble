@@ -103,7 +103,7 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void login(String phone,String code) {
+    private void login(final String phone, String code) {
         OkGo.post(UrlCollect.smsLogen)//
                 .tag(this)//
                 .params("mobile", phone)
@@ -128,15 +128,19 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                         headers.put("token",bean.getData().getToken());
                         OkGo.getInstance().addCommonHeaders(headers);
 //
-                        if (bean.getData().getWeChatA()==null){
+                        String weChatA = bean.getData().getWeChatA();
+                        if (weChatA ==null){
                             startActivity(new Intent(LoginCodeActivity.this,WXBindActivity.class));
                         } else {
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"wx",bean.getData().getWeChatA());
+                            SharedPFUtils.setParam(LoginCodeActivity.this,"wx", weChatA);
                             String name = bean.getData().getName();
                             if (name!=null) {
                                 SharedPFUtils.setParam(LoginCodeActivity.this,"name", name);
                             }
-                            SharedPFUtils.setParam(LoginCodeActivity.this,"icon",bean.getData().getPhoto());
+                            String photo = bean.getData().getPhoto();
+                            if (photo!=null){
+                                SharedPFUtils.setParam(LoginCodeActivity.this,"icon", photo);
+                            }
                             SharedPFUtils.setParam(LoginCodeActivity.this, "loginstatus", true);
 
                             String logo = bean.getData().getLogo();
@@ -160,11 +164,10 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                                 Intent intent1 = new Intent(LoginCodeActivity.this, MainActivity.class);
 //                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent1);
-                                finish();
                             }else{
                                 startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
-                                finish();
                             }
+                            finish();
                         }
                     }
                 });
