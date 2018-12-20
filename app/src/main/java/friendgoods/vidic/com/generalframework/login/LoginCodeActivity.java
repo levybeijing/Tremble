@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework.login;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +19,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
+import friendgoods.vidic.com.generalframework.activity.MainActivity;
+import friendgoods.vidic.com.generalframework.activity.RegisterActivity;
+import friendgoods.vidic.com.generalframework.activity.WXBindActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.activity.bean.LoginBean;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -203,13 +207,11 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
             btn_code.setText("重新获取验证码");
             btn_code.setClickable(true);
             btn_code.setBackgroundColor(Color.parseColor("#4EB84A"));
-
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        stopMusic();
     }
 }

@@ -24,10 +24,11 @@
                 />
             <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                 android:id="@+id/icon_second_top3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
+                android:layout_margin="1dp"
                 />
         </RelativeLayout>
         <TextView
@@ -71,10 +72,11 @@
                 />
             <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                 android:id="@+id/icon_first_top3"
-                android:layout_width="61dp"
-                android:layout_height="61dp"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
+                android:layout_margin="2dp"
                 />
         </RelativeLayout>
         <TextView
@@ -119,10 +121,11 @@
                 />
             <friendgoods.vidic.com.generalframework.mine.customview.CirImageView
                 android:id="@+id/icon_third_top3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
+                android:layout_margin="1dp"
                 />
         </RelativeLayout>
         <TextView

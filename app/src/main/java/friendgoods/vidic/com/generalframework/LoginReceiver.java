@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 
 import static android.content.Context.MODE_PRIVATE;

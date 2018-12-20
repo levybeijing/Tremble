@@ -1,11 +1,9 @@
 package friendgoods.vidic.com.generalframework.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -17,11 +15,10 @@ import java.util.TimerTask;
 import friendgoods.vidic.com.generalframework.MyApplication;
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
-import friendgoods.vidic.com.generalframework.activity.fragment.AllRankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.ModelFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.RankFragment;
 import friendgoods.vidic.com.generalframework.activity.fragment.MineFragment;
-import friendgoods.vidic.com.generalframework.activity.fragment.WeekRankFragment;
+import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.util.SharedPFUtils;
 import friendgoods.vidic.com.generalframework.util.ToastUtils;
 

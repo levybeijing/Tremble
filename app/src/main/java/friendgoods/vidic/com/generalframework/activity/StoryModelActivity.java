@@ -45,7 +45,7 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     private String userId;
     private String time;
     private TextView name;
-
+    private boolean finished=false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +61,6 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
 
         iv_detail= findViewById(R.id.iv_notedetail_storymodel);
         userId = (int)SharedPFUtils.getParam(this,"userId",0)+"";
-
 
         request();
 
@@ -155,8 +154,10 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
                 }
                 if (images.size()==0){
                     gametime=System.currentTimeMillis()-gametime;
+                    time= TimeUtil.FormatForMS(gametime);
 //                    格式化时间值
                     addrecord();
+                    finished=true;
                     Toast.makeText(this, "故事结束", Toast.LENGTH_SHORT).show();
                     iv_click.setClickable(false);
                     name.setText((String) SharedPFUtils.getParam(this, "name", ""));
@@ -207,9 +208,10 @@ public class StoryModelActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        gametime=System.currentTimeMillis()-gametime;
-        time = TimeUtil.FormatForMS(gametime);
-        addrecord();
-//        count=0;
+        if (!finished){
+            gametime=System.currentTimeMillis()-gametime;
+            time = TimeUtil.FormatForMS(gametime);
+            addrecord();
+        }
     }
 }

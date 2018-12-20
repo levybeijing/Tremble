@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import friendgoods.vidic.com.generalframework.R;
 import friendgoods.vidic.com.generalframework.TokenCheck;
-import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;

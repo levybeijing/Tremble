@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.ImageView;
+
 import friendgoods.vidic.com.generalframework.PermissionsUtils;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
+
 /**
  * Created by Administrator on 2016/10/17 0017.
  */

@@ -196,7 +196,6 @@ public class WeekRankFragment extends Fragment {
                             }
                         });
                         final int userId2 = list.get(1).getUserId();
-
                         icon2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

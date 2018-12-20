@@ -1,10 +1,7 @@
 package friendgoods.vidic.com.generalframework.activity.base;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import java.util.ArrayList;
@@ -12,10 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import friendgoods.vidic.com.generalframework.LoginReceiver;
-import friendgoods.vidic.com.generalframework.activity.LoginCodeActivity;
+import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
 import friendgoods.vidic.com.generalframework.activity.MusicService;
-import friendgoods.vidic.com.generalframework.activity.PKModelActivity;
-import friendgoods.vidic.com.generalframework.mine.activity.SettingsActivity;
 
 /**
  * Created by wh on 2017/7/10.
@@ -42,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 2. 设置接收广播的类型
         intentFilter.addAction("action.LOGIN.OTHER");
         registerReceiver(receiver, intentFilter);
-
     }
 
     /**
@@ -88,8 +82,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             copy = new ArrayList<>(mActivities);
         }
         for (BaseActivity activity : copy) {
-            if (!(activity instanceof LoginCodeActivity))
-                activity.finish();
+            if (activity instanceof LoginCodeActivity){
+                continue;
+            }
+            activity.finish();
         }
     }
 

@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <!--登录注册 个人信息页面-->
-        <activity android:name=".activity.LoginCodeActivity"
+        <activity android:name=".login.LoginCodeActivity"
             android:screenOrientation="sensorPortrait"
             android:launchMode="singleTask"
             />
@@ -103,7 +103,7 @@
         <activity android:name=".activity.WXBindActivity"
             android:launchMode="singleTop"
             ></activity>
-        <activity android:name=".activity.PhoneBindActivity"></activity>
+        <activity android:name=".login.PhoneBindActivity"></activity>
         <!--音乐播放-->
         <service android:name=".activity.MusicService"></service>
 

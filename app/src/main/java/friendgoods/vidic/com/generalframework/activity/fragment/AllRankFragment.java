@@ -47,7 +47,7 @@ import okhttp3.Response;
 public class AllRankFragment extends Fragment {
 
     private AdapterRank adapter;
-    private String currentAction="android.tremble.WORLD";
+    private String currentAction="android.tremble.WORLD2";
     private int worldPage=1;
     private int friendPage=1;
     private BroadcastReceiver mBroadcastReceiver;
@@ -76,6 +76,15 @@ public class AllRankFragment extends Fragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         adapter = new AdapterRank(getActivity());
+
+        adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
+            @Override
+            public void onItemClick(int i) {
+                Intent intent=new Intent(getContext(),FriendNameActivity.class);
+                intent.putExtra("userId",i+"");
+                startActivity(intent);
+            }
+        });
 
         rv.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
         rv.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
@@ -108,15 +117,6 @@ public class AllRankFragment extends Fragment {
 
         rv.setAdapter(adapter);
         rv.refresh();
-        adapter.setOnItemClickListener(new OnItemClickListenerPosition() {
-            @Override
-            public void onItemClick(int i) {
-                Intent intent=new Intent(getContext(),FriendNameActivity.class);
-                intent.putExtra("userId",i+"");
-                startActivity(intent);
-            }
-        });
-
         // 1. 实例化BroadcastReceiver子类 &  IntentFilter
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -197,7 +197,6 @@ public class AllRankFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 Intent intent=new Intent(getContext(),FriendNameActivity.class);
-
                                 intent.putExtra("userId", userId1 +"");
                                 startActivity(intent);
                             }
