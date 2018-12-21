@@ -51,7 +51,7 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private int number=0;
     private TextView tv_number,tv_time;
     private ScaleAnimation animation,animation1;
-    private ImageView iv_click,iv_down;
+    private ImageView iv_click;
     private String time;
     private int minites;
     private int seconds;
@@ -61,7 +61,6 @@ public class ChalModelActivity extends BaseActivity implements View.OnClickListe
     private Handler handlerhcal=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
             if (lock){
                 return;
             }

@@ -17,7 +17,6 @@ public class IntroduceActivity extends BaseActivity {
     private int number=0;
     private ViewPager vp;
     private IntroduceVPAdapter adapter;
-
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
