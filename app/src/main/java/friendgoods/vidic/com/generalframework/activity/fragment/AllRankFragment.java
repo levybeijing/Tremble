@@ -161,22 +161,6 @@ public class AllRankFragment extends Fragment {
         requestworld(1);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        switch (RankFragment.currentBTN){
-//            case "world":
-//                requestworld(1);
-//                Log.e("=========", "all: "+RankFragment.currentBTN);
-//                break;
-//            case "friend":
-//                requestFriend(1);
-//                Log.e("=========", "all: "+RankFragment.currentBTN);
-//
-//                break;
-//        }
-//    }
-
     private void requestworld(int page) {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
