@@ -160,6 +160,23 @@ public class AllRankFragment extends Fragment {
 
         requestworld(1);
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        switch (RankFragment.currentBTN){
+//            case "world":
+//                requestworld(1);
+//                Log.e("=========", "all: "+RankFragment.currentBTN);
+//                break;
+//            case "friend":
+//                requestFriend(1);
+//                Log.e("=========", "all: "+RankFragment.currentBTN);
+//
+//                break;
+//        }
+//    }
+
     private void requestworld(int page) {
         OkGo.post(UrlCollect.worldRankings)//
                 .tag(this)//
@@ -172,7 +189,7 @@ public class AllRankFragment extends Fragment {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         TokenCheck.toLogin(getActivity(),s);
-                        Log.i("*********", response.toString());
+//                        Log.i("*********", response.toString());
                         WeekRankBean bean = new Gson().fromJson(s, WeekRankBean.class);
                         List<WeekRankBean.DataBean.PageInfoBean.ListBean> list = bean.getData().getPageInfo().getList();
 
