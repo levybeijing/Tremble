@@ -5,19 +5,20 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
-import friendgoods.vidic.com.generalframework.MyApplication;
+import friendgoods.vidic.com.generalframework.ITest;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.TestTouch;
 import friendgoods.vidic.com.generalframework.TokenCheck;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.entity.UrlCollect;
@@ -27,7 +28,7 @@ import friendgoods.vidic.com.generalframework.util.TimeUtil;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class RelaxModelActivity extends BaseActivity implements View.OnClickListener {
+public class RelaxModelActivity extends BaseActivity implements View.OnClickListener ,View.OnTouchListener {
     private int number=0;
     private TextView tv_number;
     private ScaleAnimation animation,animation1;
@@ -37,7 +38,6 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
     private String userId;
     private String time;
     private ImageView iv_niu;
-    private LinearLayout ll;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
             tv_number.setTypeface(font);
         }
 
-        findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
+//        findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
         findViewById(R.id.iv_exit_relaxmodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_relaxmodel).setOnClickListener(this);
 
@@ -80,6 +80,16 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         );
         animation1.setDuration(200);
         animation1.setRepeatMode(Animation.REVERSE);
+
+        TestTouch click = findViewById(R.id.iv_click_relaxmodel);
+        click.setOnTest(new ITest() {
+            @Override
+            public void test() {
+                tv_number.setText(++number+"");
+                tv_number.startAnimation(animation);
+                iv_niu.startAnimation(animation1);
+            }
+        });
     }
 
     @Override
@@ -89,9 +99,6 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                 tv_number.setText(++number+"");
                 tv_number.startAnimation(animation);
                 iv_niu.startAnimation(animation1);
-
-//                tv_number.setAnimation(animation);
-//                iv_niu.setAnimation(animation);
                 break;
             case R.id.iv_exit_relaxmodel:
                 finish();
@@ -137,5 +144,18 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         gametime=System.currentTimeMillis()-gametime;
         time = TimeUtil.FormatForMS(gametime);
         addrecord();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        Log.e("=======", "1111111: ");
+        int id = v.getId();
+        if (id==R.id.iv_click_relaxmodel){
+            Log.e("=======", "22222222: ");
+
+//            event.getPointerCount();
+            number+=1;
+        }
+        return false;
     }
 }
