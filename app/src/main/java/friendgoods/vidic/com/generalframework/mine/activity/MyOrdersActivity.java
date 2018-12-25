@@ -1,5 +1,6 @@
 package friendgoods.vidic.com.generalframework.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +16,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import java.util.ArrayList;
 import java.util.List;
 import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.MainActivity;
 import friendgoods.vidic.com.generalframework.activity.base.BaseActivity;
 import friendgoods.vidic.com.generalframework.mine.adapter.AdapterMyOrders;
 import friendgoods.vidic.com.generalframework.mine.frag.FragOrders1;
@@ -72,6 +74,14 @@ public class MyOrdersActivity extends BaseActivity {
         tab4.setText("待收货");
         TabLayout.Tab tab5 = tab.getTabAt(4);
         tab5.setText("已完成");
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mActivities.size()==1){
+            Intent intent = new Intent(MyOrdersActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

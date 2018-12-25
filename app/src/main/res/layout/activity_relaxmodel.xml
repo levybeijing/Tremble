@@ -47,8 +47,6 @@
             android:layout_centerInParent="true"
             android:layout_margin="20dp"
             />
-
-
     <!--n牛-->
     <RelativeLayout
         android:id="@+id/rl_relaxmodel"
@@ -73,6 +71,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
+            android:focusable="true"
             />
 
     </RelativeLayout>

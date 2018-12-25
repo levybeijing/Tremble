@@ -24,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 记录所有活动的Activity
      */
-    private static final List<BaseActivity> mActivities = new LinkedList<BaseActivity>();
+    public static final List<BaseActivity> mActivities = new LinkedList<>();
     private LoginReceiver receiver;
 
     @Override

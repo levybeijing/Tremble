@@ -146,6 +146,7 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                         PayIdBean payIdBean = new Gson().fromJson(s, PayIdBean.class);
                         finishAll();
                         Intent intent = new Intent(CommitOrderActivity.this, MyOrdersActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
                 });
@@ -180,8 +181,8 @@ public class CommitOrderActivity extends BaseActivity implements View.OnClickLis
                         Log.e("======================", "onSuccess: "+s);
                         AddressesBean addressesBean = new Gson().fromJson(s, AddressesBean.class);
                         List<AddressesBean.DataBean> data = addressesBean.getData();
-                        addre=data.get(0);
                         if (data.size() > 0){
+                            addre=data.get(0);
                             ll_top.setVisibility(View.GONE);
                             ll_bottom.setVisibility(View.VISIBLE);
                             username.setText(data.get(0).getConsignee());

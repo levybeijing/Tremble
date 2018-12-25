@@ -27,8 +27,8 @@ public class TestTouch extends android.support.v7.widget.AppCompatImageView {
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
         switch (action){
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
                 itest.test();
                 break;
         }
