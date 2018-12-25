@@ -12,6 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -57,9 +58,14 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
             tv_number.setTypeface(font);
         }
 
-//        findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
+        findViewById(R.id.iv_click_relaxmodel).setOnClickListener(this);
         findViewById(R.id.iv_exit_relaxmodel).setOnClickListener(this);
         findViewById(R.id.tv_gotomall_relaxmodel).setOnClickListener(this);
+
+//        findViewById(R.id.rv_root).setOnClickListener(this);
+
+//        findViewById(R.id.btn_test).setOnClickListener(this);
+
 
         iv_note = findViewById(R.id.iv_note_relaxmodell);
         iv_note.setOnClickListener(this);
@@ -81,15 +87,15 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         animation1.setDuration(200);
         animation1.setRepeatMode(Animation.REVERSE);
 
-        TestTouch click = findViewById(R.id.iv_click_relaxmodel);
-        click.setOnTest(new ITest() {
-            @Override
-            public void test() {
-                tv_number.setText(++number+"");
-                tv_number.startAnimation(animation);
-                iv_niu.startAnimation(animation1);
-            }
-        });
+//        TestTouch click = findViewById(R.id.iv_click_relaxmodel);
+//        click.setOnTest(new ITest() {
+//            @Override
+//            public void test() {
+//                tv_number.setText(++number+"");
+//                tv_number.startAnimation(animation);
+//                iv_niu.startAnimation(animation1);
+//            }
+//        });
     }
 
     @Override
@@ -117,6 +123,9 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
                 }
                 note=!note;
                 break;
+//            case R.id.rv_root:
+//                Toast.makeText(this, "**", Toast.LENGTH_SHORT).show();
+//                break;
         }
     }
     private void addrecord() {

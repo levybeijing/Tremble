@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_game_3x"
+    android:id="@+id/rv_root"
     >
 
     <LinearLayout
@@ -54,16 +55,7 @@
         android:layout_height="424dp"
         android:layout_centerInParent="true"
         >
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_click_relaxmodel"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="123dp"-->
-            <!--android:background="@drawable/selector_a_click"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginBottom="30dp"-->
-            <!--/>-->
-        <friendgoods.vidic.com.generalframework.TestTouch
+        <ImageView
             android:id="@+id/iv_click_relaxmodel"
             android:layout_width="150dp"
             android:layout_height="123dp"
@@ -71,8 +63,23 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
-            android:focusable="true"
             />
+            <!--<Button-->
+            <!--android:id="@+id/btn_test"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="%%%%%"-->
+            <!--/>-->
+            <!--<friendgoods.vidic.com.generalframework.TestTouch-->
+            <!--android:id="@+id/iv_click_relaxmodel"-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="123dp"-->
+            <!--android:background="@drawable/selector_a_click"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="30dp"-->
+            <!--android:focusable="true"-->
+            <!--/>-->
 
     </RelativeLayout>
 
