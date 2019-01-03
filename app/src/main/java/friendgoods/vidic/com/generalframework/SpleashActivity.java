@@ -1,4 +1,4 @@
-package friendgoods.vidic.com.generalframework.activity;
+package friendgoods.vidic.com.generalframework;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import friendgoods.vidic.com.generalframework.PermissionsUtils;
-import friendgoods.vidic.com.generalframework.R;
+import friendgoods.vidic.com.generalframework.activity.IntroduceActivity;
+import friendgoods.vidic.com.generalframework.activity.MainActivity;
 import friendgoods.vidic.com.generalframework.login.LoginCodeActivity;
 
 /**

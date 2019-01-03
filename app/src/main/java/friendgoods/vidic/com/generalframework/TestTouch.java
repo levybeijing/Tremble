@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 public class TestTouch extends android.support.v7.widget.AppCompatImageView {
+
     public TestTouch(Context context) {
         super(context);
     }
@@ -17,6 +18,7 @@ public class TestTouch extends android.support.v7.widget.AppCompatImageView {
     public TestTouch(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
     private ITest itest;
 
     public void setOnTest(ITest itest_){
@@ -27,8 +29,8 @@ public class TestTouch extends android.support.v7.widget.AppCompatImageView {
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
         switch (action){
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
                 itest.test();
                 break;
         }

@@ -63,9 +63,7 @@ public class RelaxModelActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.tv_gotomall_relaxmodel).setOnClickListener(this);
 
 //        findViewById(R.id.rv_root).setOnClickListener(this);
-
 //        findViewById(R.id.btn_test).setOnClickListener(this);
-
 
         iv_note = findViewById(R.id.iv_note_relaxmodell);
         iv_note.setOnClickListener(this);

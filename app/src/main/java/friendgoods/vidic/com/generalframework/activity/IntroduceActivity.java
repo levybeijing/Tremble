@@ -60,4 +60,9 @@ public class IntroduceActivity extends BaseActivity {
             }
         }).start();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }

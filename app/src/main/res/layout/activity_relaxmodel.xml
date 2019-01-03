@@ -5,7 +5,6 @@
     android:background="@mipmap/bg_game_3x"
     android:id="@+id/rv_root"
     >
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,12 +48,19 @@
             android:layout_margin="20dp"
             />
     <!--n牛-->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_relaxmodel"
         android:layout_width="match_parent"
         android:layout_height="424dp"
         android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
         <ImageView
             android:id="@+id/iv_click_relaxmodel"
             android:layout_width="150dp"
@@ -64,24 +70,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"
             />
-            <!--<Button-->
-            <!--android:id="@+id/btn_test"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="%%%%%"-->
-            <!--/>-->
-            <!--<friendgoods.vidic.com.generalframework.TestTouch-->
-            <!--android:id="@+id/iv_click_relaxmodel"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="123dp"-->
-            <!--android:background="@drawable/selector_a_click"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginBottom="30dp"-->
-            <!--android:focusable="true"-->
-            <!--/>-->
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/tv_gotomall_relaxmodel"
