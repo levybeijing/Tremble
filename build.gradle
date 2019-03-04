@@ -2,20 +2,20 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.2.0'
         classpath 'com.baidu.mobstat:mtj-circle-plugin:latest.integration'
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        jcenter()
         maven { url "https://jitpack.io" }
     }
 }
