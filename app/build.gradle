@@ -3,7 +3,7 @@ apply plugin: 'mtj-circle-plugin'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "friendgoods.vidic.com.generalframework"
+        applicationId "friendgoods.vidic.com.tremble"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
