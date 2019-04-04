@@ -48,6 +48,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
         api = WXAPIFactory.createWXAPI(this, UrlCollect.WXAppID);
         api.registerApp(WXAppID);
+        Log.e("===============", "进入微信反馈页面: ");
         try {
             boolean result =  api.handleIntent(getIntent(), this);
             Log.e("===============", "WXEntryActivity: "+result);

@@ -21,7 +21,7 @@ public class WXBindActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxbind);
 
-        api = WXAPIFactory.createWXAPI(this,WXAppID,true);
+        api = WXAPIFactory.createWXAPI(this,WXAppID);
         api.registerApp(WXAppID);
         initView();
     }
