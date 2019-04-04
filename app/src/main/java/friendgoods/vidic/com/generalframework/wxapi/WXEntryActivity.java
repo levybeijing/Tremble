@@ -41,7 +41,6 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
      */
     private IWXAPI api;
     private String status;
-//    private String register;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         api.registerApp(WXAppID);
         try {
             boolean result =  api.handleIntent(getIntent(), this);
+            Log.e("===============", "WXEntryActivity: "+result);
             if(!result){
                 finish();
             }

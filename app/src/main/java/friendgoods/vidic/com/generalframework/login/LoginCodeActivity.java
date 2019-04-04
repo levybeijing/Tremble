@@ -103,7 +103,6 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                 api.sendReq(req);
                 finish();
                 break;
-
         }
     }
 
@@ -164,14 +163,14 @@ public class LoginCodeActivity extends BaseActivity implements View.OnClickListe
                                         SharedPFUtils.setParam(LoginCodeActivity.this, "sex", 22);
                                         break;
                                 }
-//                                startActivity(new Intent(LoginCodeActivity.this,MainActivity.class));
                                 Intent intent1 = new Intent(LoginCodeActivity.this, MainActivity.class);
-//                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent1);
                             }else{
-                                startActivity(new Intent(LoginCodeActivity.this,IntroduceActivity.class));
+                                Intent intent = new Intent(LoginCodeActivity.this, IntroduceActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }
-                            finish();
                         }
                     }
                 });

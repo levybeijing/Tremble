@@ -21,7 +21,6 @@ public class SpleashActivity extends Activity {
     //延迟3秒
 //    private static final long SPLASH_DELAY_MILLIS = 2000;
     private static final long ANIMATION_TIME = 1000;
-    public SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class SpleashActivity extends Activity {
         PermissionsUtils.getInstance().chekPermissions(this, permession, new PermissionsUtils.IPermissionsResult() {
             @Override
             public void passPermissons() {
-                goHome();
+                goMain();
             }
 
             @Override
@@ -45,7 +44,7 @@ public class SpleashActivity extends Activity {
             }
         });
     }
-    private void goHome() {
+    private void goMain() {
         //图片渐变模糊度始终
         AlphaAnimation gradient = new AlphaAnimation(1.0f, 0.8f);
         //渐变时间
